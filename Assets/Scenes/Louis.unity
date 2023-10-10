@@ -580,9 +580,11 @@ GameObject:
   - component: {fileID: 1558571937}
   - component: {fileID: 1558571936}
   - component: {fileID: 1558571935}
+  - component: {fileID: 1558571938}
+  - component: {fileID: 1558571939}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -663,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivityX: 15
-  mouseSensitivityY: 0.5
+  mouseSensitivityY: 0.25
   playerCamera: {fileID: 557146421}
   xClamp: 85
 --- !u!114 &1558571937
@@ -680,6 +682,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1558571935}
   playerMouseLook: {fileID: 1558571936}
+  playerInteraction: {fileID: 1558571939}
+--- !u!114 &1558571938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558571932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc63cb10c98aaf49a6fd15161f44fca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerHealth: 0
+  oxygen: 0
+  radiation: 0
+  pressure: 0
+  temperature: 0
+--- !u!114 &1558571939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558571932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f73a27e52f2d94b954f9f1b189238f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

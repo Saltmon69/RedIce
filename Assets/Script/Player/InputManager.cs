@@ -7,9 +7,11 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerMouseLook playerMouseLook;
+    [SerializeField] PlayerInteraction playerInteraction;
     
     PlayerController playerController;
     PlayerController.PlayerMovementActions playerHorizontalMovement;
+    PlayerController.InteractActions playerInteractionActions;
     
     
     Vector2 horizontalInput;
@@ -19,6 +21,7 @@ public class InputManager : MonoBehaviour
     {
         playerController = new PlayerController();
         playerHorizontalMovement = playerController.PlayerMovement;
+        playerInteractionActions = playerController.Interact;
         
         // playerMovement.[action].performed += ctx => Action à effectuer;
         
@@ -28,6 +31,10 @@ public class InputManager : MonoBehaviour
         
         playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
         playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
+        
+        playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
+        
+        
         
     }
 
