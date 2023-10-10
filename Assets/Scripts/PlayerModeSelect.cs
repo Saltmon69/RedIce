@@ -37,7 +37,7 @@ public class PlayerModeSelect : MonoBehaviour
 
     public void ModeSelectionOutput()
     {
-        if (modeSelected == 1)
+        if (modeSelected == 0)
         {
             //add animation
             handsFreeModeManager.SetActive(true);
@@ -45,7 +45,7 @@ public class PlayerModeSelect : MonoBehaviour
             blueprintModeManager.SetActive(false);
         }
         
-        if (modeSelected == 2)
+        if (modeSelected == 1)
         {
             //add animation
             handsFreeModeManager.SetActive(false);
@@ -54,7 +54,7 @@ public class PlayerModeSelect : MonoBehaviour
 
         }
         
-        if (modeSelected == 3)
+        if (modeSelected == 2)
         {
             //add animation
             handsFreeModeManager.SetActive(false);
