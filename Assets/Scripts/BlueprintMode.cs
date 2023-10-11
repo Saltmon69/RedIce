@@ -6,71 +6,76 @@ using UnityEngine;
 
 public class BlueprintMode : MonoBehaviour
 {
-    /*
-     * faire un code qui peut etre mis sur tous les état et est modulable pour faire TOUS les changements dans l inspecteur
-     * x bouton = reviens au parent et active son script
-     * y bouton = avancer sur x enfant et desactive se script
-     *
-     * 2 listes : liste des bouton pour avancer, et liste des enfant en corrélation (bouton 1 = go a e enfant 1 etc)
-     * une derniere liste pour les components
-     *
-     * le script différenciel est appart. Donc la fonction principale du module et uniquement sa fonction se trouve dans un autre script rattaché a l objet
-     */
+    public List<KeyCode> keyCodeToPreviousModes;
+    public List<Boolean> previousModesRequirements;
+    public List<GameObject> previousModes;
 
-    public List<KeyCode> keyCodeGoForwardButtons;
-    public List<GameObject> forwardModes;
-    
-    public KeyCode keyCodeGoBackButton;
+    public List<KeyCode> keyCodeToNextModes;
+    public List<Boolean> nextModesRequirements;
+    public List<GameObject> nextModes;
 
-    private List<MonoBehaviour> attachedScripts;
-    private BlueprintMode _parentBlueprint;
-    
+    private List<MonoBehaviour> _attachedScripts;
+    private List<Boolean> _previousStartingRequirements;
+    private List<Boolean> _nextStartingRequirements;
     void Awake()
     {
-        attachedScripts = this.gameObject.GetComponents<MonoBehaviour>().ToList();
-        _parentBlueprint = this.gameObject.transform.parent.GetComponent<BlueprintMode>();
+        _attachedScripts = this.gameObject.GetComponents<MonoBehaviour>().ToList();
+        _previousStartingRequirements = new List<Boolean>(previousModesRequirements);
+        _nextStartingRequirements = new List<Boolean>(nextModesRequirements);
     }
 
     public void AllComponentsOff()
     {
-        for (var i = 0; i < attachedScripts.Count; i++)
+        for (var i = 0; i < _attachedScripts.Count; i++)
         {
-            attachedScripts[i].enabled = false;
+            _attachedScripts[i].enabled = false;
         }
     }
     
     public void AllComponentsOn()
     {
-        for (var i = 0; i < attachedScripts.Count; i++)
+        for (var i = 0; i < _attachedScripts.Count; i++)
         {
-            attachedScripts[i].enabled = true;
+            _attachedScripts[i].enabled = true;
         }
     }
 
     void Update()
     {
-        GoBack();
+        GoBack(); 
         GoForward();
     }
 
     public void GoBack()
     {
-        if (Input.GetKeyDown(keyCodeGoBackButton))
+        for (var i = 0; i < previousModes.Count; i++)
         {
-            _parentBlueprint.AllComponentsOn();
-            this.gameObject.SetActive(false);
+            if (Input.GetKeyDown(keyCodeToPreviousModes[i]) && previousModesRequirements[i])
+            {
+                previousModes[i].SetActive(true);
+                previousModes[i].GetComponent<BlueprintMode>().AllComponentsOn();
+                ResetRequirements();
+                this.gameObject.SetActive(false);
+            }
         }
     }
 
     public void GoForward()
     {
-        for (var i = 0; i < forwardModes.Count; i++)
+        for (var i = 0; i < nextModes.Count; i++)
         {
-            if (Input.GetKeyDown(keyCodeGoForwardButtons[i]))
+            if (Input.GetKeyDown(keyCodeToNextModes[i]) && nextModesRequirements[i])
             {
-                forwardModes[i].SetActive(true);
+                nextModes[i].SetActive(true);
+                ResetRequirements();
                 AllComponentsOff();
             }
         }
+    }
+
+    public void ResetRequirements()
+    {
+        previousModesRequirements = new List<Boolean>(_previousStartingRequirements);
+        nextModesRequirements = new List<Boolean>(_nextStartingRequirements);
     }
 }

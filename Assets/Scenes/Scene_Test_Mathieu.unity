@@ -444,13 +444,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 223684499}
+  - component: {fileID: 223684500}
   m_Layer: 0
   m_Name: BuildingPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &223684499
 Transform:
   m_ObjectHideFlags: 0
@@ -464,9 +465,29 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 351880191}
+  - {fileID: 1622054486}
   m_Father: {fileID: 2058616585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &223684500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223684498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 1b000000
+  previousModesRequirements: 01
+  previousModes:
+  - {fileID: 2058616584}
+  keyCodeToNextModes: 43010000
+  nextModesRequirements: 00
+  nextModes:
+  - {fileID: 1622054485}
 --- !u!1 &287528025
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,13 +639,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 350016136}
+  - component: {fileID: 350016137}
   m_Layer: 0
   m_Name: MoveObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &350016136
 Transform:
   m_ObjectHideFlags: 0
@@ -641,38 +663,26 @@ Transform:
   - {fileID: 1596507057}
   m_Father: {fileID: 2058616585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &351880190
-GameObject:
+--- !u!114 &350016137
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 351880191}
-  m_Layer: 0
-  m_Name: ObjectSelection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &351880191
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351880190}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1622054486}
-  m_Father: {fileID: 223684499}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 350016135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 62000000
+  previousModesRequirements: 01
+  previousModes:
+  - {fileID: 2058616584}
+  keyCodeToNextModes: 43010000
+  nextModesRequirements: 00
+  nextModes:
+  - {fileID: 1596507056}
 --- !u!1 &426397120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1136317904
 Transform:
   m_ObjectHideFlags: 0
@@ -1890,13 +1900,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1145440266}
+  - component: {fileID: 1145440267}
   m_Layer: 0
   m_Name: FirstMachineLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1145440266
 Transform:
   m_ObjectHideFlags: 0
@@ -1911,9 +1922,28 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1263537640}
-  - {fileID: 1588326133}
   m_Father: {fileID: 1584749253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1145440267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145440265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 1b000000
+  previousModesRequirements: 01
+  previousModes:
+  - {fileID: 1584749252}
+  keyCodeToNextModes: 43010000
+  nextModesRequirements: 00
+  nextModes:
+  - {fileID: 1263537639}
 --- !u!1 &1176658899
 GameObject:
   m_ObjectHideFlags: 0
@@ -2002,13 +2032,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1263537640}
+  - component: {fileID: 1263537641}
   m_Layer: 0
   m_Name: ExtendCables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1263537640
 Transform:
   m_ObjectHideFlags: 0
@@ -2024,6 +2055,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1145440266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1263537641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263537639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 43010000
+  previousModesRequirements: 00
+  previousModes:
+  - {fileID: 1145440265}
+  keyCodeToNextModes: 
+  nextModesRequirements: 
+  nextModes: []
 --- !u!1 &1266963398
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,13 +2319,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1584749253}
+  - component: {fileID: 1584749254}
   m_Layer: 0
   m_Name: CableMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1584749253
 Transform:
   m_ObjectHideFlags: 0
@@ -2292,37 +2343,26 @@ Transform:
   - {fileID: 1145440266}
   m_Father: {fileID: 2058616585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1588326132
-GameObject:
+--- !u!114 &1584749254
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1588326133}
-  m_Layer: 0
-  m_Name: CablePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1588326133
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588326132}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1145440266}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1584749252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 63000000
+  previousModesRequirements: 01
+  previousModes:
+  - {fileID: 2058616584}
+  keyCodeToNextModes: 43010000
+  nextModesRequirements: 00
+  nextModes:
+  - {fileID: 1145440265}
 --- !u!1 &1596507056
 GameObject:
   m_ObjectHideFlags: 0
@@ -2332,13 +2372,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1596507057}
+  - component: {fileID: 1596507058}
   m_Layer: 0
   m_Name: DisplacementMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1596507057
 Transform:
   m_ObjectHideFlags: 0
@@ -2354,6 +2395,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 350016136}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1596507058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596507056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 43010000780000001b000000
+  previousModesRequirements: 000001
+  previousModes:
+  - {fileID: 350016135}
+  - {fileID: 350016135}
+  - {fileID: 350016135}
+  keyCodeToNextModes: 
+  nextModesRequirements: 
+  nextModes: []
 --- !u!1 &1622054485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2363,13 +2425,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1622054486}
+  - component: {fileID: 1622054487}
   m_Layer: 0
   m_Name: DisplacementMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1622054486
 Transform:
   m_ObjectHideFlags: 0
@@ -2383,8 +2446,29 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 351880191}
+  m_Father: {fileID: 223684499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1622054487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622054485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeToPreviousModes: 43010000780000001b000000
+  previousModesRequirements: 000001
+  previousModes:
+  - {fileID: 350016135}
+  - {fileID: 350016135}
+  - {fileID: 223684498}
+  keyCodeToNextModes: 
+  nextModesRequirements: 
+  nextModes: []
 --- !u!1 &1691644652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,7 +3228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2058616585
 Transform:
   m_ObjectHideFlags: 0
@@ -3158,8 +3242,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 223684499}
   - {fileID: 350016136}
+  - {fileID: 223684499}
   - {fileID: 1584749253}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3175,9 +3259,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ee3333dcf32904fbbe721e36017806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCodeGoForwardButtons: 
-  forwardModes: []
-  keyCodeGoBackButton: 0
+  keyCodeToPreviousModes: 
+  previousModesRequirements: 
+  previousModes: []
+  keyCodeToNextModes: 620000004401000063000000
+  nextModesRequirements: 010101
+  nextModes:
+  - {fileID: 350016135}
+  - {fileID: 223684498}
+  - {fileID: 1584749252}
 --- !u!1 &2097152112
 GameObject:
   m_ObjectHideFlags: 0
