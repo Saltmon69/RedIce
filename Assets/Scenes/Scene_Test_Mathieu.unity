@@ -409,7 +409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &219414648
 RectTransform:
   m_ObjectHideFlags: 0
@@ -445,6 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223684499}
   - component: {fileID: 223684500}
+  - component: {fileID: 223684501}
   m_Layer: 0
   m_Name: BuildingPanel
   m_TagString: Untagged
@@ -488,6 +489,27 @@ MonoBehaviour:
   nextModesRequirements: 00
   nextModes:
   - {fileID: 1622054485}
+--- !u!114 &223684501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223684498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c748390a0a91b3841a5f2b4723d83e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  machineChoiceCanvas: {fileID: 219414647}
+  machineChoice:
+  - {fileID: 426397122}
+  - {fileID: 678019671}
+  - {fileID: 635972830}
+  - {fileID: 1948016579}
+  - {fileID: 18630311}
+  machinesPrefab: []
+  machineSelectedPlacementMode: {fileID: 0}
 --- !u!1 &287528025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,7 +1861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1132006550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2089,7 +2111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1266963399
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3222,6 +3244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2058616585}
   - component: {fileID: 2058616586}
+  - component: {fileID: 2058616587}
   m_Layer: 0
   m_Name: BlueprintModeManager
   m_TagString: Untagged
@@ -3268,6 +3291,19 @@ MonoBehaviour:
   - {fileID: 350016135}
   - {fileID: 223684498}
   - {fileID: 1584749252}
+--- !u!114 &2058616587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058616584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d8103a448e49b89ccbb98a20aa1871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shortcutBar: {fileID: 1132006549}
 --- !u!1 &2097152112
 GameObject:
   m_ObjectHideFlags: 0
