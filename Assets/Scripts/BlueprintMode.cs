@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -52,7 +51,6 @@ public class BlueprintMode : MonoBehaviour
         {
             if (Input.GetKeyDown(keyCodeToPreviousModes[i]) && previousModesRequirements[i])
             {
-                previousModes[i].SetActive(true);
                 previousModes[i].GetComponent<BlueprintMode>().AllComponentsOn();
                 ResetRequirements();
                 this.gameObject.SetActive(false);
