@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
         playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
         
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
+        playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
         
         
         
