@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "Objet", menuName = "Objet/Objet", order = 1)]
 
+[CreateAssetMenu(fileName = "Objet", menuName = "Objet/Objet", order = 1)]
 public class ObjetClass : ScriptableObject
 {
     [Tooltip("Nom de l'objet")]

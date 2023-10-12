@@ -17,15 +17,24 @@ public class PlayerInteraction : MonoBehaviour
     {
         Physics.Raycast(playerCamera.transform.position, transform.forward, out RaycastHit hit, interactionRange);
         itemHit = hit;
+        
         if (itemHit.collider.CompareTag("Machine"))
         {
             Debug.Log(itemHit.collider.name);
         }
-        else
+
+        if (itemHit.collider.CompareTag("Minerai"))
         {
-            Debug.Log("Rien");
+            switch (itemHit.collider.name)
+            {
+                case "crit":
+                    Debug.Log("crit");
+                    break;
+                default:
+                    Debug.Log("minerai de base");
+                    break;
+            }
         }
-        
     }
     
 }
