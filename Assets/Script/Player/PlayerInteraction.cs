@@ -1,23 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] Camera playerCamera;
-    RaycastHit itemHit;
-    
-    private void Update()
-    {
-        Physics.Raycast(playerCamera.transform.position, transform.forward, out RaycastHit hit, 2f);
-        itemHit = hit;
-        
-    }
+    [SerializeField] RaycastHit itemHit;
+    [SerializeField] float interactionRange;
+    [SerializeField] GameObject itemInHand;
 
     public void OnInteractionPressed()
     {
-        if (itemHit.collider != null)
+        Physics.Raycast(playerCamera.transform.position, transform.forward, out RaycastHit hit, interactionRange);
+        itemHit = hit;
+        if (itemHit.collider.CompareTag("Machine"))
         {
             Debug.Log(itemHit.collider.name);
         }
@@ -27,4 +27,5 @@ public class PlayerInteraction : MonoBehaviour
         }
         
     }
+    
 }
