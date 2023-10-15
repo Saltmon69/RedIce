@@ -40,7 +40,6 @@ public class ConstructionPanel : MonoBehaviour
 
     void MachineChosen(int machineNumber)
     {
-        //instantiate un holograme puis avec le mode deplacement, le machine suis la souris avec un raycast qui ne touche que le Layer Baseground
         machineSelectedPlacementMode = Instantiate(machinesPrefab[machineNumber], machineStock.transform);
         _blueprintMode.nextModesRequirements[0] = true;
     }

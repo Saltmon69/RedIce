@@ -446,6 +446,7 @@ GameObject:
   - component: {fileID: 223684499}
   - component: {fileID: 223684500}
   - component: {fileID: 223684501}
+  - component: {fileID: 223684502}
   m_Layer: 0
   m_Name: BuildingPanel
   m_TagString: Untagged
@@ -510,12 +511,25 @@ MonoBehaviour:
   - {fileID: 18630311}
   machinesPrefab:
   - {fileID: 2926534332031853874, guid: 09108b153edc68340aa7e7fce2888ca1, type: 3}
-  - {fileID: 2926534332031853874, guid: 09108b153edc68340aa7e7fce2888ca1, type: 3}
-  - {fileID: 2926534332031853874, guid: 09108b153edc68340aa7e7fce2888ca1, type: 3}
-  - {fileID: 2926534332031853874, guid: 09108b153edc68340aa7e7fce2888ca1, type: 3}
-  - {fileID: 2926534332031853874, guid: 09108b153edc68340aa7e7fce2888ca1, type: 3}
+  - {fileID: 5061664928110862402, guid: 016f79ae1c806e943a8f01efc1356d53, type: 3}
+  - {fileID: 5956043647195809416, guid: d46b7b5d5fc8e6d44a03845c7f59d157, type: 3}
+  - {fileID: 1910148269654332536, guid: dbb430a1fa4ede149b1584e174b122eb, type: 3}
+  - {fileID: 8003406889358342053, guid: a455fbe3b1bdc904eabe344b78aa2c17, type: 3}
   machineStock: {fileID: 1460483697}
   machineSelectedPlacementMode: {fileID: 0}
+--- !u!114 &223684502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223684498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fa8b85cfc347749111d69061536104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModeSelect: {fileID: 1992464654}
 --- !u!1 &287528025
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +682,8 @@ GameObject:
   m_Component:
   - component: {fileID: 350016136}
   - component: {fileID: 350016137}
+  - component: {fileID: 350016138}
+  - component: {fileID: 350016139}
   m_Layer: 0
   m_Name: MoveObject
   m_TagString: Untagged
@@ -711,6 +727,35 @@ MonoBehaviour:
   nextModesRequirements: 00
   nextModes:
   - {fileID: 1596507056}
+--- !u!114 &350016138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350016135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fa8b85cfc347749111d69061536104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModeSelect: {fileID: 1992464654}
+--- !u!114 &350016139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350016135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17ad29745ee47b18de348e87a7d7d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &426397120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,8 +1049,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -240}
-  m_SizeDelta: {x: 550, y: 55}
+  m_AnchoredPosition: {x: 0, y: -231.3}
+  m_SizeDelta: {x: 750, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &561035574
 MonoBehaviour:
@@ -1027,7 +1072,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: eff2e74fd16a8b449a0b1879e1d6441a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1987,7 +2032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1136317903
@@ -2481,6 +2526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1584749253}
   - component: {fileID: 1584749254}
+  - component: {fileID: 1584749255}
   m_Layer: 0
   m_Name: CableMode
   m_TagString: Untagged
@@ -2524,6 +2570,19 @@ MonoBehaviour:
   nextModesRequirements: 00
   nextModes:
   - {fileID: 1145440265}
+--- !u!114 &1584749255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584749252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fa8b85cfc347749111d69061536104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModeSelect: {fileID: 1992464654}
 --- !u!1 &1596507056
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,6 +2593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1596507057}
   - component: {fileID: 1596507058}
+  - component: {fileID: 1596507059}
   m_Layer: 0
   m_Name: DisplacementMode
   m_TagString: Untagged
@@ -2569,7 +2629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCodeToPreviousModes: 43010000780000001b000000
-  previousModesRequirements: 000001
+  previousModesRequirements: 000101
   previousModes:
   - {fileID: 350016135}
   - {fileID: 350016135}
@@ -2577,6 +2637,26 @@ MonoBehaviour:
   keyCodeToNextModes: 
   nextModesRequirements: 
   nextModes: []
+--- !u!114 &1596507059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596507056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243abc06e81a403caa87c6a96b5c8c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  machineStock: {fileID: 1460483697}
+  machineToPlace: {fileID: 0}
+  machineOrigin: {fileID: 0}
+  distance: 20
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  isMoving: 1
 --- !u!1 &1622054485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2645,10 +2725,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   machineStock: {fileID: 1460483697}
   machineToPlace: {fileID: 0}
+  machineOrigin: {fileID: 0}
   distance: 20
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
+  isMoving: 0
 --- !u!1 &1691644652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3182,6 +3264,7 @@ MonoBehaviour:
   handsFreeModeManager: {fileID: 1308273778}
   miningModeManager: {fileID: 1136317903}
   blueprintModeManager: {fileID: 2058616584}
+  shortcutBar: {fileID: 1132006549}
 --- !u!4 &1992464656
 Transform:
   m_ObjectHideFlags: 0
@@ -3565,7 +3648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d8103a448e49b89ccbb98a20aa1871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shortcutBar: {fileID: 1132006549}
+  playerModeSelect: {fileID: 1992464654}
 --- !u!1 &2097152112
 GameObject:
   m_ObjectHideFlags: 0

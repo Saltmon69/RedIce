@@ -14,6 +14,8 @@ public class PlayerModeSelect : MonoBehaviour
     public GameObject handsFreeModeManager;
     public GameObject miningModeManager;
     public GameObject blueprintModeManager;
+
+    public GameObject shortcutBar;
     void Update()
     {
         UICanvasAlpha();
@@ -30,14 +32,16 @@ public class PlayerModeSelect : MonoBehaviour
         oldSelectedMod = modeSelected;
     }
 
-    public void ModeSelectionOutput()
+    private void ModeSelectionOutput()
     {
+
         if (modeSelected == 0)
         {
             //add animation
             handsFreeModeManager.SetActive(true);
             miningModeManager.SetActive(false);
             blueprintModeManager.SetActive(false);
+            shortcutBar.SetActive(false);
         }
         
         if (modeSelected == 1)
@@ -46,7 +50,7 @@ public class PlayerModeSelect : MonoBehaviour
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(true);
             blueprintModeManager.SetActive(false);
-
+            shortcutBar.SetActive(false);
         }
         
         if (modeSelected == 2)
@@ -55,11 +59,11 @@ public class PlayerModeSelect : MonoBehaviour
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(false);
             blueprintModeManager.SetActive(true);
-
+            shortcutBar.SetActive(true);
         }
     }
     
-    public void UICanvasAlpha()
+    private void UICanvasAlpha()
     {
         wait += Time.deltaTime;
 
@@ -75,7 +79,7 @@ public class PlayerModeSelect : MonoBehaviour
         }
     }
     
-    public void OnKeyboardInput()
+    private void OnKeyboardInput()
     {
         if (Input.GetKeyDown(KeyCode.Ampersand))
         {
