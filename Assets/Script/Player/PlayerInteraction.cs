@@ -21,9 +21,6 @@ public class PlayerInteraction : MonoBehaviour
     
     private void Update()
     {
-        RaycastMaker();
-        Vector3 aimpoint = playerCamera.transform.position + playerCamera.transform.forward * 3;
-        Debug.DrawRay(playerCamera.transform.position, playerCamera.ScreenToViewportPoint(aimpoint), Color.black);
         if (itemHit.collider != null)
         {
             if (itemHit.collider.CompareTag("Machine"))
@@ -58,7 +55,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void RaycastMaker()
     {
-        Physics.Raycast(playerCamera.transform.position, transform.forward + transform.up, out RaycastHit hit, interactionRange);
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit hit, interactionRange);
+        Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red);
         itemHit = hit;
         
     }
