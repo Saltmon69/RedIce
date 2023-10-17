@@ -152,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 45226245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.55, y: 0.27, z: 2.88}
+  m_LocalPosition: {x: -4.11, y: 0.27, z: 2.88}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mineraiClass: {fileID: 11400000, guid: a0b88a6e95a2f464ea78524b312afbe5, type: 2}
   mineraiLife: 100
-  hasAppliedDamage: 0
+  critMultiplicator: 3
 --- !u!1 &557146418
 GameObject:
   m_ObjectHideFlags: 0
