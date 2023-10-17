@@ -10,6 +10,10 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] private RessourceClass mineraiClass;
 
     public int mineraiLife;
+
+    public int critMultiplicator = 3;
+    
+    
     
     public void takeDamage(int damage)
     {
@@ -17,13 +21,8 @@ public class MineraiClass : MonoBehaviour
         {
             damage = mineraiLife;
         }
-        mineraiLife -= damage;
         mineraiClass.quantite += (int)(damage*mineraiClass.rendement);
-        
-        if (mineraiLife <= 0)
-        {
-            Destroy(gameObject);
-        }
+        mineraiLife -= damage;
     }
 
     public void DestroyGameObject()
