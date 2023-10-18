@@ -9,8 +9,8 @@ public class CableLaserBehaviour : MonoBehaviour
 
     public GameObject inputMachine;
     public GameObject inputGameObject;
-
-    public Boolean isPlaced; 
+    
+    public Boolean isLinked;
     public float offset;
     public List<Vector3> checkpoints;
 
@@ -24,11 +24,8 @@ public class CableLaserBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlaced)
-        {
-            CheckpointsUpdate();
-            CheckpointCheck(); 
-        }
+        CheckpointsUpdate();
+        CheckpointCheck(); 
     }
 
     private void CheckpointsUpdate()
@@ -41,15 +38,19 @@ public class CableLaserBehaviour : MonoBehaviour
         {
             checkpoints.Add(this.gameObject.transform.GetChild(i).position);
         }
-        
-        checkpoints.Add(inputGameObject.transform.TransformPoint(0, 0, offset / inputGameObject.transform.lossyScale.z));
-        checkpoints.Add(inputGameObject.transform.position);
+
+        if (inputGameObject != null)
+        {
+            checkpoints.Add(inputGameObject.transform.TransformPoint(0, 0, offset / inputGameObject.transform.lossyScale.z));
+            checkpoints.Add(inputGameObject.transform.position);
+        }
         
         _lineRenderer.positionCount = checkpoints.Count;
     }
 
     private void CheckpointCheck()
     {
+        isLinked = true;
         for (var i = 0; i < checkpoints.Count; i++)
         {
             _lineRenderer.SetPosition(i, checkpoints[i]);
@@ -60,6 +61,7 @@ public class CableLaserBehaviour : MonoBehaviour
                     Vector3.Distance(checkpoints[i], checkpoints[i + 1]))) continue;
             _lineRenderer.SetPosition(i + 1 , _hitData.point);
             _lineRenderer.positionCount = i + 2;
+            isLinked = false;
             i = checkpoints.Count;
         }
     }
