@@ -18,7 +18,7 @@ public class MineraiClass : MonoBehaviour
 
     private void Start()
     {
-        
+        CritPointCreation();
     }
 
     private void Update()
