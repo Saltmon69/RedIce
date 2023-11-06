@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class MineraiClass : MonoBehaviour
 {
-    [SerializeField] private RessourceClass mineraiClass;
+    [SerializeField] private ItemClass mineraiClass;
 
     public int mineraiLife;
 

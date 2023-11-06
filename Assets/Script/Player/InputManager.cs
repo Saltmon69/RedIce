@@ -52,6 +52,10 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
         playerMovement.ReceiveInput(horizontalInput);
         playerMouseLook.ReceiveInput(mouseInput);
     }

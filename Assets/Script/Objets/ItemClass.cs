@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ressource", menuName = "Objet/Ressource", order = 2)]
-public class RessourceClass : ScriptableObject
+public class ItemClass : ScriptableObject
 {
     [Tooltip("Nom de la ressource")]
     public string nom;
