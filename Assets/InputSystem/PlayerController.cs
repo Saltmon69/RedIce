@@ -202,6 +202,74 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menuing"",
+            ""id"": ""93050f93-8fe3-4ea9-87dc-3c90137606c6"",
+            ""actions"": [
+                {
+                    ""name"": ""MainMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""c575fa51-828c-4050-a218-05ba955d82a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f93a32a-c38f-4cbc-b023-5adca10ad9a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""b066137a-b2b0-489f-abde-bf7cf362fccd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b0d121a6-2e98-403d-9b2a-4f7009ec8868"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MainMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c31be9b-73b4-4d8a-83c6-a5e046d7c5c0"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a0b4a8b-6450-4280-874c-0e9d71496a88"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -216,6 +284,11 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
         m_Interact_Interaction = m_Interact.FindAction("Interaction", throwIfNotFound: true);
         m_Interact_Use = m_Interact.FindAction("Use", throwIfNotFound: true);
+        // Menuing
+        m_Menuing = asset.FindActionMap("Menuing", throwIfNotFound: true);
+        m_Menuing_MainMenu = m_Menuing.FindAction("MainMenu", throwIfNotFound: true);
+        m_Menuing_Inventory = m_Menuing.FindAction("Inventory", throwIfNotFound: true);
+        m_Menuing_Map = m_Menuing.FindAction("Map", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -397,6 +470,68 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         }
     }
     public InteractActions @Interact => new InteractActions(this);
+
+    // Menuing
+    private readonly InputActionMap m_Menuing;
+    private List<IMenuingActions> m_MenuingActionsCallbackInterfaces = new List<IMenuingActions>();
+    private readonly InputAction m_Menuing_MainMenu;
+    private readonly InputAction m_Menuing_Inventory;
+    private readonly InputAction m_Menuing_Map;
+    public struct MenuingActions
+    {
+        private @PlayerController m_Wrapper;
+        public MenuingActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MainMenu => m_Wrapper.m_Menuing_MainMenu;
+        public InputAction @Inventory => m_Wrapper.m_Menuing_Inventory;
+        public InputAction @Map => m_Wrapper.m_Menuing_Map;
+        public InputActionMap Get() { return m_Wrapper.m_Menuing; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuingActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuingActionsCallbackInterfaces.Add(instance);
+            @MainMenu.started += instance.OnMainMenu;
+            @MainMenu.performed += instance.OnMainMenu;
+            @MainMenu.canceled += instance.OnMainMenu;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
+            @Map.started += instance.OnMap;
+            @Map.performed += instance.OnMap;
+            @Map.canceled += instance.OnMap;
+        }
+
+        private void UnregisterCallbacks(IMenuingActions instance)
+        {
+            @MainMenu.started -= instance.OnMainMenu;
+            @MainMenu.performed -= instance.OnMainMenu;
+            @MainMenu.canceled -= instance.OnMainMenu;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
+            @Map.started -= instance.OnMap;
+            @Map.performed -= instance.OnMap;
+            @Map.canceled -= instance.OnMap;
+        }
+
+        public void RemoveCallbacks(IMenuingActions instance)
+        {
+            if (m_Wrapper.m_MenuingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuingActions @Menuing => new MenuingActions(this);
     public interface IPlayerMovementActions
     {
         void OnDeplacement(InputAction.CallbackContext context);
@@ -408,5 +543,11 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     {
         void OnInteraction(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+    }
+    public interface IMenuingActions
+    {
+        void OnMainMenu(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
     }
 }

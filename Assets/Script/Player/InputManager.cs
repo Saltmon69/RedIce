@@ -8,10 +8,12 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerMouseLook playerMouseLook;
     [SerializeField] PlayerInteraction playerInteraction;
+    [SerializeField] PlayerMenuing playerMenuing;
     
     PlayerController playerController;
     PlayerController.PlayerMovementActions playerHorizontalMovement;
     PlayerController.InteractActions playerInteractionActions;
+    PlayerController.MenuingActions playerMenuingActions;
     
     
     Vector2 horizontalInput;
@@ -22,6 +24,7 @@ public class InputManager : MonoBehaviour
         playerController = new PlayerController();
         playerHorizontalMovement = playerController.PlayerMovement;
         playerInteractionActions = playerController.Interact;
+        playerMenuingActions = playerController.Menuing;
         
         // playerMovement.[action].performed += ctx => Action à effectuer;
         
@@ -34,6 +37,10 @@ public class InputManager : MonoBehaviour
         
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
+        
+        playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
+        playerMenuingActions.Inventory.performed += ctx => playerMenuing.OnInventoryPressed();
+        playerMenuingActions.Map.performed += ctx => playerMenuing.OnMapPressed();
         
         
         
@@ -56,7 +63,13 @@ public class InputManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         playerMovement.ReceiveInput(horizontalInput);
         playerMouseLook.ReceiveInput(mouseInput);
+        
+        
     }
 }    
