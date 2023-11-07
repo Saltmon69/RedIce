@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MachinePlacement : MonoBehaviour
 {
     public GameObject machineStock;
     public GameObject machineToPlace;
-    public GameObject machineOrigin;
+    public GameObject fakeMachineHologram;
 
     private Camera _mainCamera;
     private Ray _ray;
@@ -13,9 +12,10 @@ public class MachinePlacement : MonoBehaviour
     public float distance;
     public LayerMask layerMask;
 
-    public Boolean isMoving;
+    public bool isMoving;
     
-    private MachineCollider _collider;
+    private HighlightComponent _highlightComponent;
+    private MachineCollider _machineCollider;
     private BlueprintMode _blueprintMode;
     private Vector3 _eulerRotation;
     
@@ -28,18 +28,23 @@ public class MachinePlacement : MonoBehaviour
     void OnEnable()
     {
         machineToPlace = machineStock.transform.GetChild(machineStock.transform.childCount - 1).gameObject;
-        _collider = machineToPlace.GetComponent<MachineCollider>();
-        _collider.ActivateHologram();
+
+        machineToPlace.GetComponent<MachineCollider>().isActive = true;
+        
+        _highlightComponent = machineToPlace.GetComponent<HighlightComponent>();
+        _highlightComponent.Blueprint();
+
+        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
         
         if (isMoving)
         {
-            machineOrigin = Instantiate(machineToPlace);
+            fakeMachineHologram = Instantiate(machineToPlace);
 
-            machineOrigin.GetComponent<CapsuleCollider>().enabled = false;
+            fakeMachineHologram.GetComponent<Collider>().enabled = false;
             
-            for (var i = 0; i < machineOrigin.GetComponents<MonoBehaviour>().Length; i++)
+            for (var i = 0; i < fakeMachineHologram.GetComponents<MonoBehaviour>().Length; i++)
             {
-                machineOrigin.GetComponents<MonoBehaviour>()[i].enabled = false;
+                fakeMachineHologram.GetComponents<MonoBehaviour>()[i].enabled = false;
             }
         }
     }
@@ -55,7 +60,7 @@ public class MachinePlacement : MonoBehaviour
         _eulerRotation = machineToPlace.transform.eulerAngles;
         machineToPlace.transform.eulerAngles = new Vector3(_eulerRotation.x, _eulerRotation.y + Input.mouseScrollDelta.y * 36, _eulerRotation.z);
 
-        _blueprintMode.previousModesRequirements[0] = _collider.canBePlaced;
+        _blueprintMode.previousModesRequirements[0] = _machineCollider.canBePlaced;
 
         if (isMoving)
         {
@@ -66,19 +71,21 @@ public class MachinePlacement : MonoBehaviour
             
             if (Input.GetKeyDown(_blueprintMode.keyCodeToPreviousModes[2]))
             {
-                machineToPlace.transform.position = machineOrigin.transform.position;
-                machineToPlace.transform.rotation = machineOrigin.transform.rotation;
+                machineToPlace.transform.position = fakeMachineHologram.transform.position;
+                machineToPlace.transform.rotation = fakeMachineHologram.transform.rotation;
             }
         }
     }
 
     private void OnDisable()
     {
-        _collider.DeactivateHologram();
+        _highlightComponent.BaseMaterial();
 
         if (isMoving)
         {
-            Destroy(machineOrigin);
+            Destroy(fakeMachineHologram);
         }
+        
+        machineToPlace.GetComponent<MachineCollider>().isActive = false;
     }
 }

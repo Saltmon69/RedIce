@@ -6,6 +6,8 @@ public class MachineSelection : MonoBehaviour
         private Camera _mainCamera;
         private Ray _ray;
         private RaycastHit _hitData;
+        private RaycastHit _oldHitData;
+        
         public float distance;
         public LayerMask layerMask;
         
@@ -22,8 +24,22 @@ public class MachineSelection : MonoBehaviour
                 _ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(_ray, out _hitData, distance, layerMask))
                 {
-                        _hitData.transform.SetSiblingIndex(_hitData.transform.parent.childCount - 1);
-                        _blueprintMode.nextModesRequirements[0] = true;
+                        try
+                        {
+                                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
+                                {
+                                        _hitData.transform.SetSiblingIndex(_hitData.transform.parent.childCount - 1);
+                                        _hitData.transform.GetComponent<HighlightComponent>().Outline();
+                                        _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                                        _oldHitData = _hitData;
+                                }
+                                
+                                _blueprintMode.nextModesRequirements[0] = true;
+                        }
+                        catch (NullReferenceException)
+                        {
+                                _oldHitData = _hitData;
+                        }
                 }
         }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,46 +5,46 @@ using UnityEngine;
 public class BlueprintMode : MonoBehaviour
 {
     public List<KeyCode> keyCodeToPreviousModes;
-    public List<Boolean> previousModesRequirements;
+    public List<bool> previousModesRequirements;
     public List<GameObject> previousModes;
 
     public List<KeyCode> keyCodeToNextModes;
-    public List<Boolean> nextModesRequirements;
+    public List<bool> nextModesRequirements;
     public List<GameObject> nextModes;
 
     private List<MonoBehaviour> _attachedScripts;
-    private List<Boolean> _previousStartingRequirements;
-    private List<Boolean> _nextStartingRequirements;
-    void Awake()
+    private List<bool> _previousStartingRequirements;
+    private List<bool> _nextStartingRequirements;
+    private void Awake()
     {
         _attachedScripts = this.gameObject.GetComponents<MonoBehaviour>().ToList();
-        _previousStartingRequirements = new List<Boolean>(previousModesRequirements);
-        _nextStartingRequirements = new List<Boolean>(nextModesRequirements);
+        _previousStartingRequirements = new List<bool>(previousModesRequirements);
+        _nextStartingRequirements = new List<bool>(nextModesRequirements);
     }
 
     public void AllComponentsOff()
     {
-        for (var i = 0; i < _attachedScripts.Count; i++)
+        foreach (var scripts in _attachedScripts)
         {
-            _attachedScripts[i].enabled = false;
+            scripts.enabled = false;
         }
     }
     
     public void AllComponentsOn()
     {
-        for (var i = 0; i < _attachedScripts.Count; i++)
+        foreach (var scripts in _attachedScripts)
         {
-            _attachedScripts[i].enabled = true;
+            scripts.enabled = true;
         }
     }
 
-    void Update()
+    private void Update()
     {
         GoBack(); 
         GoForward();
     }
 
-    public void GoBack()
+    private void GoBack()
     {
         for (var i = 0; i < previousModes.Count; i++)
         {
@@ -58,7 +57,7 @@ public class BlueprintMode : MonoBehaviour
         }
     }
 
-    public void GoForward()
+    private void GoForward()
     {
         for (var i = 0; i < nextModes.Count; i++)
         {
@@ -73,7 +72,7 @@ public class BlueprintMode : MonoBehaviour
 
     public void ResetRequirements()
     {
-        previousModesRequirements = new List<Boolean>(_previousStartingRequirements);
-        nextModesRequirements = new List<Boolean>(_nextStartingRequirements);
+        previousModesRequirements = new List<bool>(_previousStartingRequirements);
+        nextModesRequirements = new List<bool>(_nextStartingRequirements);
     }
 }
