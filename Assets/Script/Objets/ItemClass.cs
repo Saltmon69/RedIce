@@ -11,10 +11,8 @@ public class ItemClass : ScriptableObject
     public string description;
     [Tooltip("Sprite de la ressource")]
     public Sprite sprite;
-    [Tooltip("Quantité de la ressource")]
-    public int quantite;
-    [Tooltip("Quantité maximale de la ressource")]
-    public int quantiteMax;
+    [Tooltip("Taille de la pile")]
+    public int stackSize;
     [Tooltip("Prefab de la ressource")]
     public GameObject prefab;
     [Tooltip("Rendement de la ressource")]

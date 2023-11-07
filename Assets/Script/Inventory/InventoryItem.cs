@@ -1,29 +1,39 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [HideInInspector] public ItemClass item;
+    [HideInInspector] public Transform parentAfterDrag;
     
     [Header("UI")] 
     public Image image;
+    public TextMeshProUGUI countText;
 
-    [HideInInspector] public ItemClass item;
-    [HideInInspector] public Transform parentAfterDrag;
-
-    private void Start()
-    {
-        InitialiseItem(item);
-    }
+    public int count = 1;
+    public int stackSize;
+    
     
     public void InitialiseItem(ItemClass newItem)
     {
         item = newItem;
         image.sprite = newItem.sprite;
+        stackSize = newItem.stackSize;
+        RefreshCount();
+    }
+
+    public void RefreshCount()
+    {
+        bool textActive = count > 1;
+        countText.gameObject.SetActive(textActive);
+        countText.text = count.ToString();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

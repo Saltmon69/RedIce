@@ -35,7 +35,7 @@ public class MineraiClass : MonoBehaviour
         {
             damage = mineraiLife;
         }
-        mineraiClass.quantite += (int)(damage * critMultiplicator * mineraiClass.rendement);
+        //mineraiClass.quantite += (int)(damage * critMultiplicator * mineraiClass.rendement);
         mineraiLife -= damage * critMultiplicator;
     }
 
