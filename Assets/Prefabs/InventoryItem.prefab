@@ -89,11 +89,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a4e4855a26b514d8fafa0fccdb2200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 154456454069812549}
-  countText: {fileID: 7914209829521634497}
-  count: 1
   item: {fileID: 0}
   parentAfterDrag: {fileID: 0}
+  rectTransform: {fileID: 6867881631175543799}
+  image: {fileID: 154456454069812549}
+  countText: {fileID: 7914209829521634497}
+  utilityPanel: {fileID: 7299489651257659318, guid: 1c64f03aefb40b24fa52697d6a08c199,
+    type: 3}
+  panelActive: 0
+  panelAnchor: {fileID: 0}
+  count: 1
+  stackSize: 0
 --- !u!1 &8693252347905591690
 GameObject:
   m_ObjectHideFlags: 0

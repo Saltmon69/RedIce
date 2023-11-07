@@ -24,13 +24,14 @@ public class InventoryManager : MonoBehaviour
             if (slot.transform.childCount != 0)
             {
                 itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+                if (itemInSlot.item == item && itemInSlot.count < item.stackSize)
+                {
+                    itemInSlot.count++;
+                    itemInSlot.RefreshCount();
+                    return true;
+                }
             }
-            if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < item.stackSize)
-            {
-                itemInSlot.count++;
-                itemInSlot.RefreshCount();
-                return true;
-            }
+            
         }
         
         for (int i = 0; i < slots.Length; i++)
@@ -50,8 +51,28 @@ public class InventoryManager : MonoBehaviour
 
         return false;
     }
-    
-    void SpawnItem(ItemClass item, InventorySlot slot)
+
+    public InventorySlot AddItemExclusive(ItemClass item)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            InventoryItem itemInSlot = null;
+            InventorySlot slot = slots[i];
+            if (slot.transform.childCount != 0)
+            {
+                itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+            }
+            if (itemInSlot == null)
+            {
+                SpawnItem(item, slot);
+                return slot;
+            }
+        }
+
+        return null;
+    }
+
+    public void SpawnItem(ItemClass item, InventorySlot slot)
     {
         GameObject newItemGameObject = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGameObject.GetComponent<InventoryItem>();

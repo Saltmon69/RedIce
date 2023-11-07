@@ -17,5 +17,8 @@ public class ItemClass : ScriptableObject
     public GameObject prefab;
     [Tooltip("Rendement de la ressource")]
     public float rendement;
+    [Tooltip("L'objet est utilisable")]
+    public bool isUsable;
+    
 }
 
