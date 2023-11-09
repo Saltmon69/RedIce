@@ -15,20 +15,10 @@ public class PlayerInteraction : MonoBehaviour
     MineraiClass mineraiClass;
     bool hasAppliedDamage = false;
     
-
-    private void Start()
-    {
-
-        
-    }
-
-
     public void OnInteractionPressed()
     {
-        
         RaycastMaker();
         
-
     }
     
     private void FixedUpdate()

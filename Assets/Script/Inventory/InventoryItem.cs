@@ -10,10 +10,13 @@ using UnityEngine.UI;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
+    [Header("System")]
     [HideInInspector] public ItemClass item;
     [HideInInspector] public Transform parentAfterDrag;
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private InventoryManager inventoryManager;
+    
+    [Space(10)]
     
     [Header("UI")] 
     public Image image;
@@ -21,7 +24,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private GameObject utilityPanel;
     [HideInInspector] public bool panelActive;
   
-
+    [Space(10)]
+    
+    [Header("Data")]
     public int count = 1;
     public int stackSize;
     
@@ -30,6 +35,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
     }
+    
+    /// <summary>
+    /// Permet de créer l'ojet dans l'inventaire avec les paramètres du SO
+    /// </summary>
+    /// <param name="newItem"></param>
     public void InitialiseItem(ItemClass newItem)
     {
         item = newItem;
@@ -38,6 +48,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         RefreshCount();
     }
 
+    /// <summary>
+    /// Permet de rafraîchir l'affichage du nombre de l'objet
+    /// </summary>
     public void RefreshCount()
     {
         bool textActive = count > 1;
@@ -64,6 +77,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         var itemInSlot = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryItem>();
         
+        
         if (itemInSlot != null)
         {
             if (itemInSlot.item == item && itemInSlot.count < item.stackSize)
@@ -84,6 +98,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 }
             }
         }
+        
+        // Permet de remettre l'objet là où il était avant le drag
         transform.SetParent(parentAfterDrag);
     }
     
@@ -96,7 +112,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             panelPos.item = this;
             panelPos.rectTransform.position = rectTransform.position;
             panelActive = true;
-            Debug.Log("Panel créé");
+            
         }
     }
 }
