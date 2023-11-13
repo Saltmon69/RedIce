@@ -22,6 +22,7 @@ public class MachineSelection : MonoBehaviour
                 _blueprintMode.nextModesRequirements[0] = false;
                 
                 _ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
                 if (Physics.Raycast(_ray, out _hitData, distance, layerMask))
                 {
                         try

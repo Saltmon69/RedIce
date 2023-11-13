@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7395319589860473417}
   - component: {fileID: 2954039584022763728}
   - component: {fileID: 8976492046971192940}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: Input
   m_TagString: Input
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 5356693258499289106}
   - component: {fileID: 302711051098079743}
   - component: {fileID: 2450725386805205363}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 8441981954953575221}
   - component: {fileID: 4392667330312529606}
   - component: {fileID: 427524805573496485}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: Output
   m_TagString: Output
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 1742967393731203277}
   - component: {fileID: 8184710805446290012}
   - component: {fileID: 8178266254943337121}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: Machine05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49841cee562448bb9336c6303d011af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   canBePlaced: 1
 --- !u!114 &8178266254943337121
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,22 +31,23 @@ public class CableLaserBehaviour : MonoBehaviour
     private void CheckpointsUpdate()
     {
         checkpoints.Clear();
-        if (outputGameObject != null)
+
+        try
         {
             checkpoints.Add(outputGameObject.transform.position);
             checkpoints.Add(outputGameObject.transform.TransformPoint(0, 0, offset / outputGameObject.transform.lossyScale.z));
-        }
+        }catch (UnassignedReferenceException){}
 
         for (var i = 0; i < this.gameObject.transform.childCount; i++)
         {
             checkpoints.Add(this.gameObject.transform.GetChild(i).position);
         }
 
-        if (inputGameObject != null)
+        try
         {
             checkpoints.Add(inputGameObject.transform.TransformPoint(0, 0, offset / inputGameObject.transform.lossyScale.z));
             checkpoints.Add(inputGameObject.transform.position);
-        }
+        }catch (UnassignedReferenceException){}
         
         _lineRenderer.positionCount = checkpoints.Count;
     }
@@ -60,15 +62,13 @@ public class CableLaserBehaviour : MonoBehaviour
             if (i == 0) continue;
             if (i == checkpoints.Count - 1) continue;
 
-            if (Physics.Raycast(checkpoints[i], checkpoints[i + 1] - checkpoints[i], out _hitData,
-                    Vector3.Distance(checkpoints[i], checkpoints[i + 1])) && i < checkpoints.Count - 2)
+            if (Physics.Raycast(checkpoints[i], checkpoints[i + 1] - checkpoints[i], out _hitData, 
+                Vector3.Distance(checkpoints[i], checkpoints[i + 1])) && i < checkpoints.Count - 2)
             {
                 _lineRenderer.SetPosition(i + 1 , _hitData.point);
                 _lineRenderer.positionCount = i + 2;
                 isLinked = false;
                 i = checkpoints.Count;
-                
-                print(_hitData.transform.gameObject);
             }
         }
     }
