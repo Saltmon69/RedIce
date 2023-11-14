@@ -18,35 +18,37 @@ public class BlueprintPlacementState : BlueprintBaseState
         layerMask = LayerMask.GetMask("Ground");
         machineStock = GameObject.Find("MachineStock");
 
-
+        //viens prendre la machine que l'on a sélectionné pour la placer / construire
         machineToPlace = machineStock.transform.GetChild(machineStock.transform.childCount - 1).gameObject;
 
-        machineToPlace.GetComponent<MachineCollider>().isActive = true;
+        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
+        _machineCollider.isActive = true;
         
         _highlightComponent = machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
-
-        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //calcule une rotation de notre machine en utilisant la molette de la souris
         _eulerRotation = machineToPlace.transform.eulerAngles;
         machineToPlace.transform.eulerAngles = new Vector3(_eulerRotation.x, _eulerRotation.y + Input.mouseScrollDelta.y * 36, _eulerRotation.z);
 
+        //confirmation du placement de la machine si elle peut etre placé
+        //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
             blueprint.SwitchState(blueprint.buildingState);
+            _machineCollider.isActive = false;
+            _highlightComponent.BaseMaterial();
         }
 
-        if(Input.GetKeyDown(KeyCode.X))
+        //annuler la construction de la machine (elle retourne donc a son emplacement initial)
+        //retour au mode de sélection de la machine à construire
+        if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
         {
             blueprint.SwitchState(blueprint.buildingState);
-        }
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            blueprint.SwitchState(blueprint.buildingState);
+            GameObject.Destroy(machineToPlace);
         }
     }
     
@@ -61,9 +63,5 @@ public class BlueprintPlacementState : BlueprintBaseState
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(false);
-
-        _highlightComponent.BaseMaterial();
-        
-        machineToPlace.GetComponent<MachineCollider>().isActive = false;
     }
 }

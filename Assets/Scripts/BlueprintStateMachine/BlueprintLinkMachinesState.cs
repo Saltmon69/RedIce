@@ -12,11 +12,6 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
     private GameObject _thisCable;
     private CableLaserBehaviour _cableLaserBehaviour;
 
-    private Material _oldMaterial;
-    public Material newMaterial;
-
-    private bool _isInputSelected;
-
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(7).gameObject.SetActive(true);
@@ -28,8 +23,6 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
 
         _cableLaserBehaviour = _thisCable.GetComponent<CableLaserBehaviour>();
         _cableLaserBehaviour.enabled = true;
-        
-        //_hitData.transform.GetComponent<MeshRenderer>().material = new Material(_oldMaterial);
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -38,41 +31,35 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
         {
             blueprint.SwitchState(blueprint.cableState);
         }
-        
-        if(Input.GetKeyDown(KeyCode.Mouse0) && _isInputSelected)
-        {
-            blueprint.SwitchState(blueprint.checkpointState);
-        }
     }
     
     public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance)
     {
         if (Physics.Raycast(ray, out _hitData, Mathf.Infinity , layerMask))
         {
+            //si l'on sélectionne une entrée de machine, on assigne au cable qu il est attaché a cette entrée et a quel machine cette elle appartient
+            //avance au mode de création de point de passage pour rediriger le chemin que le cable emprunte pour aller d'une machine à l'autre
+            if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Input"))
+            {
+                _cableLaserBehaviour.inputMachine = _hitData.transform.parent.parent.gameObject;
+                _cableLaserBehaviour.inputGameObject = _hitData.transform.gameObject;
+                blueprint.SwitchState(blueprint.checkpointState);
+            }
+
             try
             {
+                //feedback pour voir quel entrée on vise / regarde
                 if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
                 {
                     _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-                    
-                    _isInputSelected = false;
 
                     if (_hitData.transform.CompareTag("Input"))
                     {
-                        _cableLaserBehaviour.inputMachine = _hitData.transform.parent.parent.gameObject;
-                        _cableLaserBehaviour.inputGameObject = _hitData.transform.gameObject;
-                        
                         _hitData.transform.GetComponent<HighlightComponent>().Outline();
-                        
-                        _isInputSelected = true;
                     }
-                    _oldHitData = _hitData;
                 }
-            }
-            catch (NullReferenceException)
-            {
-                _oldHitData = _hitData;
-            }
+            }catch (NullReferenceException){}
+            _oldHitData = _hitData;
         }
     }
         
@@ -81,7 +68,5 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
         GameObject.Find("UIStateCanvas").transform.GetChild(7).gameObject.SetActive(false);
         
         _cableLaserBehaviour.enabled = true;
-        
-        //_hitData.transform.GetComponent<MeshRenderer>().material = new Material(newMaterial);
     }
 }

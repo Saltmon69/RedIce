@@ -19,42 +19,43 @@ public class BlueprintDisplacementState : BlueprintBaseState
         layerMask = LayerMask.GetMask("Ground");
         machineStock = GameObject.Find("MachineStock");
 
-
+        //retrouve la machine que l on a selectionner grace a son changement dans sa hiérarchie grace au dernier etat
         machineToPlace = machineStock.transform.GetChild(machineStock.transform.childCount - 1).gameObject;
 
-        machineToPlace.GetComponent<MachineCollider>().isActive = true;
-        
+        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
+        _machineCollider.isActive = true;
+
         _highlightComponent = machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
 
-        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
-        
+        //crée une fausse machine permettant de visulalizer la position initiale de l objet avant de le bouger
         fakeMachineHologram = GameObject.Instantiate(machineToPlace);
-
         fakeMachineHologram.GetComponent<Collider>().enabled = false;
-            
-        for (var i = 0; i < fakeMachineHologram.GetComponents<MonoBehaviour>().Length; i++)
-        {
-            fakeMachineHologram.GetComponents<MonoBehaviour>()[i].enabled = false;
-        }
     }
 
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //calcule une rotation de notre machine en utilisant la molette de la souris
         _eulerRotation = machineToPlace.transform.eulerAngles;
         machineToPlace.transform.eulerAngles = new Vector3(_eulerRotation.x, _eulerRotation.y + Input.mouseScrollDelta.y * 36, _eulerRotation.z);
 
+        //confirmation du placement de la machine si elle peut etre placé
+        //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
             blueprint.SwitchState(blueprint.moveState);
         }
 
+        //supprimer / récuperer la machine
+        //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.X))
         {
             GameObject.Destroy(machineToPlace);
             blueprint.SwitchState(blueprint.moveState);
         }
 
+        //annuler le déplacement de la machine (elle retourne donc a son emplacement initial)
+        //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             machineToPlace.transform.position = fakeMachineHologram.transform.position;
@@ -75,10 +76,9 @@ public class BlueprintDisplacementState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(false);
 
+        _machineCollider.isActive = false;
         _highlightComponent.BaseMaterial();
         
         GameObject.Destroy(fakeMachineHologram);
-        
-        machineToPlace.GetComponent<MachineCollider>().isActive = false;
     }
 }

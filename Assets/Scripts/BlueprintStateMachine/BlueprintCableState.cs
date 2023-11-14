@@ -13,11 +13,6 @@ public class BlueprintCableState : BlueprintBaseState
     private GameObject _thisCable;
     private CableLaserBehaviour _cableLaserBehaviour;
 
-    private Material _oldMaterial;
-    public Material newMaterial;
-
-    private bool _isOutputSelected;
-
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(6).gameObject.SetActive(true);
@@ -31,20 +26,20 @@ public class BlueprintCableState : BlueprintBaseState
 
         _cableLaserBehaviour = _thisCable.GetComponent<CableLaserBehaviour>();
         _cableLaserBehaviour.enabled = true;
-        
-        //_hitData.transform.GetComponent<MeshRenderer>().material = new Material(_oldMaterial);
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //bouton retour au mode de sélection des modes du blueprint
         if(Input.GetKeyDown(KeyCode.C))
         {
             blueprint.SwitchState(blueprint.startState);
-        }
-
-        if(Input.GetKeyDown(KeyCode.Mouse0) && _isOutputSelected)
-        {
-            blueprint.SwitchState(blueprint.linkMachinesState);
+            
+            //si le cable n'a pas de sortie lié cela veut dire que le joueur a fait un retour arriere avant d utiliser le cable, le cable est donc supprimer
+            if (_cableLaserBehaviour.outputMachine == null)
+            {
+                GameObject.Destroy(_thisCable);
+            }
         }
     }
     
@@ -52,31 +47,29 @@ public class BlueprintCableState : BlueprintBaseState
     {
         if (Physics.Raycast(ray, out _hitData, Mathf.Infinity , layerMask))
         {
+            //si l'on sélectionne une sortie de machine, on assigne au cable qu il est attaché a cette sortie et a quel machine elle appartient
+            //avance au mode de sélection de l'entrée de la seconde machine pour le cablage
+            if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Output"))
+            {
+                _cableLaserBehaviour.outputMachine = _hitData.transform.parent.parent.gameObject;
+                _cableLaserBehaviour.outputGameObject = _hitData.transform.gameObject;
+                blueprint.SwitchState(blueprint.linkMachinesState);
+            }
+
             try
             {
+                //feedback pour voir quel sortie on vise / regarde
                 if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
                 {
                     _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-                    
-                    _isOutputSelected = false;
 
                     if (_hitData.transform.CompareTag("Output"))
                     {
-                        _cableLaserBehaviour.outputMachine = _hitData.transform.parent.parent.gameObject;
-                        _cableLaserBehaviour.outputGameObject = _hitData.transform.gameObject;
-                        
                         _hitData.transform.GetComponent<HighlightComponent>().Outline();
-
-                        _isOutputSelected = true;
                     }
-                    
-                    _oldHitData = _hitData;
                 }
-            }
-            catch (NullReferenceException)
-            {
-                _oldHitData = _hitData;
-            }
+            }catch (NullReferenceException){}
+            _oldHitData = _hitData;
         }
     }
         
@@ -84,12 +77,6 @@ public class BlueprintCableState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(6).gameObject.SetActive(false);
 
-        if (_cableLaserBehaviour.outputMachine == null)
-        {
-            GameObject.Destroy(_thisCable);
-        }
-        
         _cableLaserBehaviour.enabled = true;
-        //_hitData.transform.GetComponent<MeshRenderer>().material = new Material(newMaterial);
     }
 }

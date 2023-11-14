@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueprintStateMachineManager : MonoBehaviour
 {
+
+    //initialise tous les états de la state machine
     private BlueprintBaseState _currentState;
     public BlueprintStartState startState = new BlueprintStartState();
     public BlueprintMoveState moveState = new BlueprintMoveState();
@@ -14,10 +14,11 @@ public class BlueprintStateMachineManager : MonoBehaviour
     public BlueprintLinkMachinesState linkMachinesState = new BlueprintLinkMachinesState();
     public BlueprintCheckpointState checkpointState = new BlueprintCheckpointState();
 
-        public Camera mainCamera;
-        public Ray ray;
-        public float distance;
+    public Camera mainCamera;
+    public Ray ray;
+    public float distance;
 
+    //la machine entre dans le premier état
     public void Awake()
     {
         _currentState = startState;
@@ -43,9 +44,10 @@ public class BlueprintStateMachineManager : MonoBehaviour
         _currentState.ExitState(this);
     }
     
+    //fonction qui permet de faire des raycasts
+    //utile au fait que cela permet de passer le meme rayon et la meme distance pour chaque état
     public void RayState()
     {
-        //physic ray, faire passer le hit data et un layer mask vide
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         _currentState.RayState(this, ray, distance); 
     }

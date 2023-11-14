@@ -15,6 +15,7 @@ public class BlueprintMoveState : BlueprintBaseState
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //bouton retour au mode de sélection des modes du blueprint
         if(Input.GetKeyDown(KeyCode.B))
         {
             blueprint.SwitchState(blueprint.startState);
@@ -25,25 +26,25 @@ public class BlueprintMoveState : BlueprintBaseState
     {
         if (Physics.Raycast(ray, out _hitData, distance, layerMask))
         {
+            //mode du déplacement de la machine
+            if(Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                //change la position de la machine dans la hiérarchie a la derniere position pour etre retrouver facilement dans le prochain etat 
+                _hitData.transform.SetSiblingIndex(_hitData.transform.parent.childCount - 1);
+                blueprint.SwitchState(blueprint.displacementState);
+            }
+
+            //Actualise les matériaux pour le feedback de quel machine on va selectionner
             try
             {
                 if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
                 {
-                    _hitData.transform.SetSiblingIndex(_hitData.transform.parent.childCount - 1);
                     _hitData.transform.GetComponent<HighlightComponent>().Outline();
                     _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-                    _oldHitData = _hitData;
                 }
-                                
-                if(Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    blueprint.SwitchState(blueprint.displacementState);
-                }
-            }
-            catch (NullReferenceException)
-            {
-                _oldHitData = _hitData;
-            }
+            }catch (NullReferenceException){}
+
+            _oldHitData = _hitData;
         }
     }    
     

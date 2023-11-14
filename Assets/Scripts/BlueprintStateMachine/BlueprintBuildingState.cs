@@ -16,12 +16,15 @@ public class BlueprintBuildingState : BlueprintBaseState
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(true);
 
         machineStock = GameObject.Find("MachineStock");
+
+        //active l'interface de sélection des machines
         machineChoiceCanvas = GameObject.Find("MachineBuildingPanel");
         machineChoiceCanvas = machineChoiceCanvas.transform.GetChild(0).gameObject;
         machineChoiceCanvas.SetActive(true);
 
         machinesPrefab = Resources.LoadAll("Machines", typeof(GameObject));
 
+        //si les machine non pas précédement été chargé, alors on assigne chaque bouton a sa machine correspondante
         if(!_machinesLoaded)
         {
             for (var i = 1; i < machineChoiceCanvas.transform.childCount - 1; i++)
@@ -33,6 +36,7 @@ public class BlueprintBuildingState : BlueprintBaseState
         }
     }
 
+    //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
     void MachineChosen(int machineNumber, BlueprintStateMachineManager blueprint)
     {
         machineSelectedPlacementMode = GameObject.Instantiate((GameObject)machinesPrefab[machineNumber], machineStock.transform);
@@ -41,6 +45,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //retour au mode de sélection de la machine a construire
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             blueprint.SwitchState(blueprint.startState);
