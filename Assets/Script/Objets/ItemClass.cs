@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ressource", menuName = "Objet/Ressource", order = 2)]
+[Description("Classe de base pour les ressources et autres objets. C'est un SO (ScriptableObject) qui contient toutes les informations de base d'un objet.")]
+
 public class ItemClass : ScriptableObject
 {
     [Tooltip("Nom de la ressource")]

@@ -1,11 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
+[Description("Ce script va gérer l'inventaire joueur. Il contient la liste des slots composant l'inventaire ainsi que " +
+             "les fonctions permettant d'ajouter des objets à l'inventaire donné.")]
 
 public class InventoryManager : MonoBehaviour
 {
+    
+    #region Variables
+
     [Tooltip("Array des slots de cet inventaire")]
     public InventorySlot[] slots;
     
@@ -23,8 +29,10 @@ public class InventoryManager : MonoBehaviour
     
     [Tooltip("Taille de l'inventaire qui sera généré")]
     public int inventorySize;
-
     
+    #endregion
+
+    #region Fonctions
 
     /// <summary>
     /// Permet d'ajouter un objet dans l'inventaire
@@ -65,10 +73,11 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
     
+    
     /// <summary>
     /// Permet d'ajouter un objet dans l'inventaire sans vérifier qu'il y en a déjà un identique
     /// </summary>
-    /// <param name="item"></param>
+    /// <param name="item"> Le SO de l'objet que vous souhaitez rajouter. </param>
     /// <returns></returns>
 
     public InventorySlot AddItemExclusive(ItemClass item)
@@ -90,18 +99,27 @@ public class InventoryManager : MonoBehaviour
 
         return null;
     }
+    
+
+    #endregion
+
+    #region Fonction debug
 
     /// <summary>
-    /// Permet de créer un objet dans l'inventaire
+    /// Permet de créer un objet de type Inventory Item dans un slot donné
     /// </summary>
-    /// <param name="item"></param>
-    /// <param name="slot"></param>
+    /// <param name="item"> Le SO de l'objet que vous souhaitez rajouter. </param>
+    /// <param name="slot"> Le slot dans lequel vous souhaitez rajouter l'objet.</param>
     public void SpawnItem(ItemClass item, InventorySlot slot)
     {
         GameObject newItemGameObject = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGameObject.GetComponent<InventoryItem>();
         inventoryItem.InitialiseItem(item);
     }
+    
+    #endregion
+
+    #region Fonction UI
 
     /// <summary>
     /// Permet de créer un inventaire
@@ -117,4 +135,7 @@ public class InventoryManager : MonoBehaviour
             slots[i] = slot.GetComponent<InventorySlot>();
         }
     }
+    
+    #endregion
+
 }

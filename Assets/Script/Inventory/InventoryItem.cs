@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
+[Description("Cette classe est l'image de l'item dans l'inventaire. Elle contient les fonctions gérant son affichage ainsi que le drag and drop.")]
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
+    #region Variables
+    
     [Header("System")]
     [HideInInspector] public ItemClass item;
     [HideInInspector] public Transform parentAfterDrag;
@@ -30,7 +32,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public int count = 1;
     public int stackSize;
     
-    
+    #endregion
+
+
+    #region Fonctions
     private void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
@@ -39,7 +44,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// <summary>
     /// Permet de créer l'ojet dans l'inventaire avec les paramètres du SO
     /// </summary>
-    /// <param name="newItem"></param>
+    /// <param name="newItem"> De type ItemClass qui contient le sprite ainsi que la quantité max. </param>
     public void InitialiseItem(ItemClass newItem)
     {
         item = newItem;
@@ -76,9 +81,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.raycastTarget = true;
         
         var itemInSlot = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryItem>();
-        
-        
-        if (itemInSlot != null)
+
+       
+        if (itemInSlot != null)  // On vérifie que l'objet est bien lâché sur un slot et par conséquent si slot contient un objet
         {
             if (itemInSlot.item == item && itemInSlot.count < item.stackSize)
             {
@@ -115,4 +120,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             
         }
     }
+    
+    #endregion
 }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Description("Contient toutes les constantes du joueur (vie, oxygène, radiation, pression, température).")]
 public class PlayerManager : MonoBehaviour
 {
     [Tooltip("Instance de PlayerManager")]

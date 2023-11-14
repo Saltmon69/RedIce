@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[Description("Gère les interactions du joueur")]
 public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] Camera playerCamera;

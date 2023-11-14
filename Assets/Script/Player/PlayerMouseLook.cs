@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
+[Description("Gère les mouvements de caméra")]   
 public class PlayerMouseLook : MonoBehaviour
 {
+    
     [SerializeField] float mouseSensitivityX = 8f;
     [SerializeField] float mouseSensitivityY = 0.5f;
     private float mouseX, mouseY;

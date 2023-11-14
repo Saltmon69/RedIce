@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
+[Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
@@ -24,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //Jump
+        
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
         isGrounded = Physics.CheckSphere(bottomPoint, 0.1f, groundMask);
@@ -41,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
             jump = false;
         }
         
-        //Camera
+        //Caméra
+        
         Vector3 camForward = playerCamera.forward;
         Vector3 camRight = playerCamera.right;
         
@@ -53,8 +57,8 @@ public class PlayerMovement : MonoBehaviour
         
         Vector3 moveDirection = forwardRelative + rightRelative;
         
+        //Mouvements
         
-        //Movement
         //Vector3 horizontalVelocity = (transform.right * horizontalInput.x + transform.forward * horizontalInput.y ) * speed;
         Vector3 horizontalVelocity = (moveDirection) * speed;
         controller.Move(horizontalVelocity * Time.deltaTime);
