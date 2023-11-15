@@ -2,6 +2,7 @@
 
 public class MachineCollider : MonoBehaviour
 {
+    //se script mis sur chaque object possible d'être placé par le biais du blueprint afin de facilement voir si l'objet es plaçable ou non par des scripts externe
     public bool isActive;
     public bool canBePlaced;
     

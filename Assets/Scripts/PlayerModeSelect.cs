@@ -17,9 +17,13 @@ public class PlayerModeSelect : MonoBehaviour
     
     void Update()
     {
+        //permet de faire des fondus avec l'ui de sélection des modes
         UICanvasAlpha();
+
+        //permet grâce a nos chiffres de choisir un des modes
         OnKeyboardInput();
-        
+
+        //permet grâce a notre molette de choisir un des modes
         modeSelected = (modeSelected + 3 + (int)Input.mouseScrollDelta.y) % 3;
         modeSelectedUI.value = (float)modeSelected / 2;
 
@@ -31,12 +35,12 @@ public class PlayerModeSelect : MonoBehaviour
         oldSelectedMod = modeSelected;
     }
 
+    //active ou désactive les object qui compose les mécanique de chaque modes
     private void ModeSelectionOutput()
     {
 
         if (modeSelected == 0)
         {
-            //add animation
             handsFreeModeManager.SetActive(true);
             miningModeManager.SetActive(false);
             blueprintModeManager.SetActive(false);
@@ -44,7 +48,6 @@ public class PlayerModeSelect : MonoBehaviour
         
         if (modeSelected == 1)
         {
-            //add animation
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(true);
             blueprintModeManager.SetActive(false);
@@ -52,7 +55,6 @@ public class PlayerModeSelect : MonoBehaviour
         
         if (modeSelected == 2)
         {
-            //add animation
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(false);
             blueprintModeManager.SetActive(true);
