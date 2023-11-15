@@ -30,9 +30,41 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Température du joueur")]
     public float temperature;
     float maxTemperature;
+    
+    
+    //Variables pour le syst Observateur
+    [Tooltip("Liste des observateurs")]
+    [SerializeField] private List<IObserver> observers = new List<IObserver>();
+    [Tooltip("Data à notifier")]
+    [SerializeField] private Data data;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void AddObserver(IObserver observer)
+    {
+        observers.Add(observer);
+    }
+    
+    public void RemoveObserver(IObserver observer)
+    {
+        observers.Remove(observer);
+    }
+    
+    public void NotifyObservers()
+    {
+        foreach (IObserver observer in observers)
+        {
+            observer.OnNotify(data);
+        }
+    }
+    
+}
+
+public class Data : MonoBehaviour
+{
+    public GameObject itemPinged;
+    public GameObject ping;
 }
