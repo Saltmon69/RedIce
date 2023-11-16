@@ -11,24 +11,29 @@ public class EONStateMachine : MonoBehaviour
 
     IState currentState;
     
-
+    public float distanceToPlayer;
+    public float distanceToPing;
+    public float timeInIdle;
+    
     #endregion
 
     #region Fonctions
 
     private void Update()
     {
-        currentState.OnUpdate();
+        distanceToPlayer = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
+        
+        currentState.OnUpdate(this);
     }
     
     public void ChangeState(IState newState)
     {
         if (currentState != null)
         {
-            currentState.OnExit();
+            currentState.OnExit(this);
         }
         currentState = newState;
-        currentState.OnEnter();
+        currentState.OnEnter(this);
     }
 
     #endregion

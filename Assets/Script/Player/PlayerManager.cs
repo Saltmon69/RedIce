@@ -36,7 +36,8 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Liste des observateurs")]
     [SerializeField] private List<IObserver> observers = new List<IObserver>();
     [Tooltip("Data à notifier")]
-    [SerializeField] private Data data;
+    [HideInInspector] public Data data;
+    
 
     private void Start()
     {
