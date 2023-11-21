@@ -69,3 +69,8 @@ public class Data : MonoBehaviour
     public GameObject itemPinged;
     public GameObject ping;
 }
+
+public enum Order
+{
+    Follow, Mine, GoOnPing, Idle
+}

@@ -16,10 +16,11 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] float interactionRange;
     MineraiClass mineraiClass;
     bool hasAppliedDamage = false;
+    [SerializeField] GameObject pingPrefab;
     
     public void OnInteractionPressed()
     {
-        RaycastMaker();
+        RaycastMaker(interactionRange);
         
     }
     
@@ -54,21 +55,33 @@ public class PlayerInteraction : MonoBehaviour
                     }
                 }
             }
+            
         }
+        
     }
     
     public void OnUsePressed()
     {
         hasAppliedDamage = false;
-        RaycastMaker();
+        RaycastMaker(interactionRange);
+        
+    }
+    
+    public void OnPingPressed()
+    {
+        RaycastMaker(100f);
+        if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
+        {
+            Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
+        }
         
     }
 
-    private void RaycastMaker()
+    private void RaycastMaker(float range)
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out RaycastHit hit, interactionRange);
-        Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red);
+        Physics.Raycast(ray, out RaycastHit hit, range);
+        Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
 
     }

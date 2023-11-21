@@ -45,9 +45,10 @@ public class InputManager : MonoBehaviour
         playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
         playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
         
-        //Interaction (E)
+        //Interaction (E, Left Click, Middle Click)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
+        playerInteractionActions.Ping.performed += _ => playerInteraction.OnPingPressed();
         
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
