@@ -7,6 +7,7 @@ public class Idle : IState, IObserver
 {
     public GameObject subject;
     private GameObject ping;
+    public Order activeOrder;
     public void OnEnter(EONStateMachine stateMachine)
     {
         subject = GameObject.Find("Player");
@@ -24,15 +25,15 @@ public class Idle : IState, IObserver
     public void OnUpdate(EONStateMachine stateMachine)
     {
         stateMachine.timeInIdle += Time.deltaTime;
+        
         if (stateMachine.distanceToPlayer > 5)
         {
             stateMachine.ChangeState(new Follow());
         }
-        if (ping != null)
+        if (activeOrder == Order.GoOnPing)
         {
             stateMachine.ChangeState(new GoOnPing());
         }
-        
     }
     
     public void OnNotify(Data data)
@@ -40,6 +41,10 @@ public class Idle : IState, IObserver
         if (data.ping != null)
         {
             ping = data.ping;
+        }
+        if (data.order == Order.GoOnPing)
+        {
+            activeOrder = Order.GoOnPing;
         }
     }
 }

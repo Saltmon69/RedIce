@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Follow : IState, IObserver
 {
     public GameObject subject;
+    public GameObject ping;
+    public Order activeOrder;
+    
     public void OnEnter(EONStateMachine stateMachine)
     {
         subject = GameObject.Find("Player");
@@ -19,11 +23,29 @@ public class Follow : IState, IObserver
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
-        throw new System.NotImplementedException();
+        NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
+        agent.SetDestination(subject.transform.position);
+        
+        if (stateMachine.distanceToPlayer < 5)
+        {
+            stateMachine.ChangeState(new Idle());
+        }
+        if(activeOrder == Order.GoOnPing)
+        {
+            stateMachine.ChangeState(new GoOnPing());
+        }
     }
 
     public void OnNotify(Data data)
     {
-        throw new System.NotImplementedException();
+        if (data.ping != null)
+        {
+            ping = data.ping;
+        }
+        if(activeOrder == Order.GoOnPing)
+        {
+            activeOrder = Order.GoOnPing;
+        }
+        
     }
 }

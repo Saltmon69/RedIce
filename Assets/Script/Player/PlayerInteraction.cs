@@ -17,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
     MineraiClass mineraiClass;
     bool hasAppliedDamage = false;
     [SerializeField] GameObject pingPrefab;
+    public PlayerManager playerManager;
     
     public void OnInteractionPressed()
     {
@@ -72,7 +73,16 @@ public class PlayerInteraction : MonoBehaviour
         RaycastMaker(100f);
         if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
         {
-            Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
+            playerManager.data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
+            
+            if (itemHit.collider.CompareTag("Minerai"))
+            {
+                playerManager.data.itemPinged = itemHit.collider.gameObject;
+            }
+            else
+            {
+                playerManager.data.itemPinged = null;
+            }
         }
         
     }

@@ -68,6 +68,7 @@ public class Data : MonoBehaviour
 {
     public GameObject itemPinged;
     public GameObject ping;
+    public Order order;
 }
 
 public enum Order

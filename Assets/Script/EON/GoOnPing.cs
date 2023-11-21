@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GoOnPing : IState, IObserver
 {
     public GameObject subject;
     public GameObject ping;
+    public Order activeOrder;
+    
 
     private bool mineraiInRange = false;
     public void OnEnter(EONStateMachine stateMachine)
@@ -17,21 +20,29 @@ public class GoOnPing : IState, IObserver
     public void OnExit(EONStateMachine stateMachine)
     {
         subject.GetComponent<PlayerManager>().RemoveObserver(this);
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
+        NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
+        agent.SetDestination(ping.transform.position);
+        
         if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 1)
         {
             if (mineraiInRange)
             {
                 stateMachine.ChangeState(new Mine());
             }
+
+            if (activeOrder == Order.Follow)
+            {
+                stateMachine.ChangeState(new Follow());
+            }
             
             stateMachine.ChangeState(new Idle());
+            
         }
-        
         
     }
 
@@ -43,14 +54,11 @@ public class GoOnPing : IState, IObserver
         }
         if (data.itemPinged != null)
         {
-            if (data.itemPinged.CompareTag("Minerai"))
-            {
-                mineraiInRange = true;
-            }
-            else
-            {
-                mineraiInRange = false;
-            }
+            ping = data.itemPinged;
+        }
+        if (data.order == Order.Follow)
+        {
+            activeOrder = data.order;
         }
     }
 }
