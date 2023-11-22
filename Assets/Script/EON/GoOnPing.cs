@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
+[Description("Cette classe est l'état ordonnant au robot d'aller sur le ping. Il est appelé par l'état Idle et par l'état Follow.")]
 public class GoOnPing : IState, IObserver
 {
     public GameObject subject;

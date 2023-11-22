@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
+[Description("Cette classe est l'état de minage du robot. Il est appelé par l'état GoOnPing.")]
 public class Mine : IState, IObserver
 {
     public GameObject subject;

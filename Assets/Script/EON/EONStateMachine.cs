@@ -26,6 +26,10 @@ public class EONStateMachine : MonoBehaviour
         currentState.OnUpdate(this);
     }
     
+    /// <summary>
+    /// Sert à changer l'état actuel du robot. Est appelé par les états eux-mêmes.
+    /// </summary>
+    /// <param name="newState">Etat à activer</param>
     public void ChangeState(IState newState)
     {
         if (currentState != null)

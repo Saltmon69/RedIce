@@ -83,7 +83,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         var itemInSlot = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryItem>();
 
        
-        if (itemInSlot != null)  // On vérifie que l'objet est bien lâché sur un slot et par conséquent si slot contient un objet
+        if (itemInSlot != null)  // On vérifie que l'objet est bien lâché sur un slot et par conséquent si le slot contient un objet. Cela permet d'éviter un placement random sur l'UI.
         {
             if (itemInSlot.item == item && itemInSlot.count < item.stackSize)
             {

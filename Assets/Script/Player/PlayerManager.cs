@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Liste des observateurs")]
     [SerializeField] private List<IObserver> observers = new List<IObserver>();
     [Tooltip("Data à notifier")]
-    [HideInInspector] public Data data;
+    [HideInInspector] public Data data; //L'ordre contenu sera changer par le menu radial d'ordres.
     
 
     private void Start()
@@ -64,6 +64,9 @@ public class PlayerManager : MonoBehaviour
     
 }
 
+/// <summary>
+/// Cette classe sert à transmettre le ping créé ainsi que l'objet pingé et l'ordre à effectuer.
+/// </summary>
 public class Data : MonoBehaviour
 {
     public GameObject itemPinged;
@@ -71,6 +74,9 @@ public class Data : MonoBehaviour
     public Order order;
 }
 
+/// <summary>
+/// Cette classe contient les différents ordres que peut recevoir le robot. Il seront utilisés dans les états comme condition pour changer d'états ou non.
+/// </summary>
 public enum Order
 {
     Follow, Mine, GoOnPing, Idle

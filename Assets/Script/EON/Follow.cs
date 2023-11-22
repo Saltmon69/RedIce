@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
+
+[Description("Cette classe est l'état de suivi du joueur par le robot. Il est appelé par l'état Idle et est appelé par l'état GoOnPing.")]
+
 
 public class Follow : IState, IObserver
 {

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[Description("Cette classe est l'état Idle du robot. Il est appelé par l'état Follow et par l'état GoOnPing.")]
 public class Idle : IState, IObserver
 {
     public GameObject subject;
