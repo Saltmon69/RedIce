@@ -7,21 +7,22 @@ using UnityEngine;
 [Description("Cette classe est l'état Idle du robot. Il est appelé par l'état Follow et par l'état GoOnPing.")]
 public class Idle : IState, IObserver
 {
-    public GameObject subject;
+   
     private GameObject ping;
-    public Order activeOrder;
+    public Order? activeOrder;
+    
     public void OnEnter(EONStateMachine stateMachine)
     {
-        subject = GameObject.Find("Player");
-        subject.GetComponent<PlayerManager>().AddObserver(this);
-        Debug.Log("Je suis dans l'état Idle");
+        stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
+        
     }
     
     public void OnExit(EONStateMachine stateMachine)
     {
-        subject.GetComponent<PlayerManager>().RemoveObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().RemoveObserver(this);
         stateMachine.timeInIdle = 0;
-        Debug.Log("Je quitte l'état Idle");
+        activeOrder = null;
+        
     }
     
     public void OnUpdate(EONStateMachine stateMachine)

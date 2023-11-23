@@ -6,17 +6,16 @@ using UnityEngine;
 [Description("Cette classe est l'état de minage du robot. Il est appelé par l'état GoOnPing.")]
 public class Mine : IState, IObserver
 {
-    public GameObject subject;
-    public GameObject ping;
+    public Order? activeOrder;
+    
     public void OnEnter(EONStateMachine stateMachine)
     {
-        subject = GameObject.Find("Player");
-        subject.GetComponent<PlayerManager>().AddObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
     }
 
     public void OnExit(EONStateMachine stateMachine)
     {
-        subject.GetComponent<PlayerManager>().RemoveObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().RemoveObserver(this);
     }
 
     public void OnUpdate(EONStateMachine stateMachine)
@@ -34,13 +33,27 @@ public class Mine : IState, IObserver
                 stateMachine.ChangeState(new Idle());
             }
         }
+        
+        if (activeOrder == Order.GoOnPing)
+        {
+            stateMachine.ChangeState(new GoOnPing());
+        }
+        else if (activeOrder == Order.Follow)
+        {
+            stateMachine.ChangeState(new Follow());
+        }
+        
+        else
+        {
+            stateMachine.ChangeState(new Idle());
+        }
+        
+        
+
     }
 
     public void OnNotify(Data data)
     {
-        if (data.ping != null)
-        {
-            ping = data.ping;
-        }
+        activeOrder = data.order;
     }
 }

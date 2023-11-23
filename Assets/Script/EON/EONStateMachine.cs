@@ -15,9 +15,16 @@ public class EONStateMachine : MonoBehaviour
     public float distanceToPing;
     public float timeInIdle;
     
+    public GameObject subject;
+    
     #endregion
 
     #region Fonctions
+
+    private void Start()
+    {
+        currentState = new Idle();
+    }
 
     private void Update()
     {

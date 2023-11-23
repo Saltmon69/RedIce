@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
         //Interaction (E, Left Click, Middle Click)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
-        playerInteractionActions.Ping.performed += _ => playerInteraction.OnPingPressed();
+        playerInteractionActions.Ping.performed += ctx => playerInteraction.OnPingPressed();
         
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();

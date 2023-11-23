@@ -9,19 +9,19 @@ public class GoOnPing : IState, IObserver
 {
     public GameObject subject;
     public GameObject ping;
-    public Order activeOrder;
+    public Order? activeOrder;
     
-
     private bool mineraiInRange = false;
+    
     public void OnEnter(EONStateMachine stateMachine)
     {
-        subject = GameObject.Find("Player");
-        subject.GetComponent<PlayerManager>().AddObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
     }
 
     public void OnExit(EONStateMachine stateMachine)
     {
-        subject.GetComponent<PlayerManager>().RemoveObserver(this);
+        activeOrder = null;
+        stateMachine.subject.GetComponent<PlayerManager>().RemoveObserver(this);
         
     }
 
@@ -32,7 +32,7 @@ public class GoOnPing : IState, IObserver
         
         if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 1)
         {
-            if (mineraiInRange)
+            if (mineraiInRange || activeOrder == Order.Mine)
             {
                 stateMachine.ChangeState(new Mine());
             }
@@ -58,9 +58,8 @@ public class GoOnPing : IState, IObserver
         {
             ping = data.itemPinged;
         }
-        if (data.order == Order.Follow)
-        {
-            activeOrder = data.order;
-        }
+        
+        activeOrder = data.order;
+        
     }
 }

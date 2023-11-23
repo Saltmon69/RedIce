@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        data = new Data();
     }
 
     public void AddObserver(IObserver observer)

@@ -9,26 +9,26 @@ using UnityEngine.AI;
 
 public class Follow : IState, IObserver
 {
-    public GameObject subject;
+    
     public GameObject ping;
-    public Order activeOrder;
+    public Order? activeOrder;
     
     public void OnEnter(EONStateMachine stateMachine)
     {
-        subject = GameObject.Find("Player");
-        subject.GetComponent<PlayerManager>().AddObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
     }
 
     public void OnExit(EONStateMachine stateMachine)
     {
-        subject.GetComponent<PlayerManager>().RemoveObserver(this);
+        stateMachine.subject.GetComponent<PlayerManager>().RemoveObserver(this);
+        activeOrder = null;
         
     }
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
         NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
-        agent.SetDestination(subject.transform.position);
+        agent.SetDestination(stateMachine.subject.transform.position);
         
         if (stateMachine.distanceToPlayer < 5)
         {

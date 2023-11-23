@@ -11,14 +11,25 @@ using UnityEngine.UI;
 [Description("Gère les interactions du joueur")]
 public class PlayerInteraction : MonoBehaviour
 {
+    #region Variables
+
+    // Références
     [SerializeField] Camera playerCamera;
-    RaycastHit itemHit;
-    [SerializeField] float interactionRange;
+    public PlayerManager playerManager;
+    [SerializeField] GameObject pingPrefab;
+    
+    // Minages
     MineraiClass mineraiClass;
     bool hasAppliedDamage = false;
-    [SerializeField] GameObject pingPrefab;
-    public PlayerManager playerManager;
     
+    // Raycast
+    [SerializeField] float interactionRange;
+    RaycastHit itemHit;
+    
+
+    #endregion
+
+    #region Fonctions
     public void OnInteractionPressed()
     {
         RaycastMaker(interactionRange);
@@ -71,6 +82,7 @@ public class PlayerInteraction : MonoBehaviour
     public void OnPingPressed()
     {
         RaycastMaker(100f);
+        
         if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
         {
             playerManager.data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
@@ -85,6 +97,9 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         
+        playerManager.data.order = Order.GoOnPing;
+        playerManager.NotifyObservers();
+        
     }
 
     private void RaycastMaker(float range)
@@ -95,4 +110,8 @@ public class PlayerInteraction : MonoBehaviour
         itemHit = hit;
 
     }
+
+    
+
+    #endregion
 }
