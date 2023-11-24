@@ -12,6 +12,8 @@ public class MachineUIDisplay : MonoBehaviour
     private GameObject _upgradeSlot;
     private GameObject _crafting;
     private GameObject _recipe;
+    private float _recipeXPos;
+    private float _recipeYPos;
     private GameObject _progressBar;
     private GameObject _outputSlot;
     private GameObject _instantiatedButton;
@@ -21,6 +23,7 @@ public class MachineUIDisplay : MonoBehaviour
     public GameObject plusSign;
     public GameObject equalSign;
 
+    private GameObject _savedInventory;
     public List<GameObject> craftingButtonList;
 
     //charge tous les endroit clés que le code utilise régulierement
@@ -32,6 +35,9 @@ public class MachineUIDisplay : MonoBehaviour
         _recipe = _thisMachineUIDisplay.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
         _progressBar = _thisMachineUIDisplay.transform.GetChild(5).gameObject;
         _outputSlot = _thisMachineUIDisplay.transform.GetChild(6).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+        
+        _recipeXPos = _recipe.transform.position.x + 50;
+        _recipeYPos = _recipe.transform.position.y + 90;
     }
 
     public void ActivateUIDisplay()
@@ -40,17 +46,24 @@ public class MachineUIDisplay : MonoBehaviour
 
         OnDisplayInstantiate();
 
+        if(_savedInventory != null)
+        {
+            LoadInventory();
+        }
+
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
         for(var i = 0; i < craftingButtonList.Count; i++)
         {
             _instantiatedButton = Instantiate(craftingButtonList[i], new Vector3(_crafting.transform.position.x, _crafting.transform.position.y - i * 40, 0), Quaternion.identity, _crafting.transform);
             var a = i;
-            _instantiatedButton.GetComponent<Button>().onClick.AddListener(() => { OnCraftButtonClick(a); });
+            _instantiatedButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a); });
         }
     }
 
-    public void OnCraftButtonClick(int a)
+    //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
+    public void SetRecipeOnClick(int a)
     {
+        //supprime l ancienne recette afficher
         for(var i = 0; i < _recipe.transform.childCount; i++)
         {
             Destroy(_recipe.transform.GetChild(i).gameObject);
@@ -58,34 +71,51 @@ public class MachineUIDisplay : MonoBehaviour
 
         _craft = craftingButtonList[a].GetComponent<ButtonCraft>().craft;
 
-        for(var j = 0; j < _craft.inputs.Count; j++)
+        //génere la nouvelle recette avec les images contenu dans les scriptable objects qui compose le craft tout en rajoutant des signes "+" et "="
+        for(var y = 0; y < _craft.inputs.Count + _craft.outputs.Count; y++)
         {
-            _instantiatedImage = Instantiate(basicImage, new Vector3(_recipe.transform.position.x + 50 + j * 120, _recipe.transform.position.y - 50, 0), Quaternion.identity, _recipe.transform);
-            _instantiatedImage.GetComponent<Image>().sprite = _craft.inputs[j].sprite;
-
-            if(j + 1 != _craft.inputs.Count)
+            _instantiatedImage = Instantiate(basicImage, new Vector3(_recipeXPos + y * 120, _recipeYPos, 0), Quaternion.identity, _recipe.transform);
+            
+            if(y < _craft.inputs.Count)
             {
-                Instantiate(plusSign, new Vector3(_recipe.transform.position.x + 110 + j * 120, _recipe.transform.position.y - 50, 0), Quaternion.identity, _recipe.transform);
+                _instantiatedImage.GetComponent<Image>().sprite = _craft.inputs[y].sprite;
+            }
+            else
+            {
+                _instantiatedImage.GetComponent<Image>().sprite = _craft.outputs[y - _craft.inputs.Count].sprite;
+            }
+
+            if(y != _craft.inputs.Count - 1 && y != _craft.inputs.Count + _craft.outputs.Count - 1)
+            {
+                Instantiate(plusSign, new Vector3(_recipeXPos + 60 + y * 120, _recipeYPos, 0), Quaternion.identity, _recipe.transform);
+            }
+
+            if(y == _craft.inputs.Count - 1)
+            {
+                Instantiate(equalSign, new Vector3(_recipeXPos + 60 + y * 120, _recipeYPos, 0), Quaternion.identity, _recipe.transform);
             }
         }
-
-        Instantiate(equalSign, new Vector3(_recipe.transform.position.x + 110 + 120 * (_craft.inputs.Count - 1), _recipe.transform.position.y - 50, 0), Quaternion.identity, _recipe.transform);
-        
-        for(var k = 0; k < _craft.outputs.Count; k++)
-        {
-            _instantiatedImage = Instantiate(basicImage, new Vector3(_recipe.transform.position.x + 50 + (k + _craft.inputs.Count) * 120, _recipe.transform.position.y - 50, 0), Quaternion.identity, _recipe.transform);
-            _instantiatedImage.GetComponent<Image>().sprite = _craft.outputs[k].sprite;
-
-            if(k + 1 != _craft.outputs.Count)
-            {
-                Instantiate(plusSign, new Vector3(_recipe.transform.position.x + 110 + (k + _craft.inputs.Count) * 120, _recipe.transform.position.y - 50, 0), Quaternion.identity, _recipe.transform);
-            }
-        }
-
     }
 
     public void DeactivateUIDisplay()
     {
+        SaveInventory();
         Destroy(_thisMachineUIDisplay);
+    }
+
+    //put the inventory on the machine
+    public void SaveInventory()
+    {
+        _inventory.transform.SetParent(this.transform);
+        _savedInventory = _inventory;
+    }
+
+    //place the inventory on the machine onto the ui display and delete the obsolete one
+    public void LoadInventory()
+    {
+        _savedInventory.transform.SetParent(_inventory.transform.parent);
+        _savedInventory.transform.position = _inventory.transform.position;
+        Destroy(_inventory);
+        _inventory = _savedInventory;
     }
 }
