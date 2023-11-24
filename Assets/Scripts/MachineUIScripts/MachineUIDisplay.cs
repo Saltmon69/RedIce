@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.UI;
 using UnityEngine.UI;
+using System;
+using Unity.VisualScripting;
 
 public class MachineUIDisplay : MonoBehaviour
 {
@@ -25,6 +27,10 @@ public class MachineUIDisplay : MonoBehaviour
 
     private GameObject _savedInventory;
     public List<GameObject> craftingButtonList;
+    private List<GameObject> _itemSlotsList;
+    public List<InventoryItem> inventoryItemList;
+    public List<ItemClass> itemList;
+    public List<int> itemAmountList;
 
     //charge tous les endroit clés que le code utilise régulierement
     public void OnDisplayInstantiate()
@@ -40,6 +46,16 @@ public class MachineUIDisplay : MonoBehaviour
         _recipeYPos = _recipe.transform.position.y + 90;
     }
 
+    public void CachingItemSlots()
+    {
+        _itemSlotsList = new List<GameObject>();
+
+        for(var i = 0; i < _inventory.transform.childCount; i++)
+        {
+            _itemSlotsList.Add(_inventory.transform.GetChild(i).gameObject);
+        }
+    }
+
     public void ActivateUIDisplay()
     {
         _thisMachineUIDisplay = Instantiate(machineUIPrefab);
@@ -50,6 +66,10 @@ public class MachineUIDisplay : MonoBehaviour
         {
             LoadInventory();
         }
+
+        CachingItemSlots();
+
+        InventoryItemManager();
 
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
         for(var i = 0; i < craftingButtonList.Count; i++)
@@ -117,5 +137,37 @@ public class MachineUIDisplay : MonoBehaviour
         _savedInventory.transform.position = _inventory.transform.position;
         Destroy(_inventory);
         _inventory = _savedInventory;
+    }
+
+    //repere tous les items dans l inventaire et les quantifies
+    public void InventoryItemManager()
+    {
+        inventoryItemList = new List<InventoryItem>(new InventoryItem[_itemSlotsList.Count]);
+        itemList = new List<ItemClass>();
+        itemAmountList = new List<int>();
+
+        //passe pour tous les slots d items
+        for(var i = 0; i < _itemSlotsList.Count; i++)
+        {
+            if(_itemSlotsList[i].transform.childCount > 0)
+            {
+                inventoryItemList[i] = _itemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
+
+                //si c'est le premier item de son type, il le rajoute et lui donne un montant null, cela sert car on a besoin d'étendre la capacité de la liste des montants
+                if(!itemList.Contains(inventoryItemList[i].item))
+                {
+                    itemList.Add(inventoryItemList[i].item);
+                    itemAmountList.Add(0);
+                }
+                //passe par tous les items trouver jusque la pour voir dans quel position se trouve l'item dans le slot actuel affin de lui attribuer son montant
+                for(var j = 0; j < itemList.Count; j++)
+                {
+                    if(itemList[j] == inventoryItemList[i].item)
+                    {
+                        itemAmountList[j] += inventoryItemList[i].count;
+                    }
+                }
+            }
+        }
     }
 }
