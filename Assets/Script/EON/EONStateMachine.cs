@@ -47,5 +47,5 @@ public class EONStateMachine : MonoBehaviour
         currentState.OnEnter(this);
     }
 
-    #endregion
+    #endregion 
 }
