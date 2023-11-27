@@ -5073,8 +5073,8 @@ MonoBehaviour:
   inventoryManager: {fileID: 358773963}
   item:
   - {fileID: 11400000, guid: be036288f1ac2ec4c833c1e3099387e3, type: 2}
-  - {fileID: 11400000, guid: 231b6ebf4ba59f64eb179f691841b77b, type: 2}
-  - {fileID: 11400000, guid: a7e099078b605024987baad3acbc5f8a, type: 2}
+  - {fileID: 11400000, guid: 32b6ccbaa59ee2940947a9c9379356f5, type: 2}
+  - {fileID: 11400000, guid: f43286b7998266d41af33d18084521ac, type: 2}
 --- !u!114 &824616618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6387,7 +6387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1023104385 stripped
@@ -9137,11 +9137,17 @@ MonoBehaviour:
     type: 3}
   equalSign: {fileID: 3988979144145190241, guid: 0237d290688882a429592bc62863dcce,
     type: 3}
+  redImage: {fileID: 1467769426483749140, guid: bca3b5cd74af97a48b8cb28e6eabe45b,
+    type: 3}
+  basicText: {fileID: 5592734663887864249, guid: b1707a204c80b6d42b20e147f5efee78,
+    type: 3}
   craftingButtonList:
   - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
   - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
   - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
-  _inventoryList: []
+  inventoryItemList: []
+  itemList: []
+  itemAmountList: 
 --- !u!1001 &1552886335
 PrefabInstance:
   m_ObjectHideFlags: 0
