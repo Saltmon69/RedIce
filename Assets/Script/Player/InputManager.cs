@@ -77,6 +77,7 @@ public class InputManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+        
         playerMovement.ReceiveInput(horizontalInput);
         playerMouseLook.ReceiveInput(mouseInput);
     }

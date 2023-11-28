@@ -19,6 +19,7 @@ public class PlayerMenuing : MonoBehaviour
     public bool inMenu;
     
     
+    // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
         inMenu = false;
@@ -30,10 +31,11 @@ public class PlayerMenuing : MonoBehaviour
 
     private void Update()
     {
-        if (inMenu && mainMenu.activeSelf && !inventory.activeSelf && !map.activeSelf)
+        if (inMenu && mainMenu.activeSelf && !inventory.activeSelf && !map.activeSelf) // Si on est dans le menu principal, nous remet en jeu.
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            
             playerMovement.enabled = false;
             playerMouseLook.enabled = false;
             playerInteraction.enabled = false;
@@ -43,6 +45,7 @@ public class PlayerMenuing : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            
             playerMovement.enabled = true;
             playerMouseLook.enabled = true;
             playerInteraction.enabled = true;
@@ -51,6 +54,9 @@ public class PlayerMenuing : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void OnMainMenuPressed()
     {
         if (inMenu)
@@ -77,7 +83,6 @@ public class PlayerMenuing : MonoBehaviour
         }
         else
         {
-            Debug.Log("Main Menu");
             mainMenu.SetActive(true);
         }
     }
@@ -85,7 +90,6 @@ public class PlayerMenuing : MonoBehaviour
     public void OnInventoryPressed()
     {
         inMenu = true;
-        Debug.Log("Inventory");
         map.SetActive(false);
         mainMenu.SetActive(false);
         inventory.SetActive(true);
@@ -94,7 +98,6 @@ public class PlayerMenuing : MonoBehaviour
     public void OnMapPressed()
     {
         inMenu = true;
-        Debug.Log("Map");
         mainMenu.SetActive(false);
         inventory.SetActive(false);
         map.SetActive(true);

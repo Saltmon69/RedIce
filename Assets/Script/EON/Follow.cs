@@ -42,11 +42,11 @@ public class Follow : IState, IObserver
 
     public void OnNotify(Data data)
     {
-        if (data.ping != null)
+        if (data.ping != null) 
         {
             ping = data.ping;
         }
-        if(activeOrder == Order.GoOnPing)
+        if (data.order == Order.GoOnPing)
         {
             activeOrder = Order.GoOnPing;
         }

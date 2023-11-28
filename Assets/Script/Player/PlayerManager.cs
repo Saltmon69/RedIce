@@ -73,6 +73,7 @@ public class PlayerManager : MonoBehaviour
         observers.Remove(observer);
     }
     
+    
     public void NotifyObservers()
     {
         foreach (IObserver observer in observers)
@@ -81,6 +82,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Évite une surcharge de code dans le Update. Actualise les barres de vie, oxygène, radiation, pression et température.
+    /// </summary>
     private void UIUpdater()
     {
         healthBar.fillAmount = (float) playerHealth / playerMaxHealth;
