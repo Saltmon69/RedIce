@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [Description("Contient toutes les constantes du joueur (vie, oxygène, radiation, pression, température).")]
 public class PlayerManager : MonoBehaviour
@@ -38,11 +39,28 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Data à notifier")]
     [HideInInspector] public Data data; //L'ordre contenu sera changer par le menu radial d'ordres.
     
+    //Variables pour l'UI
+    [Tooltip("Barre de vie")]
+    [SerializeField] private Image healthBar;
+    [Tooltip("Barre d'oxygène")]
+    [SerializeField] private Image oxygenBar;
+    [Tooltip("Barre de radiation")]
+    [SerializeField] private Image radiationBar;
+    [Tooltip("Barre de pression")]
+    [SerializeField] private Image pressureBar;
+    [Tooltip("Barre de température")]
+    [SerializeField] private Image temperatureBar;
+    
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         data = new Data();
+    }
+
+    private void Update()
+    {
+        UIUpdater();
     }
 
     public void AddObserver(IObserver observer)
@@ -61,6 +79,15 @@ public class PlayerManager : MonoBehaviour
         {
             observer.OnNotify(data);
         }
+    }
+    
+    private void UIUpdater()
+    {
+        healthBar.fillAmount = (float) playerHealth / playerMaxHealth;
+        oxygenBar.fillAmount = (float) oxygen / maxOxygen;
+        radiationBar.fillAmount = (float) radiation / maxRadiation;
+        pressureBar.fillAmount = (float) pressure / maxPressure;
+        temperatureBar.fillAmount = temperature / maxTemperature;
     }
     
 }
@@ -82,3 +109,5 @@ public enum Order
 {
     Follow, Mine, GoOnPing, Idle
 }
+
+
