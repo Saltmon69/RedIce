@@ -212,7 +212,7 @@ public class MachineUIDisplay : MonoBehaviour
                     }
 
                     //passe par tous les items trouver jusque la pour voir dans quel position se trouve l'item dans le slot actuel affin de lui attribuer son montant
-                    for(var j = 0; j < itemList.Count; j++)
+                    for(var j = 0; j < itemList.Count; j++) // changer en indexof
                     {
                         if(itemList[j] == inventoryItemList[i].item)
                         {
@@ -247,13 +247,47 @@ public class MachineUIDisplay : MonoBehaviour
                 _machineActivationSlider.value -= 0.1f;
             }
 
-
+            //quand le temps de craft est terminé: supprimer les ressource utiliser et generer la ressource voulut 
             if(_progressBar.value == 1)
             {
+                for(var i = 0; i < _craft.inputs.Count; i++)
+                {
+                    RemoveMaterialAmount(_craft.inputs[i], _craft.inputsAmount[i]);
+                }
+
+                //ajout des materiaux dans une output list et qui ensuite va attendre a etre spawn dans l output
                 _progressBar.value = 0f;
             }
 
             yield return new WaitForSeconds(0.02f);
+        }
+    }
+
+    public void RemoveMaterialAmount(ItemClass thisItem, int amount)
+    {
+        //passe pour tous les slots d items
+        for(var i = 0; i < _itemSlotsList.Count; i++)
+        {
+            if(_itemSlotsList[i].transform.childCount > 0 && amount > 0)
+            {
+                inventoryItemList[i] = _itemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
+
+                if(inventoryItemList[i].item == thisItem)
+                {
+                    amount = amount - inventoryItemList[i].count;
+
+                    inventoryItemList[i].count = -amount;
+
+                    if(inventoryItemList[i].count <= 0)
+                    {
+                        Destroy(inventoryItemList[i].gameObject);
+                    }
+                    else
+                    {
+                        inventoryItemList[i].countText.text = (-amount).ToString();
+                    }
+                }
+            }
         }
     }
 
