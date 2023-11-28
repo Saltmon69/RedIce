@@ -44,6 +44,10 @@ public class MachineUIDisplay : MonoBehaviour
 
     private List<Text> _recipeMaterialList;
 
+    public GameObject inventoryItemPrefab;
+    private InventoryItem _itemInSlot;
+    private InventoryItem _itemCreated;
+
     //charge tous les endroit clés que le code utilise régulierement
     public void OnDisplayInstantiate()
     {
@@ -255,10 +259,13 @@ public class MachineUIDisplay : MonoBehaviour
                     RemoveMaterialAmount(_craft.inputs[i], _craft.inputsAmount[i]);
                 }
 
-                //ajout des materiaux dans une output list et qui ensuite va attendre a etre spawn dans l output
+                for(var i = 0; i < _craft.outputs.Count; i++)
+                {
+                    AddMaterialAmount(_craft.outputs[i], _craft.outputsAmount[i], i);
+                }
+
                 _progressBar.value = 0f;
             }
-
             yield return new WaitForSeconds(0.02f);
         }
     }
@@ -284,7 +291,67 @@ public class MachineUIDisplay : MonoBehaviour
                     }
                     else
                     {
-                        inventoryItemList[i].countText.text = (-amount).ToString();
+                        inventoryItemList[i].RefreshCount();
+                    }
+                }
+            }
+        }
+    }
+
+    public void AddMaterialAmount(ItemClass thisItem, int amount, int j)
+    {
+        if(j == 0)
+        {   
+
+
+            if (_outputSlot.transform.childCount > 0)
+            {
+                _itemInSlot = _outputSlot.transform.GetChild(0).GetComponent<InventoryItem>();
+                
+                if(_itemInSlot.item == thisItem && _itemInSlot.count < thisItem.stackSize)
+                {
+                    _itemInSlot.count += amount;
+                    _itemInSlot.RefreshCount();
+                }
+            }
+
+            if (_outputSlot.transform.childCount == 0)
+            {
+                Debug.Log("doesn't have childs");
+                _itemCreated = Instantiate(inventoryItemPrefab, _outputSlot.transform).GetComponent<InventoryItem>();
+                _itemCreated.InitialiseItem(thisItem);
+                _itemCreated.count = amount;
+                _itemCreated.RefreshCount();
+            }
+        }
+        else
+        {
+            for(var i = 0; i < _itemSlotsList.Count; i++)
+            {
+                if(_itemSlotsList[i].transform.childCount > 0)
+                {
+                    inventoryItemList[i] = _itemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
+
+                    if(inventoryItemList[i].item == thisItem && inventoryItemList[i].count < thisItem.stackSize)
+                    {
+                        inventoryItemList[i].count += amount;
+                        inventoryItemList[i].RefreshCount();
+                        amount = 0;
+                    }
+                }
+            }
+
+            if(amount > 0)
+            {
+                for(var i = 0; i < _itemSlotsList.Count; i++)
+                {
+                    if(_itemSlotsList[i].transform.childCount == 0 && amount > 0)
+                    {
+                        _itemCreated = Instantiate(inventoryItemPrefab, _itemSlotsList[i].transform).GetComponent<InventoryItem>();
+                        _itemCreated.InitialiseItem(thisItem);
+                        _itemCreated.count = amount;
+                        _itemCreated.RefreshCount();
+                        amount = 0;
                     }
                 }
             }
