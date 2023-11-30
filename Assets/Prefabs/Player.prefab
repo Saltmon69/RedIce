@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: cf7b1d5662f3ff6449d12871491c733a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -233,6 +233,7 @@ MonoBehaviour:
   mainMenu: {fileID: 0}
   inventory: {fileID: 0}
   map: {fileID: 0}
+  ATH: {fileID: 0}
   playerMovement: {fileID: 4637863884708602113}
   playerMouseLook: {fileID: 4719104758492762471}
   playerInteraction: {fileID: 5449722461265170088}
@@ -256,6 +257,11 @@ MonoBehaviour:
   pressure: 100
   temperature: 100
   data: {fileID: 0}
+  healthBar: {fileID: 0}
+  oxygenBar: {fileID: 0}
+  radiationBar: {fileID: 0}
+  pressureBar: {fileID: 0}
+  temperatureBar: {fileID: 0}
 --- !u!1 &8159592046069661410
 GameObject:
   m_ObjectHideFlags: 0
