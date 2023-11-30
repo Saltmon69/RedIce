@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: df362cdd1e67c834f904371a55979f85,
+    type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -9103,6 +9104,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6419196172502416368, guid: 0972250b93f57a34ca282b89cab6d8f0,
         type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[0]
+      value: 
+      objectReference: {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604,
+        type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[1]
+      value: 
+      objectReference: {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b,
+        type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[2]
+      value: 
+      objectReference: {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9148,17 +9172,14 @@ MonoBehaviour:
     type: 3}
   basicText: {fileID: 5592734663887864249, guid: b1707a204c80b6d42b20e147f5efee78,
     type: 3}
-  _numberOfMaterialsReadyForCraft: 0
-  baseCraftingTime: 0
-  craftingButtonList:
-  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
-  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
-  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
-  inventoryItemList: []
-  itemList: []
-  itemAmountList: 
+  machineCraftingTime: 0
+  machineCraftingButtonList: []
+  thisMachineInventoryItem: {fileID: 0}
+  machineItemList: []
+  machineItemAmountList: 
   inventoryItemPrefab: {fileID: 0}
   playerInventory: {fileID: 0}
+  craftProgress: 0
 --- !u!1001 &1552886335
 PrefabInstance:
   m_ObjectHideFlags: 0
