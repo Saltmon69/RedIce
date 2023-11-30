@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Unity.VisualScripting;
 
 public class MachineUIDisplay : MonoBehaviour
 {
@@ -16,6 +15,7 @@ public class MachineUIDisplay : MonoBehaviour
     private Slider _progressBar;
     private GameObject _outputSlot;
     private Slider _machineActivationSlider;
+    private GameObject _machinePlayerInventory;
     private float _recipeXPos;
     private float _recipeYPos;
 
@@ -31,7 +31,7 @@ public class MachineUIDisplay : MonoBehaviour
     public GameObject equalSign;
     public GameObject redImage;
     public GameObject basicText;
-    public int _numberOfMaterialsReadyForCraft;
+    private int _numberOfMaterialsReadyForCraft;
     public float baseCraftingTime;
 
 
@@ -48,8 +48,11 @@ public class MachineUIDisplay : MonoBehaviour
     private InventoryItem _itemInSlot;
     private InventoryItem _itemCreated;
 
-    //charge tous les endroit clés que le code utilise régulierement
-    public void OnDisplayInstantiate()
+    public GameObject playerInventory;
+    public float craftProgress;
+
+    //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
+    private void OnDisplayInstantiate()
     {
         _inventory = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _upgradeSlot = _thisMachineUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -58,12 +61,14 @@ public class MachineUIDisplay : MonoBehaviour
         _progressBar = _thisMachineUIDisplay.transform.GetChild(5).GetComponent<Slider>();
         _outputSlot = _thisMachineUIDisplay.transform.GetChild(6).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _machineActivationSlider = _thisMachineUIDisplay.transform.GetChild(7).GetComponent<Slider>();
+        _machinePlayerInventory = _thisMachineUIDisplay.transform.GetChild(8).GetChild(0).GetChild(0).GetChild(1).gameObject;
 
-        _recipeXPos = _recipe.transform.position.x + 50;
-        _recipeYPos = _recipe.transform.position.y + 90;
+        var position = _recipe.transform.position;
+        _recipeXPos = position.x + 50;
+        _recipeYPos = position.y + 90;
     }
-    
-    public void CachingItemSlots()
+
+    private void CachingItemSlots()
     {
         _itemSlotsList = new List<GameObject>();
 
@@ -84,13 +89,15 @@ public class MachineUIDisplay : MonoBehaviour
         {
             LoadInventory();
         }
+        LoadPlayerInventory();
 
         CachingItemSlots();
 
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
         for(var i = 0; i < craftingButtonList.Count; i++)
         {
-            _instantiatedButton = Instantiate(craftingButtonList[i], new Vector3(_crafting.transform.position.x, _crafting.transform.position.y - i * 40, 0), Quaternion.identity, _crafting.transform);
+            var position = _crafting.transform.position;
+            _instantiatedButton = Instantiate(craftingButtonList[i], new Vector3(position.x, position.y - i * 40, 0), Quaternion.identity, _crafting.transform);
             var a = i;
             _instantiatedButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a); });
         }
@@ -98,9 +105,17 @@ public class MachineUIDisplay : MonoBehaviour
         StartCoroutine(InventoryItemManager());
         StartCoroutine(ActivateMachine());
     }
+/*
+    private void Update()
+    {
+        if (_machineActivationSlider.value > 0.95f && _numberOfMaterialsReadyForCraft == _craft.inputs.Count)
+        {
+            
+        }
+    }*/
 
     //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
-    public void SetRecipeOnClick(int a)
+    private void SetRecipeOnClick(int a)
     {
         //supprime l ancienne recette affiché
         for(var i = 0; i < _recipe.transform.childCount; i++)
@@ -146,7 +161,7 @@ public class MachineUIDisplay : MonoBehaviour
     //rafraichi l'UI de la recette pour qu elle correspond et soit directement lié avec le nombre de matériaux dans l'inventaire de la machine
     //gere sur chaque materiaux requis un feedback d'une image rouge par dessus le materiaux et d'un texte rouge si l'on a pas asser de se materiaux
     //cela sert aussi a directement confirmer si le craft est pret et peut etre fait
-    public IEnumerator RecipeMaterialManager()
+    private IEnumerator RecipeMaterialManager()
     {
         while(true)
         {
@@ -234,25 +249,18 @@ public class MachineUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            try
+            if(_machineActivationSlider.value > 0.95f && _numberOfMaterialsReadyForCraft == _craft.inputs.Count)
             {
-                if(_machineActivationSlider.value > 0.95f && _numberOfMaterialsReadyForCraft == _craft.inputs.Count)
-                {
-                    _progressBar.value += 0.02f;
-                }
-                else
-                {
-                    _progressBar.value = 0f;
-                    _machineActivationSlider.value -= 0.1f;
-                }
+                _progressBar.value += 0.02f;
             }
-            catch(NullReferenceException)
+            else
             {
+                _progressBar.value = 0f;
                 _machineActivationSlider.value -= 0.1f;
             }
-
+            
             //quand le temps de craft est terminé: supprimer les ressource utiliser et generer la ressource voulut 
-            if(_progressBar.value == 1)
+            if(_progressBar.value > 0.95f)
             {
                 for(var i = 0; i < _craft.inputs.Count; i++)
                 {
@@ -270,15 +278,17 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
-    public void RemoveMaterialAmount(ItemClass thisItem, int amount)
+    //trouve l'objet dans l inventaire que l'on veut enlever pour ensuite leur en enlever un montant
+    private void RemoveMaterialAmount(ItemClass thisItem, int amount)
     {
-        //passe pour tous les slots d items
         for(var i = 0; i < _itemSlotsList.Count; i++)
         {
             if(_itemSlotsList[i].transform.childCount > 0 && amount > 0)
             {
                 inventoryItemList[i] = _itemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
 
+                //ceci permet de voir si le montant de l'objet était plus grand ou moins que le montant que l'on veut enlever
+                //si l'objet trouver a un moins grand nombre que ce que l'on veut enlever alors on supprme l objet et rafraichi le montant restant a enlever 
                 if(inventoryItemList[i].item == thisItem)
                 {
                     amount = amount - inventoryItemList[i].count;
@@ -298,12 +308,12 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
-    public void AddMaterialAmount(ItemClass thisItem, int amount, int j)
+    //permet d'ajouter un materiaux dans le slot de sortie. cependant si l'output est déja plein ou que l'on recois plusieurs objet, le reste va dans l'inventaire  
+    private void AddMaterialAmount(ItemClass thisItem, int amount, int j)
     {
-        if(j == 0)
+        if(j == 0) 
         {   
-
-
+            //ajout du materiaux dans le slot de sortie, cependant si il y a deja un materiaux different il va le mettre dans l'inventaire
             if (_outputSlot.transform.childCount > 0)
             {
                 _itemInSlot = _outputSlot.transform.GetChild(0).GetComponent<InventoryItem>();
@@ -313,19 +323,24 @@ public class MachineUIDisplay : MonoBehaviour
                     _itemInSlot.count += amount;
                     _itemInSlot.RefreshCount();
                 }
+                else
+                {
+                    AddMaterialAmount(thisItem, amount, 1);
+                }
             }
 
+            //si le slot est libre alors on peut tout simplement l'ajouter dedans
             if (_outputSlot.transform.childCount == 0)
             {
-                Debug.Log("doesn't have childs");
                 _itemCreated = Instantiate(inventoryItemPrefab, _outputSlot.transform).GetComponent<InventoryItem>();
                 _itemCreated.InitialiseItem(thisItem);
                 _itemCreated.count = amount;
                 _itemCreated.RefreshCount();
             }
         }
-        else
+        else 
         {
+            //permet de voir tous les slots et si il y en a un qui contient déja l'objet que l'on veut rajouter, dans ce cas on modifie juste son nombre
             for(var i = 0; i < _itemSlotsList.Count; i++)
             {
                 if(_itemSlotsList[i].transform.childCount > 0)
@@ -340,7 +355,7 @@ public class MachineUIDisplay : MonoBehaviour
                     }
                 }
             }
-
+            //s'il n'y a pas deja l'objet obtenu dans l'inventaire alors on prend le premier slot libre et on le met dedans 
             if(amount > 0)
             {
                 for(var i = 0; i < _itemSlotsList.Count; i++)
@@ -358,8 +373,8 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
-    //place the inventory on the machine onto the ui display and delete the obsolete one
-    public void LoadInventory()
+    //place l'inventaire de la machine sur la machine et supprime celui obsolete aui est déja présent sur l'ui
+    private void LoadInventory()
     {
         _savedInventory.transform.SetParent(_inventory.transform.parent);
         _savedInventory.transform.position = _inventory.transform.position;
@@ -367,16 +382,43 @@ public class MachineUIDisplay : MonoBehaviour
         _inventory = _savedInventory;
     }
     
-    //put the inventory on the machine
-    public void SaveInventory()
+    //met l'inventaire sur la machine pour qu'il ne sois pas detruit avec le reste de l'ui affin de pouvoir le récupérer plus tard
+    private void SaveInventory()
     {
         _inventory.transform.SetParent(this.transform);
         _savedInventory = _inventory;
     }
 
+    //prend tous les objets stocké dans l'inventaire du joueur et le met sur l'inventaire joueur qu il y a déja disposer sur la machine
+    private void LoadPlayerInventory()
+    {
+        for(var i = 0; i < playerInventory.transform.childCount; i++)
+        {
+            Instantiate(playerInventory.transform.GetChild(i), _machinePlayerInventory.transform);
+        }
+    }
+    
+    //change tous les objets que contient l inventaire du joueur par l'inventaire joueur qu'il y a sur la machine
+    private void SavePlayerInventory()
+    {
+        for(var i = 0; i < playerInventory.transform.childCount; i++)
+        {
+            if(playerInventory.transform.GetChild(i).childCount > 0)
+            {
+                Destroy(playerInventory.transform.GetChild(i).GetChild(0).gameObject);
+            }
+
+            if(_machinePlayerInventory.transform.GetChild(i).childCount > 0)
+            {
+                Instantiate(_machinePlayerInventory.transform.GetChild(i).GetChild(0).gameObject, playerInventory.transform.GetChild(i));
+            }
+        }
+    }
+
     public void DeactivateUIDisplay()
     {
         SaveInventory();
+        SavePlayerInventory();
         Destroy(_thisMachineUIDisplay);
     }
 }
