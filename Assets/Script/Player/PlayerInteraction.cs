@@ -16,11 +16,13 @@ public class PlayerInteraction : MonoBehaviour
     // Références
     [SerializeField] Camera playerCamera;
     public PlayerManager playerManager;
-    [SerializeField] GameObject pingPrefab;
+    public GameObject radialMenu;
+    
     
     // Minages
     MineraiClass mineraiClass;
     bool hasAppliedDamage = false;
+    public int damage;
     
     // Raycast
     [SerializeField] float interactionRange;
@@ -55,12 +57,14 @@ public class PlayerInteraction : MonoBehaviour
                     switch (itemHit.collider.tag)
                     {
                         case"MineraiCrit":
-                            mineraiClass.takeDamage(9);
+                            mineraiClass.critMultiplicator = 2;
+                            mineraiClass.takeDamage(damage);
                             hasAppliedDamage = true;
                             Debug.Log(mineraiClass.mineraiLife);
                             break;
                         case"Minerai":
-                            mineraiClass.takeDamage(3);
+                            mineraiClass.critMultiplicator = 1;
+                            mineraiClass.takeDamage(damage);
                             hasAppliedDamage = true;
                             Debug.Log(mineraiClass.mineraiLife);
                             break;
@@ -81,28 +85,12 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnPingPressed()
     {
-        RaycastMaker(100f);
-        
-        if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
-        {
-            playerManager.data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
-            
-            if (itemHit.collider.CompareTag("Minerai"))
-            {
-                playerManager.data.itemPinged = itemHit.collider.gameObject;
-            }
-            else
-            {
-                playerManager.data.itemPinged = null;
-            }
-        }
-        
-        playerManager.data.order = Order.GoOnPing;
-        playerManager.NotifyObservers();
+        Cursor.lockState = CursorLockMode.None;
+        radialMenu.SetActive(true);
         
     }
 
-    private void RaycastMaker(float range)
+    public void RaycastMaker(float range)
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit hit, range);

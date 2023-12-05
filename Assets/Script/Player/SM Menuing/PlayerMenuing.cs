@@ -35,6 +35,7 @@ public class PlayerMenuing : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Time.timeScale = 0;
             
             playerMovement.enabled = false;
             playerMouseLook.enabled = false;
@@ -45,6 +46,7 @@ public class PlayerMenuing : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            Time.timeScale = 1;
             
             playerMovement.enabled = true;
             playerMouseLook.enabled = true;
@@ -53,18 +55,17 @@ public class PlayerMenuing : MonoBehaviour
         }
     }
 
-
     /// <summary>
-    /// 
+    /// Touche Esc
     /// </summary>
     public void OnMainMenuPressed()
     {
         if (inMenu)
         {
-            inMenu = false;
             mainMenu.SetActive(false);
             inventory.SetActive(false);
             map.SetActive(false);
+            inMenu = false;
         }
         else
         {
@@ -87,6 +88,9 @@ public class PlayerMenuing : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Touche I
+    /// </summary>
     public void OnInventoryPressed()
     {
         inMenu = true;
@@ -95,6 +99,9 @@ public class PlayerMenuing : MonoBehaviour
         inventory.SetActive(true);
     }
     
+    /// <summary>
+    /// Touche M
+    /// </summary>
     public void OnMapPressed()
     {
         inMenu = true;
@@ -102,5 +109,16 @@ public class PlayerMenuing : MonoBehaviour
         inventory.SetActive(false);
         map.SetActive(true);
 
+    }
+    
+    public void OnQuitPressed()
+    {
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        mainMenu.SetActive(false);
+        inventory.SetActive(false);
+        map.SetActive(false);
+        ATH.SetActive(true);
     }
 }

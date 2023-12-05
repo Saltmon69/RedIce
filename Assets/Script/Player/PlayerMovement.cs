@@ -8,12 +8,18 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
-    
+
+    #region Variables
+
+    // Movements
     
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
+    bool sprint;
 
+    // Jump
+    
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
@@ -22,14 +28,22 @@ public class PlayerMovement : MonoBehaviour
     bool jump;
     float halfHeight;
     
+    // Crouch
+    
     [SerializeField] Transform playerCamera;
+    private bool crouch;
+    
+    #endregion
+
+    #region Fonctions
     private void Update()
     {
         //Jump
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 0.1f, groundMask);
+        isGrounded = Physics.CheckSphere(bottomPoint, 0.1f, groundMask); // Sert à vérifir si le joueur touche le sol.
+        
         if (isGrounded && verticalVelocity.y < 0)
         {
             verticalVelocity.y = -2f;
@@ -59,12 +73,32 @@ public class PlayerMovement : MonoBehaviour
         
         //Mouvements
         
-        //Vector3 horizontalVelocity = (transform.right * horizontalInput.x + transform.forward * horizontalInput.y ) * speed;
         Vector3 horizontalVelocity = (moveDirection) * speed;
         controller.Move(horizontalVelocity * Time.deltaTime);
         
         verticalVelocity.y += gravity * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
+        
+        if (crouch)
+        {
+            speed = 6f;
+            playerCamera.localPosition = new Vector3(0, halfHeight, 0);
+            crouch = false;
+        }
+        if (sprint)
+        {
+            speed = 24f;
+            sprint = false;
+        }
+        if (!crouch)
+        {
+            speed = 12f;
+            playerCamera.localPosition = new Vector3(0, 0.9f, 0);
+        }
+        if (!sprint)
+        {
+            speed = 12f;
+        }
         
     }
 
@@ -78,4 +112,16 @@ public class PlayerMovement : MonoBehaviour
     {
         jump = true;
     }
+    
+    public void OnSprintPressed()
+    {
+        sprint = true;
+    }
+    
+    public void OnCrouchPressed()
+    {
+        crouch = true;
+    }
+    
+    #endregion
 }

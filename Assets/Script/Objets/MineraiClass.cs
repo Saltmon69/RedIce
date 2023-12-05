@@ -18,12 +18,15 @@ public class MineraiClass : MonoBehaviour
     
     [SerializeField] GameObject critGameObject;
     
+    [SerializeField] InventoryManager inventoryManager;
+    
     #endregion
 
     #region Fonctions
     private void Start()
     {
         CritPointCreation();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
 
     private void Update()
@@ -37,12 +40,18 @@ public class MineraiClass : MonoBehaviour
     
     public void takeDamage(int damage)
     {
-        if (damage > mineraiLife)
+        if (damage >= mineraiLife)
         {
             damage = mineraiLife;
         }
-        //mineraiClass.quantite += (int)(damage * critMultiplicator * mineraiClass.rendement);  Ligne à adapter au nouveau fonctionnement
+
+        var quantity = damage * critMultiplicator;
         mineraiLife -= damage * critMultiplicator;
+
+        for (int i = 0; i < quantity; i++)
+        {
+            inventoryManager.AddItem(mineraiClass);
+        }
     }
 
     public void DestroyGameObject()

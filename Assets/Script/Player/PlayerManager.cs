@@ -54,7 +54,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         data = new Data();
     }
 

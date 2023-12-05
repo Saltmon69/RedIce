@@ -37,9 +37,11 @@ public class InputManager : MonoBehaviour
         
         // playerMovement.[action].performed += ctx => Action à effectuer;
         
-        //Déplacement (Z Q S D)
+        //Déplacement (Z Q S D Shift)
         playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
         playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
+        playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
+        playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();
         
         //Mouvement caméra (Souris)
         playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
@@ -69,15 +71,6 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        
         playerMovement.ReceiveInput(horizontalInput);
         playerMouseLook.ReceiveInput(mouseInput);
     }
