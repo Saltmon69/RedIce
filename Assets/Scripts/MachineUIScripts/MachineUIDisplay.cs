@@ -110,6 +110,10 @@ public class MachineUIDisplay : MonoBehaviour
         {
             craftProgress += Time.deltaTime; 
         }
+        else if(craftProgress > 0)
+        {
+            craftProgress -= Time.deltaTime * 5; 
+        }
         
         //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
         //le nombre de matériaux crafter on un feedback grâce à la coroutine "OutputMaterialFadeOut"
@@ -285,7 +289,7 @@ public class MachineUIDisplay : MonoBehaviour
             _thisMachineItemButtonUI = Instantiate(inventoryItemButtonUIPrefab, _machineInventoryUI.transform);
             _thisMachineItemButtonUI.transform.GetChild(0).GetComponent<Image>().sprite = thisItem.sprite;
             _machineInventoryAmountTextList.Add(_thisMachineItemButtonUI.transform.GetChild(2).gameObject.GetComponent<Text>());
-            _thisMachineItemButtonUI.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(TransferAmountUI(_thisMachineItemButtonUI.transform.position, thisItem)); });
+            _thisMachineItemButtonUI.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(TransferAmountUI(thisItem)); });
         }
         
         //ajoute le montant voulut
@@ -305,7 +309,6 @@ public class MachineUIDisplay : MonoBehaviour
             
             if (isUIOpen)
             {
-                _machineInventoryUI.transform.GetChild(_thisIndex).GetComponent<Button>().onClick.RemoveAllListeners();
                 Destroy(_machineInventoryUI.transform.GetChild(_thisIndex).gameObject);
                 _machineInventoryAmountTextList.Remove(_machineInventoryUI.transform.GetChild(_thisIndex).GetChild(2).GetComponent<Text>());
             }
@@ -340,9 +343,12 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
-    private IEnumerator TransferAmountUI(Vector3 buttonPlacement, ItemClass thisItem)
+    private IEnumerator TransferAmountUI(ItemClass thisItem)
     {
-        _thisTransferAmountUI = Instantiate(machineInventoryTransferUI, buttonPlacement, Quaternion.identity, _thisMachineUIDisplay.transform);
+        _thisTransferAmountUI = Instantiate(machineInventoryTransferUI, 
+                                            _machineInventoryUI.transform.GetChild(machineItemList.IndexOf(thisItem)).transform.position,
+                                            Quaternion.identity, 
+                                            _thisMachineUIDisplay.transform);
         
         _transferAmountUISlider = _thisTransferAmountUI.transform.GetChild(1).GetComponent<Slider>();
         _transferAmountUISlider.maxValue = machineItemAmountList[machineItemList.IndexOf(thisItem)];
