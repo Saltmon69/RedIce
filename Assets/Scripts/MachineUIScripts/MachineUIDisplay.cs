@@ -1,103 +1,101 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MachineUIDisplay : MonoBehaviour
 {
     public GameObject machineUIPrefab;
+    public GameObject machineInventoryTransferUI;
     
     private GameObject _thisMachineUIDisplay;
     private GameObject _machineInventoryUI;
+    private GameObject _machineInventoryDropSlotUI;
     private GameObject _machineUpgradeSlotUI;
     private GameObject _machineCraftUI;
     private GameObject _machineRecipeUI;
     private Slider _machineProgressSliderUI;
-    private GameObject _machineOutputSlotUI;
+    private GameObject _machineOutputMaterialsUI;
     private Slider _machineActivationSliderUI;
     private GameObject _machinePlayerInventoryUI;
-    
-    private float _machineRecipeUIxPosition;
-    private float _machineRecipeUIyPosition;
 
     private GameObject _instantiatedMachineUIButton;
-    private GameObject _instantiatedMachineUIImage;
-    private GameObject _instantiatedMachineUIText;
+    private GameObject _instantiatedMachineUIRecipeMaterial;
 
-    private Recipe _thisMachineCraftRecipe;
+    private Recipe _machineCraftRecipe;
     private float _machineCraftingTimeLeft;
 
-    public GameObject basicImage;
+    public GameObject materialRecipePrefab;
     public GameObject plusSign;
     public GameObject equalSign;
-    public GameObject redImage;
-    public GameObject basicText;
-    
-    private int _machineMaterialsReadyForCraft;
+
+    public int machineMaterialsReadyForCraft;
     public float machineCraftingTime;
+    public float craftProgress;
     
     public List<GameObject> machineCraftingButtonList;
-    private List<GameObject> _machineInventoryItemSlotsList;
     public InventoryItem thisMachineInventoryItem;
     public List<ItemClass> machineItemList;
     public List<int> machineItemAmountList;
 
     private List<Text> _recipeMaterialList;
 
-    [FormerlySerializedAs("machineInventoryItemPrefab")] public GameObject inventoryItemPrefab;
+    public GameObject inventoryItemPrefab;
     private InventoryItem _itemInSlot;
     private InventoryItem _itemCreated;
 
     public GameObject playerInventory;
-    public float craftProgress;
     private int _thisMachineItemAmount;
     private int _machineItemInventorySlotOffset;
+    public bool isMachineActivated;
+
+    public GameObject inventoryItemButtonUIPrefab;
+    private GameObject _thisMachineItemButtonUI;
+    private InventoryItem _thisMachineOutputMaterial;
+    private CanvasGroup _machineOutputMaterialGroup;
+
+    private int _thisIndex;
+    private List<Text> _machineInventoryAmountTextList;
+    public bool isUIOpen;
+
+    private GameObject _thisTransferAmountUI;
+    private Slider _transferAmountUISlider;
+    private Text _transferAmountUIText;
+    private int _transferAmount;
+    private List<Transform> _machinePlayerInventoryList;
+
+    private GameObject _thisMachinePlayerInventorySlot;
 
     //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
     private void OnDisplayInstantiate()
     {
-        _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+        _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _machineUpgradeSlotUI = _thisMachineUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
-        _machineCraftUI = _thisMachineUIDisplay.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(0).gameObject;
-        _machineRecipeUI = _thisMachineUIDisplay.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
+        _machineCraftUI = _thisMachineUIDisplay.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        _machineRecipeUI = _thisMachineUIDisplay.transform.GetChild(4).GetChild(1).GetChild(0).gameObject;
         _machineProgressSliderUI = _thisMachineUIDisplay.transform.GetChild(5).GetComponent<Slider>();
-        _machineOutputSlotUI = _thisMachineUIDisplay.transform.GetChild(6).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+        _machineOutputMaterialsUI = _thisMachineUIDisplay.transform.GetChild(6).GetChild(0).gameObject;
         _machineActivationSliderUI = _thisMachineUIDisplay.transform.GetChild(7).GetComponent<Slider>();
         _machinePlayerInventoryUI = _thisMachineUIDisplay.transform.GetChild(8).GetChild(0).GetChild(0).GetChild(1).gameObject;
-
-        var position = _machineRecipeUI.transform.position;
-        _machineRecipeUIxPosition = position.x + 50;
-        _machineRecipeUIyPosition = position.y + 90;
-    }
-
-    private void CachingItemSlots()
-    {
-        _machineInventoryItemSlotsList = new List<GameObject>();
-
-        for(var i = 0; i < _machineInventoryUI.transform.childCount; i++)
-        {
-            _machineInventoryItemSlotsList.Add(_machineInventoryUI.transform.GetChild(i).gameObject);
-        }
     }
 
     //fonction qui doit etre applé par un script externe affin d'activer l'UI de la machine
     public void ActivateUIDisplay()
     {
+        isUIOpen = true;
         _thisMachineUIDisplay = Instantiate(machineUIPrefab);
 
         OnDisplayInstantiate();
-        CachingItemSlots();
-        
+
         LoadInventory();
         LoadPlayerInventory();
         
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
         for(var i = 0; i < machineCraftingButtonList.Count; i++)
         {
-            var position = _machineCraftUI.transform.position;
-            _instantiatedMachineUIButton = Instantiate(machineCraftingButtonList[i], new Vector3(position.x, position.y - i * 40, 0), Quaternion.identity, _machineCraftUI.transform);
+            _instantiatedMachineUIButton = Instantiate(machineCraftingButtonList[i], _machineCraftUI.transform);
             var a = i;
             _instantiatedMachineUIButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a); });
         }
@@ -105,14 +103,51 @@ public class MachineUIDisplay : MonoBehaviour
         StartCoroutine(InventoryItemManager());
         StartCoroutine(ActivateMachine());
     }
-/*
-    private void Update()
+
+    public void Update()
     {
-        if (_machineActivationSliderUI.value > 0.95f && _machineMaterialsReadyForCraft == _thisMachineCraftRecipe.inputs.Count)
+        if(isMachineActivated)
         {
-            
+            craftProgress += Time.deltaTime; 
         }
-    }*/
+        
+        //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
+        //le nombre de matériaux crafter on un feedback grâce à la coroutine "OutputMaterialFadeOut"
+        if(craftProgress >= machineCraftingTime && isMachineActivated)
+        {
+            for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
+            {
+                RemoveItemFromInventory(_machineCraftRecipe.inputs[i], _machineCraftRecipe.inputsAmount[i]);
+            }
+            
+            //détruit ce qu'il y avait aupart avant dans l'output affin de pouvoir faire le feedback visuel
+            if (isUIOpen)
+            {
+                for(var i = _machineOutputMaterialsUI.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(_machineOutputMaterialsUI.transform.GetChild(i).gameObject);
+                }
+            }
+
+            for(var i = 0; i < _machineCraftRecipe.outputs.Count; i++)
+            {
+                AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
+
+                if (!isUIOpen) continue;
+                _thisMachineOutputMaterial = Instantiate(inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
+                _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
+                _thisMachineOutputMaterial.count = 0;
+                _thisMachineOutputMaterial.RefreshCount();
+            }
+
+            if (isUIOpen)
+            {
+                StartCoroutine(OutputMaterialFadeOut(0.5f));
+            }
+
+            craftProgress = 0;
+        }
+    }
 
     //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
     private void SetRecipeOnClick(int a)
@@ -125,33 +160,32 @@ public class MachineUIDisplay : MonoBehaviour
 
         _recipeMaterialList = new List<Text>();
 
-        _thisMachineCraftRecipe = machineCraftingButtonList[a].GetComponent<ButtonCraft>().craft;
+        _machineCraftRecipe = machineCraftingButtonList[a].GetComponent<ButtonCraft>().craft;
 
         //genere la nouvelle recette avec les images contenu dans les scriptable objects qui compose le craft tout en rajoutant des signes "+" et "="
-        for(var y = 0; y < _thisMachineCraftRecipe.inputs.Count + _thisMachineCraftRecipe.outputs.Count; y++)
+        //il assigne aussi les textes qui gere le montant des materiaux de la recette qui sera défini dans "RecipeMaterialManager"
+        for(var y = 0; y < _machineCraftRecipe.inputs.Count + _machineCraftRecipe.outputs.Count; y++)
         {
-            _instantiatedMachineUIImage = Instantiate(basicImage, new Vector3(_machineRecipeUIxPosition + y * 120, _machineRecipeUIyPosition, 0), Quaternion.identity, _machineRecipeUI.transform);
-            _instantiatedMachineUIText = Instantiate(basicText, new Vector3(_machineRecipeUIxPosition + y * 120, _machineRecipeUIyPosition - 50, 0), Quaternion.identity, _machineRecipeUI.transform);
-            _recipeMaterialList.Add(_instantiatedMachineUIText.GetComponent<Text>());
+            _instantiatedMachineUIRecipeMaterial = Instantiate(materialRecipePrefab, _machineRecipeUI.transform);
+            _recipeMaterialList.Add(_instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>());
 
-            if(y < _thisMachineCraftRecipe.inputs.Count)
+            if(y < _machineCraftRecipe.inputs.Count)
             {
-                _instantiatedMachineUIImage.GetComponent<Image>().sprite = _thisMachineCraftRecipe.inputs[y].sprite;
-                Instantiate(redImage, _instantiatedMachineUIImage.transform.position, Quaternion.identity, _machineRecipeUI.transform.transform);
+                _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = _machineCraftRecipe.inputs[y].sprite;
             }
             else
             {
-                _instantiatedMachineUIImage.GetComponent<Image>().sprite = _thisMachineCraftRecipe.outputs[y - _thisMachineCraftRecipe.inputs.Count].sprite;
+                _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = _machineCraftRecipe.outputs[y - _machineCraftRecipe.inputs.Count].sprite;
             }
 
-            if(y != _thisMachineCraftRecipe.inputs.Count - 1 && y != _thisMachineCraftRecipe.inputs.Count + _thisMachineCraftRecipe.outputs.Count - 1)
+            if(y != _machineCraftRecipe.inputs.Count - 1 && y != _machineCraftRecipe.inputs.Count + _machineCraftRecipe.outputs.Count - 1)
             {
-                Instantiate(plusSign, new Vector3(_machineRecipeUIxPosition + 60 + y * 120, _machineRecipeUIyPosition, 0), Quaternion.identity, _machineRecipeUI.transform);
+                Instantiate(plusSign, _machineRecipeUI.transform);
             }
 
-            if(y == _thisMachineCraftRecipe.inputs.Count - 1)
+            if(y == _machineCraftRecipe.inputs.Count - 1)
             {
-                Instantiate(equalSign, new Vector3(_machineRecipeUIxPosition + 60 + y * 120, _machineRecipeUIyPosition, 0), Quaternion.identity, _machineRecipeUI.transform);
+                Instantiate(equalSign, _machineRecipeUI.transform);
             }
         }
 
@@ -165,42 +199,43 @@ public class MachineUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            _machineMaterialsReadyForCraft = 0;
+            machineMaterialsReadyForCraft = 0;
             for(var i = 0; i < _recipeMaterialList.Count; i++)
             {
                 //regarde si les matériaux que l'on est en train de définir si il sont requis ou reçus
-                if(i < _thisMachineCraftRecipe.inputs.Count)
+                if(i < _machineCraftRecipe.inputs.Count)
                 {
-                    if(machineItemList.Contains(_thisMachineCraftRecipe.inputs[i]))
+                    if(machineItemList.Contains(_machineCraftRecipe.inputs[i]))
                     {
                         //si l'inventaire de la machine contient ce materiaux alors il associe le nombre qu'il y en a dans l'inventaire avec l'ui 
-                        _recipeMaterialList[i].text = machineItemAmountList[machineItemList.IndexOf(_thisMachineCraftRecipe.inputs[i])].ToString() + " /" + _thisMachineCraftRecipe.inputsAmount[i].ToString() + " " + _thisMachineCraftRecipe.inputs[i].nom;
+                        _recipeMaterialList[i].text = machineItemAmountList[machineItemList.IndexOf(_machineCraftRecipe.inputs[i])].ToString() + " /" + _machineCraftRecipe.inputsAmount[i].ToString() + " " + _machineCraftRecipe.inputs[i].nom;
 
                         //si il y a assez de ce materiaux pour le craft alors l'image rouge par dessus le materiaux disparait et le texte n'est plus rouge
-                        if(machineItemAmountList[machineItemList.IndexOf(_thisMachineCraftRecipe.inputs[i])] >= _thisMachineCraftRecipe.inputsAmount[i])
+                        if(machineItemAmountList[machineItemList.IndexOf(_machineCraftRecipe.inputs[i])] >= _machineCraftRecipe.inputsAmount[i])
                         {
-                            _machineRecipeUI.transform.GetChild(i * 4 + 2).gameObject.SetActive(false);
+                            _machineRecipeUI.transform.GetChild(i * 2).GetChild(1).gameObject.SetActive(false);
                             _recipeMaterialList[i].color = new Color(0,0,0);
                             //ajoute 1 a ce int, si il est égal au nombre de matériaux requis on peut donc faire notre recette
-                            _machineMaterialsReadyForCraft++;
+                            machineMaterialsReadyForCraft++;
                         }
                         else
                         {
-                            _machineRecipeUI.transform.GetChild(i * 4 + 2).gameObject.SetActive(true);
+                            _machineRecipeUI.transform.GetChild(i * 2).GetChild(1).gameObject.SetActive(true);
                             _recipeMaterialList[i].color = new Color(1,0,0);
                         }
                     }
                     else
                     {
-                        _recipeMaterialList[i].text = "0 /" + _thisMachineCraftRecipe.inputsAmount[i].ToString() + " " + _thisMachineCraftRecipe.inputs[i].nom;
-                        _machineRecipeUI.transform.GetChild(i * 4 + 2).gameObject.SetActive(true);
+                        _machineRecipeUI.transform.GetChild(i * 2).GetChild(1).gameObject.SetActive(true);
+                        _recipeMaterialList[i].text = "0 /" + _machineCraftRecipe.inputsAmount[i].ToString() + " " + _machineCraftRecipe.inputs[i].nom;
                         _recipeMaterialList[i].color = new Color(1,0,0);
                     }
                 }
                 else
                 {
                     //si le materiaux/objet est le resultat du craft et non requis alors on lui met juste le nombre que l'on en reçois sur le texte
-                    _recipeMaterialList[i].text = _thisMachineCraftRecipe.outputsAmount[i - _thisMachineCraftRecipe.inputs.Count].ToString() + " " + _thisMachineCraftRecipe.outputs[i - _thisMachineCraftRecipe.inputs.Count].nom;  
+                    _machineRecipeUI.transform.GetChild(i * 2).GetChild(1).gameObject.SetActive(false);
+                    _recipeMaterialList[i].text = _machineCraftRecipe.outputsAmount[i - _machineCraftRecipe.inputs.Count].ToString() + " " + _machineCraftRecipe.outputs[i - _machineCraftRecipe.inputs.Count].nom;  
                 }
             }
             yield return new WaitForSeconds(0.2f);
@@ -212,182 +247,178 @@ public class MachineUIDisplay : MonoBehaviour
     {  
         while(true)
         {
-            //machineInventoryItem = new List<InventoryItem>(new InventoryItem[_machineInventoryItemSlotsList.Count]);
-            machineItemList = new List<ItemClass>();
-            machineItemAmountList = new List<int>();
-
-            //passe pour tous les slots d items
-            for(var i = 0; i < _machineInventoryItemSlotsList.Count; i++)
+            //regarde si un nouvel objet a été déposer dans l'inventaire, si oui il le crée
+            if(_machineInventoryDropSlotUI.transform.childCount > 0)
             {
-                if(_machineInventoryItemSlotsList[i].transform.childCount > 0)
-                {
-                    thisMachineInventoryItem = _machineInventoryItemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
-                    //si c'est le premier item de son type, il le rajoute et lui donne un montant nul
-                    if(!machineItemList.Contains(thisMachineInventoryItem.item))
-                    {
-                        machineItemList.Add(thisMachineInventoryItem.item);
-                        machineItemAmountList.Add(0);
-                    }
-                    
-                    //ajoute le montant voulut
-                    machineItemAmountList[machineItemList.IndexOf(thisMachineInventoryItem.item)] += thisMachineInventoryItem.count;
-                }
+                thisMachineInventoryItem = _machineInventoryDropSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+
+                AddItemToInventory(thisMachineInventoryItem.item, thisMachineInventoryItem.count, false);
+                Destroy(thisMachineInventoryItem.gameObject);
             }
-            yield return new WaitForSeconds(0.2f);
+
+            //ajuste le nombre de materiaux sur l'ui de l'inventaire de la machine
+            try
+            {
+                for (var i = 0; i < _machineInventoryAmountTextList.Count; i++)
+                {
+                    _machineInventoryAmountTextList[i].text = machineItemAmountList[i].ToString();
+                }
+            }catch(NullReferenceException){}
+
+            yield return new WaitForSeconds(0.05f);
         }
     }
+    
+    //ajoute l'objet/matériaux à l'inventaire, si il est déja présent alors il ajoute un montant a cet objet/matériaux
+    //ceci inclut la liste des items, un montant nul qui sera calculer par la suite, son sprite et montant dans l'ui de l'inventaire
+    private void AddItemToInventory(ItemClass thisItem, int thisAmount, bool isContained)
+    {
+        if(!machineItemList.Contains(thisItem))
+        {
+            machineItemList.Add(thisItem);
+            machineItemAmountList.Add(0);
+            isContained = true;
+        }
+        
+        if (isUIOpen && isContained)
+        {
+            _thisMachineItemButtonUI = Instantiate(inventoryItemButtonUIPrefab, _machineInventoryUI.transform);
+            _thisMachineItemButtonUI.transform.GetChild(0).GetComponent<Image>().sprite = thisItem.sprite;
+            _machineInventoryAmountTextList.Add(_thisMachineItemButtonUI.transform.GetChild(2).gameObject.GetComponent<Text>());
+            _thisMachineItemButtonUI.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(TransferAmountUI(_thisMachineItemButtonUI.transform.position, thisItem)); });
+        }
+        
+        //ajoute le montant voulut
+        machineItemAmountList[machineItemList.IndexOf(thisItem)] += thisAmount;
+    }
 
+    //enleve un montant d'un objet/matériaux et le supprime si l'inventaire n'en possède plus 
+    private void RemoveItemFromInventory(ItemClass thisItem, int thisAmount)
+    {
+        _thisIndex = machineItemList.IndexOf(thisItem);
+        machineItemAmountList[_thisIndex] -= thisAmount;
+
+        if(machineItemAmountList[_thisIndex] <= 0)
+        {
+            machineItemList.Remove(thisItem);
+            machineItemAmountList.Remove(machineItemAmountList[_thisIndex]);
+            
+            if (isUIOpen)
+            {
+                _machineInventoryUI.transform.GetChild(_thisIndex).GetComponent<Button>().onClick.RemoveAllListeners();
+                Destroy(_machineInventoryUI.transform.GetChild(_thisIndex).gameObject);
+                _machineInventoryAmountTextList.Remove(_machineInventoryUI.transform.GetChild(_thisIndex).GetChild(2).GetComponent<Text>());
+            }
+        }
+    }
+    
     //regarde si l'on a activer la machine avec le slider et permet de gerer le temps de craft ainsi que le resultat
     private IEnumerator ActivateMachine()
     {
         while(true)
         {
-            if(_machineActivationSliderUI.value > 0.95f && _machineMaterialsReadyForCraft == _thisMachineCraftRecipe.inputs.Count)
+            try
             {
-                _machineProgressSliderUI.value += 0.02f;
+                if (_machineActivationSliderUI.value > 0.95f && machineMaterialsReadyForCraft == _machineCraftRecipe.inputs.Count)
+                {
+                    isMachineActivated = true;
+                }
+                else
+                {
+                    isMachineActivated = false;
+                    _machineActivationSliderUI.value -= 0.1f;
+                }
             }
-            else
+            catch (NullReferenceException)
             {
-                _machineProgressSliderUI.value = 0f;
                 _machineActivationSliderUI.value -= 0.1f;
             }
             
-            //quand le temps de craft est terminé: supprimer les ressource utiliser et generer la ressource voulut 
-            if(_machineProgressSliderUI.value > 0.95f)
-            {
-                for(var i = 0; i < _thisMachineCraftRecipe.inputs.Count; i++)
-                {
-                    RemoveMaterialAmount(_thisMachineCraftRecipe.inputs[i], _thisMachineCraftRecipe.inputsAmount[i]);
-                }
-
-                for(var i = 0; i < _thisMachineCraftRecipe.outputs.Count; i++)
-                {
-                    AddMaterialAmount(_thisMachineCraftRecipe.outputs[i], _thisMachineCraftRecipe.outputsAmount[i], i);
-                }
-
-                _machineProgressSliderUI.value = 0f;
-            }
+            _machineProgressSliderUI.value = craftProgress / machineCraftingTime;
+            
             yield return new WaitForSeconds(0.02f);
         }
     }
 
-    //trouve l'objet dans l inventaire que l'on veut enlever pour ensuite leur en enlever un montant
-    private void RemoveMaterialAmount(ItemClass thisItem, int amount)
+    private IEnumerator TransferAmountUI(Vector3 buttonPlacement, ItemClass thisItem)
     {
-        for(var i = 0; i < _machineInventoryItemSlotsList.Count; i++)
+        _thisTransferAmountUI = Instantiate(machineInventoryTransferUI, buttonPlacement, Quaternion.identity, _thisMachineUIDisplay.transform);
+        
+        _transferAmountUISlider = _thisTransferAmountUI.transform.GetChild(1).GetComponent<Slider>();
+        _transferAmountUISlider.maxValue = machineItemAmountList[machineItemList.IndexOf(thisItem)];
+        _transferAmountUIText = _thisTransferAmountUI.transform.GetChild(2).GetComponent<Text>();
+        _thisTransferAmountUI.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => { Destroy(_thisTransferAmountUI); });
+        _thisTransferAmountUI.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() => { ConfirmTransaction(thisItem); });
+        _thisTransferAmountUI.transform.GetChild(5).GetComponent<Image>().sprite = thisItem.sprite;
+        
+        while (true)
         {
-            if(_machineInventoryItemSlotsList[i].transform.childCount > 0 && amount > 0)
+            if(_transferAmount != (int)_transferAmountUISlider.value)
             {
-                thisMachineInventoryItem = _machineInventoryItemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
-
-                //ceci permet de voir si le montant de l'objet était plus grand ou moins que le montant que l'on veut enlever
-                //si l'objet trouver a un moins grand nombre que ce que l'on veut enlever alors on supprme l objet et rafraichi le montant restant a enlever 
-                if(thisMachineInventoryItem.item == thisItem)
-                {
-                    amount -= thisMachineInventoryItem.count;
-
-                    thisMachineInventoryItem.count = -amount;
-
-                    if(thisMachineInventoryItem.count <= 0)
-                    {
-                        Destroy(thisMachineInventoryItem.gameObject);
-                    }
-                    else
-                    {
-                        thisMachineInventoryItem.RefreshCount();
-                    }
-                }
+                _transferAmount = (int)_transferAmountUISlider.value;
+                _transferAmountUIText.text = _transferAmount.ToString();
             }
+
+            if(_transferAmount != int.Parse(_transferAmountUIText.text))
+            {
+                _transferAmount = int.Parse(_transferAmountUIText.text);
+                _transferAmountUISlider.value = _transferAmount;
+            }
+
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    //permet d'ajouter un materiaux dans le slot de sortie. cependant si l'output est déja plein ou que l'on recois plusieurs objet, le reste va dans l'inventaire  
-    private void AddMaterialAmount(ItemClass thisItem, int amount, int j)
+    //quand le joueur accepte la transaction alors le montant voulut est réparti dans l inventaire du joueur et enlever de la machine
+    private void ConfirmTransaction(ItemClass thisItem)
     {
-        if(j == 0) 
-        {   
-            //ajout du materiaux dans le slot de sortie, cependant si il y a deja un materiaux different il va le mettre dans l'inventaire
-            if (_machineOutputSlotUI.transform.childCount > 0)
+        for(var i = 0; i < _machinePlayerInventoryList.Count; i ++)
+        {
+            if(_machinePlayerInventoryList[i].childCount == 0 && _transferAmount > 0)
             {
-                _itemInSlot = _machineOutputSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+                thisMachineInventoryItem = Instantiate(inventoryItemPrefab, _machinePlayerInventoryList[i]).GetComponent<InventoryItem>();
+                thisMachineInventoryItem.InitialiseItem(thisItem);
                 
-                if(_itemInSlot.item == thisItem && _itemInSlot.count < thisItem.stackSize)
+                _transferAmount -= thisItem.stackSize;
+
+                if (_transferAmount < 0)
                 {
-                    _itemInSlot.count += amount;
-                    _itemInSlot.RefreshCount();
+                    thisMachineInventoryItem.count = _transferAmount + thisItem.stackSize;
+                    RemoveItemFromInventory(thisItem, _transferAmount + thisItem.stackSize);
+                    thisMachineInventoryItem.RefreshCount();
+                    Destroy(_thisTransferAmountUI);
                 }
                 else
                 {
-                    AddMaterialAmount(thisItem, amount, 1);
-                }
-            }
-
-            //si le slot est libre alors on peut tout simplement l'ajouter dedans
-            if (_machineOutputSlotUI.transform.childCount == 0)
-            {
-                _itemCreated = Instantiate(inventoryItemPrefab, _machineOutputSlotUI.transform).GetComponent<InventoryItem>();
-                _itemCreated.InitialiseItem(thisItem);
-                _itemCreated.count = amount;
-                _itemCreated.RefreshCount();
-            }
-        }
-        else 
-        {
-            //permet de voir tous les slots et si il y en a un qui contient déja l'objet que l'on veut rajouter, dans ce cas on modifie juste son nombre
-            for(var i = 0; i < _machineInventoryItemSlotsList.Count; i++)
-            {
-                if(_machineInventoryItemSlotsList[i].transform.childCount > 0)
-                {
-                    thisMachineInventoryItem = _machineInventoryItemSlotsList[i].transform.GetChild(0).GetComponent<InventoryItem>();
-
-                    if(thisMachineInventoryItem.item == thisItem && thisMachineInventoryItem.count < thisItem.stackSize)
-                    {
-                        thisMachineInventoryItem.count += amount;
-                        thisMachineInventoryItem.RefreshCount();
-                        amount = 0;
-                    }
-                }
-            }
-            //s'il n'y a pas deja l'objet obtenu dans l'inventaire alors on prend le premier slot libre et on le met dedans 
-            if(amount > 0)
-            {
-                for(var i = 0; i < _machineInventoryItemSlotsList.Count; i++)
-                {
-                    if(_machineInventoryItemSlotsList[i].transform.childCount == 0 && amount > 0)
-                    {
-                        _itemCreated = Instantiate(inventoryItemPrefab, _machineInventoryItemSlotsList[i].transform).GetComponent<InventoryItem>();
-                        _itemCreated.InitialiseItem(thisItem);
-                        _itemCreated.count = amount;
-                        _itemCreated.RefreshCount();
-                        amount = 0;
-                    }
+                    thisMachineInventoryItem.count = thisItem.stackSize;
+                    RemoveItemFromInventory(thisItem, thisItem.stackSize);
+                    thisMachineInventoryItem.RefreshCount();
                 }
             }
         }
     }
 
+    //gere le fade out des matériaux produits sur l'output
+    private IEnumerator OutputMaterialFadeOut(float time)
+    {
+        _machineOutputMaterialGroup = _machineOutputMaterialsUI.GetComponent<CanvasGroup>();
+        _machineOutputMaterialGroup.alpha = 1;
+            
+        while (_machineOutputMaterialGroup.alpha > 0 && isUIOpen)
+        {
+            _machineOutputMaterialGroup.alpha -= 0.02f / time;
+            yield return new WaitForSeconds(0.02f);
+        }
+    }
+    
     //charge l'inventaire de la machine grace à sa liste d'item de son inventaire qu'elle possède
     private void LoadInventory()
     {
-        _machineItemInventorySlotOffset = 0;
+        _machineInventoryAmountTextList = new List<Text>();
+        
         for (var i = 0; i < machineItemList.Count; i++)
         {
-            _thisMachineItemAmount = machineItemAmountList[i];
-            while(machineItemList[i].stackSize < _thisMachineItemAmount)
-            {
-                _itemCreated = Instantiate(inventoryItemPrefab, _machineInventoryItemSlotsList[_machineItemInventorySlotOffset].transform).GetComponent<InventoryItem>();
-                _itemCreated.InitialiseItem(machineItemList[i]);
-                _itemCreated.count = machineItemList[i].stackSize;
-                _itemCreated.RefreshCount();
-                _thisMachineItemAmount -= machineItemList[i].stackSize;
-                _machineItemInventorySlotOffset++;
-            }
-            
-            _itemCreated = Instantiate(inventoryItemPrefab, _machineInventoryItemSlotsList[_machineItemInventorySlotOffset].transform).GetComponent<InventoryItem>();
-            _itemCreated.InitialiseItem(machineItemList[i]);
-            _itemCreated.count = _thisMachineItemAmount;
-            _itemCreated.RefreshCount();
-            _machineItemInventorySlotOffset++;
+            AddItemToInventory(machineItemList[i], machineItemAmountList[i], false);
         }
     }
     
@@ -400,9 +431,12 @@ public class MachineUIDisplay : MonoBehaviour
     //prend tous les objets stocké dans l'inventaire du joueur et le met sur l'inventaire joueur qu il y a déja disposer sur la machine
     private void LoadPlayerInventory()
     {
+        _machinePlayerInventoryList = new List<Transform>();
+        
         for(var i = 0; i < playerInventory.transform.childCount; i++)
         {
-            Instantiate(playerInventory.transform.GetChild(i), _machinePlayerInventoryUI.transform);
+            _thisMachinePlayerInventorySlot = Instantiate(playerInventory.transform.GetChild(i).gameObject, _machinePlayerInventoryUI.transform);
+            _machinePlayerInventoryList.Add(_thisMachinePlayerInventorySlot.transform);
         }
     }
     
@@ -416,9 +450,9 @@ public class MachineUIDisplay : MonoBehaviour
                 Destroy(playerInventory.transform.GetChild(i).GetChild(0).gameObject);
             }
 
-            if(_machinePlayerInventoryUI.transform.GetChild(i).childCount > 0)
+            if(_machinePlayerInventoryList[i].childCount > 0)
             {
-                Instantiate(_machinePlayerInventoryUI.transform.GetChild(i).GetChild(0).gameObject, playerInventory.transform.GetChild(i));
+                Instantiate(_machinePlayerInventoryList[i].GetChild(0).gameObject, playerInventory.transform.GetChild(i));
             }
         }
     }
