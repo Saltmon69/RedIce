@@ -60,19 +60,11 @@ public class PlayerMenuing : MonoBehaviour
     /// </summary>
     public void OnMainMenuPressed()
     {
-        if (inMenu)
-        {
-            mainMenu.SetActive(false);
-            inventory.SetActive(false);
-            map.SetActive(false);
-            inMenu = false;
-        }
-        else
+        if (!inMenu)
         {
             inMenu = true;
             mainMenu.SetActive(true);
         }
-        
         
         if (inventory.activeSelf)
         {
@@ -120,5 +112,9 @@ public class PlayerMenuing : MonoBehaviour
         inventory.SetActive(false);
         map.SetActive(false);
         ATH.SetActive(true);
+        
+        playerMovement.enabled = true;
+        playerMouseLook.enabled = true;
+        playerInteraction.enabled = true;
     }
 }
