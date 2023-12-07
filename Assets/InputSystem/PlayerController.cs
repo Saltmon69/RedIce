@@ -230,7 +230,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Ping"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""701ec9ad-1bfd-496f-8b42-483fc939a26a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -265,7 +265,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""20c8fe2d-2ed3-4587-ab77-8bf0852f849e"",
                     ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Ping"",

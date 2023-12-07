@@ -31,7 +31,7 @@ public class PlayerMenuing : MonoBehaviour
 
     private void Update()
     {
-        if (inMenu && mainMenu.activeSelf && !inventory.activeSelf && !map.activeSelf) // Si on est dans le menu principal, nous remet en jeu.
+        if (inMenu) 
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -39,8 +39,11 @@ public class PlayerMenuing : MonoBehaviour
             
             playerMovement.enabled = false;
             playerMouseLook.enabled = false;
-            playerInteraction.enabled = false;
-            ATH.SetActive(false);
+            if (!playerInteraction.pingIsPressed)
+            {
+                playerInteraction.enabled = false;
+                ATH.SetActive(false);
+            }
         }
         if (!inMenu)
         {
@@ -103,18 +106,10 @@ public class PlayerMenuing : MonoBehaviour
 
     }
     
+    
     public void OnQuitPressed()
     {
-        Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         mainMenu.SetActive(false);
-        inventory.SetActive(false);
-        map.SetActive(false);
-        ATH.SetActive(true);
-        
-        playerMovement.enabled = true;
-        playerMouseLook.enabled = true;
-        playerInteraction.enabled = true;
+        inMenu = false;
     }
 }

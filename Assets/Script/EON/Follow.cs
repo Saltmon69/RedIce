@@ -28,6 +28,7 @@ public class Follow : IState, IObserver
     public void OnUpdate(EONStateMachine stateMachine)
     {
         NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
+        
         agent.SetDestination(stateMachine.subject.transform.position);
         
         if (stateMachine.distanceToPlayer < 5)

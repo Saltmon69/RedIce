@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
     // Références
     [SerializeField] Camera playerCamera;
     public PlayerManager playerManager;
+    public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
     
     
@@ -28,10 +29,14 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] float interactionRange;
     RaycastHit itemHit;
     
+    // Ping
+    [HideInInspector]public bool pingIsPressed;
+    
 
     #endregion
 
     #region Fonctions
+    
     public void OnInteractionPressed()
     {
         RaycastMaker(interactionRange);
@@ -80,22 +85,33 @@ public class PlayerInteraction : MonoBehaviour
     {
         hasAppliedDamage = false;
         RaycastMaker(interactionRange);
-        
+       
     }
     
     public void OnPingPressed()
     {
-        Cursor.lockState = CursorLockMode.None;
+        pingIsPressed = true;
+        playerMenuing.inMenu = true;
         radialMenu.SetActive(true);
         
     }
+    
+    public void OnPingReleased()
+    {
+        pingIsPressed = false;
+        playerMenuing.inMenu = false;
+        radialMenu.SetActive(false);
+        playerManager.NotifyObservers();
+    }
 
-    public void RaycastMaker(float range)
+    public RaycastHit RaycastMaker(float range)
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        ray.direction = playerCamera.transform.forward;
         Physics.Raycast(ray, out RaycastHit hit, range);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
+        return hit;
 
     }
 

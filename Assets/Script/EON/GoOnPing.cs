@@ -10,12 +10,15 @@ public class GoOnPing : IState, IObserver
     public GameObject subject;
     public GameObject ping;
     public Order? activeOrder;
+    public Data data;
+    
     
     private bool mineraiInRange = false;
     
     public void OnEnter(EONStateMachine stateMachine)
     {
         stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
+        
     }
 
     public void OnExit(EONStateMachine stateMachine)
@@ -28,36 +31,34 @@ public class GoOnPing : IState, IObserver
     public void OnUpdate(EONStateMachine stateMachine)
     {
         NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
+        
         agent.SetDestination(ping.transform.position);
         
-        if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 1)
+        if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 2)
         {
-            if (mineraiInRange || activeOrder == Order.Mine)
-            {
-                stateMachine.ChangeState(new Mine());
-            }
-
-            if (activeOrder == Order.Follow)
-            {
-                stateMachine.ChangeState(new Follow());
-            }
-            
             stateMachine.ChangeState(new Idle());
-            
         }
         
+        if (mineraiInRange)
+        {
+            stateMachine.ChangeState(new Mine());
+        }
+
+        if (activeOrder == Order.Follow)
+        {
+            stateMachine.ChangeState(new Follow());
+        }
+                
     }
 
     public void OnNotify(Data data)
     {
-        if (data.ping != null)
-        {
-            ping = data.ping;
-        }
         if (data.itemPinged != null)
         {
             ping = data.itemPinged;
         }
+        
+        ping = data.ping;
         
         activeOrder = data.order;
         

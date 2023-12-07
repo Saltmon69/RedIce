@@ -55,11 +55,16 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         data = new Data();
+        data.ping = null;
+        data.itemPinged = null;
+        data.order = Order.None;
+        NotifyObservers();
     }
 
     private void Update()
-    {
+    {   
         UIUpdater();
+        Debug.Log("Order : " + data.order);
     }
 
     public void AddObserver(IObserver observer)
@@ -110,7 +115,7 @@ public class Data : MonoBehaviour
 /// </summary>
 public enum Order
 {
-    Follow, Mine, GoOnPing, Idle
+    Follow, Mine, GoOnPing, Idle, None
 }
 
 

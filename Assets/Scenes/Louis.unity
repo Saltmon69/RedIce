@@ -6278,6 +6278,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44b1f42f1891ca43be59e2a808613f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1852070371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8224308984050666100, guid: 1256acb3dede1e0438a4da0376b6d8b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1312693141340814077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1862027075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1971421853454698790, guid: 1256acb3dede1e0438a4da0376b6d8b7,
@@ -6545,6 +6551,11 @@ PrefabInstance:
       propertyPath: subject
       value: 
       objectReference: {fileID: 1558571932}
+    - target: {fileID: 1669462176714063477, guid: cb95b067687f1e14abf49369c5aa3df9,
+        type: 3}
+      propertyPath: navMeshSurface
+      value: 
+      objectReference: {fileID: 1139994023}
     - target: {fileID: 1931554770415737720, guid: cb95b067687f1e14abf49369c5aa3df9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6603,7 +6614,7 @@ PrefabInstance:
     - target: {fileID: 3248441275126521545, guid: cb95b067687f1e14abf49369c5aa3df9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6628,6 +6639,11 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 1653593489}
+    - target: {fileID: 1693595139526394912, guid: 1256acb3dede1e0438a4da0376b6d8b7,
+        type: 3}
+      propertyPath: playerMenuing
+      value: 
+      objectReference: {fileID: 4272152946484833651}
     - target: {fileID: 1693595139526394912, guid: 1256acb3dede1e0438a4da0376b6d8b7,
         type: 3}
       propertyPath: playerInteraction
@@ -6884,6 +6900,16 @@ PrefabInstance:
       propertyPath: damage
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5449722461265170088, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: radialMenu
+      value: 
+      objectReference: {fileID: 1852070371}
+    - target: {fileID: 5449722461265170088, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: playerMenuing
+      value: 
+      objectReference: {fileID: 4272152946484833651}
     - target: {fileID: 6251371320260076479, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: m_Name

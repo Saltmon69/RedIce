@@ -9,6 +9,9 @@ public class InputManager : MonoBehaviour
 {
     #region Variables
 
+    public static InputManager instance;
+    
+    
     // Varaibles des scripts de mouvement et autres interactions
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerMouseLook playerMouseLook;
@@ -30,6 +33,8 @@ public class InputManager : MonoBehaviour
     #region Fonctions
     private void Awake()
     {
+        instance = this;
+        
         playerController = new PlayerController();
         playerHorizontalMovement = playerController.PlayerMovement;
         playerInteractionActions = playerController.Interact;
@@ -50,8 +55,9 @@ public class InputManager : MonoBehaviour
         //Interaction (E, Left Click, Middle Click)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
-        playerInteractionActions.Ping.performed += ctx => playerInteraction.OnPingPressed();
-        
+        playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
+        playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
+        //playerInteraction.OnPingPressed();
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
         playerMenuingActions.Inventory.performed += ctx => playerMenuing.OnInventoryPressed();
