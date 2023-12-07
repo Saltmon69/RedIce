@@ -51,7 +51,7 @@ public class BlueprintCableState : BlueprintBaseState
             //avance au mode de sélection de l'entrée de la seconde machine pour le cablage
             if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Output"))
             {
-                _cableLaserBehaviour.outputMachine = _hitData.transform.parent.parent.gameObject;
+                _cableLaserBehaviour.outputMachine = _hitData.transform.parent.gameObject;
                 _cableLaserBehaviour.outputGameObject = _hitData.transform.gameObject;
                 blueprint.SwitchState(blueprint.linkMachinesState);
             }

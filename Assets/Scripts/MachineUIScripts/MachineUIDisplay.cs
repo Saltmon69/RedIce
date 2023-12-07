@@ -40,7 +40,8 @@ public class MachineUIDisplay : MonoBehaviour
     public List<int> machineItemAmountList;
 
     private List<Text> _recipeMaterialList;
-
+    private int _usedRecipeIndex;
+    
     public GameObject inventoryItemPrefab;
     private InventoryItem _itemInSlot;
     private InventoryItem _itemCreated;
@@ -49,6 +50,7 @@ public class MachineUIDisplay : MonoBehaviour
     private int _thisMachineItemAmount;
     private int _machineItemInventorySlotOffset;
     public bool isMachineActivated;
+    private bool _isMachineForcedToDeactivate;
 
     public GameObject inventoryItemButtonUIPrefab;
     private GameObject _thisMachineItemButtonUI;
@@ -81,7 +83,7 @@ public class MachineUIDisplay : MonoBehaviour
         _machinePlayerInventoryUI = _thisMachineUIDisplay.transform.GetChild(8).GetChild(0).GetChild(0).GetChild(1).gameObject;
     }
 
-    //fonction qui doit etre applé par un script externe affin d'activer l'UI de la machine
+    //fonction qui doit etre appelé par un script externe affin d'activer l'UI de la machine
     public void ActivateUIDisplay()
     {
         isUIOpen = true;
@@ -91,6 +93,9 @@ public class MachineUIDisplay : MonoBehaviour
 
         LoadInventory();
         LoadPlayerInventory();
+
+        StartCoroutine(InventoryItemManager());
+        StartCoroutine(ActivateMachine());
         
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
         for(var i = 0; i < machineCraftingButtonList.Count; i++)
@@ -99,9 +104,7 @@ public class MachineUIDisplay : MonoBehaviour
             var a = i;
             _instantiatedMachineUIButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a); });
         }
-
-        StartCoroutine(InventoryItemManager());
-        StartCoroutine(ActivateMachine());
+        SetRecipeOnClick(_usedRecipeIndex);
     }
 
     public void Update()
@@ -119,43 +122,68 @@ public class MachineUIDisplay : MonoBehaviour
         //le nombre de matériaux crafter on un feedback grâce à la coroutine "OutputMaterialFadeOut"
         if(craftProgress >= machineCraftingTime && isMachineActivated)
         {
-            for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
-            {
-                RemoveItemFromInventory(_machineCraftRecipe.inputs[i], _machineCraftRecipe.inputsAmount[i]);
-            }
+            machineMaterialsReadyForCraft = 0;
             
-            //détruit ce qu'il y avait aupart avant dans l'output affin de pouvoir faire le feedback visuel
-            if (isUIOpen)
+            for (var i = 0; i < _recipeMaterialList.Count; i++)
             {
-                for(var i = _machineOutputMaterialsUI.transform.childCount - 1; i >= 0; i--)
+                //regarde les ressources prête que le joueur utilise pour construire son objet/matériaux 
+                if (i < _machineCraftRecipe.inputs.Count && machineItemList.Contains(_machineCraftRecipe.inputs[i]) && 
+                    machineItemAmountList[machineItemList.IndexOf(_machineCraftRecipe.inputs[i])] >= _machineCraftRecipe.inputsAmount[i])
                 {
-                    Destroy(_machineOutputMaterialsUI.transform.GetChild(i).gameObject);
+                    machineMaterialsReadyForCraft++;
                 }
             }
 
-            for(var i = 0; i < _machineCraftRecipe.outputs.Count; i++)
+            //si il y a toutes les ressources de prete pour cree l'objet/matériaux alors on supprime ce que la recette demande et on reçois le resultat
+            if (machineMaterialsReadyForCraft == _machineCraftRecipe.inputs.Count)
             {
-                AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
+                //supprime les ressources requises pour la création du resultat de la recette
+                for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
+                {
+                    RemoveItemFromInventory(_machineCraftRecipe.inputs[i], _machineCraftRecipe.inputsAmount[i]);
+                }
+            
+                //détruit ce qu'il y avait aupart avant dans l'output affin de pouvoir faire le feedback visuel correctement plus tard
+                if (isUIOpen)
+                {
+                    for(var i = _machineOutputMaterialsUI.transform.childCount - 1; i >= 0; i--)
+                    {
+                        Destroy(_machineOutputMaterialsUI.transform.GetChild(i).gameObject);
+                    }
+                }
+                
+                //ajoute le resultat dans l'inventaire
+                for(var i = 0; i < _machineCraftRecipe.outputs.Count; i++)
+                {
+                    AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
 
-                if (!isUIOpen) continue;
-                _thisMachineOutputMaterial = Instantiate(inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
-                _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
-                _thisMachineOutputMaterial.count = 0;
-                _thisMachineOutputMaterial.RefreshCount();
+                    if (!isUIOpen) continue;
+                    _thisMachineOutputMaterial = Instantiate(inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
+                    _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
+                    _thisMachineOutputMaterial.count = 0;
+                    _thisMachineOutputMaterial.RefreshCount();
+                }
+                
+                //fait un feedback visuel de ou des ressource que l'on a obtenu avec le resultat de la recette
+                if (isUIOpen)
+                {
+                    StartCoroutine(OutputMaterialFadeOut(0.5f));
+                }
+                
+                craftProgress = 0;
             }
-
-            if (isUIOpen)
+            else
             {
-                StartCoroutine(OutputMaterialFadeOut(0.5f));
+                isMachineActivated = false;
+                _isMachineForcedToDeactivate = true;
             }
-
-            craftProgress = 0;
         }
     }
 
     //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
     private void SetRecipeOnClick(int a)
     {
+        _usedRecipeIndex = a;
         //supprime l ancienne recette affiché
         for(var i = 0; i < _machineRecipeUI.transform.childCount; i++)
         {
@@ -219,8 +247,6 @@ public class MachineUIDisplay : MonoBehaviour
                         {
                             _machineRecipeUI.transform.GetChild(i * 2).GetChild(1).gameObject.SetActive(false);
                             _recipeMaterialList[i].color = new Color(0,0,0);
-                            //ajoute 1 a ce int, si il est égal au nombre de matériaux requis on peut donc faire notre recette
-                            machineMaterialsReadyForCraft++;
                         }
                         else
                         {
@@ -315,34 +341,41 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
     
-    //regarde si l'on a activer la machine avec le slider et permet de gerer le temps de craft ainsi que le resultat
+    //permet de modifier le fonctionnement du levier d'activation de la machine
+    //ceci inclut: si le joueur active ou désactive la machine et si la machine est désactiver de force car il n'y a pas asser de materiaux requis pour la recette 
     private IEnumerator ActivateMachine()
     {
-        while(true)
+        _machineActivationSliderUI.value = isMachineActivated ? 1 : 0;
+
+        while (isUIOpen)
         {
-            try
+            if (!Input.GetKey(KeyCode.Mouse0))
             {
-                if (_machineActivationSliderUI.value > 0.95f && machineMaterialsReadyForCraft == _machineCraftRecipe.inputs.Count)
-                {
-                    isMachineActivated = true;
-                }
-                else
+                if (_machineActivationSliderUI.value <= 0.6f || _isMachineForcedToDeactivate)
                 {
                     isMachineActivated = false;
-                    _machineActivationSliderUI.value -= 0.1f;
+                    _machineActivationSliderUI.value -= 0.05f;
+                }
+                
+                if (!isMachineActivated && _machineActivationSliderUI.value <= 0.6f)
+                {
+                    _isMachineForcedToDeactivate = false;
+                }
+                
+                if (_machineActivationSliderUI.value > 0.6f && !_isMachineForcedToDeactivate)
+                {
+                    isMachineActivated = true;
+                    _machineActivationSliderUI.value += 0.05f;
                 }
             }
-            catch (NullReferenceException)
-            {
-                _machineActivationSliderUI.value -= 0.1f;
-            }
-            
+
             _machineProgressSliderUI.value = craftProgress / machineCraftingTime;
             
             yield return new WaitForSeconds(0.02f);
         }
     }
 
+    //crée l'ui pour la transaction des items de la machine a déplacer dans notre inventaire
     private IEnumerator TransferAmountUI(ItemClass thisItem)
     {
         _thisTransferAmountUI = Instantiate(machineInventoryTransferUI, 
@@ -378,6 +411,9 @@ public class MachineUIDisplay : MonoBehaviour
     //quand le joueur accepte la transaction alors le montant voulut est réparti dans l inventaire du joueur et enlever de la machine
     private void ConfirmTransaction(ItemClass thisItem)
     {
+        if (_transferAmount > machineItemAmountList[machineItemList.IndexOf(thisItem)])
+            _transferAmount = machineItemAmountList[machineItemList.IndexOf(thisItem)];
+        
         for(var i = 0; i < _machinePlayerInventoryList.Count; i ++)
         {
             if(_machinePlayerInventoryList[i].childCount == 0 && _transferAmount > 0)
@@ -424,7 +460,7 @@ public class MachineUIDisplay : MonoBehaviour
         
         for (var i = 0; i < machineItemList.Count; i++)
         {
-            AddItemToInventory(machineItemList[i], machineItemAmountList[i], false);
+            AddItemToInventory(machineItemList[i], 0, true);
         }
     }
     
@@ -463,11 +499,13 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
+    //cett fonction doit être appelé par un script externe affin de de fermer correctement l'ui de la machine
     public void DeactivateUIDisplay()
     {
         SaveInventory();
         SavePlayerInventory();
         StopAllCoroutines();
+        isUIOpen = false;
         Destroy(_thisMachineUIDisplay);
     }
 }

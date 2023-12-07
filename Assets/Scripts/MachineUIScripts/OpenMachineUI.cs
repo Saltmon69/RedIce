@@ -10,6 +10,8 @@ public class OpenMachineUI : MonoBehaviour
     public MachineUIDisplay thisDisplay;
     public GameObject thisPlayerInventory;
 
+    public PlayerModeSelect modeSelection;
+    
     private bool _isUIUp;
 
     public void Awake()
@@ -33,6 +35,7 @@ public class OpenMachineUI : MonoBehaviour
                 thisDisplay.ActivateUIDisplay();
                 thisPlayerInventory.transform.parent.gameObject.SetActive(false);
                 _isUIUp = true;
+                modeSelection.canPlayerSwitchMode = false;
             }
         }
 
@@ -43,6 +46,7 @@ public class OpenMachineUI : MonoBehaviour
             thisPlayerInventory.transform.parent.gameObject.SetActive(true);
             thisDisplay = null;
             _isUIUp = false;
+            modeSelection.canPlayerSwitchMode = true;
         }
     }
 }

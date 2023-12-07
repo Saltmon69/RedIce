@@ -37,6 +37,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
         //retour à la sélection d'une sortie pour le cablage entre deux machines
         if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.isLinked)
         {
+            GameObject.Destroy(thisCable.transform.GetChild(thisCable.transform.childCount - 1).gameObject);
             blueprint.SwitchState(blueprint.cableState);
         }
 

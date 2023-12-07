@@ -39,13 +39,13 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
         {
             //si l'on sélectionne une entrée de machine, on assigne au cable qu il est attaché a cette entrée et a quel machine cette elle appartient
             //avance au mode de création de point de passage pour rediriger le chemin que le cable emprunte pour aller d'une machine à l'autre
-            if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Input"))
+            if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Input") && _hitData.transform.parent.gameObject != _cableLaserBehaviour.outputMachine)
             {
-                _cableLaserBehaviour.inputMachine = _hitData.transform.parent.parent.gameObject;
+                _cableLaserBehaviour.inputMachine = _hitData.transform.parent.gameObject;
                 _cableLaserBehaviour.inputGameObject = _hitData.transform.gameObject;
                 blueprint.SwitchState(blueprint.checkpointState);
             }
-
+            
             try
             {
                 //feedback pour voir quel entrée on vise / regarde
@@ -53,7 +53,7 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
                 {
                     _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
 
-                    if (_hitData.transform.CompareTag("Input"))
+                    if (_hitData.transform.CompareTag("Input") && _hitData.transform.parent.gameObject != _cableLaserBehaviour.outputMachine)
                     {
                         _hitData.transform.GetComponent<HighlightComponent>().Outline();
                     }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class PlayerModeSelect : MonoBehaviour
     public int oldSelectedMod;
     
     public float wait;
+    public float time;
     public CanvasGroup canvasGroupMode; 
         
     public Slider modeSelectedUI;
@@ -14,46 +16,52 @@ public class PlayerModeSelect : MonoBehaviour
     public GameObject handsFreeModeManager;
     public GameObject miningModeManager;
     public GameObject blueprintModeManager;
-    
+
+    public bool canPlayerSwitchMode;
+
     void Update()
     {
-        //permet de faire des fondus avec l'ui de sélection des modes
-        UICanvasAlpha();
-
-        //permet grâce a nos chiffres de choisir un des modes
-        OnKeyboardInput();
-
         //permet grâce a notre molette de choisir un des modes
         modeSelected = (modeSelected + 3 + (int)Input.mouseScrollDelta.y) % 3;
-        modeSelectedUI.value = (float)modeSelected / 2;
-
-        if (modeSelected != oldSelectedMod)
+        
+        //permet grâce a nos chiffres de choisir un des modes
+        OnKeyboardInput();
+        
+        if(modeSelected != oldSelectedMod && canPlayerSwitchMode)
         {
             ModeSelectionOutput();
+            
+            StopAllCoroutines();
+            StartCoroutine(UICanvasAlpha(wait));
+            
+            oldSelectedMod = modeSelected;
+            modeSelectedUI.value = (float)modeSelected / 2;
         }
-
-        oldSelectedMod = modeSelected;
+        else
+        {
+            modeSelected = oldSelectedMod;
+        }
     }
 
     //active ou désactive les object qui compose les mécanique de chaque modes
     private void ModeSelectionOutput()
     {
 
-        if (modeSelected == 0)
+        if(modeSelected == 0)
         {
             handsFreeModeManager.SetActive(true);
             miningModeManager.SetActive(false);
             blueprintModeManager.SetActive(false);
         }
         
-        if (modeSelected == 1)
+        if(modeSelected == 1)
         {
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(true);
             blueprintModeManager.SetActive(false);
         }
         
-        if (modeSelected == 2)
+        if(modeSelected == 2)
         {
             handsFreeModeManager.SetActive(false);
             miningModeManager.SetActive(false);
@@ -61,35 +69,34 @@ public class PlayerModeSelect : MonoBehaviour
         }
     }
     
-    private void UICanvasAlpha()
+    //permet de faire des fondus avec l'ui de sélection des modes
+    private IEnumerator UICanvasAlpha(float thisTime)
     {
-        wait += Time.deltaTime;
-
-        if (wait > 2)
+        time = thisTime;
+        canvasGroupMode.alpha = 1;
+        
+        while (wait > 0)
         {
-            canvasGroupMode.alpha -= Time.deltaTime;
-        }
-
-        if (Input.mouseScrollDelta.y != 0)
-        {
-            wait = 0;
-            canvasGroupMode.alpha = 1;
+            time -= 0.01f;
+            canvasGroupMode.alpha = time/(wait - 1);
+            
+            yield return new WaitForSeconds(0.01f);
         }
     }
     
     private void OnKeyboardInput()
     {
-        if (Input.GetKeyDown(KeyCode.Ampersand))
+        if(Input.GetKeyDown(KeyCode.Ampersand))
         {
             modeSelected = 0;
         }
         
-        if (Input.GetKeyDown(KeyCode.Tilde))
+        if(Input.GetKeyDown(KeyCode.Tilde))
         {
             modeSelected = 1;
         }
         
-        if (Input.GetKeyDown(KeyCode.Hash))
+        if(Input.GetKeyDown(KeyCode.Hash))
         {
             modeSelected = 2;
         }

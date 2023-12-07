@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +5,11 @@ public class CableLaserBehaviour : MonoBehaviour
 {
     public GameObject outputMachine;
     public GameObject outputGameObject;
+    private GameObject _oldOutputGameObject;
 
     public GameObject inputMachine;
     public GameObject inputGameObject;
+    private GameObject _oldInputGameObject;
     
     public bool isLinked;
     public float offset;
@@ -25,7 +26,8 @@ public class CableLaserBehaviour : MonoBehaviour
     private void Update()
     {
         CheckpointsUpdate();
-        CheckpointCheck(); 
+        CheckpointCheck();
+        InputOutputUpdater();
     }
 
     //Cette fonction crée une liste contenant les différents points de passages assigné grâce au cablage dans le mode blueprint
@@ -82,5 +84,28 @@ public class CableLaserBehaviour : MonoBehaviour
                 i = checkpoints.Count;
             }
         }
+    }
+
+    //permet d'activer et de désactiver les différents colliders des entrées et sorties
+    //ceci sert a ne pas pouvoir associer un cable sur une entrée/sortie qui est déja utilisé par un cable
+    private void InputOutputUpdater()
+    {
+        if (outputGameObject != _oldOutputGameObject)
+        {
+            if (_oldOutputGameObject == null) _oldOutputGameObject = outputGameObject;
+            
+            _oldOutputGameObject.GetComponent<BoxCollider>().enabled = true;
+            outputGameObject.GetComponent<BoxCollider>().enabled = false;
+            _oldOutputGameObject = outputGameObject;
+        }
+        
+        if (inputGameObject != _oldInputGameObject)
+        {
+            if (_oldInputGameObject == null) _oldInputGameObject = inputGameObject;
+            
+            _oldInputGameObject.GetComponent<BoxCollider>().enabled = true;
+            inputGameObject.GetComponent<BoxCollider>().enabled = false;
+            _oldInputGameObject = inputGameObject;
+        }  
     }
 }
