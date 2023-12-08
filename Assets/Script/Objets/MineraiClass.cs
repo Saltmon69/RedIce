@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class MineraiClass : MonoBehaviour
 {
+    #region Variables
+
     [SerializeField] private ItemClass mineraiClass;
 
     public int mineraiLife;
@@ -15,10 +17,16 @@ public class MineraiClass : MonoBehaviour
     public int critMultiplicator = 1;
     
     [SerializeField] GameObject critGameObject;
+    
+    [SerializeField] InventoryManager inventoryManager;
+    
+    #endregion
 
+    #region Fonctions
     private void Start()
     {
         CritPointCreation();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
 
     private void Update()
@@ -29,14 +37,21 @@ public class MineraiClass : MonoBehaviour
         }
     }
 
+    
     public void takeDamage(int damage)
     {
-        if (damage > mineraiLife)
+        if (damage >= mineraiLife)
         {
             damage = mineraiLife;
         }
-        //mineraiClass.quantite += (int)(damage * critMultiplicator * mineraiClass.rendement);
+
+        var quantity = damage * critMultiplicator;
         mineraiLife -= damage * critMultiplicator;
+
+        for (int i = 0; i < quantity; i++)
+        {
+            inventoryManager.AddItem(mineraiClass);
+        }
     }
 
     public void DestroyGameObject()
@@ -45,18 +60,24 @@ public class MineraiClass : MonoBehaviour
         Destroy(gameObject);
     }
     
+    /// <summary>
+    /// Permet la création de point critique de façon aléatoire sur le minerai. 
+    /// </summary>
     public void CritPointCreation()
     {
         Debug.Log("CritPointCreation");
         
         int critPointNumber = Random.Range(1, 6);
+        
         for (int i = 0; i < critPointNumber; i++)
         {
-            float rdmNegPos = Random.Range(-0.60f, -0.65f);
-            float rdmPosPos = Random.Range(0.60f, 0.65f);
+            float rdmNegPos = Random.Range(-0.60f, -0.65f); //Valeur négative
+            float rdmPosPos = Random.Range(0.60f, 0.65f); //Valeur positive
             GameObject critPoint = Instantiate(critGameObject, transform);
             critPoint.transform.localPosition = new Vector3(Random.Range(rdmNegPos, rdmPosPos), Random.Range(rdmNegPos, rdmPosPos), Random.Range(rdmNegPos, rdmPosPos));
             
         }
     }
+    
+    #endregion
 }

@@ -62,6 +62,24 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f9514e62-fcea-4cb8-a06d-ee68e2138a12"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""28dd2693-23d3-48a1-8818-9631263accdd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,39 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""MouseY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8a32bd7-fabf-421d-8e8a-3aa4c2fece0f"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e69da618-2ec7-43ef-887b-d3368f061bce"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c62897d-2169-4bc1-9f1e-94a9797a8470"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -176,6 +227,15 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Ping"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""701ec9ad-1bfd-496f-8b42-483fc939a26a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +258,17 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20c8fe2d-2ed3-4587-ab77-8bf0852f849e"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -280,10 +351,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_PlayerMovement_Jump = m_PlayerMovement.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMovement_MouseX = m_PlayerMovement.FindAction("MouseX", throwIfNotFound: true);
         m_PlayerMovement_MouseY = m_PlayerMovement.FindAction("MouseY", throwIfNotFound: true);
+        m_PlayerMovement_Run = m_PlayerMovement.FindAction("Run", throwIfNotFound: true);
+        m_PlayerMovement_Crouch = m_PlayerMovement.FindAction("Crouch", throwIfNotFound: true);
         // Interact
         m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
         m_Interact_Interaction = m_Interact.FindAction("Interaction", throwIfNotFound: true);
         m_Interact_Use = m_Interact.FindAction("Use", throwIfNotFound: true);
+        m_Interact_Ping = m_Interact.FindAction("Ping", throwIfNotFound: true);
         // Menuing
         m_Menuing = asset.FindActionMap("Menuing", throwIfNotFound: true);
         m_Menuing_MainMenu = m_Menuing.FindAction("MainMenu", throwIfNotFound: true);
@@ -354,6 +428,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMovement_Jump;
     private readonly InputAction m_PlayerMovement_MouseX;
     private readonly InputAction m_PlayerMovement_MouseY;
+    private readonly InputAction m_PlayerMovement_Run;
+    private readonly InputAction m_PlayerMovement_Crouch;
     public struct PlayerMovementActions
     {
         private @PlayerController m_Wrapper;
@@ -362,6 +438,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerMovement_Jump;
         public InputAction @MouseX => m_Wrapper.m_PlayerMovement_MouseX;
         public InputAction @MouseY => m_Wrapper.m_PlayerMovement_MouseY;
+        public InputAction @Run => m_Wrapper.m_PlayerMovement_Run;
+        public InputAction @Crouch => m_Wrapper.m_PlayerMovement_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -383,6 +461,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @MouseY.started += instance.OnMouseY;
             @MouseY.performed += instance.OnMouseY;
             @MouseY.canceled += instance.OnMouseY;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
         }
 
         private void UnregisterCallbacks(IPlayerMovementActions instance)
@@ -399,6 +483,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @MouseY.started -= instance.OnMouseY;
             @MouseY.performed -= instance.OnMouseY;
             @MouseY.canceled -= instance.OnMouseY;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
         }
 
         public void RemoveCallbacks(IPlayerMovementActions instance)
@@ -422,12 +512,14 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private List<IInteractActions> m_InteractActionsCallbackInterfaces = new List<IInteractActions>();
     private readonly InputAction m_Interact_Interaction;
     private readonly InputAction m_Interact_Use;
+    private readonly InputAction m_Interact_Ping;
     public struct InteractActions
     {
         private @PlayerController m_Wrapper;
         public InteractActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interaction => m_Wrapper.m_Interact_Interaction;
         public InputAction @Use => m_Wrapper.m_Interact_Use;
+        public InputAction @Ping => m_Wrapper.m_Interact_Ping;
         public InputActionMap Get() { return m_Wrapper.m_Interact; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -443,6 +535,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Use.started += instance.OnUse;
             @Use.performed += instance.OnUse;
             @Use.canceled += instance.OnUse;
+            @Ping.started += instance.OnPing;
+            @Ping.performed += instance.OnPing;
+            @Ping.canceled += instance.OnPing;
         }
 
         private void UnregisterCallbacks(IInteractActions instance)
@@ -453,6 +548,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Use.started -= instance.OnUse;
             @Use.performed -= instance.OnUse;
             @Use.canceled -= instance.OnUse;
+            @Ping.started -= instance.OnPing;
+            @Ping.performed -= instance.OnPing;
+            @Ping.canceled -= instance.OnPing;
         }
 
         public void RemoveCallbacks(IInteractActions instance)
@@ -538,11 +636,14 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMouseX(InputAction.CallbackContext context);
         void OnMouseY(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
     public interface IInteractActions
     {
         void OnInteraction(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+        void OnPing(InputAction.CallbackContext context);
     }
     public interface IMenuingActions
     {
