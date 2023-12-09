@@ -18,7 +18,10 @@ public class PlayerModeSelect : MonoBehaviour
     public GameObject blueprintModeManager;
 
     public bool canPlayerSwitchMode;
+    public bool couldPlayerSwitchMode;
 
+    public DeactivatePlayerInput playerInput;
+    
     void Update()
     {
         //permet grâce a notre molette de choisir un des modes
@@ -41,6 +44,20 @@ public class PlayerModeSelect : MonoBehaviour
         {
             modeSelected = oldSelectedMod;
         }
+
+        if (couldPlayerSwitchMode != canPlayerSwitchMode)
+        {
+            if (canPlayerSwitchMode)
+            {
+                playerInput.Activate();
+            }
+            else
+            {
+                playerInput.SoftDeactivate();
+            }
+            couldPlayerSwitchMode = canPlayerSwitchMode;
+        }
+
     }
 
     //active ou désactive les object qui compose les mécanique de chaque modes

@@ -32,6 +32,9 @@ public class BlueprintBuildingState : BlueprintBaseState
             }
             _machinesLoaded = true;
         }
+        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
@@ -56,5 +59,8 @@ public class BlueprintBuildingState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(false);
         machineChoiceCanvas.SetActive(false);
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

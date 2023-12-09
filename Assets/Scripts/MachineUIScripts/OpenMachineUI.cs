@@ -11,8 +11,10 @@ public class OpenMachineUI : MonoBehaviour
     public GameObject thisPlayerInventory;
 
     public PlayerModeSelect modeSelection;
-    
+
     private bool _isUIUp;
+
+    public DeactivatePlayerInput playerInput;
 
     public void Awake()
     {
@@ -36,17 +38,27 @@ public class OpenMachineUI : MonoBehaviour
                 thisPlayerInventory.transform.parent.gameObject.SetActive(false);
                 _isUIUp = true;
                 modeSelection.canPlayerSwitchMode = false;
+
+                playerInput.Deactivate();
+                
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
 
         //désactive l ui avec echape
-        if(Input.GetKeyDown(KeyCode.Escape) && thisDisplay != null)
+        if(Input.GetKeyUp(KeyCode.Escape) && thisDisplay != null)
         {
             thisDisplay.DeactivateUIDisplay();
             thisPlayerInventory.transform.parent.gameObject.SetActive(true);
             thisDisplay = null;
             _isUIUp = false;
             modeSelection.canPlayerSwitchMode = true;
+            
+            playerInput.Activate();
+            
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }
