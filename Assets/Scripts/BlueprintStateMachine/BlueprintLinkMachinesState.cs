@@ -30,6 +30,7 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             blueprint.SwitchState(blueprint.cableState);
+            GameObject.Destroy(_thisCable);
         }
     }
     

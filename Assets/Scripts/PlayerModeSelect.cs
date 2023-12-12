@@ -92,10 +92,10 @@ public class PlayerModeSelect : MonoBehaviour
         time = thisTime;
         canvasGroupMode.alpha = 1;
         
-        while (wait > 0)
+        while (time > 0)
         {
             time -= 0.01f;
-            canvasGroupMode.alpha = time/(wait - 1);
+            canvasGroupMode.alpha = (time + 0.15f)/(wait - 1);
             
             yield return new WaitForSeconds(0.01f);
         }

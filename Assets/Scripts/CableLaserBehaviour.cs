@@ -78,6 +78,7 @@ public class CableLaserBehaviour : MonoBehaviour
             if (Physics.Raycast(checkpoints[i], checkpoints[i + 1] - checkpoints[i], out _hitData, 
                 Vector3.Distance(checkpoints[i], checkpoints[i + 1])) && i < checkpoints.Count - 2)
             {
+                if(_hitData.transform.CompareTag("Player")) continue;
                 _lineRenderer.SetPosition(i + 1 , _hitData.point);
                 _lineRenderer.positionCount = i + 2;
                 isLinked = false;
@@ -88,23 +89,25 @@ public class CableLaserBehaviour : MonoBehaviour
 
     //permet d'activer et de désactiver les différents colliders des entrées et sorties
     //ceci sert a ne pas pouvoir associer un cable sur une entrée/sortie qui est déja utilisé par un cable
+    // NE FONCTIONNE PAS
     private void InputOutputUpdater()
     {
+
         if (outputGameObject != _oldOutputGameObject)
         {
             if (_oldOutputGameObject == null) _oldOutputGameObject = outputGameObject;
-            
             _oldOutputGameObject.GetComponent<BoxCollider>().enabled = true;
             outputGameObject.GetComponent<BoxCollider>().enabled = false;
+            Debug.Log(outputGameObject.GetComponent<BoxCollider>().enabled);
             _oldOutputGameObject = outputGameObject;
         }
-        
+
         if (inputGameObject != _oldInputGameObject)
         {
             if (_oldInputGameObject == null) _oldInputGameObject = inputGameObject;
-            
             _oldInputGameObject.GetComponent<BoxCollider>().enabled = true;
             inputGameObject.GetComponent<BoxCollider>().enabled = false;
+            Debug.Log(inputGameObject.GetComponent<BoxCollider>().enabled);
             _oldInputGameObject = inputGameObject;
         }  
     }

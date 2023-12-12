@@ -43,7 +43,10 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            blueprint.SwitchState(blueprint.moveState);
+            if (_hitData.transform.CompareTag("BaseFloor"))
+            {
+                blueprint.SwitchState(blueprint.moveState);
+            }
         }
 
         //supprimer / récuperer la machine

@@ -38,9 +38,12 @@ public class BlueprintPlacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            blueprint.SwitchState(blueprint.buildingState);
-            _machineCollider.isActive = false;
-            _highlightComponent.BaseMaterial();
+            if (_hitData.transform.CompareTag("BaseFloor"))
+            {
+                blueprint.SwitchState(blueprint.buildingState);
+                _machineCollider.isActive = false;
+                _highlightComponent.BaseMaterial();
+            }
         }
 
         //annuler la construction de la machine (elle retourne donc a son emplacement initial)

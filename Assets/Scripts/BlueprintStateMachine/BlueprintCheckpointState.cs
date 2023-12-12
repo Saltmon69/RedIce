@@ -37,15 +37,22 @@ public class BlueprintCheckpointState : BlueprintBaseState
         //retour à la sélection d'une sortie pour le cablage entre deux machines
         if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.isLinked)
         {
-            GameObject.Destroy(thisCable.transform.GetChild(thisCable.transform.childCount - 1).gameObject);
-            blueprint.SwitchState(blueprint.cableState);
+            if (_hitData.transform.CompareTag("BaseFloor"))
+            {
+                GameObject.Instantiate((GameObject)checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, thisCable.transform);
+                GameObject.Destroy(_thisCheckpoint);
+                blueprint.SwitchState(blueprint.cableState);
+            }
         }
 
         //si le point de passage peut etre placé alors on crée un point de passage à cet endroit meme
         if (Input.GetKeyDown(KeyCode.Mouse0) && _checkpointCollider.canBePlaced)
         {
-            GameObject.Instantiate((GameObject)checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, thisCable.transform);
-            _thisCheckpoint.transform.SetSiblingIndex(_thisCheckpoint.transform.parent.childCount - 1);
+            if (_hitData.transform.CompareTag("BaseFloor"))
+            {
+                GameObject.Instantiate((GameObject)checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, thisCable.transform);
+                _thisCheckpoint.transform.SetSiblingIndex(_thisCheckpoint.transform.parent.childCount - 1);
+            }
         }
 
         //supprime le dernier point de passage posé

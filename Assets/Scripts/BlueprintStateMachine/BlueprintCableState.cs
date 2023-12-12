@@ -34,12 +34,7 @@ public class BlueprintCableState : BlueprintBaseState
         if(Input.GetKeyDown(KeyCode.C))
         {
             blueprint.SwitchState(blueprint.startState);
-            
-            //si le cable n'a pas de sortie lié cela veut dire que le joueur a fait un retour arriere avant d utiliser le cable, le cable est donc supprimer
-            if (_cableLaserBehaviour.outputMachine == null)
-            {
-                GameObject.Destroy(_thisCable);
-            }
+            GameObject.Destroy(_thisCable);
         }
     }
     
