@@ -101,7 +101,7 @@ public class PlayerInteraction : MonoBehaviour
         pingIsPressed = false;
         playerMenuing.inMenu = false;
         radialMenu.SetActive(false);
-        playerManager.NotifyObservers();
+        
     }
 
     public RaycastHit RaycastMaker(float range)

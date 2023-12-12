@@ -17,6 +17,7 @@ public class EONStateMachine : MonoBehaviour
     public float distanceToPing;
     public float timeInIdle;
     public NavMeshSurface navMeshSurface;
+    public NavMeshAgent agent;
     
     public GameObject subject;
     
