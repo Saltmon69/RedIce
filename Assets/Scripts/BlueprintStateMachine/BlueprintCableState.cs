@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class BlueprintCableState : BlueprintBaseState
 {
-    private LayerMask _layerMask;
-
     private GameObject _cableStock;
     private UnityEngine.Object _cable;
 
@@ -14,8 +12,7 @@ public class BlueprintCableState : BlueprintBaseState
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(6).gameObject.SetActive(true);
-
-        _layerMask = LayerMask.GetMask("Machine");
+        
         _cableStock = GameObject.Find("CableStock");
 
         _cable = Resources.Load("Cables/Cable", typeof(GameObject));
@@ -38,7 +35,7 @@ public class BlueprintCableState : BlueprintBaseState
     
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (hitData.transform.gameObject.layer == _layerMask)
+        if (hitData.transform.gameObject.layer == 6)
         {
             //si l'on sélectionne une sortie de machine, on assigne au cable qu il est attaché a cette sortie et a quel machine elle appartient
             //avance au mode de sélection de l'entrée de la seconde machine pour le cablage

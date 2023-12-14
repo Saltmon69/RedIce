@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BlueprintStateMachineManager : MonoBehaviour
@@ -56,10 +57,13 @@ public class BlueprintStateMachineManager : MonoBehaviour
         {
             _currentState.RayState(this, _hitData, _oldHitData);
 
-            if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
+            try
             {
-                _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-            }
+                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject || _hitData.transform.gameObject == null)
+                {
+                    _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                }
+            }catch(NullReferenceException){}
             
             _oldHitData = _hitData;
         }

@@ -5,8 +5,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
     private GameObject _machineStock;
     private GameObject _machineToPlace;
     private GameObject _fakeMachineHologram;
-    private LayerMask _layerMask;
-    
+
     private HighlightComponent _highlightComponent;
     private MachineCollider _machineCollider;
     private Vector3 _eulerRotation;
@@ -14,12 +13,14 @@ public class BlueprintDisplacementState : BlueprintBaseState
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(true);
-        _layerMask = LayerMask.GetMask("Ground");
+
         _machineStock = GameObject.Find("MachineStock");
 
         //retrouve la machine que l on a selectionner grace a son changement dans sa hiérarchie grace au dernier etat
         _machineToPlace = _machineStock.transform.GetChild(_machineStock.transform.childCount - 1).gameObject;
-
+        _machineToPlace.layer = 2;
+        
+        
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.isActive = true;
 
@@ -57,7 +58,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
 
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (hitData.transform.gameObject.layer == _layerMask)
+        if (hitData.transform.gameObject.layer == 3)
         {
             _machineToPlace.transform.position = hitData.point;
         }
@@ -79,6 +80,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
 
         _machineCollider.isActive = false;
         _highlightComponent.BaseMaterial();
+        _machineToPlace.layer = 6;
         
         GameObject.Destroy(_fakeMachineHologram);
     }

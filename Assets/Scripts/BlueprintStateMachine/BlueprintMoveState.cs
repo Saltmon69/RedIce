@@ -3,11 +3,8 @@ using UnityEngine;
 
 public class BlueprintMoveState : BlueprintBaseState
 {
-    private LayerMask _layerMask;
-
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        _layerMask = LayerMask.GetMask("Machine");
         GameObject.Find("UIStateCanvas").transform.GetChild(2).gameObject.SetActive(true);
     }
     
@@ -22,7 +19,7 @@ public class BlueprintMoveState : BlueprintBaseState
     
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (hitData.transform.gameObject.layer == _layerMask)
+        if (hitData.transform.gameObject.layer == 6)
         {
             //mode du déplacement de la machine
             if (Input.GetKeyDown(KeyCode.Mouse0))

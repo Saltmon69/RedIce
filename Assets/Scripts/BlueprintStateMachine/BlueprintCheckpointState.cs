@@ -5,9 +5,8 @@ public class BlueprintCheckpointState : BlueprintBaseState
     private GameObject _cableStock;
     private GameObject _thisCable;
     private Object _checkpoint;
-    
+
     private GameObject _thisCheckpoint;
-    private LayerMask _layerMask;
 
     private MachineCollider _checkpointCollider;
     private CableLaserBehaviour _cableLaser;
@@ -16,7 +15,6 @@ public class BlueprintCheckpointState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(8).gameObject.SetActive(true);
         
-        _layerMask = LayerMask.GetMask("Ground");
         _cableStock = GameObject.Find("CableStock");
 
         _thisCable = _cableStock.transform.GetChild(_cableStock.transform.childCount - 1).gameObject;
@@ -24,6 +22,8 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
 
         _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _thisCable.transform);
+        _thisCheckpoint.layer = 2;
+        
         _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
         _checkpointCollider.isActive = true;
 
@@ -50,7 +50,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
     
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (hitData.transform.gameObject.layer == _layerMask)
+        if (hitData.transform.gameObject.layer == 3)
         {
             _thisCheckpoint.transform.position = hitData.point + Vector3.up * 1;
         }

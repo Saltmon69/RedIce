@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MachineCollider : MonoBehaviour
 {
@@ -7,10 +8,22 @@ public class MachineCollider : MonoBehaviour
     public bool canBePlaced;
     
     private HighlightComponent _highlightComponent;
-    
+
+    public List<GameObject> _collisionList;
+
     private void Awake()
     {
+        _collisionList = new List<GameObject>();
+        
         _highlightComponent = this.gameObject.GetComponent<HighlightComponent>();
+
+        for (var i = 0; i < this.transform.childCount; i++)
+        {
+            try
+            {
+                Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), this.transform.GetChild(i).GetComponent<Collider>());
+            }catch(MissingComponentException){}
+        }
     }
 
     private void OnEnable()
@@ -18,22 +31,34 @@ public class MachineCollider : MonoBehaviour
         canBePlaced = true;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isActive)
+        {            
+            canBePlaced = false;
+            _collisionList.Add(collision.gameObject);
+        }
+    }
+
     private void OnCollisionStay()
     {
         if (isActive)
         {
-            canBePlaced = false;
             _highlightComponent.Highlight();
         }
     }
 
-    private void OnCollisionExit()
+    private void OnCollisionExit(Collision collision)
     {      
         if (isActive)
         {
-            canBePlaced = true;
-            _highlightComponent.Blueprint();
+            _collisionList.Remove(collision.gameObject);
+
+            if (_collisionList.Count < 1)
+            {
+                canBePlaced = true;
+                _highlightComponent.Blueprint();
+            }
         }
     }
-    
 }
