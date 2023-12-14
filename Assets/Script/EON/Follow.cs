@@ -16,6 +16,7 @@ public class Follow : IState, IObserver
     public void OnEnter(EONStateMachine stateMachine)
     {
         stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
+        stateMachine.agent.SetDestination(stateMachine.subject.transform.position);
     }
 
     public void OnExit(EONStateMachine stateMachine)
@@ -43,14 +44,10 @@ public class Follow : IState, IObserver
 
     public void OnNotify(Data data)
     {
-        if (data.ping != null) 
-        {
-            ping = data.ping;
-        }
-        if (data.order == Order.GoOnPing)
-        {
-            activeOrder = Order.GoOnPing;
-        }
+        
+        ping = data.ping;
+        activeOrder = data.order;
+        
         
     }
 }

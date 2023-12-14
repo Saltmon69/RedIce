@@ -11,11 +11,16 @@ public class RadialMenuScript : MonoBehaviour
     [SerializeField] GameObject pingPrefab;
     RaycastHit itemHit;
     
-    private GameObject ping;
+    
+    
+    private Data data;
+    
     
     
     public void OnPingPressed()
     {
+        data = new Data();
+        
         playerMenuing.inMenu = false;
         Cursor.lockState = CursorLockMode.Locked;
         
@@ -24,46 +29,46 @@ public class RadialMenuScript : MonoBehaviour
         if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
         {
             
-            if (playerManager.data.ping != null)
+            if (playerManager.activePing != null)
             {
-                Destroy(playerManager.data.ping);
-                ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
+                Destroy(playerManager.activePing);
+                data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
                 
             }
             else
             {
-                ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
+                data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
             }
             
             if (itemHit.collider != null)
             {
                 if (itemHit.collider.CompareTag("Minerai"))
                 {
-                    playerManager.data.itemPinged = itemHit.collider.gameObject;
+                    data.itemPinged = itemHit.collider.gameObject;
                 }
                 else
                 {
-                    playerManager.data.itemPinged = null;
+                    data.itemPinged = null;
                 }
             }
         }
         
-        playerManager.data.ping = ping;
-        playerManager.data.order = Order.GoOnPing;
-        playerManager.NotifyObservers();
+        data.order = Order.GoOnPing;
+        playerManager.NotifyObservers(data);
         playerInteraction.radialMenu.SetActive(false);
-        
-       
-        
         
     }
     
     public void OnFollowPressed()
     {
-        playerManager.data.order = Order.Follow;
-        playerInteraction.radialMenu.SetActive(false);
-        playerMenuing.inMenu = false;
+        data = new Data();
         
-        playerManager.NotifyObservers();
+        data.ping = null;
+        data.itemPinged = null;
+        data.order = Order.Follow;
+        playerManager.NotifyObservers(data);
+        playerMenuing.inMenu = false;
+        playerInteraction.radialMenu.SetActive(false);
+        
     }
 }

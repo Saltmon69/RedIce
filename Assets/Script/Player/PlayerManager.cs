@@ -13,6 +13,9 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
     [Tooltip("L'objet Player")]
     public GameObject player;
+
+    [HideInInspector] public GameObject activePing;
+    public Order activeOrder;
     
     //Variables de valeurs
     
@@ -35,9 +38,7 @@ public class PlayerManager : MonoBehaviour
     
     //Variables pour le syst Observateur
     [Tooltip("Liste des observateurs")]
-    [SerializeField] private List<IObserver> observers = new List<IObserver>();
-    [Tooltip("Data à notifier")]
-    [HideInInspector] public Data data; //L'ordre contenu sera changer par le menu radial d'ordres.
+    public List<IObserver> observers = new List<IObserver>();
     
     //Variables pour l'UI
     [Tooltip("Barre de vie")]
@@ -51,20 +52,10 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Barre de température")]
     [SerializeField] private Image temperatureBar;
     
-
-    private void Start()
-    {
-        data = new Data();
-        data.ping = null;
-        data.itemPinged = null;
-        data.order = Order.None;
-        NotifyObservers();
-    }
-
+    
     private void Update()
     {   
         UIUpdater();
-        Debug.Log("Order : " + data.order);
     }
 
     public void AddObserver(IObserver observer)
@@ -78,11 +69,14 @@ public class PlayerManager : MonoBehaviour
     }
     
     
-    public void NotifyObservers()
+    public void NotifyObservers(Data dataInFct)
     {
+        activePing = dataInFct.ping;
+        activeOrder = dataInFct.order;
+        
         foreach (IObserver observer in observers)
         {
-            observer.OnNotify(data);
+            observer.OnNotify(dataInFct);
         }
     }
     
@@ -115,7 +109,7 @@ public class Data : MonoBehaviour
 /// </summary>
 public enum Order
 {
-    Follow, Mine, GoOnPing, Idle, None
+    Follow, GoOnPing, Idle, None
 }
 
 

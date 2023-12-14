@@ -9,7 +9,7 @@ public class Idle : IState, IObserver
 {
    
     private GameObject ping;
-    public Order? activeOrder = Order.None;
+    public Order? activeOrder;
     
     public void OnEnter(EONStateMachine stateMachine)
     {
@@ -28,6 +28,7 @@ public class Idle : IState, IObserver
     public void OnUpdate(EONStateMachine stateMachine)
     {
         stateMachine.timeInIdle += Time.deltaTime;
+        
         
         if (stateMachine.distanceToPlayer > 5 && activeOrder == Order.Follow || stateMachine.timeInIdle > 5 && activeOrder == Order.Follow)
         {
