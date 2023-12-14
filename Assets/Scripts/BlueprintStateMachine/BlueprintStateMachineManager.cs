@@ -17,7 +17,9 @@ public class BlueprintStateMachineManager : MonoBehaviour
     public Camera mainCamera;
     public Ray ray;
     public float distance;
-
+    private RaycastHit _hitData;
+    private RaycastHit _oldHitData;
+    
     //la machine entre dans le premier état
     public void Awake()
     {
@@ -49,7 +51,18 @@ public class BlueprintStateMachineManager : MonoBehaviour
     public void RayState()
     {
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        _currentState.RayState(this, ray, distance); 
+        
+        if (Physics.Raycast(ray, out _hitData, distance))
+        {
+            _currentState.RayState(this, _hitData, _oldHitData);
+
+            if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
+            {
+                _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+            }
+            
+            _oldHitData = _hitData;
+        }
     }
 
     public void SwitchState(BlueprintBaseState newState)

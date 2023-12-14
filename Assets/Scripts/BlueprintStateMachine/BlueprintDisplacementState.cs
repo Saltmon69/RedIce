@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
 
 public class BlueprintDisplacementState : BlueprintBaseState
 {
-    public GameObject machineStock;
-    public GameObject machineToPlace;
-    public GameObject fakeMachineHologram;
-    private RaycastHit _hitData;
-    public LayerMask layerMask;
+    private GameObject _machineStock;
+    private GameObject _machineToPlace;
+    private GameObject _fakeMachineHologram;
+    private LayerMask _layerMask;
     
     private HighlightComponent _highlightComponent;
     private MachineCollider _machineCollider;
@@ -16,44 +14,34 @@ public class BlueprintDisplacementState : BlueprintBaseState
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(true);
-        layerMask = LayerMask.GetMask("Ground");
-        machineStock = GameObject.Find("MachineStock");
+        _layerMask = LayerMask.GetMask("Ground");
+        _machineStock = GameObject.Find("MachineStock");
 
         //retrouve la machine que l on a selectionner grace a son changement dans sa hiérarchie grace au dernier etat
-        machineToPlace = machineStock.transform.GetChild(machineStock.transform.childCount - 1).gameObject;
+        _machineToPlace = _machineStock.transform.GetChild(_machineStock.transform.childCount - 1).gameObject;
 
-        _machineCollider = machineToPlace.transform.GetComponent<MachineCollider>();
+        _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.isActive = true;
 
-        _highlightComponent = machineToPlace.GetComponent<HighlightComponent>();
+        _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
 
         //crée une fausse machine permettant de visulalizer la position initiale de l objet avant de le bouger
-        fakeMachineHologram = GameObject.Instantiate(machineToPlace);
-        fakeMachineHologram.GetComponent<Collider>().enabled = false;
+        _fakeMachineHologram = GameObject.Instantiate(_machineToPlace);
+        _fakeMachineHologram.GetComponent<Collider>().enabled = false;
     }
 
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
         //calcule une rotation de notre machine en utilisant la molette de la souris
-        _eulerRotation = machineToPlace.transform.eulerAngles;
-        machineToPlace.transform.eulerAngles = new Vector3(_eulerRotation.x, _eulerRotation.y + Input.mouseScrollDelta.y * 36, _eulerRotation.z);
-
-        //confirmation du placement de la machine si elle peut etre placé
-        //retour au mode de sélection de la machine à déplacer
-        if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
-        {
-            if (_hitData.transform.CompareTag("BaseFloor"))
-            {
-                blueprint.SwitchState(blueprint.moveState);
-            }
-        }
+        _eulerRotation = _machineToPlace.transform.eulerAngles;
+        _machineToPlace.transform.eulerAngles = new Vector3(_eulerRotation.x, _eulerRotation.y + Input.mouseScrollDelta.y * 36, _eulerRotation.z);
 
         //supprimer / récuperer la machine
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.X))
         {
-            GameObject.Destroy(machineToPlace);
+            GameObject.Destroy(_machineToPlace);
             blueprint.SwitchState(blueprint.moveState);
         }
 
@@ -61,17 +49,27 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            machineToPlace.transform.position = fakeMachineHologram.transform.position;
-            machineToPlace.transform.rotation = fakeMachineHologram.transform.rotation;
+            _machineToPlace.transform.position = _fakeMachineHologram.transform.position;
+            _machineToPlace.transform.rotation = _fakeMachineHologram.transform.rotation;
             blueprint.SwitchState(blueprint.moveState);
         }
     }
 
-    public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (Physics.Raycast(ray, out _hitData, distance, layerMask))
+        if (hitData.transform.gameObject.layer == _layerMask)
         {
-            machineToPlace.transform.position = _hitData.point;
+            _machineToPlace.transform.position = hitData.point;
+        }
+        
+        //confirmation du placement de la machine si elle peut etre placé
+        //retour au mode de sélection de la machine à déplacer
+        if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
+        {
+            if (hitData.transform.CompareTag("BaseFloor"))
+            {
+                blueprint.SwitchState(blueprint.moveState);
+            }
         }
     }
         
@@ -82,6 +80,6 @@ public class BlueprintDisplacementState : BlueprintBaseState
         _machineCollider.isActive = false;
         _highlightComponent.BaseMaterial();
         
-        GameObject.Destroy(fakeMachineHologram);
+        GameObject.Destroy(_fakeMachineHologram);
     }
 }

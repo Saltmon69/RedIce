@@ -29,7 +29,7 @@ public class BlueprintStartState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance){}
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData){}
     
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {

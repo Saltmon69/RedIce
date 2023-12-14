@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class BlueprintMoveState : BlueprintBaseState
 {
-    private RaycastHit _hitData;
-    private RaycastHit _oldHitData;
-    private LayerMask layerMask;
+    private LayerMask _layerMask;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        layerMask = LayerMask.GetMask("Machine");
+        _layerMask = LayerMask.GetMask("Machine");
         GameObject.Find("UIStateCanvas").transform.GetChild(2).gameObject.SetActive(true);
     }
     
@@ -22,29 +20,23 @@ public class BlueprintMoveState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
     {
-        if (Physics.Raycast(ray, out _hitData, distance, layerMask))
+        if (hitData.transform.gameObject.layer == _layerMask)
         {
             //mode du déplacement de la machine
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 //change la position de la machine dans la hiérarchie a la derniere position pour etre retrouver facilement dans le prochain etat 
-                _hitData.transform.SetSiblingIndex(_hitData.transform.parent.childCount - 1);
+                hitData.transform.SetSiblingIndex(hitData.transform.parent.childCount - 1);
                 blueprint.SwitchState(blueprint.displacementState);
             }
-
+            
             //Actualise les matériaux pour le feedback de quel machine on va selectionner
-            try
+            if (hitData.transform.gameObject != oldHitData.transform.gameObject)
             {
-                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
-                {
-                    _hitData.transform.GetComponent<HighlightComponent>().Outline();
-                    _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-                }
-            }catch (NullReferenceException){}
-
-            _oldHitData = _hitData;
+                hitData.transform.GetComponent<HighlightComponent>().Outline();
+            }
         }
     }    
     

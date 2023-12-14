@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class BlueprintCheckpointState : BlueprintBaseState
 {
-    public GameObject cableStock;
-    public GameObject thisCable;
-    public Object checkpoint;
+    private GameObject _cableStock;
+    private GameObject _thisCable;
+    private Object _checkpoint;
     
     private GameObject _thisCheckpoint;
-    private RaycastHit _hitData;
-    public LayerMask layerMask;
+    private LayerMask _layerMask;
 
     private MachineCollider _checkpointCollider;
     private CableLaserBehaviour _cableLaser;
@@ -17,29 +16,51 @@ public class BlueprintCheckpointState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(8).gameObject.SetActive(true);
         
-        layerMask = LayerMask.GetMask("Ground");
-        cableStock = GameObject.Find("CableStock");
+        _layerMask = LayerMask.GetMask("Ground");
+        _cableStock = GameObject.Find("CableStock");
 
-        thisCable = cableStock.transform.GetChild(cableStock.transform.childCount - 1).gameObject;
+        _thisCable = _cableStock.transform.GetChild(_cableStock.transform.childCount - 1).gameObject;
         
-        checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
+        _checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
 
-        _thisCheckpoint = GameObject.Instantiate((GameObject)checkpoint, thisCable.transform);
+        _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _thisCable.transform);
         _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
         _checkpointCollider.isActive = true;
 
-        _cableLaser = thisCable.transform.GetComponent<CableLaserBehaviour>();
+        _cableLaser = _thisCable.transform.GetComponent<CableLaserBehaviour>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
     {
+        //supprime le dernier point de passage posé
+        //si il n'y a eu aucun point de passage placé, on retourne au mode de sélection de l'entrée de la seconde machine pour le cablage
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(_thisCable.transform.childCount > 1)
+            {
+                GameObject.Destroy(_thisCable.transform.GetChild(_thisCable.transform.childCount - 2).gameObject);
+            }
+            else
+            {
+                GameObject.Destroy(_thisCable.transform.GetChild(_thisCable.transform.childCount - 1).gameObject);
+                blueprint.SwitchState(blueprint.linkMachinesState);
+            }
+        }
+    }
+    
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    {
+        if (hitData.transform.gameObject.layer == _layerMask)
+        {
+            _thisCheckpoint.transform.position = hitData.point + Vector3.up * 1;
+        }
+        
         //si le chemin emprunté par le cable est valide, alors le joueur confirme la connection entre les deux machines
         //retour à la sélection d'une sortie pour le cablage entre deux machines
         if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.isLinked)
         {
-            if (_hitData.transform.CompareTag("BaseFloor"))
+            if (hitData.transform.CompareTag("BaseFloor"))
             {
-                GameObject.Instantiate((GameObject)checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, thisCable.transform);
                 GameObject.Destroy(_thisCheckpoint);
                 blueprint.SwitchState(blueprint.cableState);
             }
@@ -48,34 +69,11 @@ public class BlueprintCheckpointState : BlueprintBaseState
         //si le point de passage peut etre placé alors on crée un point de passage à cet endroit meme
         if (Input.GetKeyDown(KeyCode.Mouse0) && _checkpointCollider.canBePlaced)
         {
-            if (_hitData.transform.CompareTag("BaseFloor"))
+            if (hitData.transform.CompareTag("BaseFloor"))
             {
-                GameObject.Instantiate((GameObject)checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, thisCable.transform);
+                GameObject.Instantiate((GameObject)_checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, _thisCable.transform);
                 _thisCheckpoint.transform.SetSiblingIndex(_thisCheckpoint.transform.parent.childCount - 1);
             }
-        }
-
-        //supprime le dernier point de passage posé
-        //si il n'y a eu aucun point de passage placé, on retourne au mode de sélection de l'entrée de la seconde machine pour le cablage
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(thisCable.transform.childCount > 1)
-            {
-                GameObject.Destroy(thisCable.transform.GetChild(thisCable.transform.childCount - 2).gameObject);
-            }
-            else
-            {
-                GameObject.Destroy(thisCable.transform.GetChild(thisCable.transform.childCount - 1).gameObject);
-                blueprint.SwitchState(blueprint.linkMachinesState);
-            }
-        }
-    }
-    
-    public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance)
-    {
-        if (Physics.Raycast(ray, out _hitData, distance, layerMask))
-        {
-            _thisCheckpoint.transform.position = _hitData.point + Vector3.up * 1;
         }
     }
     
