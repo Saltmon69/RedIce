@@ -28,6 +28,7 @@ public class EONStateMachine : MonoBehaviour
     private void Start()
     {
         currentState = new Idle();
+        currentState.OnEnter(this);
     }
 
     private void Update()
