@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,8 +46,6 @@ public class CableLaserBehaviour : MonoBehaviour
                 wasLinked = isLinked;
                 checkpointsCount = checkpoints.Count;
             }
-
-            InputOutputUpdater();
         }
         else
         {
@@ -85,7 +84,7 @@ public class CableLaserBehaviour : MonoBehaviour
             //se lie à x distance du devant du point d'entrée de la machine pour avoir un branchement plus logique et sera utile plus tard
             checkpoints.Add(inputGameObject.transform.TransformPoint(0, 0, offset / inputGameObject.transform.lossyScale.z));
             checkpoints.Add(inputGameObject.transform.position);
-        }catch (UnassignedReferenceException){}
+        }catch(UnassignedReferenceException){}catch(NullReferenceException){}
         
         _lineRenderer.positionCount = checkpoints.Count;
     }
@@ -132,27 +131,5 @@ public class CableLaserBehaviour : MonoBehaviour
             checkpointsCount = _lineRenderer.positionCount;
             CheckpointPosition();
         }
-    }
-
-    //permet d'activer et de désactiver les différents colliders des entrées et sorties
-    //ceci sert a ne pas pouvoir associer un cable sur une entrée/sortie qui est déja utilisé par un cable
-    // NE FONCTIONNE PAS
-    private void InputOutputUpdater()
-    {
-        if (outputGameObject != _oldOutputGameObject)
-        {
-            if (_oldOutputGameObject == null) _oldOutputGameObject = outputGameObject;
-            _oldOutputGameObject.layer = 6;
-            outputGameObject.layer = 2;
-            _oldOutputGameObject = outputGameObject;
-        }
-
-        if (inputGameObject != _oldInputGameObject)
-        {
-            if (_oldInputGameObject == null) _oldInputGameObject = inputGameObject;
-            _oldInputGameObject.layer = 6;
-            inputGameObject.layer = 2;
-            _oldInputGameObject = inputGameObject;
-        }  
     }
 }

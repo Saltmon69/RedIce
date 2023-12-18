@@ -9,7 +9,8 @@ public class BlueprintCheckpointState : BlueprintBaseState
     private GameObject _thisCheckpoint;
 
     private MachineCollider _checkpointCollider;
-    private CableLaserBehaviour _cableLaser;
+    private CableLaserBehaviour _cableLaserBehaviour;
+    private MachineUIDisplay _machineUIDisplay;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -27,7 +28,10 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
         _checkpointCollider.isActive = true;
 
-        _cableLaser = _thisCable.transform.GetComponent<CableLaserBehaviour>();
+        _cableLaserBehaviour = _thisCable.transform.GetComponent<CableLaserBehaviour>();
+        _cableLaserBehaviour.isSetup = false;
+
+        _machineUIDisplay = _cableLaserBehaviour.inputMachine.GetComponent<MachineUIDisplay>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -43,6 +47,14 @@ public class BlueprintCheckpointState : BlueprintBaseState
             else
             {
                 GameObject.Destroy(_thisCable.transform.GetChild(_thisCable.transform.childCount - 1).gameObject);
+                
+                _machineUIDisplay.thisMachineInputList.Remove(_cableLaserBehaviour.inputGameObject);
+                _machineUIDisplay.thisMachineInputCableList.Remove(_thisCable);
+                _machineUIDisplay.thisMachineCableMachineInputList.Remove(_cableLaserBehaviour.outputMachine);
+                
+                _cableLaserBehaviour.inputMachine = null;
+                _cableLaserBehaviour.inputGameObject = null;
+                
                 blueprint.SwitchState(blueprint.linkMachinesState);
             }
         }
@@ -57,22 +69,19 @@ public class BlueprintCheckpointState : BlueprintBaseState
         
         //si le chemin emprunté par le cable est valide, alors le joueur confirme la connection entre les deux machines
         //retour à la sélection d'une sortie pour le cablage entre deux machines
-        if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.wasLinked)
+        if (hitData.transform.CompareTag("BaseFloor"))
         {
-            if (hitData.transform.CompareTag("BaseFloor"))
+            if (Input.GetKeyDown(KeyCode.Mouse1) && _cableLaserBehaviour.wasLinked)
             {
                 GameObject.Destroy(_thisCheckpoint);
-                _cableLaser.isSetup = true;
+                _cableLaserBehaviour.isSetup = true;
                 blueprint.SwitchState(blueprint.cableState);
             }
-        }
 
-        //si le point de passage peut etre placé alors on crée un point de passage à cet endroit meme
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _checkpointCollider.canBePlaced)
-        {
-            if (hitData.transform.CompareTag("BaseFloor"))
+            //si le point de passage peut etre placé alors on crée un point de passage à cet endroit meme
+            if (Input.GetKeyDown(KeyCode.Mouse0) && _checkpointCollider.canBePlaced)
             {
-                GameObject.Instantiate((GameObject)_checkpoint,  _thisCheckpoint.transform.position, Quaternion.identity, _thisCable.transform);
+                GameObject.Instantiate((GameObject)_checkpoint, _thisCheckpoint.transform.position, Quaternion.identity, _thisCable.transform);
                 _thisCheckpoint.transform.SetSiblingIndex(_thisCheckpoint.transform.parent.childCount - 1);
             }
         }

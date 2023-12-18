@@ -68,6 +68,12 @@ public class MachineUIDisplay : MonoBehaviour
     private List<Transform> _machinePlayerInventoryList;
 
     private GameObject _thisMachinePlayerInventorySlot;
+    
+    public List<GameObject> thisMachineOutputList;
+    public List<GameObject> thisMachineOutputCableList;
+    public List<GameObject> thisMachineInputList;
+    public List<GameObject> thisMachineInputCableList;
+    public List<GameObject> thisMachineCableMachineInputList;
 
     //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
     private void OnDisplayInstantiate()
