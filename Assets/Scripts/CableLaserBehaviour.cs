@@ -12,8 +12,13 @@ public class CableLaserBehaviour : MonoBehaviour
     private GameObject _oldInputGameObject;
     
     public bool isLinked;
+    public bool wasLinked;
+    public bool isSetup;
+    public bool hasFinishedCalculatingCheckpoints;
+    
     public float offset;
     public List<Vector3> checkpoints;
+    public int checkpointsCount;
 
     private LineRenderer _lineRenderer;
     private RaycastHit _hitData;
@@ -21,13 +26,40 @@ public class CableLaserBehaviour : MonoBehaviour
     private void Awake()
     {
         _lineRenderer = this.gameObject.GetComponent<LineRenderer>();
+        isSetup = false;
+        wasLinked = false;
+        hasFinishedCalculatingCheckpoints = false;
+        checkpointsCount = 0;
     }
 
     private void Update()
     {
-        CheckpointsUpdate();
-        CheckpointCheck();
-        InputOutputUpdater();
+        if (!isSetup)
+        {
+            CheckpointsUpdate();
+            CheckpointPosition();
+            CheckpointCheck();
+            
+            if (checkpointsCount != checkpoints.Count && checkpoints.Count >= 4)
+            {
+                wasLinked = isLinked;
+                checkpointsCount = checkpoints.Count;
+            }
+
+            InputOutputUpdater();
+        }
+        else
+        {
+            if(!hasFinishedCalculatingCheckpoints)
+            {
+                _lineRenderer.positionCount -= 1;
+                checkpoints.Remove(checkpoints[^3]);
+                CheckpointPosition();
+                hasFinishedCalculatingCheckpoints = true;
+            }
+
+            CheckpointCheck();
+        }
     }
 
     //Cette fonction crée une liste contenant les différents points de passages assigné grâce au cablage dans le mode blueprint
@@ -58,16 +90,24 @@ public class CableLaserBehaviour : MonoBehaviour
         _lineRenderer.positionCount = checkpoints.Count;
     }
 
+    //met sur le line renderer la position des points de passage affin d'afficher le cable
+    private void CheckpointPosition()
+    {
+        for (var i = 0; i < _lineRenderer.positionCount; i++)
+        {
+            //assigne les différentes positions définie dans notre liste de point de passage à notre Line renderer 
+            _lineRenderer.SetPosition(i, checkpoints[i]);
+        }
+    }
+
     //Cette fonction permet d'afficher le cable et de regarder si le cable heurte un object en chemin, dans ce cas il se coupe
     private void CheckpointCheck()
     {
         isLinked = true;
+        _lineRenderer.positionCount = checkpoints.Count;
         
         for (var i = 0; i < checkpoints.Count; i++)
         {
-            //assigne les différentes positions définie dans notre liste de point de passage à notre Line renderer 
-            _lineRenderer.SetPosition(i, checkpoints[i]);
-
             //on ne prend pas en compte l'entrée et la sortie car elle touche forcément la machine concerné
             //deplus, notre point de passage situé juste devans la sortie/entrée vérifie dans tous les cas le bon comportement du cable
             if (i == 0) continue;
@@ -79,11 +119,18 @@ public class CableLaserBehaviour : MonoBehaviour
                 Vector3.Distance(checkpoints[i], checkpoints[i + 1])) && i < checkpoints.Count - 2)
             {
                 if(_hitData.transform.CompareTag("Player")) continue;
-                _lineRenderer.SetPosition(i + 1 , _hitData.point);
                 _lineRenderer.positionCount = i + 2;
                 isLinked = false;
+                _lineRenderer.SetPosition(i + 1, _hitData.point);
                 i = checkpoints.Count;
             }
+        }
+        
+        //si le cable a été couper mais qu'il ne l'est plus ou du moins au meme endroit, réactualise le line renderer
+        if (checkpointsCount != _lineRenderer.positionCount && isSetup)
+        {
+            checkpointsCount = _lineRenderer.positionCount;
+            CheckpointPosition();
         }
     }
 
@@ -92,22 +139,19 @@ public class CableLaserBehaviour : MonoBehaviour
     // NE FONCTIONNE PAS
     private void InputOutputUpdater()
     {
-
         if (outputGameObject != _oldOutputGameObject)
         {
             if (_oldOutputGameObject == null) _oldOutputGameObject = outputGameObject;
-            _oldOutputGameObject.GetComponent<BoxCollider>().enabled = true;
-            outputGameObject.GetComponent<BoxCollider>().enabled = false;
-            Debug.Log(outputGameObject.GetComponent<BoxCollider>().enabled);
+            _oldOutputGameObject.layer = 6;
+            outputGameObject.layer = 2;
             _oldOutputGameObject = outputGameObject;
         }
 
         if (inputGameObject != _oldInputGameObject)
         {
             if (_oldInputGameObject == null) _oldInputGameObject = inputGameObject;
-            _oldInputGameObject.GetComponent<BoxCollider>().enabled = true;
-            inputGameObject.GetComponent<BoxCollider>().enabled = false;
-            Debug.Log(inputGameObject.GetComponent<BoxCollider>().enabled);
+            _oldInputGameObject.layer = 6;
+            inputGameObject.layer = 2;
             _oldInputGameObject = inputGameObject;
         }  
     }

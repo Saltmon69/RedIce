@@ -57,11 +57,12 @@ public class BlueprintCheckpointState : BlueprintBaseState
         
         //si le chemin emprunté par le cable est valide, alors le joueur confirme la connection entre les deux machines
         //retour à la sélection d'une sortie pour le cablage entre deux machines
-        if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.isLinked)
+        if(Input.GetKeyDown(KeyCode.Mouse1) && _cableLaser.wasLinked)
         {
             if (hitData.transform.CompareTag("BaseFloor"))
             {
                 GameObject.Destroy(_thisCheckpoint);
+                _cableLaser.isSetup = true;
                 blueprint.SwitchState(blueprint.cableState);
             }
         }
