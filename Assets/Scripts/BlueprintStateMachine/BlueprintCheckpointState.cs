@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class BlueprintCheckpointState : BlueprintBaseState
@@ -24,20 +25,20 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _thisCable = _cableStock.transform.GetChild(_cableStock.transform.childCount - 1).gameObject;
         _linkCable = _thisCable.transform.GetChild(0).gameObject;
         _blueprintCable = _thisCable.transform.GetChild(1).gameObject;
-        
-        _checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
 
-        _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _cableLaserBehaviour.outputMachine.transform.position, Quaternion.identity, _linkCable.transform);
-        _thisCheckpoint.layer = 2;
-        
-        _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
-        _checkpointCollider.isActive = true;
+        _checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
 
         _cableLaserBehaviour = _thisCable.transform.GetComponent<CableLaserBehaviour>();
         _cableLaserBehaviour.isSetup = false;
 
         _machineUIDisplay = _cableLaserBehaviour.inputMachine.GetComponent<MachineUIDisplay>();
 
+        _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _blueprintCable.transform);
+        _thisCheckpoint.layer = 2;
+        _thisCheckpoint.GetComponent<HighlightComponent>().Blueprint();
+        
+        _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
+        _checkpointCollider.isActive = true;
 
         _blueprintCable.SetActive(true);
     }

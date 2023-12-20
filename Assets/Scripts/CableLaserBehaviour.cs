@@ -46,18 +46,19 @@ public class CableLaserBehaviour : MonoBehaviour
         if (!isSetup)
         {
             CheckpointsUpdate();
+            if(checkpointList.Count > 0)CheckpointPosition();
             
             if(checkpointList.Count >= 4)
             {
-                if(_blueprintCable.transform.childCount > 0) BlueprintCheckpointUpdate();
+                if (_blueprintCable.transform.childCount > 0)
+                {
+                    BlueprintCheckpointUpdate();
+                    BlueprintCheckpointPosition();
+                }
                 checkpointsCount = checkpointList.Count;
                 wasLinked = isLinked;
             }
-
-            if(checkpointList.Count > 0)CheckpointPosition();
-            if(checkpointList.Count >= 4) BlueprintCheckpointPosition();
         }
-
         CheckpointCheck();
     }
 

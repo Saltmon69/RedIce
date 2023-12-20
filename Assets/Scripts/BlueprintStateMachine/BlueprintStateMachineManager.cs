@@ -20,6 +20,7 @@ public class BlueprintStateMachineManager : MonoBehaviour
     public float distance;
     private RaycastHit _hitData;
     private RaycastHit _oldHitData;
+    private bool _hasHit;
     
     //la machine entre dans le premier état
     public void Awake()
@@ -53,19 +54,33 @@ public class BlueprintStateMachineManager : MonoBehaviour
     {
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         
-        if (Physics.Raycast(ray, out _hitData, distance))
+        if(Physics.Raycast(ray, out _hitData, distance))
         {
             _currentState.RayState(this, _hitData, _oldHitData);
 
             try
             {
-                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject || _hitData.transform.gameObject == null)
+                if(_hitData.transform.gameObject != _oldHitData.transform.gameObject || _hitData.transform.gameObject == null)
                 {
-                    _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                    //le MoveState a sa propre logique pour remettre au matériaux de base dû a son fonctionnement particulier
+                    if(_currentState != moveState)
+                    {
+                        _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                    }
                 }
             }catch(NullReferenceException){}
             
             _oldHitData = _hitData;
+            _hasHit = true;
+        }
+        else if(_hasHit)
+        {
+            //permet de gérer le retour au materiaux de base si le raycast n'a rien touché
+            try
+            {
+                _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+            }catch(NullReferenceException){}
+            _hasHit = false;
         }
     }
 

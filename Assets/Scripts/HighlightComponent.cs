@@ -10,7 +10,7 @@ public class HighlightComponent : MonoBehaviour
     public Material highlightMaterial;
     public Material outlineMaterial;
     public Material blueprintMaterial;
-    
+
     //cette fonction attribu tous les MeshRenderer qui concerne cet object
     //exemple si un object simple doit voir son materiaux changer cela ne pose pas de probleme
     //par-contre si l'on doit changer un objet qui a plusieurs enfant et que l'on veut sa globaliter changer de matériaux cela pose un nouveaux problème
@@ -19,13 +19,13 @@ public class HighlightComponent : MonoBehaviour
         _meshRenderers.Clear();
         _baseMaterials.Clear();
         
-        if (this.gameObject.transform.childCount == 0)
+        if(this.gameObject.transform.childCount == 0)
         {
             _meshRenderers.Add(this.gameObject.GetComponent<MeshRenderer>());
             _baseMaterials.Add(_meshRenderers[0].material);
         }
         
-        if (this.gameObject.transform.childCount > 0)
+        if(this.gameObject.transform.childCount > 0)
         {
             for (var i = 0; i < this.gameObject.transform.childCount; i++)
             {
