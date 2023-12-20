@@ -39,10 +39,10 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
             {
                 if(Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    _machineUIDisplay = hitData.transform.parent.gameObject.GetComponent<MachineUIDisplay>();
-                    
                     _cableLaserBehaviour.inputMachine = hitData.transform.parent.gameObject;
                     _cableLaserBehaviour.inputGameObject = hitData.transform.gameObject;
+                    
+                    _machineUIDisplay = _cableLaserBehaviour.inputMachine.gameObject.GetComponent<MachineUIDisplay>();
                     
                     _machineUIDisplay.thisMachineInputList.Add(_cableLaserBehaviour.inputGameObject);
                     _machineUIDisplay.thisMachineInputCableList.Add(_thisCable);

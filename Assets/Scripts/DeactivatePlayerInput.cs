@@ -39,6 +39,7 @@ public class DeactivatePlayerInput : MonoBehaviour
         isDeactivated = true;
     }
     
+    //ne désactive pas les mouvement du joueur ni de sa camera
     public void SoftDeactivate()
     {
         for (var i = 0; i < playerComponents.Count; i++)

@@ -4,6 +4,9 @@ public class BlueprintCheckpointState : BlueprintBaseState
 {
     private GameObject _cableStock;
     private GameObject _thisCable;
+    private GameObject _linkCable;
+    private GameObject _blueprintCable;
+    
     private Object _checkpoint;
 
     private GameObject _thisCheckpoint;
@@ -19,10 +22,12 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _cableStock = GameObject.Find("CableStock");
 
         _thisCable = _cableStock.transform.GetChild(_cableStock.transform.childCount - 1).gameObject;
+        _linkCable = _thisCable.transform.GetChild(0).gameObject;
+        _blueprintCable = _thisCable.transform.GetChild(1).gameObject;
         
         _checkpoint = Resources.Load("Cables/Checkpoint", typeof(GameObject));
 
-        _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _thisCable.transform);
+        _thisCheckpoint = GameObject.Instantiate((GameObject)_checkpoint, _cableLaserBehaviour.outputMachine.transform.position, Quaternion.identity, _linkCable.transform);
         _thisCheckpoint.layer = 2;
         
         _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
@@ -32,6 +37,9 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _cableLaserBehaviour.isSetup = false;
 
         _machineUIDisplay = _cableLaserBehaviour.inputMachine.GetComponent<MachineUIDisplay>();
+
+
+        _blueprintCable.SetActive(true);
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -40,13 +48,13 @@ public class BlueprintCheckpointState : BlueprintBaseState
         //si il n'y a eu aucun point de passage placé, on retourne au mode de sélection de l'entrée de la seconde machine pour le cablage
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(_thisCable.transform.childCount > 1)
+            if(_linkCable.transform.childCount > 0)
             {
-                GameObject.Destroy(_thisCable.transform.GetChild(_thisCable.transform.childCount - 2).gameObject);
+                GameObject.Destroy(_linkCable.transform.GetChild(_linkCable.transform.childCount - 1).gameObject);
             }
             else
             {
-                GameObject.Destroy(_thisCable.transform.GetChild(_thisCable.transform.childCount - 1).gameObject);
+                GameObject.Destroy(_blueprintCable.transform.GetChild(_blueprintCable.transform.childCount - 1).gameObject);
                 
                 _machineUIDisplay.thisMachineInputList.Remove(_cableLaserBehaviour.inputGameObject);
                 _machineUIDisplay.thisMachineInputCableList.Remove(_thisCable);
@@ -81,8 +89,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
             //si le point de passage peut etre placé alors on crée un point de passage à cet endroit meme
             if (Input.GetKeyDown(KeyCode.Mouse0) && _checkpointCollider.canBePlaced)
             {
-                GameObject.Instantiate((GameObject)_checkpoint, _thisCheckpoint.transform.position, Quaternion.identity, _thisCable.transform);
-                _thisCheckpoint.transform.SetSiblingIndex(_thisCheckpoint.transform.parent.childCount - 1);
+                GameObject.Instantiate((GameObject)_checkpoint, _thisCheckpoint.transform.position, Quaternion.identity, _thisCable.transform.GetChild(0));
             }
         }
     }
@@ -90,5 +97,6 @@ public class BlueprintCheckpointState : BlueprintBaseState
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(8).gameObject.SetActive(false);
+        _blueprintCable.SetActive(false);
     }
 }
