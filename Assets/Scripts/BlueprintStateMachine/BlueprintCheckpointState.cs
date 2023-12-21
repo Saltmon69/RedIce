@@ -38,7 +38,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
         _thisCheckpoint.GetComponent<HighlightComponent>().Blueprint();
         
         _checkpointCollider = _thisCheckpoint.GetComponent<MachineCollider>();
-        _checkpointCollider.isActive = true;
+        _checkpointCollider.enabled = true;
 
         _blueprintCable.SetActive(true);
     }
@@ -69,7 +69,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
         if (hitData.transform.gameObject.layer == 3)
         {

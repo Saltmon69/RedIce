@@ -1,4 +1,5 @@
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class BlueprintCableState : BlueprintBaseState
 {
@@ -35,13 +36,13 @@ public class BlueprintCableState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
-        if(hitData.transform.gameObject.layer == 6)
+        if(hitData.transform.gameObject.layer == 6 && hitData.transform.CompareTag("Output"))
         {
             //si l'on sélectionne une sortie de machine, on assigne au cable qu il est attaché a cette sortie et a quel machine elle appartient
             //avance au mode de sélection de l'entrée de la seconde machine pour le cablage
-            if(Input.GetKeyDown(KeyCode.Mouse0) && hitData.transform.CompareTag("Output"))
+            if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 _machineUIDisplay = hitData.transform.parent.gameObject.GetComponent<MachineUIDisplay>();
 
@@ -67,9 +68,9 @@ public class BlueprintCableState : BlueprintBaseState
                     blueprint.SwitchState(blueprint.linkMachinesState);
                 }
             }
-            
+                
             //feedback pour voir quel sortie on vise / regarde
-            if(hitData.transform.CompareTag("Output") && hitData.transform.gameObject != oldHitData.transform.gameObject)
+            if(hitData.transform.gameObject != oldHitData.transform.gameObject || !hadHit)
             {
                 hitData.transform.GetComponent<HighlightComponent>().Outline();
             }

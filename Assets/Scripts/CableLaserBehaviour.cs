@@ -97,6 +97,7 @@ public class CableLaserBehaviour : MonoBehaviour
         blueprintCheckpointList.Add(checkpointList[^3]);
         blueprintCheckpointList.Add(_blueprintCable.transform.GetChild(0).position);
         blueprintCheckpointList.Add(checkpointList[^2]);
+        blueprintCheckpointList.Add(checkpointList[^1]);
 
         _blueprintLineRenderer.positionCount = blueprintCheckpointList.Count;
     }

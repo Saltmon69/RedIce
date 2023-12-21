@@ -53,7 +53,7 @@ public class BlueprintBuildingState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData){}
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit){}
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {

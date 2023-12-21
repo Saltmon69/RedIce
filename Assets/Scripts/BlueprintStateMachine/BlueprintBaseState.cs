@@ -6,7 +6,7 @@ public abstract class BlueprintBaseState
 
     public abstract void UpdateState(BlueprintStateMachineManager blueprint);
 
-    public abstract void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData);
+    public abstract void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit);
 
     public abstract void ExitState(BlueprintStateMachineManager blueprint);
 }

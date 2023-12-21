@@ -20,7 +20,8 @@ public class BlueprintPlacementState : BlueprintBaseState
         _machineToPlace.layer = 2;
         
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
-        _machineCollider.isActive = true;
+        _machineCollider.enabled = true;
+        
         
         _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
@@ -41,7 +42,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
         if (hitData.transform.gameObject.layer == 3)
         {
@@ -55,7 +56,7 @@ public class BlueprintPlacementState : BlueprintBaseState
             if (hitData.transform.CompareTag("BaseFloor"))
             {
                 blueprint.SwitchState(blueprint.buildingState);
-                _machineCollider.isActive = false;
+                _machineCollider.enabled = false;
                 _highlightComponent.BaseMaterial();
             }
         }

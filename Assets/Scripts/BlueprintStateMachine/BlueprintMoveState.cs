@@ -17,7 +17,7 @@ public class BlueprintMoveState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
         if(hitData.transform.gameObject.layer == 6)
         {
@@ -30,7 +30,7 @@ public class BlueprintMoveState : BlueprintBaseState
             }
             
             //Actualise les matériaux pour le feedback de quel machine on va selectionner
-            if(oldHitData.transform.gameObject != null || hitData.transform.gameObject != oldHitData.transform.gameObject)
+            if(hitData.transform.gameObject != oldHitData.transform.gameObject  || !hadHit)
             {
                 if(hitData.transform.CompareTag("Untagged"))
                 {

@@ -21,7 +21,8 @@ public class BlueprintStateMachineManager : MonoBehaviour
     private RaycastHit _hitData;
     private RaycastHit _oldHitData;
     private bool _hasHit;
-    
+    private bool _isOldHitDataNull;
+
     //la machine entre dans le premier état
     public void Awake()
     {
@@ -30,6 +31,7 @@ public class BlueprintStateMachineManager : MonoBehaviour
         EnterState();
 
         mainCamera = Camera.main;
+        _isOldHitDataNull = true;
     }
 
     public void EnterState()
@@ -56,21 +58,33 @@ public class BlueprintStateMachineManager : MonoBehaviour
         
         if(Physics.Raycast(ray, out _hitData, distance))
         {
-            _currentState.RayState(this, _hitData, _oldHitData);
-
             try
+            {            
+                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject){}
+                _isOldHitDataNull = false;
+            }catch(NullReferenceException) { _isOldHitDataNull = true; }
+
+            _currentState.RayState(this, _hitData, _oldHitData, _hasHit);
+            
+            if (!_isOldHitDataNull)
             {
-                if(_hitData.transform.gameObject != _oldHitData.transform.gameObject || _hitData.transform.gameObject == null)
+                if(_hitData.transform.gameObject != _oldHitData.transform.gameObject)
                 {
                     //le MoveState a sa propre logique pour remettre au matériaux de base dû a son fonctionnement particulier
-                    if(_currentState != moveState)
+                    try
                     {
-                        _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
-                    }
+                        if (_currentState != moveState) _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                    }catch(NullReferenceException){}
+                    
+                    _oldHitData = _hitData;
                 }
-            }catch(NullReferenceException){}
-            
-            _oldHitData = _hitData;
+            }
+            else
+            {
+                _oldHitData = _hitData;
+                _isOldHitDataNull = false;
+            }
+
             _hasHit = true;
         }
         else if(_hasHit)
@@ -80,6 +94,7 @@ public class BlueprintStateMachineManager : MonoBehaviour
             {
                 _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
             }catch(NullReferenceException){}
+            
             _hasHit = false;
         }
     }

@@ -22,14 +22,15 @@ public class BlueprintDisplacementState : BlueprintBaseState
         
         
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
-        _machineCollider.isActive = true;
+        _machineCollider.enabled = true;
 
         _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
 
         //crée une fausse machine permettant de visulalizer la position initiale de l objet avant de le bouger
         _fakeMachineHologram = GameObject.Instantiate(_machineToPlace);
-        _fakeMachineHologram.GetComponent<Collider>().enabled = false;
+        _fakeMachineHologram.GetComponent<MachineCollider>().IsTrigger(true);
+        _fakeMachineHologram.GetComponent<MachineCollider>().enabled = false;
     }
 
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -56,7 +57,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         }
     }
 
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
         if (hitData.transform.gameObject.layer == 3)
         {
@@ -78,7 +79,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(false);
 
-        _machineCollider.isActive = false;
+        _machineCollider.enabled = false;
         _highlightComponent.BaseMaterial();
         _machineToPlace.layer = 6;
         

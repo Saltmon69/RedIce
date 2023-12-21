@@ -29,7 +29,7 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
         if (hitData.transform.gameObject.layer == 6)
         {
@@ -51,7 +51,8 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
                     blueprint.SwitchState(blueprint.checkpointState);
                 }
             
-                if (hitData.transform.gameObject != oldHitData.transform.gameObject)
+                //feedback pour voir quel sortie on vise / regarde
+                if(hitData.transform.gameObject != oldHitData.transform.gameObject || !hadHit)
                 {
                     hitData.transform.GetComponent<HighlightComponent>().Outline();
                 }
