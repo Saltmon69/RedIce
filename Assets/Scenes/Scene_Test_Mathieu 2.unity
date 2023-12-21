@@ -5780,9 +5780,7 @@ MonoBehaviour:
   time: 0
   canvasGroupMode: {fileID: 1503954241}
   modeSelectedUI: {fileID: 6485306}
-  handsFreeModeManager: {fileID: 1298702004}
-  miningModeManager: {fileID: 1894902001}
-  blueprintModeManager: {fileID: 1837859494}
+  modeList: []
   canPlayerSwitchMode: 1
   couldPlayerSwitchMode: 0
   playerInput: {fileID: 88297268}
@@ -5798,7 +5796,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1298702006}
+  - {fileID: 1894902002}
+  - {fileID: 1837859496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &553172408 stripped
@@ -8386,7 +8387,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 951926966}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 540398143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1301095624
 GameObject:
@@ -10250,13 +10251,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837859494}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1385986999}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 540398143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1840010233
 GameObject:
@@ -10597,7 +10598,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 540398143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915619568
 GameObject:
@@ -13354,9 +13355,6 @@ SceneRoots:
   - {fileID: 766367608}
   - {fileID: 540398143}
   - {fileID: 1503954240}
-  - {fileID: 1298702006}
-  - {fileID: 1894902002}
-  - {fileID: 1837859496}
   - {fileID: 1822881459}
   - {fileID: 81724533}
   - {fileID: 708953779}
