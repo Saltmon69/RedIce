@@ -45,8 +45,8 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
                     _machineUIDisplay = _cableLaserBehaviour.inputMachine.gameObject.GetComponent<MachineUIDisplay>();
                     
                     _machineUIDisplay.thisMachineInputList.Add(_cableLaserBehaviour.inputGameObject);
-                    _machineUIDisplay.thisMachineInputCableList.Add(_thisCable);
-                    _machineUIDisplay.thisMachineCableMachineInputList.Add(_cableLaserBehaviour.outputMachine);
+                    _machineUIDisplay.thisMachineInputCableList.Add(_thisCable.GetComponent<CableLaserBehaviour>());
+                    _machineUIDisplay.thisMachineCableMachineUIDisplayList.Add(_cableLaserBehaviour.outputMachine.GetComponent<MachineUIDisplay>());
                     
                     blueprint.SwitchState(blueprint.checkpointState);
                 }

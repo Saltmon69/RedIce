@@ -58,8 +58,8 @@ public class BlueprintCheckpointState : BlueprintBaseState
                 GameObject.Destroy(_blueprintCable.transform.GetChild(_blueprintCable.transform.childCount - 1).gameObject);
                 
                 _machineUIDisplay.thisMachineInputList.Remove(_cableLaserBehaviour.inputGameObject);
-                _machineUIDisplay.thisMachineInputCableList.Remove(_thisCable);
-                _machineUIDisplay.thisMachineCableMachineInputList.Remove(_cableLaserBehaviour.outputMachine);
+                _machineUIDisplay.thisMachineInputCableList.Remove(_thisCable.GetComponent<CableLaserBehaviour>());
+                _machineUIDisplay.thisMachineCableMachineUIDisplayList.Remove(_cableLaserBehaviour.outputMachine.GetComponent<MachineUIDisplay>());
                 
                 _cableLaserBehaviour.inputMachine = null;
                 _cableLaserBehaviour.inputGameObject = null;

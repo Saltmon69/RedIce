@@ -50,7 +50,7 @@ public class BlueprintCableState : BlueprintBaseState
                 {
                     GameObject.Destroy(_thisCable);
                     
-                    _machineCable = _machineUIDisplay.thisMachineOutputCableList[_machineUIDisplay.thisMachineOutputList.IndexOf(hitData.transform.gameObject)];
+                    _machineCable = _machineUIDisplay.thisMachineOutputCableList[_machineUIDisplay.thisMachineOutputList.IndexOf(hitData.transform.gameObject)].gameObject;
                     
                     //change la position du cable dans la hiérarchie à la derniere position pour etre retrouver facilement dans le prochain état 
                     _machineCable.transform.SetSiblingIndex(_machineCable.transform.parent.childCount - 1);
@@ -63,7 +63,7 @@ public class BlueprintCableState : BlueprintBaseState
                     _cableLaserBehaviour.outputGameObject = hitData.transform.gameObject;
                     
                     _machineUIDisplay.thisMachineOutputList.Add(_cableLaserBehaviour.outputGameObject);
-                    _machineUIDisplay.thisMachineOutputCableList.Add(_thisCable);
+                    _machineUIDisplay.thisMachineOutputCableList.Add(_thisCable.GetComponent<CableLaserBehaviour>());
                     
                     blueprint.SwitchState(blueprint.linkMachinesState);
                 }

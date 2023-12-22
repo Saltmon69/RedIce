@@ -31,8 +31,10 @@ public class MachineUIDisplay : MonoBehaviour
     public GameObject equalSign;
 
     public int machineMaterialsReadyForCraft;
+    public List<bool> isMachineMaterialReadyList;
     public float machineCraftingTime;
     public float craftProgress;
+    private bool _isCraftFailed;
     
     public List<GameObject> machineCraftingButtonList;
     public InventoryItem thisMachineInventoryItem;
@@ -70,10 +72,13 @@ public class MachineUIDisplay : MonoBehaviour
     private GameObject _thisMachinePlayerInventorySlot;
     
     public List<GameObject> thisMachineOutputList;
-    public List<GameObject> thisMachineOutputCableList;
+    public List<CableLaserBehaviour> thisMachineOutputCableList;
     public List<GameObject> thisMachineInputList;
-    public List<GameObject> thisMachineInputCableList;
-    public List<GameObject> thisMachineCableMachineInputList;
+    public List<CableLaserBehaviour> thisMachineInputCableList;
+    public List<MachineUIDisplay> thisMachineCableMachineUIDisplayList;
+    private int _machineTransferAmount;
+    private int _transferMachineItemIndex;
+    private int _transferMachineItemAmount;
 
     //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
     private void OnDisplayInstantiate()
@@ -124,19 +129,75 @@ public class MachineUIDisplay : MonoBehaviour
             craftProgress -= Time.deltaTime * 5; 
         }
         
+        if(craftProgress > 0 && _isCraftFailed)
+        {
+            craftProgress -= Time.deltaTime * 5; 
+        }
+        else
+        {
+            _isCraftFailed = false;
+        }
+
         //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
         //le nombre de matériaux crafter on un feedback grâce à la coroutine "OutputMaterialFadeOut"
         if(craftProgress >= machineCraftingTime && isMachineActivated)
         {
             machineMaterialsReadyForCraft = 0;
             
-            for (var i = 0; i < _recipeMaterialList.Count; i++)
+            for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
             {
                 //regarde les ressources prête que le joueur utilise pour construire son objet/matériaux 
-                if (i < _machineCraftRecipe.inputs.Count && machineItemList.Contains(_machineCraftRecipe.inputs[i]) && 
+                if(i < _machineCraftRecipe.inputs.Count && machineItemList.Contains(_machineCraftRecipe.inputs[i]) && 
                     machineItemAmountList[machineItemList.IndexOf(_machineCraftRecipe.inputs[i])] >= _machineCraftRecipe.inputsAmount[i])
                 {
                     machineMaterialsReadyForCraft++;
+                    isMachineMaterialReadyList[i] = true;
+                }
+            }
+
+            //pour chaques machines connecté par cable sur les inputs de cette machines, on essaye de recuperer les matériaux manquant pour le craft
+            //si la ou les machines contiennent la ou les matériaux requis alors cette machine va venir prendre ces ressources dans les machines
+            if(machineMaterialsReadyForCraft < _machineCraftRecipe.inputs.Count)
+            {//il faut fusionner cette partie avec celle du dessus, il faudrais un moyen global pour gerer toute la gestion des matériaux au moment du craft
+                _machineTransferAmount = 0;
+                
+                for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
+                {
+                    if(_machineTransferAmount > 0) i = isMachineMaterialReadyList.Count;
+                    if(isMachineMaterialReadyList[i] || !thisMachineInputCableList[i].isSetup) continue;
+
+                    try
+                    {
+                        _machineTransferAmount = _machineCraftRecipe.inputsAmount[i] - machineItemAmountList[machineItemList.IndexOf(_machineCraftRecipe.inputs[i])];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        _machineTransferAmount = _machineCraftRecipe.inputsAmount[i];
+                    }
+
+                    for(var j = 0; j < thisMachineCableMachineUIDisplayList.Count; j++)
+                    {
+                        if(thisMachineCableMachineUIDisplayList[j].machineItemList.Contains(_machineCraftRecipe.inputs[i]))
+                        {
+                            _transferMachineItemIndex = thisMachineCableMachineUIDisplayList[j].machineItemList.IndexOf(_machineCraftRecipe.inputs[i]);
+                            _transferMachineItemAmount = thisMachineCableMachineUIDisplayList[j].machineItemAmountList[_transferMachineItemIndex];
+                            
+                            _machineTransferAmount -= _transferMachineItemAmount;
+
+                            if(_machineTransferAmount > 0)
+                            {
+                                AddItemToInventory(_machineCraftRecipe.inputs[i], _transferMachineItemAmount, false);
+                            }
+                            else
+                            {
+                                AddItemToInventory(_machineCraftRecipe.inputs[i], _machineTransferAmount + _transferMachineItemAmount, false);
+                                i++;
+                            }
+                            Debug.Log(thisMachineCableMachineUIDisplayList[j]);
+                            //le remove item from inventory meme si il est fait sur la machine liée elle le fait sur cette machine j ignore la raison de poruquoi gl future moi
+                            thisMachineCableMachineUIDisplayList[j].RemoveItemFromInventory(_machineCraftRecipe.inputs[i], _machineTransferAmount);
+                        }
+                    }
                 }
             }
 
@@ -175,13 +236,10 @@ public class MachineUIDisplay : MonoBehaviour
                 {
                     StartCoroutine(OutputMaterialFadeOut(0.5f));
                 }
-                
-                craftProgress = 0;
             }
             else
             {
-                isMachineActivated = false;
-                _isMachineForcedToDeactivate = true;
+                _isCraftFailed = true;
             }
         }
     }
@@ -207,14 +265,7 @@ public class MachineUIDisplay : MonoBehaviour
             _instantiatedMachineUIRecipeMaterial = Instantiate(materialRecipePrefab, _machineRecipeUI.transform);
             _recipeMaterialList.Add(_instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>());
 
-            if(y < _machineCraftRecipe.inputs.Count)
-            {
-                _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = _machineCraftRecipe.inputs[y].sprite;
-            }
-            else
-            {
-                _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = _machineCraftRecipe.outputs[y - _machineCraftRecipe.inputs.Count].sprite;
-            }
+            _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = y < _machineCraftRecipe.inputs.Count ? _machineCraftRecipe.inputs[y].sprite : _machineCraftRecipe.outputs[y - _machineCraftRecipe.inputs.Count].sprite;
 
             if(y != _machineCraftRecipe.inputs.Count - 1 && y != _machineCraftRecipe.inputs.Count + _machineCraftRecipe.outputs.Count - 1)
             {
@@ -238,6 +289,8 @@ public class MachineUIDisplay : MonoBehaviour
         while(true)
         {
             machineMaterialsReadyForCraft = 0;
+            isMachineMaterialReadyList = new List<bool>(new bool[_machineCraftRecipe.inputs.Count]);
+            
             for(var i = 0; i < _recipeMaterialList.Count; i++)
             {
                 //regarde si les matériaux que l'on est en train de définir si il sont requis ou reçus
@@ -287,7 +340,7 @@ public class MachineUIDisplay : MonoBehaviour
             if(_machineInventoryDropSlotUI.transform.childCount > 0)
             {
                 thisMachineInventoryItem = _machineInventoryDropSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-
+                craftProgress = 0; 
                 AddItemToInventory(thisMachineInventoryItem.item, thisMachineInventoryItem.count, false);
                 Destroy(thisMachineInventoryItem.gameObject);
             }
@@ -307,7 +360,7 @@ public class MachineUIDisplay : MonoBehaviour
     
     //ajoute l'objet/matériaux à l'inventaire, si il est déja présent alors il ajoute un montant a cet objet/matériaux
     //ceci inclut la liste des items, un montant nul qui sera calculer par la suite, son sprite et montant dans l'ui de l'inventaire
-    private void AddItemToInventory(ItemClass thisItem, int thisAmount, bool isContained)
+    public void AddItemToInventory(ItemClass thisItem, int thisAmount, bool isContained)
     {
         if(!machineItemList.Contains(thisItem))
         {
@@ -329,7 +382,7 @@ public class MachineUIDisplay : MonoBehaviour
     }
 
     //enleve un montant d'un objet/matériaux et le supprime si l'inventaire n'en possède plus 
-    private void RemoveItemFromInventory(ItemClass thisItem, int thisAmount)
+    public void RemoveItemFromInventory(ItemClass thisItem, int thisAmount)
     {
         _thisIndex = machineItemList.IndexOf(thisItem);
         machineItemAmountList[_thisIndex] -= thisAmount;
