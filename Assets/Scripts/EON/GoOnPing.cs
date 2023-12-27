@@ -15,12 +15,17 @@ public class GoOnPing : IState, IObserver
     
     private bool mineraiInRange = false;
     
+    
     public void OnEnter(EONStateMachine stateMachine)
     {
         stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
         stateMachine.navMeshSurface.BuildNavMesh();
+        if (ping == null)
+        {
+            ping = stateMachine.subject.GetComponent<PlayerManager>().activePing;
+        }
         stateMachine.agent.SetDestination(ping.transform.position);
-        Debug.Log("Je rentre en GoOnPing");
+        
     }
 
     public void OnExit(EONStateMachine stateMachine)
@@ -32,7 +37,9 @@ public class GoOnPing : IState, IObserver
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
-        Debug.Log("Je suis en GoOnPing");
+        Debug.Log(ping);
+        stateMachine.agent.SetDestination(ping.transform.position);
+        
         if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 2)
         {
             stateMachine.ChangeState(new Idle());
@@ -52,12 +59,14 @@ public class GoOnPing : IState, IObserver
 
     public void OnNotify(Data data)
     {
+        Debug.Log("J'ai reçu le msg");
         if (data.itemPinged != null)
         {
             ping = data.itemPinged;
         }
         
         ping = data.ping;
+        Debug.Log("Le ping est : " + ping);
         activeOrder = data.order;
         
     }
