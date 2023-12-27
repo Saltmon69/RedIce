@@ -146,8 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4418e57416c4e84daba358bb0110d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshRenderers: []
-  _baseMaterials: []
+  _meshRenderersList: []
+  _baseMaterialsList: []
   highlightMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: -876546973899608171, guid: 3739e562a03fc0b4982d8aa66cc50865,
     type: 3}
@@ -254,8 +254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49841cee562448bb9336c6303d011af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 0
   canBePlaced: 1
+  isActive: 0
+  _childColliderList: []
+  _collisionList: []
 --- !u!114 &3414790087864096204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4418e57416c4e84daba358bb0110d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshRenderers: []
-  _baseMaterials: []
+  _meshRenderersList: []
+  _baseMaterialsList: []
   highlightMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 29966c3c0907b49b58c4e59342d020cf, type: 2}
   blueprintMaterial: {fileID: -876546973899608171, guid: 775fcc9827799524d8fe040d3f74be5f,
@@ -297,13 +299,24 @@ MonoBehaviour:
   equalSign: {fileID: 3988979144145190241, guid: 0237d290688882a429592bc62863dcce,
     type: 3}
   machineMaterialsReadyForCraft: 0
+  isMachineMaterialReadyList: 
   machineCraftingTime: 1
   craftProgress: 0
-  machineCraftingButtonList:
+  machineTier1CraftingButtonList:
+  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
+  machineTier2CraftingButtonList:
   - {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b, type: 3}
+  machineTier3CraftingButtonList:
+  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
+  - {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b, type: 3}
+  machineUpgradeItemTier:
+  - {fileID: 11400000, guid: 184c1357f8698704eac268712865419e, type: 2}
+  - {fileID: 11400000, guid: 5b39a732016e21f49bf51c65dd88afc2, type: 2}
+  thisUpgradeItemInSlot: {fileID: 0}
   thisMachineInventoryItem: {fileID: 0}
   machineItemList: []
   machineItemAmountList: 
+  usedRecipeIndex: -1
   inventoryItemPrefab: {fileID: 6419196172502416368, guid: 0972250b93f57a34ca282b89cab6d8f0,
     type: 3}
   playerInventory: {fileID: 0}
@@ -311,6 +324,11 @@ MonoBehaviour:
   inventoryItemButtonUIPrefab: {fileID: 3239037398901440076, guid: 29dcda8c00c95eb4b87dffed024e3920,
     type: 3}
   isUIOpen: 0
+  thisMachineOutputList: []
+  thisMachineOutputCableList: []
+  thisMachineInputList: []
+  thisMachineInputCableList: []
+  thisMachineCableMachineUIDisplayList: []
 --- !u!1 &7674259171066631964
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,8 +475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4418e57416c4e84daba358bb0110d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshRenderers: []
-  _baseMaterials: []
+  _meshRenderersList: []
+  _baseMaterialsList: []
   highlightMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: -876546973899608171, guid: 3739e562a03fc0b4982d8aa66cc50865,
     type: 3}

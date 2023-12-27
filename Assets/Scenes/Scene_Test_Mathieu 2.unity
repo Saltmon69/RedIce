@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2873,6 +2873,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 81724533}
     m_Modifications:
+    - target: {fileID: -7568948458433860678, guid: 09108b153edc68340aa7e7fce2888ca1,
+        type: 3}
+      propertyPath: machineCraftingTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1721208185728805435, guid: 09108b153edc68340aa7e7fce2888ca1,
         type: 3}
       propertyPath: outlineMaterial
@@ -8269,9 +8274,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
         type: 3}
+      propertyPath: machineCraftingTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
       propertyPath: inventoryItemButtonPrefab
       value: 
       objectReference: {fileID: 3239037398901440076, guid: 29dcda8c00c95eb4b87dffed024e3920,
+        type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[1]
+      value: 
+      objectReference: {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b,
+        type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[2]
+      value: 
+      objectReference: {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604,
+        type: 3}
+    - target: {fileID: 8249868994775421129, guid: a455fbe3b1bdc904eabe344b78aa2c17,
+        type: 3}
+      propertyPath: machineCraftingButtonList.Array.data[3]
+      value: 
+      objectReference: {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b,
         type: 3}
     - target: {fileID: 8441981954953575221, guid: a455fbe3b1bdc904eabe344b78aa2c17,
         type: 3}
