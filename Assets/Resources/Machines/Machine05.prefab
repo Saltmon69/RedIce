@@ -538,17 +538,18 @@ MonoBehaviour:
   isMachineMaterialReadyList: 
   machineCraftingTime: 1
   craftProgress: 0
-  machineTier1CraftingButtonList:
-  - {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b, type: 3}
-  machineTier2CraftingButtonList:
-  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
-  machineTier3CraftingButtonList:
-  - {fileID: 4919123658292138051, guid: bd494966e82705d4c9d29a7d8dd2a44b, type: 3}
-  - {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604, type: 3}
+  craftButton: {fileID: 5631759531749797722, guid: 2a2c432621527524ba68bab36c0a5604,
+    type: 3}
+  machineTier1CraftList:
+  - {fileID: 11400000, guid: 7139c7794bae29348ab0767a90fed1d3, type: 2}
+  machineTier2CraftList:
+  - {fileID: 11400000, guid: 0241ed0c92380d94ea6121a213494ae6, type: 2}
+  machineTier3CraftList:
+  - {fileID: 11400000, guid: 7139c7794bae29348ab0767a90fed1d3, type: 2}
   machineUpgradeItemTier:
   - {fileID: 11400000, guid: 32b6ccbaa59ee2940947a9c9379356f5, type: 2}
   - {fileID: 11400000, guid: f43286b7998266d41af33d18084521ac, type: 2}
-  thisUpgradeItemInSlot: {fileID: 0}
+  thisUpgradeInventoryItemInSlot: {fileID: 0}
   thisMachineInventoryItem: {fileID: 0}
   machineItemList: []
   machineItemAmountList: 

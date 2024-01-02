@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 6709061894981009793}
   - component: {fileID: 2746977943324631502}
   - component: {fileID: 6522353698863644993}
-  - component: {fileID: 9120968113510234437}
   m_Layer: 5
-  m_Name: Craft1
+  m_Name: CraftButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,19 +121,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &9120968113510234437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5631759531749797722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b7d2083bdfb634f98f5222a05acbe9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  craft: {fileID: 11400000, guid: 7139c7794bae29348ab0767a90fed1d3, type: 2}
 --- !u!1 &9087378337740757719
 GameObject:
   m_ObjectHideFlags: 0

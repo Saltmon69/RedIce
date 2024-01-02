@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MachineUIDisplay : MonoBehaviour
 {
-    public GameObject machineUIPrefab;
-    public GameObject machineInventoryTransferUI;
+    private GameObject _machineUIPrefab;
+    private GameObject _machineInventoryTransferUIPrefab;
     
     private GameObject _thisMachineUIDisplay;
     private GameObject _machineInventoryUI;
@@ -28,22 +27,24 @@ public class MachineUIDisplay : MonoBehaviour
     private Recipe _machineCraftRecipe;
     private float _machineCraftingTimeLeft;
 
-    public GameObject materialRecipePrefab;
-    public GameObject plusSign;
-    public GameObject equalSign;
+    private GameObject _materialRecipePrefab;
+    private GameObject _plusSignPrefab;
+    private GameObject _equalSignPrefab;
 
     public int machineMaterialsReadyForCraft;
     public List<bool> isMachineMaterialReadyList;
     public float machineCraftingTime;
     public float craftProgress;
     private bool _isCraftFailed;
-    
-    public List<GameObject> machineTier1CraftingButtonList;
-    public List<GameObject> machineTier2CraftingButtonList;
-    public List<GameObject> machineTier3CraftingButtonList;
+
+    private GameObject _craftButtonPrefab;
+    public List<Recipe> machineTier1CraftList;
+    public List<Recipe> machineTier2CraftList;
+    public List<Recipe> machineTier3CraftList;
+    private List<Recipe> _machineCraftList;
     private List<GameObject> _machineCraftingButtonList;
     public List<ItemClass> machineUpgradeItemTier;
-    [FormerlySerializedAs("thisUpgradeItemInSlot")] public InventoryItem thisUpgradeInventoryItemInSlot;
+    public InventoryItem thisUpgradeInventoryItemInSlot;
     private bool _hasItemInUpgradeSlot;
 
     public InventoryItem thisMachineInventoryItem;
@@ -53,7 +54,7 @@ public class MachineUIDisplay : MonoBehaviour
     private List<Text> _recipeMaterialList;
     public int usedRecipeIndex;
     
-    public GameObject inventoryItemPrefab;
+    private GameObject _inventoryItemPrefab;
     private InventoryItem _itemInSlot;
     private InventoryItem _itemCreated;
 
@@ -63,7 +64,7 @@ public class MachineUIDisplay : MonoBehaviour
     public bool isMachineActivated;
     private bool _isMachineForcedToDeactivate;
 
-    public GameObject inventoryItemButtonUIPrefab;
+    private GameObject _inventoryItemButtonUIPrefab;
     private GameObject _thisMachineItemButtonUI;
     private InventoryItem _thisMachineOutputMaterial;
     private CanvasGroup _machineOutputMaterialGroup;
@@ -92,6 +93,8 @@ public class MachineUIDisplay : MonoBehaviour
     //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
     private void OnDisplayInstantiate()
     {
+        _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
+        
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _machineUpgradeSlotUI = _thisMachineUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -103,31 +106,45 @@ public class MachineUIDisplay : MonoBehaviour
         _machinePlayerInventoryUI = _thisMachineUIDisplay.transform.GetChild(8).GetChild(0).GetChild(0).GetChild(1).gameObject;
     }
 
+    //charge les différents préfab pour l'ui de la machine
+    private void LoadUIReferences()
+    {
+        _machineUIPrefab = Resources.Load<GameObject>("MachineUI/UIMachine");
+        _machineInventoryTransferUIPrefab = Resources.Load<GameObject>("MachineUI/AmountUI");
+        _materialRecipePrefab = Resources.Load<GameObject>("MachineUI/MaterialRecipe");
+        _plusSignPrefab = Resources.Load<GameObject>("MachineUI/PlusSignImage");
+        _equalSignPrefab = Resources.Load<GameObject>("MachineUI/EqualSignImage");
+        _craftButtonPrefab = Resources.Load<GameObject>("MachineUI/CraftButton");
+        _inventoryItemPrefab = Resources.Load<GameObject>("MachineUI/InventoryItem");
+        _inventoryItemButtonUIPrefab = Resources.Load<GameObject>("MachineUI/InventoryButton");
+    }
+
     //fonction qui doit etre appelé par un script externe affin d'activer l'UI de la machine
     public void ActivateUIDisplay()
     {
         isUIOpen = true;
-        _thisMachineUIDisplay = Instantiate(machineUIPrefab);
 
+        LoadUIReferences();
         OnDisplayInstantiate();
-
+        
         LoadInventory();
         LoadPlayerInventory();
 
+        _machineCraftList = new List<Recipe>();
         _machineCraftingButtonList = new List<GameObject>();
         
         //assigne chaque tier de craft a la liste de craft
-        foreach(var t in machineTier1CraftingButtonList) _machineCraftingButtonList.Add(t);
-        foreach(var t in machineTier2CraftingButtonList) _machineCraftingButtonList.Add(t);
-        foreach(var t in machineTier3CraftingButtonList) _machineCraftingButtonList.Add(t);
+        foreach(var t in machineTier1CraftList) _machineCraftList.Add(t);
+        foreach(var t in machineTier2CraftList) _machineCraftList.Add(t);
+        foreach(var t in machineTier3CraftList) _machineCraftList.Add(t);
         
         //cree des bouton dans le menu de craft celon les bouton selectionner dans l'inspecteur, puis leur ajoute leur fonctionnalité de craft
-        for (var i = 0; i < _machineCraftingButtonList.Count; i++)
+        for (var i = 0; i < _machineCraftList.Count; i++)
         {
             var a = i;
-            _instantiatedMachineUIButton = Instantiate(_machineCraftingButtonList[i], _machineCraftUI.transform);
+            _instantiatedMachineUIButton = Instantiate(_craftButtonPrefab, _machineCraftUI.transform);
             _instantiatedMachineUIButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a, true); });
-            _machineCraftingButtonList[i] = _instantiatedMachineUIButton;
+            _machineCraftingButtonList.Add(_instantiatedMachineUIButton);
         }
 
         SetCraftingButtonToMachineTier(0);
@@ -248,7 +265,7 @@ public class MachineUIDisplay : MonoBehaviour
                     AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
 
                     if (!isUIOpen) continue;
-                    _thisMachineOutputMaterial = Instantiate(inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
+                    _thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
                     _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
                     _thisMachineOutputMaterial.count = 0;
                     _thisMachineOutputMaterial.RefreshCount();
@@ -277,9 +294,9 @@ public class MachineUIDisplay : MonoBehaviour
             _machineCraftingButtonList[i].gameObject.SetActive(true);
         }
 
-        for(var i = machineTier1CraftingButtonList.Count; i < _machineCraftingButtonList.Count; i++)
+        for(var i = machineTier1CraftList.Count; i < _machineCraftingButtonList.Count; i++)
         {
-            if(i < machineTier1CraftingButtonList.Count + machineTier2CraftingButtonList.Count)
+            if(i < machineTier1CraftList.Count + machineTier2CraftList.Count)
             {
                 _machineCraftingButtonList[i].gameObject.SetActive(upgradeSlotItemTier >= 1);
             }
@@ -299,8 +316,8 @@ public class MachineUIDisplay : MonoBehaviour
         }
 
         _recipeMaterialList = new List<Text>();
-        _machineCraftRecipe = _machineCraftingButtonList[a].GetComponent<ButtonCraft>().craft;
-        
+        _machineCraftRecipe = _machineCraftList[a];
+
         //fait que le bouton reste enfoncer après la selection de craft, en revanche, si le bouton était déja appuyer alors aucun craft n'est sélectionné
         if(usedRecipeIndex != a || !isClicked)
         {
@@ -313,19 +330,19 @@ public class MachineUIDisplay : MonoBehaviour
             //il assigne aussi les textes qui gere le montant des materiaux de la recette qui sera défini dans "RecipeMaterialManager"
             for(var y = 0; y < _machineCraftRecipe.inputs.Count + _machineCraftRecipe.outputs.Count; y++)
             {
-                _instantiatedMachineUIRecipeMaterial = Instantiate(materialRecipePrefab, _machineRecipeUI.transform);
+                _instantiatedMachineUIRecipeMaterial = Instantiate(_materialRecipePrefab, _machineRecipeUI.transform);
                 _recipeMaterialList.Add(_instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>());
 
                 _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = y < _machineCraftRecipe.inputs.Count ? _machineCraftRecipe.inputs[y].sprite : _machineCraftRecipe.outputs[y - _machineCraftRecipe.inputs.Count].sprite;
 
                 if(y != _machineCraftRecipe.inputs.Count - 1 && y != _machineCraftRecipe.inputs.Count + _machineCraftRecipe.outputs.Count - 1)
                 {
-                    Instantiate(plusSign, _machineRecipeUI.transform);
+                    Instantiate(_plusSignPrefab, _machineRecipeUI.transform);
                 }
 
                 if(y == _machineCraftRecipe.inputs.Count - 1)
                 {
-                    Instantiate(equalSign, _machineRecipeUI.transform);
+                    Instantiate(_equalSignPrefab, _machineRecipeUI.transform);
                 }
             }
         }
@@ -435,10 +452,10 @@ public class MachineUIDisplay : MonoBehaviour
                 else
                 {
                     SetCraftingButtonToMachineTier(0);
+                    usedRecipeIndex = -1;
                 }
                 
                 _hasItemInUpgradeSlot = true;
-                usedRecipeIndex = -1;
             }
 
             if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
@@ -475,7 +492,7 @@ public class MachineUIDisplay : MonoBehaviour
         
         if(isUIOpen && isContained)
         {
-            _thisMachineItemButtonUI = Instantiate(inventoryItemButtonUIPrefab, _machineInventoryUI.transform);
+            _thisMachineItemButtonUI = Instantiate(_inventoryItemButtonUIPrefab, _machineInventoryUI.transform);
             _thisMachineItemButtonUI.transform.GetChild(0).GetComponent<Image>().sprite = thisItem.sprite;
             _machineInventoryAmountTextList.Add(_thisMachineItemButtonUI.transform.GetChild(2).gameObject.GetComponent<Text>());
             _machineInventoryAmountTextList[^1].text = thisAmount.ToString();
@@ -539,7 +556,7 @@ public class MachineUIDisplay : MonoBehaviour
     //crée l'ui pour la transaction des items de la machine a déplacer dans notre inventaire
     private IEnumerator TransferAmountUI(ItemClass thisItem)
     {
-        _thisTransferAmountUI = Instantiate(machineInventoryTransferUI, 
+        _thisTransferAmountUI = Instantiate(_machineInventoryTransferUIPrefab, 
                                             _machineInventoryUI.transform.GetChild(machineItemList.IndexOf(thisItem)).transform.position,
                                             Quaternion.identity, 
                                             _thisMachineUIDisplay.transform);
@@ -579,7 +596,7 @@ public class MachineUIDisplay : MonoBehaviour
         {
             if(_machinePlayerInventoryList[i].childCount == 0 && _transferAmount > 0)
             {
-                thisMachineInventoryItem = Instantiate(inventoryItemPrefab, _machinePlayerInventoryList[i]).GetComponent<InventoryItem>();
+                thisMachineInventoryItem = Instantiate(_inventoryItemPrefab, _machinePlayerInventoryList[i]).GetComponent<InventoryItem>();
                 thisMachineInventoryItem.InitialiseItem(thisItem);
                 
                 _transferAmount -= thisItem.stackSize;
