@@ -22,13 +22,12 @@ public class RadialMenuScript : MonoBehaviour
         data = new Data();
         
         playerMenuing.inMenu = false;
-        Cursor.lockState = CursorLockMode.Locked;
         
         itemHit = playerInteraction.RaycastMaker(100f);    
         
         if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
         {
-            
+            // Pour qu'il y ai un seul ping sur la map
             if (playerManager.activePing != null)
             {
                 Destroy(playerManager.activePing);
@@ -39,6 +38,7 @@ public class RadialMenuScript : MonoBehaviour
             {
                 data.ping = Instantiate(pingPrefab, itemHit.point, Quaternion.identity);
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////
             
             if (itemHit.collider != null)
             {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using VInspector;
 using Random = UnityEngine.Random;
 
 
@@ -28,15 +29,7 @@ public class MineraiClass : MonoBehaviour
         CritPointCreation();
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            CritPointCreation();
-        }
-    }
-
+    
     
     public void takeDamage(int damage)
     {
@@ -52,6 +45,11 @@ public class MineraiClass : MonoBehaviour
         {
             inventoryManager.AddItem(mineraiClass);
         }
+        
+        if (mineraiLife <= 0)
+        {
+            DestroyGameObject();
+        }
     }
 
     public void DestroyGameObject()
@@ -63,6 +61,7 @@ public class MineraiClass : MonoBehaviour
     /// <summary>
     /// Permet la création de point critique de façon aléatoire sur le minerai. 
     /// </summary>
+    [Button("CritPointCreation")]
     public void CritPointCreation()
     {
         Debug.Log("CritPointCreation");

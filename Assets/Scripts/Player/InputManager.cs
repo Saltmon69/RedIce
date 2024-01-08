@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
         playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
         playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
-        //playerInteraction.OnPingPressed();
+        
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
         playerMenuingActions.Inventory.performed += ctx => playerMenuing.OnInventoryPressed();

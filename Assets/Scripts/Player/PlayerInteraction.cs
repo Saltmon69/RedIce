@@ -103,7 +103,11 @@ public class PlayerInteraction : MonoBehaviour
         radialMenu.SetActive(false);
         
     }
-
+    /// <summary>
+    /// Permet de créer un raycast à partir de la position de la souris.
+    /// </summary>
+    /// <param name="range">taille du raycast</param>
+    /// <returns>Retourne l'objet touché et sa position</returns>
     public RaycastHit RaycastMaker(float range)
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
@@ -112,7 +116,6 @@ public class PlayerInteraction : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
         return hit;
-
     }
 
     

@@ -33,28 +33,11 @@ public class PlayerMenuing : MonoBehaviour
     {
         if (inMenu) 
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Time.timeScale = 0;
-            
-            playerMovement.enabled = false;
-            playerMouseLook.enabled = false;
-            if (!playerInteraction.pingIsPressed)
-            {
-                playerInteraction.enabled = false;
-                ATH.SetActive(false);
-            }
+            InMenu();
         }
         if (!inMenu)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1;
-            
-            playerMovement.enabled = true;
-            playerMouseLook.enabled = true;
-            playerInteraction.enabled = true;
-            ATH.SetActive(true);
+            OutMenu();
         }
     }
 
@@ -63,19 +46,16 @@ public class PlayerMenuing : MonoBehaviour
     /// </summary>
     public void OnMainMenuPressed()
     {
-        if (!inMenu)
-        {
-            inMenu = true;
-            mainMenu.SetActive(true);
-        }
         
         if (inventory.activeSelf)
         {
             inventory.SetActive(false);
+            mainMenu.SetActive(true);
         }
-        else if (map.activeSelf)
+        if (map.activeSelf)
         {
             map.SetActive(false);
+            mainMenu.SetActive(true);
         }
         else
         {
@@ -111,5 +91,32 @@ public class PlayerMenuing : MonoBehaviour
     {
         mainMenu.SetActive(false);
         inMenu = false;
+    }
+    
+    private void InMenu()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 0;
+            
+        playerMovement.enabled = false;
+        playerMouseLook.enabled = false;
+        if (!playerInteraction.pingIsPressed)
+        {
+            playerInteraction.enabled = false;
+            ATH.SetActive(false);
+        }
+    }
+    
+    private void OutMenu()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+            
+        playerMovement.enabled = true;
+        playerMouseLook.enabled = true;
+        playerInteraction.enabled = true;
+        ATH.SetActive(true);
     }
 }

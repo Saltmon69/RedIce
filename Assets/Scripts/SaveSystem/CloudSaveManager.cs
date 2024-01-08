@@ -5,6 +5,7 @@ using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Models;
 using Unity.Services.Core;
+using VInspector;
 
 public class CloudSaveManager : MonoBehaviour
 {
@@ -16,11 +17,14 @@ public class CloudSaveManager : MonoBehaviour
         SaveData();
     }
 
+    [Button("Save Data")]
     public async void SaveData()
     {
         var playerData = new Dictionary<string, object>{
-            {"firstKeyName", "a text value"},
-            {"Player", objectsToSave[1]}
+            {"Player", objectsToSave[0]},
+            {"PlayerPosition", objectsToSave[0].transform.position},
+            {"PlayerRotation", objectsToSave[0].transform.rotation},
+            {"PlayerScale", objectsToSave[0].transform.localScale}
         };
         var result = await CloudSaveService.Instance.Data.Player.SaveAsync(playerData);
         Debug.Log($"Saved data {string.Join(',', playerData)}");
