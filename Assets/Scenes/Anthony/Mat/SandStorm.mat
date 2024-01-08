@@ -7,15 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Laser_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: cf97715c40d67024fb741f66622470f1,
+  m_Name: SandStorm
+  m_Shader: {fileID: -6465566751694194690, guid: 7f46a5623ad24334891c43c9209b06e6,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -24,14 +24,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: e833ffb5ec8d133469402c9877af1707, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 2800000, guid: 99b07cd2258e27b49a54a0d13b03d800, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -46,19 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DisolveAmount: 0.47
-    - _NoiseAmount: 0.1
-    - _NoisePOwer: 2
-    - _NoisePower: 0.21
-    - _NoiseScale: 120.6
+    - _Dissolve: 0
+    - _NoiseScale: 20
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 47.937252, g: 47.937252, b: 47.937252, a: 1}
-    - _MainSpeed: {r: -5, g: 0, b: 0, a: 0}
-    - _NoiseSpeed: {r: -1, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _NoiseSpeed: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4025715693332268086
+--- !u!114 &6968422881165228470
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
