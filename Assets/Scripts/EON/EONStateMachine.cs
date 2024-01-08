@@ -35,7 +35,7 @@ public class EONStateMachine : MonoBehaviour
     {
         distanceToPlayer = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
         
-        Debug.Log("State : " + currentState);
+        //Debug.Log("State : " + currentState);
         
         currentState.OnUpdate(this);
         

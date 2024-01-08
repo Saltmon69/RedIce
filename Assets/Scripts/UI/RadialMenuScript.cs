@@ -52,9 +52,9 @@ public class RadialMenuScript : MonoBehaviour
                 }
             }
         }
-        
         data.order = Order.GoOnPing;
         playerManager.NotifyObservers(data);
+        Invoke("InvokeNotify", 0.2f);
         playerInteraction.radialMenu.SetActive(false);
         
     }
@@ -70,5 +70,10 @@ public class RadialMenuScript : MonoBehaviour
         playerMenuing.inMenu = false;
         playerInteraction.radialMenu.SetActive(false);
         
+    }
+    
+    private void InvokeNotify()
+    {
+        playerManager.NotifyObservers(data);
     }
 }

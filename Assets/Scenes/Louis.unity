@@ -6073,6 +6073,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385981089}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!195 &1486366351 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 7070900064547131931, guid: cb95b067687f1e14abf49369c5aa3df9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1084243708996061966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1502862652 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2430666838082113378, guid: 1256acb3dede1e0438a4da0376b6d8b7,
@@ -6546,6 +6552,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1669462176714063477, guid: cb95b067687f1e14abf49369c5aa3df9,
+        type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1486366351}
     - target: {fileID: 1669462176714063477, guid: cb95b067687f1e14abf49369c5aa3df9,
         type: 3}
       propertyPath: subject
