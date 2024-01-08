@@ -42,21 +42,23 @@ public class InputManager : MonoBehaviour
         
         // playerMovement.[action].performed += ctx => Action à effectuer;
         
-        //Déplacement (Z Q S D Shift)
+        //Déplacement (Z Q S D Shift C )
         playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
         playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
         playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
         playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();
         
+        
         //Mouvement caméra (Souris)
         playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
         playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
         
-        //Interaction (E, Left Click, Middle Click)
+        //Interaction (E, Left Click, Middle Click, A)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
         playerInteractionActions.Use.performed += _ => playerInteraction.OnUsePressed();
         playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
         playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
+        playerInteractionActions.AVA.performed += _ => playerInteraction.OnAvaPressed();
         
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();

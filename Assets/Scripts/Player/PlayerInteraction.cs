@@ -7,30 +7,40 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VInspector;
 
 [Description("Gère les interactions du joueur")]
 public class PlayerInteraction : MonoBehaviour
 {
     #region Variables
 
-    // Références
+    
+    [Tab("Références")]
     [SerializeField] Camera playerCamera;
     public PlayerManager playerManager;
     public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
+    [SerializeField] GameObject ava;
     
     
-    // Minages
-    MineraiClass mineraiClass;
-    bool hasAppliedDamage = false;
+    
+    [Tab("Minage")]
+    [SerializeField] MineraiClass mineraiClass;
+    [SerializeField] bool hasAppliedDamage = false;
     public int damage;
     
     // Raycast
+    [Tab("Raycast")]
     [SerializeField] float interactionRange;
     RaycastHit itemHit;
     
     // Ping
-    [HideInInspector]public bool pingIsPressed;
+    [Tab("Ping")]
+    public bool pingIsPressed;
+    
+    // Lunette AVA
+    [Tab("Lunette AVA")]
+    public bool avaIsPressed;
     
 
     #endregion
@@ -45,6 +55,14 @@ public class PlayerInteraction : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (avaIsPressed)
+        {
+            ava.SetActive(true);
+        }
+        else
+        {
+            ava.SetActive(false);
+        }
         
         if (itemHit.collider != null)
         {
@@ -101,6 +119,19 @@ public class PlayerInteraction : MonoBehaviour
         pingIsPressed = false;
         playerMenuing.inMenu = false;
         radialMenu.SetActive(false);
+        
+    }
+    
+    public void OnAvaPressed()
+    {
+        if (avaIsPressed)
+        {
+            avaIsPressed = false;
+        }
+        else
+        {
+            avaIsPressed = true;
+        }
         
     }
     /// <summary>

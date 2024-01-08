@@ -170,17 +170,6 @@
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3c62897d-2169-4bc1-9f1e-94a9797a8470",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -210,6 +199,15 @@
                     "name": "Ping",
                     "type": "PassThrough",
                     "id": "701ec9ad-1bfd-496f-8b42-483fc939a26a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AVA",
+                    "type": "PassThrough",
+                    "id": "b338dc93-fb47-436a-adc1-4192932eb15b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -247,6 +245,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Ping",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b7de2f6-b5d8-4d97-b603-042181f5aea0",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AVA",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

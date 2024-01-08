@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
-    bool sprint;
+    bool sprint = false;
 
     // Jump
     
@@ -81,25 +81,29 @@ public class PlayerMovement : MonoBehaviour
         
         if (crouch)
         {
+            controller.height = 1f;
             speed = 6f;
-            playerCamera.localPosition = new Vector3(0, halfHeight, 0);
-            crouch = false;
-        }
-        if (sprint)
-        {
-            speed = 24f;
-            sprint = false;
+            transform.localScale = new Vector3(1, 0.5f, 1);
+            
         }
         if (!crouch)
         {
+            controller.height = 2f;
             speed = 12f;
-            playerCamera.localPosition = new Vector3(0, 0.9f, 0);
+            transform.localScale = new Vector3(1, 1, 1);
         }
-        if (!sprint)
+
+        if (!crouch)
         {
-            speed = 12f;
+            if (sprint)
+            {
+                speed = 24f;
+            }
+            if (!sprint)
+            {
+                speed = 12f;
+            }
         }
-        
     }
 
     public void ReceiveInput (Vector2 _horizontalInput)
@@ -115,12 +119,26 @@ public class PlayerMovement : MonoBehaviour
     
     public void OnSprintPressed()
     {
-        sprint = true;
+        if (sprint == false)
+        {
+            sprint = true;
+        }
+        else
+        {
+            sprint = false;
+        }
     }
     
     public void OnCrouchPressed()
     {
-        crouch = true;
+        if(crouch == false)
+        {
+            crouch = true;
+        }
+        else
+        {
+            crouch = false;
+        }
     }
     
     #endregion

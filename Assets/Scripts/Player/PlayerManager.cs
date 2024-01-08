@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {   
         UIUpdater();
-        Debug.Log("Observeurs : " + observers.Count + observers[0]);
+        //Debug.Log("Observeurs : " + observers.Count + observers[0]);
     }
 
     public void AddObserver(IObserver observer)
