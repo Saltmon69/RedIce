@@ -159,8 +159,6 @@ public class PlayerInteraction : MonoBehaviour
         itemHit = hit;
         return hit;
     }
-
     
-
     #endregion
 }

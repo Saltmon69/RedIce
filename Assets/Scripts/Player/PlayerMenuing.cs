@@ -4,19 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VInspector;
 
 public class PlayerMenuing : MonoBehaviour
 {
+    [Tab("Menus")]
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject inventory;
     [SerializeField] GameObject map;
     [SerializeField] GameObject ATH;
     
+    [Tab("Références")]
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerMouseLook playerMouseLook;
     [SerializeField] PlayerInteraction playerInteraction;
 
-    public bool inMenu;
+    
+    [HideInInspector] public bool inMenu;
     
     
     // Évite un potentiel oubli d'activation lors des tests et builds.
@@ -57,9 +61,13 @@ public class PlayerMenuing : MonoBehaviour
             map.SetActive(false);
             mainMenu.SetActive(true);
         }
-        else
+        else if(!inventory.activeSelf && !map.activeSelf && !mainMenu.activeSelf)
         {
             mainMenu.SetActive(true);
+        }
+        else if(mainMenu.activeSelf)
+        {
+            inMenu = false;
         }
     }
     
@@ -89,7 +97,6 @@ public class PlayerMenuing : MonoBehaviour
     
     public void OnQuitPressed()
     {
-        mainMenu.SetActive(false);
         inMenu = false;
     }
     
@@ -113,7 +120,8 @@ public class PlayerMenuing : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
-            
+        
+        mainMenu.SetActive(false);
         playerMovement.enabled = true;
         playerMouseLook.enabled = true;
         playerInteraction.enabled = true;

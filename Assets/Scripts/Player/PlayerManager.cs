@@ -5,20 +5,20 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using VInspector;
 
 [Description("Contient toutes les constantes du joueur (vie, oxygène, radiation, pression, température).")]
 public class PlayerManager : MonoBehaviour
 {
+    
     [Tooltip("Instance de PlayerManager")]
     public static PlayerManager instance;
     [Tooltip("L'objet Player")]
     public GameObject player;
 
-    [HideInInspector] public GameObject activePing;
-    public Order activeOrder;
     
     //Variables de valeurs
-    
+    [Tab("Constantes")]
     [Tooltip("Vie du joueur")]
     public int playerHealth;
     int playerMaxHealth;
@@ -35,11 +35,14 @@ public class PlayerManager : MonoBehaviour
     public float temperature;
     float maxTemperature;
     
-    
+    [Tab("State Machine")]
     //Variables pour le syst Observateur
     [Tooltip("Liste des observateurs")]
     public List<IObserver> observers = new List<IObserver>();
+    [HideInInspector] public GameObject activePing;
+    public Order activeOrder;
     
+    [Tab("Barres Constantes")]
     //Variables pour l'UI
     [Tooltip("Barre de vie")]
     [SerializeField] private Image healthBar;
