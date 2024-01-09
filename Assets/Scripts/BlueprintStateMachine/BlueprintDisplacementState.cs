@@ -10,6 +10,8 @@ public class BlueprintDisplacementState : BlueprintBaseState
     private MachineCollider _machineCollider;
     private Vector3 _eulerRotation;
 
+    private MachineUIDisplay _machineUIDisplay;
+
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(true);
@@ -19,7 +21,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retrouve la machine que l on a selectionner grace a son changement dans sa hiérarchie grace au dernier etat
         _machineToPlace = _machineStock.transform.GetChild(_machineStock.transform.childCount - 1).gameObject;
         _machineToPlace.layer = 2;
-        
+        _machineUIDisplay = _machineToPlace.GetComponent<MachineUIDisplay>();
         
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
@@ -43,6 +45,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.X))
         {
+            _machineUIDisplay.baseGround.currentPowerUsage -= _machineUIDisplay.machinePowerCost;
             GameObject.Destroy(_machineToPlace);
             blueprint.SwitchState(blueprint.moveState);
         }
@@ -68,10 +71,9 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            if (hitData.transform.CompareTag("BaseFloor"))
-            {
-                blueprint.SwitchState(blueprint.moveState);
-            }
+            blueprint.SwitchState(blueprint.moveState);
+            _machineCollider.enabled = false;
+            _highlightComponent.BaseMaterial();
         }
     }
         

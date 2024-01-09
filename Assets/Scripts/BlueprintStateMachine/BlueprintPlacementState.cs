@@ -9,6 +9,9 @@ public class BlueprintPlacementState : BlueprintBaseState
     private MachineCollider _machineCollider;
     private Vector3 _eulerRotation;
 
+    private MachineUIDisplay _machineUIDisplay;
+    private BasePower _basePower;
+
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(true);
@@ -21,7 +24,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
-        
+        _machineUIDisplay = _machineToPlace.GetComponent<MachineUIDisplay>();
         
         _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
@@ -53,11 +56,23 @@ public class BlueprintPlacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            if (hitData.transform.CompareTag("BaseFloor"))
+            if(hitData.transform.CompareTag("BaseFloor"))
             {
-                blueprint.SwitchState(blueprint.buildingState);
-                _machineCollider.enabled = false;
-                _highlightComponent.BaseMaterial();
+                _basePower = hitData.transform.GetComponent<BasePower>();
+                
+                if(_basePower.currentPowerUsage + _machineUIDisplay.machinePowerCost <= _basePower.maxPower)
+                {
+                    blueprint.SwitchState(blueprint.buildingState);
+                    _machineCollider.enabled = false;
+                    _highlightComponent.BaseMaterial();
+                    _machineUIDisplay.baseGround = _basePower;
+                    
+                    _basePower.currentPowerUsage += _machineUIDisplay.machinePowerCost;
+                }
+                else
+                {
+                    _basePower.Flash();
+                }
             }
         }
     }

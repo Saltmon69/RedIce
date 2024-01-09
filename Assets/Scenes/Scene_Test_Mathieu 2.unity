@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10337,6 +10337,7 @@ GameObject:
   - component: {fileID: 1840010235}
   - component: {fileID: 1840010234}
   - component: {fileID: 1840010238}
+  - component: {fileID: 1840010239}
   m_Layer: 3
   m_Name: BaseFloor
   m_TagString: BaseFloor
@@ -10446,6 +10447,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1840010239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840010233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4280dff4ca7856749a8ced9bff9de91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPower: 0
+  currentPowerUsage: 0
+  isPlayerOn: 0
 --- !u!1 &1852070371 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8224308984050666100, guid: 1256acb3dede1e0438a4da0376b6d8b7,
