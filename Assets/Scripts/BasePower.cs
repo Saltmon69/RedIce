@@ -17,16 +17,21 @@ public class BasePower : MonoBehaviour
     private List<Collider> _colliderHitList;
     private Text _powerTextUI;
     private int _numberOfFlashes;
+    private ComputerUIDisplay _computerUIDisplay;
 
     public void Awake()
     {
         powerUI = Resources.Load<GameObject>("ComputerMachine/UIBase");
         _layerMask = LayerMask.GetMask("Default");
         _colliderHitList = new List<Collider>();
+        _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
     }
 
     public void Update()
     {
+        maxPower = _computerUIDisplay.maxPower;
+        currentPowerUsage = _computerUIDisplay.currentPowerUsage;
+        
         _colliders = Physics.OverlapBox(this.transform.position + Vector3.up, this.transform.lossyScale / 2, Quaternion.identity, _layerMask, QueryTriggerInteraction.Ignore);
         _colliderHitList.Clear();
         _colliderHitList.AddRange(_colliders);

@@ -8,9 +8,9 @@ public class ComputerUIDisplay : MonoBehaviour
 {
     private GameObject _computerUIPrefab;
     private GameObject _thisComputerUIDisplay;
-    public List<GameObject> _computerUpgradeSlotUIList;
+    private List<GameObject> _computerUpgradeSlotUIList;
 
-    public List<InventoryItem> _itemInUpgradeSlotList;
+    private List<InventoryItem> _itemInUpgradeSlotList;
     
     public List<ItemClass> computerUpgradeItemTierList;
     
@@ -21,6 +21,9 @@ public class ComputerUIDisplay : MonoBehaviour
 
     public int upgradeState;
     private bool _isItemRemoved;
+    
+    public int maxPower;
+    public int currentPowerUsage;
 
     public void ActivateUIDisplay()
     {
@@ -42,6 +45,7 @@ public class ComputerUIDisplay : MonoBehaviour
         LoadPlayerInventory();
         LoadUpgradeState();
         StartCoroutine(UpgradeCheck());
+        MaxPowerUpgrade();
     }
 
     private IEnumerator UpgradeCheck()
@@ -70,10 +74,36 @@ public class ComputerUIDisplay : MonoBehaviour
                     if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
                     this.gameObject.transform.GetChild(upgradeState + 1).gameObject.SetActive(true);
                     upgradeState++;;
+                    MaxPowerUpgrade();
                 }
             }
 
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    private void MaxPowerUpgrade()
+    {
+        switch (upgradeState)
+        {
+            case 0:
+                maxPower = 50;
+                break;
+            case 1:
+                maxPower = 80;
+                break;
+            case 2:
+                maxPower = 80;
+                break;
+            case 3:
+                maxPower = 110;
+                break;
+            case 4:
+                maxPower = 140;
+                break;
+            case 5:
+                maxPower = 180;
+                break;
         }
     }
 

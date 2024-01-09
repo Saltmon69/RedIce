@@ -11,6 +11,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
     private Vector3 _eulerRotation;
 
     private MachineUIDisplay _machineUIDisplay;
+    private ComputerUIDisplay _computerUIDisplay;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -29,6 +30,8 @@ public class BlueprintDisplacementState : BlueprintBaseState
         _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
 
+        _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
+        
         //crée une fausse machine permettant de visulalizer la position initiale de l objet avant de le bouger
         _fakeMachineHologram = GameObject.Instantiate(_machineToPlace);
         _fakeMachineHologram.GetComponent<MachineCollider>().IsTrigger(true);
@@ -45,7 +48,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.X))
         {
-            _machineUIDisplay.baseGround.currentPowerUsage -= _machineUIDisplay.machinePowerCost;
+            _computerUIDisplay.currentPowerUsage -= _machineUIDisplay.machinePowerCost;
             GameObject.Destroy(_machineToPlace);
             blueprint.SwitchState(blueprint.moveState);
         }
