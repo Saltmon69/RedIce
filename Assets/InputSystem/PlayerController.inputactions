@@ -188,11 +188,11 @@
                 },
                 {
                     "name": "Use",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "d4703103-add4-480b-bb74-578501e56788",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "Hold",
                     "initialStateCheck": true
                 },
                 {
@@ -212,6 +212,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "PassThrough",
+                    "id": "cf9465b9-f33d-4824-8479-65d45c42f142",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -251,11 +260,22 @@
                 {
                     "name": "",
                     "id": "2b7de2f6-b5d8-4d97-b603-042181f5aea0",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "AVA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee8b7df0-57fc-4489-91cd-5423512f70f2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

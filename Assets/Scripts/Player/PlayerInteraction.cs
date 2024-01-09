@@ -26,7 +26,7 @@ public class PlayerInteraction : MonoBehaviour
     
     [Tab("Minage")]
     [SerializeField] MineraiClass mineraiClass;
-    [SerializeField] bool hasAppliedDamage = false;
+    public bool isApplyingDamage = false;
     public int damage;
     
     // Raycast
@@ -41,6 +41,8 @@ public class PlayerInteraction : MonoBehaviour
     // Lunette AVA
     [Tab("Lunette AVA")]
     public bool avaIsPressed;
+    [SerializeField] GameObject darkMatterBullet;
+    
     
 
     #endregion
@@ -75,20 +77,18 @@ public class PlayerInteraction : MonoBehaviour
             {
                 mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
 
-                if (hasAppliedDamage == false)
+                if (isApplyingDamage == true)
                 {
                     switch (itemHit.collider.tag)
                     {
                         case"MineraiCrit":
                             mineraiClass.critMultiplicator = 2;
                             mineraiClass.takeDamage(damage);
-                            hasAppliedDamage = true;
                             Debug.Log(mineraiClass.mineraiLife);
                             break;
                         case"Minerai":
                             mineraiClass.critMultiplicator = 1;
                             mineraiClass.takeDamage(damage);
-                            hasAppliedDamage = true;
                             Debug.Log(mineraiClass.mineraiLife);
                             break;
                     }
@@ -101,9 +101,13 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnUsePressed()
     {
-        hasAppliedDamage = false;
+        isApplyingDamage = true;
         RaycastMaker(interactionRange);
-       
+    }
+    
+    public void OnUseReleased()
+    {
+        isApplyingDamage = false;
     }
     
     public void OnPingPressed()
@@ -134,6 +138,13 @@ public class PlayerInteraction : MonoBehaviour
         }
         
     }
+    
+    public void OnShootPressed()
+    {
+        Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
+    }
+    
+    
     /// <summary>
     /// Permet de créer un raycast à partir de la position de la souris.
     /// </summary>
