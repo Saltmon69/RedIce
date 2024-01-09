@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MachineUIDisplay : MonoBehaviour
@@ -11,6 +10,7 @@ public class MachineUIDisplay : MonoBehaviour
     private GameObject _machineInventoryTransferUIPrefab;
     
     private GameObject _thisMachineUIDisplay;
+    private GameObject _machineBackgroundUI;
     private GameObject _machineInventoryUI;
     private GameObject _machineInventoryDropSlotUI;
     private GameObject _machineUpgradeSlotUI;
@@ -94,7 +94,8 @@ public class MachineUIDisplay : MonoBehaviour
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-        
+
+        _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _machineUpgradeSlotUI = _thisMachineUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -444,14 +445,17 @@ public class MachineUIDisplay : MonoBehaviour
                 if(thisUpgradeInventoryItemInSlot.item == machineUpgradeItemTier[1])
                 {
                     SetCraftingButtonToMachineTier(2);
+                    _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0f,0f, 0.5f);
                 }
                 else if(thisUpgradeInventoryItemInSlot.item == machineUpgradeItemTier[0])
                 {
                     SetCraftingButtonToMachineTier(1);
+                    _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0.65f,0f, 0.5f);
                 }
                 else
                 {
                     SetCraftingButtonToMachineTier(0);
+                    _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
                     usedRecipeIndex = -1;
                 }
                 
@@ -462,6 +466,7 @@ public class MachineUIDisplay : MonoBehaviour
             {
                 Debug.Log("an upgrade item has been removed");
                 SetCraftingButtonToMachineTier(0);
+                _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
                 Destroy(thisUpgradeInventoryItemInSlot.gameObject);
                 _hasItemInUpgradeSlot = false;
                 
