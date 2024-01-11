@@ -25,7 +25,7 @@ public class MachineUIDisplay : MonoBehaviour
     private GameObject _instantiatedMachineUIRecipeMaterial;
 
     public int machinePowerCost;
-    public bool isUIOpen;
+    [HideInInspector] public bool isUIOpen;
     
     private Recipe _machineCraftRecipe;
     private float _machineCraftingTimeLeft;
@@ -37,13 +37,12 @@ public class MachineUIDisplay : MonoBehaviour
     private int _machineMaterialsReadyForCraft;
     private List<bool> _isMachineMaterialReadyList;
     public float machineCraftingTime;
-    public float craftProgress;
+    [HideInInspector] public float craftProgress;
     private bool _isCraftFailed;
-    public bool isMachineActivated;
+    [HideInInspector] public bool isMachineActivated;
     private bool _isMachineForcedToDeactivate;
-    public GameObject playerInventory;
-    public BasePower baseGround;
-    
+    [HideInInspector] public GameObject playerInventory;
+
     private GameObject _craftButtonPrefab;
     public List<Recipe> machineTier1CraftList;
     public List<Recipe> machineTier2CraftList;
@@ -55,8 +54,8 @@ public class MachineUIDisplay : MonoBehaviour
     private bool _hasItemInUpgradeSlot;
 
     private InventoryItem _thisMachineInventoryItem;
-    public List<ItemClass> machineItemList;
-    public List<int> machineItemAmountList;
+    [HideInInspector] public List<ItemClass> machineItemList;
+    [HideInInspector] public List<int> machineItemAmountList;
 
     private List<Text> _recipeMaterialList;
     private int _usedRecipeIndex;
@@ -84,11 +83,11 @@ public class MachineUIDisplay : MonoBehaviour
 
     private GameObject _thisMachinePlayerInventorySlot;
     
-    public List<GameObject> thisMachineOutputList;
-    public List<CableLaserBehaviour> thisMachineOutputCableList;
+    [HideInInspector] public List<GameObject> thisMachineOutputList;
+    [HideInInspector] public List<CableLaserBehaviour> thisMachineOutputCableList;
     public List<GameObject> thisMachineInputList;
-    public List<CableLaserBehaviour> thisMachineInputCableList;
-    public List<MachineUIDisplay> thisMachineCableMachineUIDisplayList;
+    [HideInInspector] public List<CableLaserBehaviour> thisMachineInputCableList;
+    [HideInInspector] public List<MachineUIDisplay> thisMachineCableMachineUIDisplayList;
     private int _machineTransferAmount;
     private int _transferMachineItemIndex;
     private int _transferMachineItemAmount;

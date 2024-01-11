@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 
 public class ComputerUIDisplay : MonoBehaviour
 {
@@ -52,7 +51,6 @@ public class ComputerUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            
             if(_computerUpgradeSlotUIList[upgradeState].transform.childCount == 0 && !_isItemRemoved)
             {
                 _isItemRemoved = true;

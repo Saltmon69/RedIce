@@ -12,9 +12,11 @@ public class OpenMachineUI : MonoBehaviour
     public GameObject thisPlayerInventory;
 
     public ComputerUIDisplay thisComputerDisplay;
+    public ChestUIDisplay thisChestUIDisplay;
     
     public PlayerModeSelect modeSelection;
 
+    private bool _hasHitMachine;
     private bool _isUIUp;
 
     public DeactivatePlayerInput playerInput;
@@ -35,44 +37,56 @@ public class OpenMachineUI : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Mouse0) && !_isUIUp)
             {
+                _hasHitMachine = false;
+                
                 if(_hitData.transform.CompareTag("Untagged"))
                 {
                     thisDisplay = _hitData.transform.GetComponent<MachineUIDisplay>();
                     thisDisplay.playerInventory = thisPlayerInventory;
                     thisDisplay.ActivateUIDisplay();
+                    _hasHitMachine = true;
                 }
 
-                if (_hitData.transform.CompareTag("Computer"))
+                if(_hitData.transform.CompareTag("Computer"))
                 {
                     thisComputerDisplay = _hitData.transform.GetComponent<ComputerUIDisplay>();
                     thisComputerDisplay.playerInventory = thisPlayerInventory;
                     thisComputerDisplay.ActivateUIDisplay();
+                    _hasHitMachine = true;
                 }
                 
-                if (_hitData.transform.CompareTag("External"))
+                if(_hitData.transform.CompareTag("Chest"))
                 {
-                    
+                    thisChestUIDisplay = _hitData.transform.GetComponent<ChestUIDisplay>();
+                    thisChestUIDisplay.playerInventory = thisPlayerInventory;
+                    thisChestUIDisplay.ActivateUIDisplay();
+                    _hasHitMachine = true;
                 }
 
-                thisPlayerInventory.transform.parent.gameObject.SetActive(false);
-                _isUIUp = true;
-                modeSelection.canPlayerSwitchMode = false;
+                if (_hasHitMachine)
+                {
+                    thisPlayerInventory.transform.parent.gameObject.SetActive(false);
+                    _isUIUp = true;
+                    modeSelection.canPlayerSwitchMode = false;
 
-                playerInput.Deactivate();
+                    playerInput.Deactivate();
                 
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true; 
+                }
             }
         }
 
         //désactive l ui avec echape
-        if(Input.GetKeyUp(KeyCode.Escape) && (thisDisplay != null || thisComputerDisplay != null))
+        if(Input.GetKeyUp(KeyCode.Escape) && (thisDisplay != null || thisComputerDisplay != null || thisChestUIDisplay != null))
         {
             if(thisDisplay != null) thisDisplay.DeactivateUIDisplay();
             if(thisComputerDisplay != null) thisComputerDisplay.DeactivateUIDisplay();
+            if(thisChestUIDisplay != null) thisChestUIDisplay.DeactivateUIDisplay();
 
             thisPlayerInventory.transform.parent.gameObject.SetActive(true);
-            
+
+            thisChestUIDisplay = null;
             thisComputerDisplay = null;
             thisDisplay = null;
             _isUIUp = false;
