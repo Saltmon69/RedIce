@@ -45,7 +45,6 @@ public class BasePower : MonoBehaviour
                 
                 if(_thisPowerUI == null)
                 {
-                    Debug.Log("player in :X");
                     _thisPowerUI = Instantiate(powerUI);
                     _powerTextUI = _thisPowerUI.transform.GetChild(0).GetChild(0).GetComponent<Text>();
                 }
@@ -54,7 +53,6 @@ public class BasePower : MonoBehaviour
 
         if(!isPlayerOn && _thisPowerUI != null)
         {
-            Debug.Log("player out :<");
             Destroy(_thisPowerUI);
             _thisPowerUI = null;
             isPlayerOn = false;
@@ -62,7 +60,7 @@ public class BasePower : MonoBehaviour
 
         if (_thisPowerUI != null)
         {
-            _powerTextUI.text = currentPowerUsage.ToString() + " / " + maxPower.ToString();
+            _powerTextUI.text = currentPowerUsage + " / " + maxPower;
         }
     }
 

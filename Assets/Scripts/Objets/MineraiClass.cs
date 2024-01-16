@@ -35,11 +35,14 @@ public class MineraiClass : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GameObject player = Physics.OverlapSphere(transform.position, 10f).Where(x => x.CompareTag("Player")).FirstOrDefault().gameObject;
-        if (player != null)
+        try
         {
-            playerInteraction = player.GetComponent<PlayerInteraction>();
-        }
+            GameObject player = Physics.OverlapSphere(transform.position, 10f).Where(x => x.CompareTag("Player")).FirstOrDefault().gameObject;
+            if (player != null)
+            {
+                playerInteraction = player.GetComponent<PlayerInteraction>();
+            }
+        }catch(NullReferenceException){}
     }
     
     public void takeDamage(float damage)

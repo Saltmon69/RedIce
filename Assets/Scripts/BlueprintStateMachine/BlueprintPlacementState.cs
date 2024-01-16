@@ -12,6 +12,7 @@ public class BlueprintPlacementState : BlueprintBaseState
     private MachineUIDisplay _machineUIDisplay;
     private BasePower _basePower;
     private ComputerUIDisplay _computerUIDisplay;
+    private MachineCost _machineCost;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -31,6 +32,8 @@ public class BlueprintPlacementState : BlueprintBaseState
         _highlightComponent.Blueprint();
         
         _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
+
+        _machineCost = _machineToPlace.GetComponent<MachineCost>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -61,13 +64,14 @@ public class BlueprintPlacementState : BlueprintBaseState
         {
             if(hitData.transform.CompareTag("BaseFloor"))
             {
-                if(_computerUIDisplay.currentPowerUsage + _machineUIDisplay.machinePowerCost <= _computerUIDisplay.maxPower)
+                Debug.Log("le funny click");
+                if(_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <= _computerUIDisplay.maxPower)
                 {
                     blueprint.SwitchState(blueprint.buildingState);
                     _machineCollider.enabled = false;
                     _highlightComponent.BaseMaterial();
 
-                    _computerUIDisplay.currentPowerUsage += _machineUIDisplay.machinePowerCost;
+                    _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
                 }
                 else
                 {

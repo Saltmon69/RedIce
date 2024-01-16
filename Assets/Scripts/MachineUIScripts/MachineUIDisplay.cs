@@ -23,8 +23,7 @@ public class MachineUIDisplay : MonoBehaviour
 
     private GameObject _instantiatedMachineUIButton;
     private GameObject _instantiatedMachineUIRecipeMaterial;
-
-    public int machinePowerCost;
+    
     [HideInInspector] public bool isUIOpen;
     
     private Recipe _machineCraftRecipe;
@@ -131,6 +130,8 @@ public class MachineUIDisplay : MonoBehaviour
         LoadUIReferences();
         OnDisplayInstantiate();
         
+        if(_hasItemInUpgradeSlot) this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
+
         LoadInventory();
         LoadPlayerInventory();
 
@@ -153,8 +154,6 @@ public class MachineUIDisplay : MonoBehaviour
         }
 
         SetCraftingButtonToMachineTier(0);
-        
-        _hasItemInUpgradeSlot = false;
         
         if(_usedRecipeIndex != -1) SetRecipeOnClick(_usedRecipeIndex, false);
         
@@ -219,13 +218,7 @@ public class MachineUIDisplay : MonoBehaviour
                     }
                     
                     _isMachineMaterialReadyList[i] = _isMaterialReady;
-                }
-
-                if(!_isMachineMaterialReadyList[i])
-                {
-                    Debug.Log("not enough items of this kind to continue the craft");
-                    _isCraftFailed = true;
-                    break;
+                    if(!_isMaterialReady) break;
                 }
             }
 
@@ -258,9 +251,10 @@ public class MachineUIDisplay : MonoBehaviour
                     _thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
                     _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
                 }
-
                 craftProgress = 0;
             }
+
+            _isCraftFailed = true;
         }
     }
 
@@ -373,7 +367,7 @@ public class MachineUIDisplay : MonoBehaviour
                     else
                     {
                         //si le materiaux/objet est le resultat du craft et non requis alors on lui met juste le nombre que l'on en reçois sur le texte
-                        _recipeMaterialList[i].transform.parent.GetChild(1).gameObject.SetActive(true);
+                        _recipeMaterialList[i].transform.parent.GetChild(1).gameObject.SetActive(false);
                         _recipeMaterialList[i].text = _machineCraftRecipe.outputsAmount[i - _machineCraftRecipe.inputs.Count] + " " + _machineCraftRecipe.outputs[i - _machineCraftRecipe.inputs.Count].nom;  
                     }
                 }  
@@ -404,38 +398,38 @@ public class MachineUIDisplay : MonoBehaviour
                 {
                     _machineInventoryAmountTextList[i].text = machineItemAmountList[i].ToString();
                 }
-            }
-            
-            //regarde si un nouvel objet a été déposer ou retiré dans le case d'upgrade, si oui, il actualise les crafts
-            if(_machineUpgradeSlotUI.transform.childCount > 0 && !_hasItemInUpgradeSlot)
-            {
-                Debug.Log("an upgrade item has been placed");
-
-                _thisUpgradeInventoryItemInSlot = _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>(); 
-                _hasItemInUpgradeSlot = true;
                 
-                for(var i = 1; i <= machineUpgradeItemTier.Count; i++)
+                //regarde si un nouvel objet a été déposer ou retiré dans le case d'upgrade, si oui, il actualise les crafts
+                
+                if(_machineUpgradeSlotUI.transform.childCount > 0 && !_hasItemInUpgradeSlot)
                 {
-                    if(_thisUpgradeInventoryItemInSlot.item == machineUpgradeItemTier[^i])
+                    Debug.Log("an upgrade item has been placed");
+
+                    _thisUpgradeInventoryItemInSlot = _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+                    _hasItemInUpgradeSlot = true;
+
+                    for(var i = 1; i <= machineUpgradeItemTier.Count; i++)
                     {
-                        SetCraftingButtonToMachineTier(machineUpgradeItemTier.Count - i);
+                        if(_thisUpgradeInventoryItemInSlot.item == machineUpgradeItemTier[^i])
+                        {
+                            SetCraftingButtonToMachineTier(machineUpgradeItemTier.Count - i);
+                        }
                     }
                 }
-            }
 
-            if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
-            {
-                Debug.Log("an upgrade item has been removed");
-                SetCraftingButtonToMachineTier(0);
-                _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
-                Destroy(_thisUpgradeInventoryItemInSlot.gameObject);
-                _hasItemInUpgradeSlot = false;
-                
-                //supprime la recette 
-                _usedRecipeIndex = -1;
-                for(var i = 0; i < _machineRecipeUI.transform.childCount; i++)
+                if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
                 {
-                    Destroy(_machineRecipeUI.transform.GetChild(i).gameObject);
+                    Debug.Log("an upgrade item has been removed");
+                    SetCraftingButtonToMachineTier(0);
+                    _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
+                    _hasItemInUpgradeSlot = false;
+                    if(_usedRecipeIndex != -1) SetRecipeOnClick(_usedRecipeIndex, true);
+                    
+                    //supprime la recette 
+                    for(var i = 0; i < _machineRecipeUI.transform.childCount; i++)
+                    {
+                        Destroy(_machineRecipeUI.transform.GetChild(i).gameObject);
+                    }
                 }
             }
             yield return new WaitForSeconds(0.05f);
@@ -561,7 +555,7 @@ public class MachineUIDisplay : MonoBehaviour
                                             _thisMachineUIDisplay.transform);
         
         _transferAmountUISlider = _thisTransferAmountUI.transform.GetChild(1).GetComponent<Slider>();
-        if (_transferAmountUISlider.maxValue > thisItem.stackSize) _transferAmountUISlider.maxValue = thisItem.stackSize;
+        if(_transferAmountUISlider.maxValue > thisItem.stackSize) _transferAmountUISlider.maxValue = thisItem.stackSize;
         _transferAmountUISlider.maxValue = machineItemAmountList[machineItemList.IndexOf(thisItem)];
         _transferAmountUIText = _thisTransferAmountUI.transform.GetChild(2).GetComponent<Text>();
         _thisTransferAmountUI.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => { Destroy(_thisTransferAmountUI); });
@@ -670,10 +664,11 @@ public class MachineUIDisplay : MonoBehaviour
     //cett fonction doit être appelé par un script externe affin de de fermer correctement l'ui de la machine
     public void DeactivateUIDisplay()
     {
+        isUIOpen = false;
         SaveInventory();
         SavePlayerInventory();
         StopAllCoroutines();
-        isUIOpen = false;
+        if(_machineUpgradeSlotUI.transform.childCount > 0) _machineUpgradeSlotUI.gameObject.transform.SetParent(this.transform);
         Destroy(_thisMachineUIDisplay);
     }
 }

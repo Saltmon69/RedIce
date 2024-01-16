@@ -39,6 +39,8 @@ public class ComputerUIDisplay : MonoBehaviour
         }
 
         _computerPlayerInventoryUI = _thisComputerUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        
+        upgradeState = 0;
 
         LoadComputerInventory();
         LoadPlayerInventory();
@@ -70,7 +72,7 @@ public class ComputerUIDisplay : MonoBehaviour
                     Debug.Log("the right upgrade has been added");
                     _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).SetSiblingIndex(1);
                     if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
-                    this.gameObject.transform.GetChild(upgradeState + 1).gameObject.SetActive(true);
+                    this.gameObject.transform.GetChild(upgradeState + 2).gameObject.SetActive(true);
                     upgradeState++;;
                     MaxPowerUpgrade();
                 }
