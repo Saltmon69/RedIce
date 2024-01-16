@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,23 +15,29 @@ public class PlayerModeSelect : MonoBehaviour
         
     public Slider modeSelectedUI;
 
-    public GameObject handsFreeModeManager;
-    public GameObject miningModeManager;
-    public GameObject blueprintModeManager;
+    public List<GameObject> modeList;
 
     public bool canPlayerSwitchMode;
     public bool couldPlayerSwitchMode;
 
     public DeactivatePlayerInput playerInput;
-    
-    void Update()
+
+    private void Awake()
+    {
+        //ajuste le nombre de mode et les assignes
+        modeList.Clear();
+        
+        for(var i = 0; i < this.gameObject.transform.childCount; i++)
+        {
+           modeList.Add(this.gameObject.transform.GetChild(i).gameObject); 
+        }
+    }
+
+    private void Update()
     {
         //permet grâce a notre molette de choisir un des modes
-        modeSelected = (modeSelected + 3 + (int)Input.mouseScrollDelta.y) % 3;
-        
-        //permet grâce a nos chiffres de choisir un des modes
-        OnKeyboardInput();
-        
+        modeSelected = (modeSelected + modeList.Count + (int)Input.mouseScrollDelta.y) % modeList.Count;
+
         if(modeSelected != oldSelectedMod && canPlayerSwitchMode)
         {
             ModeSelectionOutput();
@@ -63,26 +71,9 @@ public class PlayerModeSelect : MonoBehaviour
     //active ou désactive les object qui compose les mécanique de chaque modes
     private void ModeSelectionOutput()
     {
-
-        if(modeSelected == 0)
+        for (var i = 0; i < modeList.Count; i++)
         {
-            handsFreeModeManager.SetActive(true);
-            miningModeManager.SetActive(false);
-            blueprintModeManager.SetActive(false);
-        }
-        
-        if(modeSelected == 1)
-        {
-            handsFreeModeManager.SetActive(false);
-            miningModeManager.SetActive(true);
-            blueprintModeManager.SetActive(false);
-        }
-        
-        if(modeSelected == 2)
-        {
-            handsFreeModeManager.SetActive(false);
-            miningModeManager.SetActive(false);
-            blueprintModeManager.SetActive(true);
+            modeList[i].SetActive(i == modeSelected);
         }
     }
     
@@ -98,24 +89,6 @@ public class PlayerModeSelect : MonoBehaviour
             canvasGroupMode.alpha = (time + 0.15f)/(wait - 1);
             
             yield return new WaitForSeconds(0.01f);
-        }
-    }
-    
-    private void OnKeyboardInput()
-    {
-        if(Input.GetKeyDown(KeyCode.Ampersand))
-        {
-            modeSelected = 0;
-        }
-        
-        if(Input.GetKeyDown(KeyCode.Tilde))
-        {
-            modeSelected = 1;
-        }
-        
-        if(Input.GetKeyDown(KeyCode.Hash))
-        {
-            modeSelected = 2;
         }
     }
 }

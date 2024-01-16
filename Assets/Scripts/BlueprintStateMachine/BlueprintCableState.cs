@@ -1,31 +1,29 @@
-using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class BlueprintCableState : BlueprintBaseState
 {
-    private RaycastHit _hitData;
-    private RaycastHit _oldHitData;
-    public LayerMask layerMask;
-
-    public GameObject cableStock;
-    public UnityEngine.Object cable;
+    private GameObject _cableStock;
+    private Object _cable;
 
     private GameObject _thisCable;
     private CableLaserBehaviour _cableLaserBehaviour;
 
+    private MachineUIDisplay _machineUIDisplay;
+    private GameObject _machineCable;
+
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(6).gameObject.SetActive(true);
+        
+        _cableStock = GameObject.Find("CableStock");
 
-        layerMask = LayerMask.GetMask("Machine");
-        cableStock = GameObject.Find("CableStock");
+        _cable = Resources.Load("Cables/Cable", typeof(GameObject));
 
-        cable = Resources.Load("Cables/Cable", typeof(GameObject));
-
-        _thisCable = GameObject.Instantiate((GameObject)cable, cableStock.transform);
+        _thisCable = GameObject.Instantiate((GameObject)_cable, _cableStock.transform);
 
         _cableLaserBehaviour = _thisCable.GetComponent<CableLaserBehaviour>();
-        _cableLaserBehaviour.enabled = true;
+        _cableLaserBehaviour.isSetup = false;
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -38,40 +36,49 @@ public class BlueprintCableState : BlueprintBaseState
         }
     }
     
-    public override void RayState(BlueprintStateMachineManager blueprint, Ray ray, float distance)
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
-        if (Physics.Raycast(ray, out _hitData, Mathf.Infinity , layerMask))
+        if(hitData.transform.gameObject.layer == 6 && hitData.transform.CompareTag("Output"))
         {
             //si l'on sélectionne une sortie de machine, on assigne au cable qu il est attaché a cette sortie et a quel machine elle appartient
             //avance au mode de sélection de l'entrée de la seconde machine pour le cablage
-            if(Input.GetKeyDown(KeyCode.Mouse0) && _hitData.transform.CompareTag("Output"))
+            if(Input.GetKeyDown(KeyCode.Mouse0))
             {
-                _cableLaserBehaviour.outputMachine = _hitData.transform.parent.gameObject;
-                _cableLaserBehaviour.outputGameObject = _hitData.transform.gameObject;
-                blueprint.SwitchState(blueprint.linkMachinesState);
-            }
+                _machineUIDisplay = hitData.transform.parent.gameObject.GetComponent<MachineUIDisplay>();
 
-            try
-            {
-                //feedback pour voir quel sortie on vise / regarde
-                if (_hitData.transform.gameObject != _oldHitData.transform.gameObject)
+                if(_machineUIDisplay.thisMachineOutputList.Contains(hitData.transform.gameObject))
                 {
-                    _oldHitData.transform.GetComponent<HighlightComponent>().BaseMaterial();
+                    GameObject.Destroy(_thisCable);
+                    
+                    _machineCable = _machineUIDisplay.thisMachineOutputCableList[_machineUIDisplay.thisMachineOutputList.IndexOf(hitData.transform.gameObject)].gameObject;
+                    
+                    //change la position du cable dans la hiérarchie à la derniere position pour etre retrouver facilement dans le prochain état 
+                    _machineCable.transform.SetSiblingIndex(_machineCable.transform.parent.childCount - 1);
 
-                    if (_hitData.transform.CompareTag("Output"))
-                    {
-                        _hitData.transform.GetComponent<HighlightComponent>().Outline();
-                    }
+                    blueprint.SwitchState(blueprint.checkpointState);
                 }
-            }catch (NullReferenceException){}
-            _oldHitData = _hitData;
+                else
+                {
+                    _cableLaserBehaviour.outputMachine = hitData.transform.parent.gameObject;
+                    _cableLaserBehaviour.outputGameObject = hitData.transform.gameObject;
+                    
+                    _machineUIDisplay.thisMachineOutputList.Add(_cableLaserBehaviour.outputGameObject);
+                    _machineUIDisplay.thisMachineOutputCableList.Add(_thisCable.GetComponent<CableLaserBehaviour>());
+                    
+                    blueprint.SwitchState(blueprint.linkMachinesState);
+                }
+            }
+                
+            //feedback pour voir quel sortie on vise / regarde
+            if(hitData.transform.gameObject != oldHitData.transform.gameObject || !hadHit)
+            {
+                hitData.transform.GetComponent<HighlightComponent>().Outline();
+            }
         }
     }
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(6).gameObject.SetActive(false);
-
-        _cableLaserBehaviour.enabled = true;
     }
 }

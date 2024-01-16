@@ -10,7 +10,7 @@ public class PlayerMenuing : MonoBehaviour
 {
     [Tab("Menus")]
     [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject inventory;
+    public GameObject inventory;
     [SerializeField] GameObject map;
     [SerializeField] GameObject ATH;
     
