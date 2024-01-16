@@ -192,17 +192,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3c62897d-2169-4bc1-9f1e-94a9797a8470"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": ""Hold"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -221,11 +210,11 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Use"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d4703103-add4-480b-bb74-578501e56788"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -236,6 +225,24 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AVA"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b338dc93-fb47-436a-adc1-4192932eb15b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf9465b9-f33d-4824-8479-65d45c42f142"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -269,6 +276,28 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Ping"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b7de2f6-b5d8-4d97-b603-042181f5aea0"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AVA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee8b7df0-57fc-4489-91cd-5423512f70f2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -358,6 +387,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Interact_Interaction = m_Interact.FindAction("Interaction", throwIfNotFound: true);
         m_Interact_Use = m_Interact.FindAction("Use", throwIfNotFound: true);
         m_Interact_Ping = m_Interact.FindAction("Ping", throwIfNotFound: true);
+        m_Interact_AVA = m_Interact.FindAction("AVA", throwIfNotFound: true);
+        m_Interact_Shoot = m_Interact.FindAction("Shoot", throwIfNotFound: true);
         // Menuing
         m_Menuing = asset.FindActionMap("Menuing", throwIfNotFound: true);
         m_Menuing_MainMenu = m_Menuing.FindAction("MainMenu", throwIfNotFound: true);
@@ -513,6 +544,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Interact_Interaction;
     private readonly InputAction m_Interact_Use;
     private readonly InputAction m_Interact_Ping;
+    private readonly InputAction m_Interact_AVA;
+    private readonly InputAction m_Interact_Shoot;
     public struct InteractActions
     {
         private @PlayerController m_Wrapper;
@@ -520,6 +553,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Interaction => m_Wrapper.m_Interact_Interaction;
         public InputAction @Use => m_Wrapper.m_Interact_Use;
         public InputAction @Ping => m_Wrapper.m_Interact_Ping;
+        public InputAction @AVA => m_Wrapper.m_Interact_AVA;
+        public InputAction @Shoot => m_Wrapper.m_Interact_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Interact; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -538,6 +573,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Ping.started += instance.OnPing;
             @Ping.performed += instance.OnPing;
             @Ping.canceled += instance.OnPing;
+            @AVA.started += instance.OnAVA;
+            @AVA.performed += instance.OnAVA;
+            @AVA.canceled += instance.OnAVA;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
         private void UnregisterCallbacks(IInteractActions instance)
@@ -551,6 +592,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Ping.started -= instance.OnPing;
             @Ping.performed -= instance.OnPing;
             @Ping.canceled -= instance.OnPing;
+            @AVA.started -= instance.OnAVA;
+            @AVA.performed -= instance.OnAVA;
+            @AVA.canceled -= instance.OnAVA;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
         public void RemoveCallbacks(IInteractActions instance)
@@ -644,6 +691,8 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
+        void OnAVA(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
     public interface IMenuingActions
     {
