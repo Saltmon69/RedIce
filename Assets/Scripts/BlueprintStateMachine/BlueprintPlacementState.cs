@@ -71,6 +71,7 @@ public class BlueprintPlacementState : BlueprintBaseState
                 }
                 else
                 {
+                    Debug.Log("le funny flash");
                     _basePower = hitData.transform.GetComponent<BasePower>();
                     _basePower.Flash();
                 }

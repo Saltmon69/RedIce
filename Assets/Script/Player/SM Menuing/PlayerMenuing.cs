@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerMenuing : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject inventory;
+    public GameObject inventory;
     [SerializeField] GameObject map;
     [SerializeField] GameObject ATH;
     

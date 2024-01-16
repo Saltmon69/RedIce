@@ -21,7 +21,7 @@ public class MachineCollider : MonoBehaviour
         _highlightComponent = this.gameObject.GetComponent<HighlightComponent>();
         _thisCollider = this.gameObject.GetComponent<CapsuleCollider>();
 
-        for (var i = 1; i < this.transform.childCount; i++)
+        for(var i = 1; i < this.transform.childCount; i++)
         {
             try
             {
@@ -39,7 +39,7 @@ public class MachineCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isActive)
+        if(isActive)
         {
             canBePlaced = false;
             _collisionList.Add(collision.gameObject);
@@ -50,11 +50,11 @@ public class MachineCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (isActive)
+        if(isActive)
         {
             _collisionList.Remove(other.gameObject);
 
-            if (_collisionList.Count < 1)
+            if(_collisionList.Count < 1)
             {
                 canBePlaced = true;
                 _highlightComponent.Blueprint();
@@ -65,11 +65,11 @@ public class MachineCollider : MonoBehaviour
 
     public void IsTrigger(bool enable)
     {
-        if (isActive)
+        if(isActive)
         {
             _thisCollider.isTrigger = enable;
             
-            for (var i = 0; i < _childColliderList.Count; i++)
+            for(var i = 0; i < _childColliderList.Count; i++)
             {
                 _childColliderList[i].isTrigger = enable;
             }
