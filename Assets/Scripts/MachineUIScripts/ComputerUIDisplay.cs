@@ -40,9 +40,8 @@ public class ComputerUIDisplay : MonoBehaviour
 
         _computerPlayerInventoryUI = _thisComputerUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         
-        upgradeState = 0;   
-        this.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        
+        upgradeState = 0;
+
         LoadComputerInventory();
         LoadPlayerInventory();
         LoadUpgradeState();

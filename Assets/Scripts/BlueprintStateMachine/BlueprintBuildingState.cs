@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -66,10 +67,8 @@ public class BlueprintBuildingState : BlueprintBaseState
             var a = i;
             _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform); 
             _thisMachineButton.transform.GetChild(0).GetComponent<Text>().text = _machinesPrefab[a].name;
-            _hasEnoughMaterial = false;
-            
+
             RecipeMaterialManager(_machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialList, _machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialAmountList);
-            
             if(_hasEnoughMaterial) _thisMachineButton.GetComponent<Button>().onClick.AddListener(() => { MachineChosen(a, blueprint); });
         }
 
@@ -106,6 +105,9 @@ public class BlueprintBuildingState : BlueprintBaseState
     
     private void RecipeMaterialManager(List<ItemClass> materialList, List<int> materialAmountList)
     {
+        _hasEnoughMaterial = false;
+        _materialsReady = 0;
+        
         for(var i = 0; i < materialList.Count; i++)
         {
             _instantiatedMachineUIRecipeMaterial = Object.Instantiate(_materialRecipePrefab, _thisMachineButton.transform.GetChild(1));
@@ -138,14 +140,11 @@ public class BlueprintBuildingState : BlueprintBaseState
                     }
                 }
             }
-            catch (NullReferenceException)
-            {
-                _hasEnoughMaterial = false;
-            }
+            catch (NullReferenceException){}
 
             _machineRecipeMaterial.text += "/" + materialAmountList[i] + " " + materialList[i].nom;
         }
-
-        _hasEnoughMaterial = _materialsReady == materialList.Count;
+        
+        _hasEnoughMaterial = (_materialsReady == materialList.Count);
     }
 }

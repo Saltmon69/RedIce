@@ -121,5 +121,8 @@ public class PlayerMenuing : MonoBehaviour
         playerMouseLook.enabled = true;
         playerInteraction.enabled = true;
         ATH.SetActive(true);
+        
+        //ajouter
+        mainMenu.SetActive(false);
     }
 }

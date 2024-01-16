@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 8464815940651430124}
   - component: {fileID: -1314781786024869907}
   m_Layer: 6
-  m_Name: Debrutaliseur
+  m_Name: Raffinerie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e435f3b09632cfb4693e74d7821c8a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  machinePowerCost: 20
   isUIOpen: 0
   machineCraftingTime: 1
   craftProgress: 0
@@ -479,6 +478,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184c1357f8698704eac268712865419e, type: 2}
   - {fileID: 11400000, guid: a7b917a977c4c544483d1fa6cb6d79dc, type: 2}
   buildingMaterialAmountList: 010000000100000001000000
+  machinePowerCost: 20
 --- !u!1 &5515761099323799378
 GameObject:
   m_ObjectHideFlags: 0
