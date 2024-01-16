@@ -4430,7 +4430,7 @@ GameObject:
   - component: {fileID: 423576184}
   m_Layer: 0
   m_Name: DarkMatterWall
-  m_TagString: Untagged
+  m_TagString: DarkMatterObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4447,9 +4447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107fbeb487e86234a84f6c9fc87410a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 1
   darkMatterMaterial: {fileID: 2100000, guid: 7f6a938805060294a959b209e39d1e5e, type: 2}
   darkMatterType: 0
+  darkMatterState: 0
 --- !u!65 &423576185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5392,6 +5392,96 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44b1f42f1891ca43be59e2a808613f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1086958032
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.2075696
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9999989
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.0714245
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495891538214699530, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_Name
+      value: Minerai_Fer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: darkMatter
+      value: 
+      objectReference: {fileID: 11400000, guid: 98922baa20e47744d87a62d3b84cd476,
+        type: 2}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 95579218}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: ressources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: ressources.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d826d4463a286d448a61c8f9c9db9f00,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d272bc52f532a3241a340ba57c3cf21e, type: 3}
 --- !u!114 &1094052950 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2114947488572193802, guid: 1256acb3dede1e0438a4da0376b6d8b7,
@@ -6361,7 +6451,7 @@ GameObject:
   - component: {fileID: 1617162322}
   m_Layer: 0
   m_Name: DarkMatterPlatform
-  m_TagString: Untagged
+  m_TagString: DarkMatterObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6378,9 +6468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107fbeb487e86234a84f6c9fc87410a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   darkMatterMaterial: {fileID: 2100000, guid: 7f6a938805060294a959b209e39d1e5e, type: 2}
   darkMatterType: 1
+  darkMatterState: 0
 --- !u!65 &1617162323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6890,6 +6980,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8361193110953031095, guid: cb95b067687f1e14abf49369c5aa3df9,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7084,6 +7179,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1090306346702749385, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2579387265488698256, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: m_Enabled
@@ -7570,3 +7670,4 @@ SceneRoots:
   - {fileID: 1084243708996061966}
   - {fileID: 423576188}
   - {fileID: 1617162326}
+  - {fileID: 1086958032}
