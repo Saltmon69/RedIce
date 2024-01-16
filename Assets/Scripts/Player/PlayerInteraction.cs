@@ -27,7 +27,7 @@ public class PlayerInteraction : MonoBehaviour
     [Tab("Minage")]
     [SerializeField] MineraiClass mineraiClass;
     public bool isApplyingDamage = false;
-    public int damage;
+    public float damage;
     
     // Raycast
     [Tab("Raycast")]

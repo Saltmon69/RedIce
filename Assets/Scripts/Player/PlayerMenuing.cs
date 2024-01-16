@@ -51,23 +51,19 @@ public class PlayerMenuing : MonoBehaviour
     public void OnMainMenuPressed()
     {
         
-        if (inventory.activeSelf)
-        {
-            inventory.SetActive(false);
-            mainMenu.SetActive(true);
-        }
-        if (map.activeSelf)
-        {
-            map.SetActive(false);
-            mainMenu.SetActive(true);
-        }
-        else if(!inventory.activeSelf && !map.activeSelf && !mainMenu.activeSelf)
-        {
-            mainMenu.SetActive(true);
-        }
-        else if(mainMenu.activeSelf)
+        if (inMenu)
         {
             inMenu = false;
+            mainMenu.SetActive(false);
+            inventory.SetActive(false);
+            map.SetActive(false);
+        }
+        else
+        {
+            inMenu = true;
+            mainMenu.SetActive(true);
+            inventory.SetActive(false);
+            map.SetActive(false);
         }
     }
     
@@ -77,9 +73,9 @@ public class PlayerMenuing : MonoBehaviour
     public void OnInventoryPressed()
     {
         inMenu = true;
-        map.SetActive(false);
-        mainMenu.SetActive(false);
         inventory.SetActive(true);
+        mainMenu.SetActive(false);
+        map.SetActive(false);
     }
     
     /// <summary>
@@ -88,9 +84,9 @@ public class PlayerMenuing : MonoBehaviour
     public void OnMapPressed()
     {
         inMenu = true;
+        map.SetActive(true);
         mainMenu.SetActive(false);
         inventory.SetActive(false);
-        map.SetActive(true);
 
     }
     
@@ -121,7 +117,6 @@ public class PlayerMenuing : MonoBehaviour
         Cursor.visible = false;
         Time.timeScale = 1;
         
-        mainMenu.SetActive(false);
         playerMovement.enabled = true;
         playerMouseLook.enabled = true;
         playerInteraction.enabled = true;

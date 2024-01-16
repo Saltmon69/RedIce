@@ -42,9 +42,9 @@ public class MineraiClass : MonoBehaviour
         }
     }
     
-    public void takeDamage(int damage)
+    public void takeDamage(float damage)
     {
-        mineraiLife -= damage * critMultiplicator;
+        mineraiLife -= (int)damage * critMultiplicator;
         float quantity = damage * critMultiplicator;
 
         if (mineraiLife <= 0)
