@@ -71,6 +71,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 654699800392103339}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
       propertyPath: ressources.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -85,3 +90,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d272bc52f532a3241a340ba57c3cf21e, type: 3}
+--- !u!82 &654699800392103339 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 379766732742548166, guid: d272bc52f532a3241a340ba57c3cf21e,
+    type: 3}
+  m_PrefabInstance: {fileID: 887427015622438765}
+  m_PrefabAsset: {fileID: 0}
