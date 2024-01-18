@@ -147,10 +147,10 @@ public class PlayerInteraction : MonoBehaviour
         
     }
     
-    public void OnShootPressed()
+    /*public void OnShootPressed()
     {
         Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
-    }
+    }*/
     
     
     /// <summary>
