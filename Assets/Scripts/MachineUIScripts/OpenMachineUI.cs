@@ -7,6 +7,7 @@ public class OpenMachineUI : MonoBehaviour
     public float distance;
     private LayerMask _layerMask;
     private RaycastHit _hitData;
+    private GameObject _gameObjetHit;
     
     public MachineUIDisplay thisDisplay;
     public GameObject thisPlayerInventory;
@@ -19,83 +20,93 @@ public class OpenMachineUI : MonoBehaviour
     private bool _hasHitMachine;
     private bool _isUIUp;
 
-    public DeactivatePlayerInput playerInput;
+    private PlayerMenuing _playerMenuing;
 
     public void Awake()
     {
         _layerMask = LayerMask.GetMask("Machine");
 
         mainCamera = Camera.main;
+
+        _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
     }
 
-    void Update()
+    public void Update()
     {
         _ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         
         //si une machine est séléctionné sa prend l'ui lié à cette machine et la crée
-        if(Physics.Raycast(_ray, out _hitData, Mathf.Infinity , _layerMask))
+        if(Physics.Raycast(_ray, out _hitData, distance, _layerMask))
         {
             if(Input.GetKeyDown(KeyCode.Mouse0) && !_isUIUp)
             {
+                _gameObjetHit = _hitData.transform.gameObject;
                 _hasHitMachine = false;
-                
-                if(_hitData.transform.CompareTag("Untagged"))
+
+                if(_gameObjetHit.transform.CompareTag("Input") || _gameObjetHit.transform.CompareTag("Output"))
                 {
-                    thisDisplay = _hitData.transform.GetComponent<MachineUIDisplay>();
+                    _gameObjetHit = _gameObjetHit.transform.parent.gameObject;
+                }
+
+                if(_gameObjetHit.transform.CompareTag("Untagged"))
+                {
+                    thisDisplay = _gameObjetHit.transform.GetComponent<MachineUIDisplay>();
                     thisDisplay.playerInventory = thisPlayerInventory;
                     thisDisplay.ActivateUIDisplay();
                     _hasHitMachine = true;
                 }
 
-                if(_hitData.transform.CompareTag("Computer"))
+                if(_gameObjetHit.transform.CompareTag("Computer"))
                 {
-                    thisComputerDisplay = _hitData.transform.GetComponent<ComputerUIDisplay>();
+                    thisComputerDisplay = _gameObjetHit.transform.GetComponent<ComputerUIDisplay>();
                     thisComputerDisplay.playerInventory = thisPlayerInventory;
                     thisComputerDisplay.ActivateUIDisplay();
                     _hasHitMachine = true;
                 }
                 
-                if(_hitData.transform.CompareTag("Chest"))
+                if(_gameObjetHit.transform.CompareTag("Chest"))
                 {
-                    thisChestUIDisplay = _hitData.transform.GetComponent<ChestUIDisplay>();
+                    thisChestUIDisplay = _gameObjetHit.transform.GetComponent<ChestUIDisplay>();
                     thisChestUIDisplay.playerInventory = thisPlayerInventory;
                     thisChestUIDisplay.ActivateUIDisplay();
                     _hasHitMachine = true;
                 }
 
-                if (_hasHitMachine)
-                {
-                    thisPlayerInventory.transform.parent.gameObject.SetActive(false);
-                    _isUIUp = true;
-                    modeSelection.canPlayerSwitchMode = false;
 
-                    playerInput.Deactivate();
-                
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true; 
+                if(_hasHitMachine)
+                {
+                    _playerMenuing.inMenu = true;
+                    modeSelection.canPlayerSwitchMode = false;
                 }
             }
+            
+            if(_hasHitMachine) Time.timeScale = 1;
         }
 
         //désactive l ui avec echape
-        if(Input.GetKeyUp(KeyCode.Escape) && (thisDisplay != null || thisComputerDisplay != null || thisChestUIDisplay != null))
+        if(!Input.GetKeyDown(KeyCode.Escape)) return;
+        
+        if(thisDisplay != null)
         {
-            if(thisDisplay != null) thisDisplay.DeactivateUIDisplay();
-            if(thisComputerDisplay != null) thisComputerDisplay.DeactivateUIDisplay();
-            if(thisChestUIDisplay != null) thisChestUIDisplay.DeactivateUIDisplay();
-
-            thisPlayerInventory.transform.parent.gameObject.SetActive(true);
-
-            thisChestUIDisplay = null;
-            thisComputerDisplay = null;
+            thisDisplay.DeactivateUIDisplay();
             thisDisplay = null;
-            _isUIUp = false;
-            modeSelection.canPlayerSwitchMode = true;
-            
-            playerInput.Activate();
-            
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
+
+        if(thisComputerDisplay != null)
+        {
+            thisComputerDisplay.DeactivateUIDisplay();
+            thisComputerDisplay = null;
+        }
+
+        if(thisChestUIDisplay != null)
+        {
+            thisChestUIDisplay.DeactivateUIDisplay();
+            thisChestUIDisplay = null;
+        }
+        
+        _isUIUp = false;
+
+        modeSelection.canPlayerSwitchMode = true;
+        _playerMenuing.OnQuitPressed();
     }
 }

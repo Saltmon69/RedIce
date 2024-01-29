@@ -50,8 +50,7 @@ public class PlayerMenuing : MonoBehaviour
     /// </summary>
     public void OnMainMenuPressed()
     {
-        
-        if (inMenu)
+        if (inMenu || this.enabled == false)
         {
             inMenu = false;
             mainMenu.SetActive(false);
@@ -96,7 +95,7 @@ public class PlayerMenuing : MonoBehaviour
         inMenu = false;
     }
     
-    private void InMenu()
+    public void InMenu()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -111,7 +110,7 @@ public class PlayerMenuing : MonoBehaviour
         }
     }
     
-    private void OutMenu()
+    public void OutMenu()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
