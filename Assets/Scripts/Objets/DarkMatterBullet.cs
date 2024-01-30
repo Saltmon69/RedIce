@@ -39,7 +39,7 @@ public class DarkMatterBullet : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject, 5f);
         }
        
     }

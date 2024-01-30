@@ -84,14 +84,22 @@ public class PlayerInteraction : MonoBehaviour
                         case"MineraiCrit":
                             mineraiClass.critMultiplicator = 2;
                             mineraiClass.takeDamage(damage);
-                            Debug.Log(mineraiClass.mineraiLife);
+                            Destroy(itemHit.collider.gameObject);
                             break;
                         case"Minerai":
                             mineraiClass.critMultiplicator = 1;
                             mineraiClass.takeDamage(damage);
-                            Debug.Log(mineraiClass.mineraiLife);
                             break;
                     }
+                }
+            }
+
+            if (itemHit.collider.CompareTag("EON"))
+            {
+                itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
                 }
             }
             
@@ -139,10 +147,10 @@ public class PlayerInteraction : MonoBehaviour
         
     }
     
-    public void OnShootPressed()
+    /*public void OnShootPressed()
     {
         Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
-    }
+    }*/
     
     
     /// <summary>

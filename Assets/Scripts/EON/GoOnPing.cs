@@ -59,14 +59,12 @@ public class GoOnPing : IState, IObserver
 
     public void OnNotify(Data data)
     {
-        Debug.Log("J'ai reçu le msg");
         if (data.itemPinged != null)
         {
             ping = data.itemPinged;
         }
         
         ping = data.ping;
-        Debug.Log("Le ping est : " + ping);
         activeOrder = data.order;
         
     }

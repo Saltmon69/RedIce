@@ -17,11 +17,14 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] private ItemClass darkMatter;
     [SerializeField] GameObject critGameObject;
     [SerializeField] InventoryManager inventoryManager;
-    [HideInInspector] private PlayerInteraction playerInteraction;
+    [SerializeField] AudioSource audioSource;
+    private PlayerInteraction playerInteraction;
+    
 
     [Tab("Valeurs")]
-    public int mineraiLife;
+    public float mineraiLife;
     public int critMultiplicator = 1;
+    float quantity = 0;
     
     
     #endregion
@@ -47,19 +50,24 @@ public class MineraiClass : MonoBehaviour
     
     public void takeDamage(float damage)
     {
-        mineraiLife -= (int)damage * critMultiplicator;
-        float quantity = damage * critMultiplicator;
-
+        mineraiLife -= damage * critMultiplicator;
+        quantity += damage * critMultiplicator;
+        Debug.Log("Quantity : " + quantity);
         if (mineraiLife <= 0)
         {
             bool ended = QuantityCalculator(quantity);
             if (ended)
+            {
+                quantity = 0;
                 DestroyGameObject();
+            }
         }
         else if(playerInteraction.isApplyingDamage == false)
         {
             bool ended;
             ended = QuantityCalculator(quantity);
+            if (ended)
+                quantity = 0;
         }
     }
 
@@ -67,8 +75,8 @@ public class MineraiClass : MonoBehaviour
     
     public void DestroyGameObject()
     {
-        //Mettre gamefeel
-        Destroy(gameObject);
+        audioSource.Play();
+        Destroy(gameObject, 2f);
     }
     
 
@@ -83,13 +91,13 @@ public class MineraiClass : MonoBehaviour
 
         foreach (var ressource in ressources)
         {
-            for(int i = 0; i < (int)quantity * ressource.rendement; i++)
+            for(float i = 0; i < quantity * ressource.rendement; i++)
             {
                 inventoryManager.AddItem(ressource);
             }
         }
         
-        for(int i = 0; i < (int)quantity * darkMatter.rendement; i++)
+        for(float i = 0; i < quantity * darkMatter.rendement; i++)
         {
             inventoryManager.AddItem(darkMatter);
         }

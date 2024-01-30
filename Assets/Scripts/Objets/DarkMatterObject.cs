@@ -6,6 +6,7 @@ using UnityEngine;
 public class DarkMatterObject : MonoBehaviour
 {
     [SerializeField] Material darkMatterMaterial;
+    [SerializeField] Material defaultMaterial;
     [SerializeField] DarkMatterType darkMatterType;
     public DarkMatterState darkMatterState;
 
@@ -36,7 +37,7 @@ public class DarkMatterObject : MonoBehaviour
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
-                meshRenderer.material = default;
+                meshRenderer.material = defaultMaterial;
                 boxCollider.isTrigger = false;
             }
         }
@@ -49,7 +50,7 @@ public class DarkMatterObject : MonoBehaviour
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
-                meshRenderer.material = default;
+                meshRenderer.material = defaultMaterial;
                 boxCollider.isTrigger = false;
             }
         }

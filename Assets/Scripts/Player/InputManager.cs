@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour
         playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
         playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
         playerInteractionActions.AVA.performed += _ => playerInteraction.OnAvaPressed();
-        playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
+        //playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
         
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
