@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -14,7 +13,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     private GameObject _machineBuildingButton;
     private GameObject _thisMachineButton;
     private GameObject _playerInventory;
-    private InventoryItem _thisPlayerInventoryItemList;
+    private InventoryItem _thisPlayerInventoryItem;
     private List<ItemClass> _playerItemList;
     private List<int> _playerAmountList;
     private GameObject _materialRecipePrefab;
@@ -23,12 +22,19 @@ public class BlueprintBuildingState : BlueprintBaseState
     private GameObject _plusSignPrefab;
     private bool _hasEnoughMaterial;
     private int _materialsReady;
+    
+    private PlayerMenuing _playerMenuing;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(true);
 
         _machineStock = GameObject.Find("MachineStock");
+        
+        _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
+        _playerMenuing.enabled = true;
+        _playerMenuing.InMenu();
+        _playerMenuing.enabled = false;
 
         //active l'interface de sélection des machines
         _machineBuildingDisplay = Object.Instantiate(Resources.Load<GameObject>("MachineUI/UIMachineBuildingCanvas"));
@@ -48,16 +54,16 @@ public class BlueprintBuildingState : BlueprintBaseState
         {
             if(_playerInventory.transform.GetChild(i).childCount == 0) continue;
 
-            _thisPlayerInventoryItemList = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
+            _thisPlayerInventoryItem = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
                 
-            if(!_playerItemList.Contains(_thisPlayerInventoryItemList.item))
+            if(!_playerItemList.Contains(_thisPlayerInventoryItem.item))
             {
-                _playerItemList.Add(_thisPlayerInventoryItemList.item);
-                _playerAmountList.Add(_thisPlayerInventoryItemList.count);
+                _playerItemList.Add(_thisPlayerInventoryItem.item);
+                _playerAmountList.Add(_thisPlayerInventoryItem.count);
             }
             else
             {
-                _playerAmountList[_playerItemList.IndexOf(_thisPlayerInventoryItemList.item)] += _thisPlayerInventoryItemList.count;
+                _playerAmountList[_playerItemList.IndexOf(_thisPlayerInventoryItem.item)] += _thisPlayerInventoryItem.count;
             }
         }
 
@@ -71,15 +77,15 @@ public class BlueprintBuildingState : BlueprintBaseState
             RecipeMaterialManager(_machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialList, _machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialAmountList);
             if(_hasEnoughMaterial) _thisMachineButton.GetComponent<Button>().onClick.AddListener(() => { MachineChosen(a, blueprint); });
         }
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
     public void MachineChosen(int machineNumber, BlueprintStateMachineManager blueprint)
     {
         _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStock.transform);
+        _playerMenuing.enabled = true;
+        _playerMenuing.OutMenu();
+        _playerMenuing.enabled = false;
         blueprint.SwitchState(blueprint.placementState);
     }
     
@@ -99,8 +105,6 @@ public class BlueprintBuildingState : BlueprintBaseState
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(false);
         Object.Destroy(_machineBuildingDisplay.transform.parent.parent.gameObject);
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
     
     private void RecipeMaterialManager(List<ItemClass> materialList, List<int> materialAmountList)

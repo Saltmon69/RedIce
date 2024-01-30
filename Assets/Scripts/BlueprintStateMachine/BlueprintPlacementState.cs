@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
 
 public class BlueprintPlacementState : BlueprintBaseState
 {
@@ -8,11 +13,14 @@ public class BlueprintPlacementState : BlueprintBaseState
     private HighlightComponent _highlightComponent;
     private MachineCollider _machineCollider;
     private Vector3 _eulerRotation;
-
-    private MachineUIDisplay _machineUIDisplay;
+    
     private BasePower _basePower;
     private ComputerUIDisplay _computerUIDisplay;
     private MachineCost _machineCost;
+    private GameObject _playerInventory;
+    private InventoryItem _thisPlayerInventoryItem;
+    private List<InventoryItem> _playerInventoryItemList;
+    private int _materialAmountLeft;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -26,14 +34,23 @@ public class BlueprintPlacementState : BlueprintBaseState
         
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
-        _machineUIDisplay = _machineToPlace.GetComponent<MachineUIDisplay>();
-        
+
         _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
         _highlightComponent.Blueprint();
         
         _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
 
         _machineCost = _machineToPlace.GetComponent<MachineCost>();
+        
+        _playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>().inventory.transform.GetChild(0).GetChild(1).gameObject;
+        _playerInventoryItemList = new List<InventoryItem>();
+        
+        for(var i = 0; i < _playerInventory.transform.childCount; i++)
+        {
+            if(_playerInventory.transform.GetChild(i).childCount == 0) continue;
+            _thisPlayerInventoryItem = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
+            _playerInventoryItemList.Add(_thisPlayerInventoryItem);
+        }
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -62,22 +79,32 @@ public class BlueprintPlacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            if(hitData.transform.CompareTag("BaseFloor"))
+            if(!_machineToPlace.transform.CompareTag("Tirolienne"))
             {
-                Debug.Log("le funny click");
-                if(_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <= _computerUIDisplay.maxPower)
+                if(hitData.transform.CompareTag("BaseFloor"))
                 {
-                    blueprint.SwitchState(blueprint.buildingState);
-                    _machineCollider.enabled = false;
-                    _highlightComponent.BaseMaterial();
+                    if(_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <= _computerUIDisplay.maxPower)
+                    {
+                        _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
 
-                    _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
+                        InventoryItemCostRemoval();
+                        blueprint.SwitchState(blueprint.buildingState);
+                    }
+                    else
+                    {
+                        _basePower = hitData.transform.GetComponent<BasePower>();
+                        _basePower.Flash();
+                    }
                 }
-                else
+            }
+            else
+            {
+                if(hitData.transform.CompareTag("Ground"))
                 {
-                    Debug.Log("le funny flash");
-                    _basePower = hitData.transform.GetComponent<BasePower>();
-                    _basePower.Flash();
+                    _machineToPlace.transform.GetComponent<TirolienneMachine>().isPlaced = true;
+
+                    InventoryItemCostRemoval();
+                    blueprint.SwitchState(blueprint.buildingState);
                 }
             }
         }
@@ -88,5 +115,32 @@ public class BlueprintPlacementState : BlueprintBaseState
         GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(false);
         
         _machineToPlace.layer = 6;
+    }
+
+    private void InventoryItemCostRemoval()
+    {
+        _highlightComponent.BaseMaterial();
+        _machineCollider.enabled = false;
+        
+        for(var i = 0; i < _machineCost.buildingMaterialList.Count; i++)
+        {
+            _materialAmountLeft = _machineCost.buildingMaterialAmountList[i];
+                        
+            for(var j = 0; j < _playerInventoryItemList.Count; j++)
+            {
+                if(_playerInventoryItemList[j].item == _machineCost.buildingMaterialList[i])
+                {
+                    _playerInventoryItemList[j].count -= _materialAmountLeft;
+                    _materialAmountLeft -= _playerInventoryItemList[j].count + _materialAmountLeft;
+                    try
+                    {
+                        _playerInventoryItemList[j].RefreshCount();
+                        if(_playerInventoryItemList[j].count <= 0) Object.DestroyImmediate(_playerInventoryItemList[j].gameObject);
+                    }catch(MissingReferenceException){}
+
+                    if(_materialAmountLeft <= 0) break;
+                }
+            }
+        }
     }
 }

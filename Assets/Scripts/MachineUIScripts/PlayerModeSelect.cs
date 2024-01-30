@@ -19,8 +19,8 @@ public class PlayerModeSelect : MonoBehaviour
 
     public bool canPlayerSwitchMode;
     public bool couldPlayerSwitchMode;
-
-    public DeactivatePlayerInput playerInput;
+    
+    private PlayerMenuing _playerMenuing;
 
     private void Awake()
     {
@@ -31,6 +31,8 @@ public class PlayerModeSelect : MonoBehaviour
         {
            modeList.Add(this.gameObject.transform.GetChild(i).gameObject); 
         }
+        
+        _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
     }
 
     private void Update()
@@ -52,16 +54,16 @@ public class PlayerModeSelect : MonoBehaviour
         {
             modeSelected = oldSelectedMod;
         }
-
-        if (couldPlayerSwitchMode != canPlayerSwitchMode)
+        
+        if(couldPlayerSwitchMode != canPlayerSwitchMode)
         {
-            if (canPlayerSwitchMode)
+            if(canPlayerSwitchMode)
             {
-                playerInput.Activate();
+                _playerMenuing.enabled = true;
             }
             else
             {
-                playerInput.SoftDeactivate();
+                _playerMenuing.enabled = false;
             }
             couldPlayerSwitchMode = canPlayerSwitchMode;
         }
