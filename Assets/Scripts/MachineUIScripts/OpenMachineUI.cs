@@ -75,6 +75,7 @@ public class OpenMachineUI : MonoBehaviour
 
                 if(_hasHitMachine)
                 {
+                    _isUIUp = true;
                     _playerMenuing.inMenu = true;
                     modeSelection.canPlayerSwitchMode = false;
                 }
@@ -84,29 +85,30 @@ public class OpenMachineUI : MonoBehaviour
         }
 
         //désactive l ui avec echape
-        if(!Input.GetKeyDown(KeyCode.Escape)) return;
+        if(Input.GetKeyDown(KeyCode.Escape) && _isUIUp)
+        {
+            if(thisDisplay != null)
+            {
+                thisDisplay.DeactivateUIDisplay();
+                thisDisplay = null;
+            }
+
+            if(thisComputerDisplay != null)
+            {
+                thisComputerDisplay.DeactivateUIDisplay();
+                thisComputerDisplay = null;
+            }
+
+            if(thisChestUIDisplay != null)
+            {
+                thisChestUIDisplay.DeactivateUIDisplay();
+                thisChestUIDisplay = null;
+            }
         
-        if(thisDisplay != null)
-        {
-            thisDisplay.DeactivateUIDisplay();
-            thisDisplay = null;
-        }
+            _isUIUp = false;
 
-        if(thisComputerDisplay != null)
-        {
-            thisComputerDisplay.DeactivateUIDisplay();
-            thisComputerDisplay = null;
+            modeSelection.canPlayerSwitchMode = true;
+            _playerMenuing.OnQuitPressed();
         }
-
-        if(thisChestUIDisplay != null)
-        {
-            thisChestUIDisplay.DeactivateUIDisplay();
-            thisChestUIDisplay = null;
-        }
-        
-        _isUIUp = false;
-
-        modeSelection.canPlayerSwitchMode = true;
-        _playerMenuing.OnQuitPressed();
     }
 }
