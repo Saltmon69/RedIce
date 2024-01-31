@@ -72,6 +72,12 @@ public class OpenMachineUI : MonoBehaviour
                     _hasHitMachine = true;
                 }
 
+                if(_gameObjetHit.transform.CompareTag("Ground"))
+                {
+                    _gameObjetHit.SetActive(false);
+                    _gameObjetHit.transform.parent.GetChild(1).gameObject.SetActive(true);
+                }
+
 
                 if(_hasHitMachine)
                 {

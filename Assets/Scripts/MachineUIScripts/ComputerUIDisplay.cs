@@ -17,6 +17,8 @@ public class ComputerUIDisplay : MonoBehaviour
     private List<Transform> _computerPlayerInventoryList;
     private GameObject _thisComputerPlayerInventorySlot;
     private GameObject _computerPlayerInventoryUI;
+    
+    public GameObject thisBase;
 
     public int upgradeState;
     private bool _isItemRemoved;
@@ -31,6 +33,7 @@ public class ComputerUIDisplay : MonoBehaviour
 
         _computerUpgradeSlotUIList = new List<GameObject>();
         _itemInUpgradeSlotList = new List<InventoryItem>(new InventoryItem[_thisComputerUIDisplay.transform.childCount - 2]);
+        thisBase = GameObject.FindWithTag("Finish");
 
         for(var i = 2; i < _thisComputerUIDisplay.transform.childCount; i++)
         {
@@ -72,8 +75,8 @@ public class ComputerUIDisplay : MonoBehaviour
                     Debug.Log("the right upgrade has been added");
                     _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).SetSiblingIndex(1);
                     if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
-                    this.gameObject.transform.GetChild(upgradeState + 2).gameObject.SetActive(true);
-                    upgradeState++;;
+                    thisBase.transform.GetChild(upgradeState).gameObject.SetActive(true);
+                    upgradeState++;
                     MaxPowerUpgrade();
                 }
             }
@@ -113,7 +116,7 @@ public class ComputerUIDisplay : MonoBehaviour
         {
             _thisComputerUIDisplay.transform.GetChild(i + 2).SetSiblingIndex(1);
             if(i + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(i + 3).gameObject.SetActive(true);
-            this.gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
+            thisBase.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
     
@@ -133,8 +136,8 @@ public class ComputerUIDisplay : MonoBehaviour
     {
         for(var i = 0; i <= upgradeState; i++)
         {
-            if(this.gameObject.transform.childCount == 7) continue; 
-            this.gameObject.transform.GetChild(7).SetParent(_computerUpgradeSlotUIList[i].transform);
+            if(this.gameObject.transform.childCount == 2) continue; 
+            this.gameObject.transform.GetChild(2).SetParent(_computerUpgradeSlotUIList[i].transform);
             _itemInUpgradeSlotList[i] = _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<InventoryItem>();
         }
     }

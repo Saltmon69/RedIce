@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -8,6 +9,9 @@ public class BlueprintBuildingState : BlueprintBaseState
 {
     private GameObject _machineBuildingDisplay;
     private GameObject[] _machinesPrefab;
+    private GameObject[] _machinesPrefabTier1;
+    private GameObject[] _machinesPrefabTier2;
+    private GameObject[] _machinesPrefabTier3;
     private GameObject _machineStock;
     private GameObject _machineSelectedPlacementMode;
     private GameObject _machineBuildingButton;
@@ -38,10 +42,15 @@ public class BlueprintBuildingState : BlueprintBaseState
 
         //active l'interface de sélection des machines
         _machineBuildingDisplay = Object.Instantiate(Resources.Load<GameObject>("MachineUI/UIMachineBuildingCanvas"));
-        _machineBuildingDisplay = _machineBuildingDisplay.transform.GetChild(0).GetChild(1).gameObject;
 
         _machineBuildingButton = Resources.Load<GameObject>("MachineUI/MachineButton");
+        
         _machinesPrefab = Resources.LoadAll<GameObject>("Machines");
+        
+        _machinesPrefabTier1 = Resources.LoadAll<GameObject>("Machines/Tier1");
+        _machinesPrefabTier2 = Resources.LoadAll<GameObject>("Machines/Tier2");
+        _machinesPrefabTier3 = Resources.LoadAll<GameObject>("Machines/Tier3");
+
         _materialRecipePrefab = Resources.Load<GameObject>("MachineUI/MaterialRecipe");
         _plusSignPrefab = Resources.Load<GameObject>("MachineUI/PlusSignImage");
 
@@ -67,11 +76,14 @@ public class BlueprintBuildingState : BlueprintBaseState
             }
         }
 
-        //si les machine non pas précédement été chargé, alors on assigne chaque bouton a sa machine correspondante
+        //on assigne chaque bouton a sa machine correspondante
         for(var i = 0; i < _machinesPrefab.Length; i++)
         {
             var a = i;
-            _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform); 
+            if(_machinesPrefabTier1.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(0).GetChild(1).gameObject.transform); 
+            if(_machinesPrefabTier2.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(1).GetChild(1).gameObject.transform); 
+            if(_machinesPrefabTier3.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(2).GetChild(1).gameObject.transform); 
+            
             _thisMachineButton.transform.GetChild(0).GetComponent<Text>().text = _machinesPrefab[a].name;
 
             RecipeMaterialManager(_machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialList, _machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialAmountList);
@@ -103,7 +115,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(false);
-        Object.Destroy(_machineBuildingDisplay.transform.parent.parent.gameObject);
+        Object.Destroy(_machineBuildingDisplay);
         
     }
     

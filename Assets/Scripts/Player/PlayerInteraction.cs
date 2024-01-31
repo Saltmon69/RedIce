@@ -28,12 +28,13 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] MineraiClass mineraiClass;
     public bool isApplyingDamage = false;
     public float damage;
+    public bool isMiningModeActive;
     
     // Raycast
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
     RaycastHit itemHit;
-    
+
     // Ping
     [Tab("Ping")]
     public bool pingIsPressed;
@@ -109,8 +110,11 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnUsePressed()
     {
-        isApplyingDamage = true;
-        RaycastMaker(interactionRange);
+        if(isMiningModeActive)
+        {
+            isApplyingDamage = true;
+            RaycastMaker(interactionRange);
+        }
     }
     
     public void OnUseReleased()
