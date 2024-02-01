@@ -608,7 +608,7 @@ public class MachineUIDisplay : MonoBehaviour
         _machineOutputMaterialGroup = _machineOutputMaterialsUI.GetComponent<CanvasGroup>();
         _machineOutputMaterialGroup.alpha = 1;
             
-        while (_machineOutputMaterialGroup.alpha > 0 && isUIOpen)
+        while(_machineOutputMaterialGroup.alpha > 0 && isUIOpen)
         {
             _machineOutputMaterialGroup.alpha -= 0.02f / time;
             yield return new WaitForSeconds(0.02f);
@@ -624,12 +624,6 @@ public class MachineUIDisplay : MonoBehaviour
         {
             AddItemToInventory(machineItemList[i], 0, true);
         }
-    }
-    
-    //charge le manager d'item de l'inventaire pour etre sur d'avoir le dernier compte de tous les items au sein de l'inventaire
-    private void SaveInventory()
-    {
-        StartCoroutine(InventoryItemManager());
     }
 
     //prend tous les objets stocké dans l'inventaire du joueur et le met sur l'inventaire joueur qu il y a déja disposer sur la machine
@@ -665,7 +659,6 @@ public class MachineUIDisplay : MonoBehaviour
     public void DeactivateUIDisplay()
     {
         isUIOpen = false;
-        SaveInventory();
         SavePlayerInventory();
         StopAllCoroutines();
         if(_machineUpgradeSlotUI.transform.childCount > 0) _machineUpgradeSlotUI.gameObject.transform.SetParent(this.transform);

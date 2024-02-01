@@ -76,6 +76,11 @@ public class OpenMachineUI : MonoBehaviour
                 {
                     _gameObjetHit.SetActive(false);
                     _gameObjetHit.transform.parent.GetChild(1).gameObject.SetActive(true);
+                    
+                    for(var i = 0; i < _gameObjetHit.GetComponent<MachineCost>().buildingMaterialList.Count; i++)
+                    {
+                        DestroyImmediate(_gameObjetHit.transform.parent.GetChild(_gameObjetHit.transform.parent.childCount - 1).gameObject);
+                    }
                 }
 
 

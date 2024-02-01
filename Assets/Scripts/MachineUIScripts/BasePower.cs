@@ -24,15 +24,30 @@ public class BasePower : MonoBehaviour
         powerUI = Resources.Load<GameObject>("ComputerMachine/UIBase");
         _layerMask = LayerMask.GetMask("Default");
         _colliderHitList = new List<Collider>();
-        _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
+        try
+        {
+            _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
+        }catch(NullReferenceException){}
     }
 
     public void Update()
     {
+        if(_computerUIDisplay == null)
+        {
+            try
+            {
+                _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
+            }
+            catch(NullReferenceException)
+            {
+                return;
+            }
+        }
+        
         maxPower = _computerUIDisplay.maxPower;
         currentPowerUsage = _computerUIDisplay.currentPowerUsage;
         
-        _colliders = Physics.OverlapBox(this.transform.position + Vector3.up, this.transform.lossyScale / 2, Quaternion.identity, _layerMask, QueryTriggerInteraction.Ignore);
+        _colliders = Physics.OverlapBox(this.transform.position + Vector3.up * 2, this.transform.lossyScale / 2, Quaternion.identity, _layerMask, QueryTriggerInteraction.Ignore);
         _colliderHitList.Clear();
         _colliderHitList.AddRange(_colliders);
 

@@ -16,6 +16,7 @@ public class BaseRepair : MonoBehaviour
     public float altitude;
     public List<GameObject> itemSpriteList;
     public bool isBuildable;
+    public int materialsReady;
 
     private void Awake()
     {
@@ -23,16 +24,15 @@ public class BaseRepair : MonoBehaviour
         _machineCost = this.gameObject.GetComponent<MachineCost>();
         _itemSprite = Resources.Load<GameObject>("MachineUI/ItemSprite");
     }
-
-    // Update is called once per frame
+    
     void Start()
     {
         for (var i = 0; i < _machineCost.buildingMaterialList.Count; i++)
         {
-            _thisItemSprite = Instantiate(_itemSprite, new Vector3(this.gameObject.transform.position.x + (i + 0.5f -_machineCost.buildingMaterialList.Count / 2) * 5, altitude, this.gameObject.transform.position.y), quaternion.identity);
+            _thisItemSprite = Instantiate(_itemSprite, new Vector3(this.gameObject.transform.position.x + (i + 0.5f -_machineCost.buildingMaterialList.Count / 2) * 5, altitude, this.gameObject.transform.position.y), quaternion.identity, this.gameObject.transform.parent);
             _thisItemSprite.GetComponent<SpriteRenderer>().sprite = _machineCost.buildingMaterialList[i].sprite;
             itemSpriteList.Add(_thisItemSprite);
-            _thisItemSprite.transform.GetChild(0).GetComponent<TextMesh>().text = _machineCost.buildingMaterialAmountList[i] + " Left";
+            _thisItemSprite.transform.GetChild(0).GetComponent<TextMesh>().text = _machineCost.buildingMaterialAmountList[i] + " left";
         }
 
         StartCoroutine(PlayerInventoryItem());
@@ -42,13 +42,13 @@ public class BaseRepair : MonoBehaviour
     {
         while(true)
         {
+            materialsReady = 0;
             playerItemList = new List<ItemClass>();
             playerItemAmountList = new List<int>();
-            
+
             for(var i = 0; i < _playerInventory.transform.childCount; i++)
             {
                 if(_playerInventory.transform.GetChild(i).childCount == 0) continue;
-                Debug.Log(("found cool item in inventory"));
                 _thisInventoryItem = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
             
                 if(!playerItemList.Contains(_thisInventoryItem.item))
@@ -64,19 +64,18 @@ public class BaseRepair : MonoBehaviour
 
             for(var i = 0; i < playerItemList.Count; i++)
             {
-                if (_machineCost.buildingMaterialList.Contains(playerItemList[i]))
+                if(!_machineCost.buildingMaterialList.Contains(playerItemList[i])) continue;
+                if(_machineCost.buildingMaterialAmountList[_machineCost.buildingMaterialList.IndexOf(playerItemList[i])] - playerItemAmountList[i] <= 0)
                 {
-                    itemSpriteList[_machineCost.buildingMaterialList.IndexOf(playerItemList[i])].transform.GetChild(0).GetComponent<TextMesh>().text = _machineCost.buildingMaterialAmountList[i] - playerItemAmountList[i] + " Left";
-                    itemSpriteList[_machineCost.buildingMaterialList.IndexOf(playerItemList[i])].SetActive(_machineCost.buildingMaterialAmountList[i] - playerItemAmountList[i] > 0);
+                    itemSpriteList[_machineCost.buildingMaterialList.IndexOf(playerItemList[i])].transform.GetChild(0).GetComponent<TextMesh>().text = "ready";
+                    materialsReady++;
+                    continue;
                 }
+                
+                itemSpriteList[_machineCost.buildingMaterialList.IndexOf(playerItemList[i])].transform.GetChild(0).GetComponent<TextMesh>().text = _machineCost.buildingMaterialAmountList[i] - playerItemAmountList[i] + " left";
             }
 
-            isBuildable = true;
-
-            for(var i = 0; i < itemSpriteList.Count; i++)
-            {
-                if(itemSpriteList[i].activeSelf) isBuildable = false;
-            }
+            isBuildable = materialsReady == _machineCost.buildingMaterialList.Count;
             
             yield return new WaitForSeconds(1);
         }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -726408320946741801}
   m_Layer: 6
   m_Name: OrdinateurDeControle
-  m_TagString: Untagged
+  m_TagString: Computer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: be036288f1ac2ec4c833c1e3099387e3, type: 2}
   - {fileID: 11400000, guid: be036288f1ac2ec4c833c1e3099387e3, type: 2}
   playerInventory: {fileID: 0}
-  baseRoomList: []
+  thisBase: {fileID: 0}
   upgradeState: 0
   maxPower: 0
   currentPowerUsage: 0
