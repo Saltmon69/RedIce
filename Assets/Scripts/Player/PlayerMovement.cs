@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
@@ -112,32 +113,36 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    public void OnJumpPressed()
+    public void OnJumpPressed(InputAction.CallbackContext context)
     {
-        jump = true;
+        if(context.performed)
+            jump = true;
     }
     
-    public void OnSprintPressed()
+    public void OnSprintPressed(InputAction.CallbackContext context)
     {
-        if (sprint == false)
+        if (context.performed)
         {
             sprint = true;
         }
-        else
+        else if (context.canceled)
         {
             sprint = false;
         }
     }
     
-    public void OnCrouchPressed()
+    public void OnCrouchPressed(InputAction.CallbackContext context)
     {
-        if(crouch == false)
+        if (context.started || context.performed)
         {
-            crouch = true;
-        }
-        else
-        {
-            crouch = false;
+            if(crouch == false)
+            {
+                crouch = true;
+            }
+            else
+            {
+                crouch = false;
+            }
         }
     }
     

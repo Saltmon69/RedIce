@@ -116,8 +116,6 @@ public class MineraiClass : MonoBehaviour
     [Button("CritPointCreation")]
     public void CritPointCreation()
     {
-        Debug.Log("CritPointCreation");
-        
         int critPointNumber = Random.Range(1, 6);
         
         for (int i = 0; i < critPointNumber; i++)

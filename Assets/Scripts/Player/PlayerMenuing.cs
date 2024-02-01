@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using VInspector;
 
@@ -48,45 +49,54 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche Esc
     /// </summary>
-    public void OnMainMenuPressed()
+    public void OnEscapePressed(InputAction.CallbackContext ctx)
     {
-        if (inMenu || this.enabled == false)
+        if (ctx.started)
         {
-            inMenu = false;
-            mainMenu.SetActive(false);
-            inventory.SetActive(false);
-            map.SetActive(false);
-        }
-        else
-        {
-            inMenu = true;
-            mainMenu.SetActive(true);
-            inventory.SetActive(false);
-            map.SetActive(false);
+            if (inMenu || !mainMenu.activeSelf)
+            {
+                inMenu = false;
+                mainMenu.SetActive(false);
+                inventory.SetActive(false);
+                map.SetActive(false);
+            }
+            else
+            {
+                inMenu = true;
+                mainMenu.SetActive(true);
+                inventory.SetActive(false);
+                map.SetActive(false);
+            }
         }
     }
     
     /// <summary>
     /// Touche I
     /// </summary>
-    public void OnInventoryPressed()
+    public void OnIPressed(InputAction.CallbackContext ctx)
     {
-        inMenu = true;
-        inventory.SetActive(true);
-        mainMenu.SetActive(false);
-        map.SetActive(false);
+        if (ctx.started)
+        {
+            inMenu = true;
+            inventory.SetActive(true);
+            mainMenu.SetActive(false);
+            map.SetActive(false);
+        }
+        
     }
     
     /// <summary>
     /// Touche M
     /// </summary>
-    public void OnMapPressed()
+    public void OnMPressed(InputAction.CallbackContext ctx)
     {
-        inMenu = true;
-        map.SetActive(true);
-        mainMenu.SetActive(false);
-        inventory.SetActive(false);
-
+        if(ctx.started)
+        {
+            inMenu = true;
+            map.SetActive(true);
+            mainMenu.SetActive(false);
+            inventory.SetActive(false);
+        }
     }
     
     

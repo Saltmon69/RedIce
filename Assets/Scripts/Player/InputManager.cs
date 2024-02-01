@@ -44,29 +44,10 @@ public class InputManager : MonoBehaviour
         
         //Déplacement (Z Q S D Shift C )
         playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
-        playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
-        playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
-        playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();
-        
         
         //Mouvement caméra (Souris)
         playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
         playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
-        
-        //Interaction (E, Left Click, Middle Click, A, Right Click)
-        playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
-        playerInteractionActions.Use.started += _ => playerInteraction.OnUsePressed();
-        playerInteractionActions.Use.canceled += _ => playerInteraction.OnUseReleased();
-        playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
-        playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
-        playerInteractionActions.AVA.performed += _ => playerInteraction.OnAvaPressed();
-        //playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
-        
-        //Menu (Esc, I, M)
-        playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnMainMenuPressed();
-        playerMenuingActions.Inventory.performed += ctx => playerMenuing.OnInventoryPressed();
-        playerMenuingActions.Map.performed += ctx => playerMenuing.OnMapPressed();
-        
     }
 
     private void OnEnable()
