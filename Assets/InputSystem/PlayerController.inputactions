@@ -179,7 +179,7 @@
             "actions": [
                 {
                     "name": "Interaction",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "7247d07c-c653-4d50-bedc-f6326d0d28af",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -187,8 +187,8 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Use",
-                    "type": "Button",
+                    "name": "LeftClick",
+                    "type": "PassThrough",
                     "id": "d4703103-add4-480b-bb74-578501e56788",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -197,25 +197,25 @@
                 },
                 {
                     "name": "Ping",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "701ec9ad-1bfd-496f-8b42-483fc939a26a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
                     "name": "AVA",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "b338dc93-fb47-436a-adc1-4192932eb15b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Shoot",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "cf9465b9-f33d-4824-8479-65d45c42f142",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -237,7 +237,7 @@
                     "name": "",
                     "id": "50217e3c-595b-4df1-9002-49cfde52bc37",
                     "path": "<Keyboard>/e",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interaction",
@@ -251,7 +251,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Use",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

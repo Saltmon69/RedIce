@@ -23,7 +23,7 @@ public class PlayerMenuing : MonoBehaviour
     
     [HideInInspector] public bool inMenu;
     
-    
+
     // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
@@ -49,54 +49,44 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche Esc
     /// </summary>
-    public void OnEscapePressed(InputAction.CallbackContext ctx)
+    public void OnEscapePressed()
     {
-        if (ctx.started)
+        if (inMenu || !mainMenu.activeSelf)
         {
-            if (inMenu || !mainMenu.activeSelf)
-            {
-                inMenu = false;
-                mainMenu.SetActive(false);
-                inventory.SetActive(false);
-                map.SetActive(false);
-            }
-            else
-            {
-                inMenu = true;
-                mainMenu.SetActive(true);
-                inventory.SetActive(false);
-                map.SetActive(false);
-            }
+            inMenu = false;
+            mainMenu.SetActive(false);
+            inventory.SetActive(false);
+            map.SetActive(false);
+        }
+        else
+        {
+            inMenu = true;
+            mainMenu.SetActive(true);
+            inventory.SetActive(false);
+            map.SetActive(false);
         }
     }
     
     /// <summary>
     /// Touche I
     /// </summary>
-    public void OnIPressed(InputAction.CallbackContext ctx)
+    public void OnIPressed()
     {
-        if (ctx.started)
-        {
-            inMenu = true;
-            inventory.SetActive(true);
-            mainMenu.SetActive(false);
-            map.SetActive(false);
-        }
-        
+        inMenu = true;
+        inventory.SetActive(true);
+        mainMenu.SetActive(false);
+        map.SetActive(false);
     }
     
     /// <summary>
     /// Touche M
     /// </summary>
-    public void OnMPressed(InputAction.CallbackContext ctx)
+    public void OnMPressed()
     {
-        if(ctx.started)
-        {
-            inMenu = true;
-            map.SetActive(true);
-            mainMenu.SetActive(false);
-            inventory.SetActive(false);
-        }
+        inMenu = true;
+        map.SetActive(true);
+        mainMenu.SetActive(false);
+        inventory.SetActive(false);
     }
     
     
@@ -130,8 +120,6 @@ public class PlayerMenuing : MonoBehaviour
         playerMouseLook.enabled = true;
         playerInteraction.enabled = true;
         ATH.SetActive(true);
-        
-        //ajouter
         mainMenu.SetActive(false);
     }
 }
