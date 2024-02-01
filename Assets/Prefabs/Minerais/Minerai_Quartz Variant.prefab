@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8182073385715147446
+--- !u!1001 &2480791712990032551
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.4
+      value: 47.27
       objectReference: {fileID: 0}
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -86.75
+      value: -24.700005
       objectReference: {fileID: 0}
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 3495891538214699530, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_Name
-      value: Minerai_Fer Variant
+      value: Minerai_Quartz Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -73,7 +73,7 @@ PrefabInstance:
         type: 3}
       propertyPath: audioSource
       value: 
-      objectReference: {fileID: 8415437355080218736}
+      objectReference: {fileID: 2821708849401145441}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: ressources.Array.size
@@ -83,22 +83,22 @@ PrefabInstance:
         type: 3}
       propertyPath: ressources.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: d826d4463a286d448a61c8f9c9db9f00,
+      objectReference: {fileID: 11400000, guid: 24617c3ab17ac1c47acb045e06ce1a0d,
         type: 2}
     - target: {fileID: 9154215279198366609, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a11b695ec3e63db46a2e92e447cad730,
+      objectReference: {fileID: 21300000, guid: 058392438be4e9b4f932b6bf6a6ad38f,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d272bc52f532a3241a340ba57c3cf21e, type: 3}
---- !u!82 &8415437355080218736 stripped
+--- !u!82 &2821708849401145441 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 379766732742548166, guid: d272bc52f532a3241a340ba57c3cf21e,
     type: 3}
-  m_PrefabInstance: {fileID: 8182073385715147446}
+  m_PrefabInstance: {fileID: 2480791712990032551}
   m_PrefabAsset: {fileID: 0}

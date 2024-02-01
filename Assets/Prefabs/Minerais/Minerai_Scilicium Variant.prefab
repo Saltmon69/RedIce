@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8182073385715147446
+--- !u!1001 &4957679116273981124
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.4
+      value: 47.298737
       objectReference: {fileID: 0}
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -86.75
+      value: -62.75
       objectReference: {fileID: 0}
     - target: {fileID: 2611999801620954999, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 3495891538214699530, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_Name
-      value: Minerai_Fer Variant
+      value: Minerai_Scilicium Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -73,7 +73,7 @@ PrefabInstance:
         type: 3}
       propertyPath: audioSource
       value: 
-      objectReference: {fileID: 8415437355080218736}
+      objectReference: {fileID: 4722029945113758722}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: ressources.Array.size
@@ -83,22 +83,32 @@ PrefabInstance:
         type: 3}
       propertyPath: ressources.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: d826d4463a286d448a61c8f9c9db9f00,
+      objectReference: {fileID: 11400000, guid: f43286b7998266d41af33d18084521ac,
         type: 2}
+    - target: {fileID: 7589248309974998962, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589248309974998962, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9154215279198366609, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a11b695ec3e63db46a2e92e447cad730,
+      objectReference: {fileID: 21300000, guid: 7443745fd45a5704a976f838d88c3bd1,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d272bc52f532a3241a340ba57c3cf21e, type: 3}
---- !u!82 &8415437355080218736 stripped
+--- !u!82 &4722029945113758722 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 379766732742548166, guid: d272bc52f532a3241a340ba57c3cf21e,
     type: 3}
-  m_PrefabInstance: {fileID: 8182073385715147446}
+  m_PrefabInstance: {fileID: 4957679116273981124}
   m_PrefabAsset: {fileID: 0}
