@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using VInspector;
 
@@ -49,36 +50,17 @@ public class PlayerInteraction : MonoBehaviour
     #endregion
 
     #region Fonctions
-    
-    public void OnInteractionPressed()
-    {
-        RaycastMaker(interactionRange);
-        
-    }
-    
+
     private void FixedUpdate()
     {
-        if (avaIsPressed)
-        {
-            ava.SetActive(true);
-        }
-        else
-        {
-            ava.SetActive(false);
-        }
         
         if (itemHit.collider != null)
         {
-            if (itemHit.collider.CompareTag("Machine"))
-            {
-                Debug.Log(itemHit.collider.name);
-            }
-
             if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
             {
-                mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
 
-                if (isApplyingDamage == true)
+                if (isApplyingDamage)
                 {
                     switch (itemHit.collider.tag)
                     {
@@ -108,53 +90,67 @@ public class PlayerInteraction : MonoBehaviour
         
     }
     
-    public void OnUsePressed()
+    public void OnInteractionPressed(InputAction.CallbackContext ctx)
     {
-        if(isMiningModeActive)
+        if (ctx.performed)
         {
-            isApplyingDamage = true;
             RaycastMaker(interactionRange);
         }
     }
-    
-    public void OnUseReleased()
+    public void OnUsePressed(InputAction.CallbackContext ctx)
     {
-        isApplyingDamage = false;
-    }
-    
-    public void OnPingPressed()
-    {
-        pingIsPressed = true;
-        playerMenuing.inMenu = true;
-        radialMenu.SetActive(true);
-        
-    }
-    
-    public void OnPingReleased()
-    {
-        pingIsPressed = false;
-        playerMenuing.inMenu = false;
-        radialMenu.SetActive(false);
-        
-    }
-    
-    public void OnAvaPressed()
-    {
-        if (avaIsPressed)
+        if (ctx.performed)
         {
-            avaIsPressed = false;
+            if(isMiningModeActive)
+            {
+                isApplyingDamage = true;
+                RaycastMaker(interactionRange);
+            }
         }
-        else
+        else if (ctx.canceled)
+            isApplyingDamage = false;
+    }
+    
+    
+    
+    public void OnPingPressed(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started || ctx.performed)
         {
-            avaIsPressed = true;
+            pingIsPressed = true;
+            playerMenuing.inMenu = true;
+            radialMenu.SetActive(true);
+        }
+        else if (ctx.canceled)
+        {
+            pingIsPressed = false;
+            playerMenuing.inMenu = false;
+            radialMenu.SetActive(false);
         }
         
     }
     
-    /*public void OnShootPressed()
+    public void OnAvaPressed(InputAction.CallbackContext ctx)
     {
-        Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
-    }*/
+        if (ctx.started || ctx.performed)
+        {
+            ava.SetActive(true);
+        }
+        else if (ctx.canceled)
+        {
+            ava.SetActive(false);
+        }
+        
+    }
+    
+    public void OnShootPressed(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started || ctx.performed)
+            Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
+    }
+    
+    
+    
     
     
     /// <summary>
@@ -164,6 +160,7 @@ public class PlayerInteraction : MonoBehaviour
     /// <returns>Retourne l'objet touché et sa position</returns>
     public RaycastHit RaycastMaker(float range)
     {
+        
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         ray.direction = playerCamera.transform.forward;
         Physics.Raycast(ray, out RaycastHit hit, range);

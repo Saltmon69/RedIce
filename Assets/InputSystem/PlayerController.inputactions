@@ -43,7 +43,7 @@
                 },
                 {
                     "name": "Run",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "f9514e62-fcea-4cb8-a06d-ee68e2138a12",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -52,7 +52,7 @@
                 },
                 {
                     "name": "Crouch",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "28dd2693-23d3-48a1-8818-9631263accdd",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -188,16 +188,16 @@
                 },
                 {
                     "name": "Use",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "d4703103-add4-480b-bb74-578501e56788",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
-                    "initialStateCheck": true
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Ping",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "701ec9ad-1bfd-496f-8b42-483fc939a26a",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -206,7 +206,7 @@
                 },
                 {
                     "name": "AVA",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "b338dc93-fb47-436a-adc1-4192932eb15b",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -220,7 +220,16 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll Wheel",
+                    "type": "Button",
+                    "id": "3fae7eac-3e36-4b2b-bd52-e83125499bbb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
