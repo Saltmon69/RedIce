@@ -28,9 +28,6 @@ public class BlueprintDisplacementState : BlueprintBaseState
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
 
-        _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
-        _highlightComponent.Blueprint();
-
         _computerUIDisplay = GameObject.Find("ComputerAndBase").GetComponent<ComputerUIDisplay>();
 
         _machineCost = _machineToPlace.GetComponent<MachineCost>();

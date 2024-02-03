@@ -9,7 +9,7 @@ public class MachineCollider : MonoBehaviour
     public bool isActive;
     
     private HighlightComponent _highlightComponent;
-    private CapsuleCollider _thisCollider;
+    private Collider _thisCollider;
     public List<BoxCollider> _childColliderList;
     public List<GameObject> _collisionList;
 
@@ -19,7 +19,7 @@ public class MachineCollider : MonoBehaviour
         _childColliderList = new List<BoxCollider>();
         
         _highlightComponent = this.gameObject.GetComponent<HighlightComponent>();
-        _thisCollider = this.gameObject.GetComponent<CapsuleCollider>();
+        _thisCollider = this.gameObject.GetComponent<Collider>();
 
         for(var i = 1; i < this.transform.childCount; i++)
         {
@@ -35,6 +35,7 @@ public class MachineCollider : MonoBehaviour
     {
         canBePlaced = true;
         isActive = true;
+        _highlightComponent.Blueprint();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,6 +44,7 @@ public class MachineCollider : MonoBehaviour
         {
             canBePlaced = false;
             _collisionList.Add(collision.gameObject);
+            Debug.Log("we want in");
             _highlightComponent.Highlight();
             IsTrigger(true);
         }
@@ -79,5 +81,6 @@ public class MachineCollider : MonoBehaviour
     public void OnDisable()
     {
         isActive = false;
+        _highlightComponent.BaseMaterial();
     }
 }

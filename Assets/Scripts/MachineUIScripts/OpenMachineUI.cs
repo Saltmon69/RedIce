@@ -88,7 +88,8 @@ public class OpenMachineUI : MonoBehaviour
                 {
                     _isUIUp = true;
                     _playerMenuing.enabled = true;
-                    _playerMenuing.inMenu = true;
+                    _playerMenuing.InMenu();
+                    _playerMenuing.enabled = false;
                     if(_hasHitMachine) Time.timeScale = 1;
                     modeSelection.canPlayerSwitchMode = false;
                 }
@@ -119,7 +120,8 @@ public class OpenMachineUI : MonoBehaviour
             _isUIUp = false;
 
             modeSelection.canPlayerSwitchMode = true;
-            _playerMenuing.inMenu = false;
+            _playerMenuing.enabled = true;
+            _playerMenuing.OutMenu();
         }
     }
 }

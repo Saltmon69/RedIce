@@ -53,12 +53,10 @@ public class HighlightComponent : MonoBehaviour
 
     public void Highlight()
     {
+        Debug.Log("we in");
         for(var i = 0; i < _meshRenderersList.Count; i++)
         {
-            if(_meshRenderersList[i].material.name == _baseMaterialsList[i].name)
-            {
-                _meshRenderersList[i].material = highlightMaterial;
-            }
+            _meshRenderersList[i].material = highlightMaterial;
         }
     }
 
@@ -66,10 +64,7 @@ public class HighlightComponent : MonoBehaviour
     {
         for(var i = 0; i < _meshRenderersList.Count; i++)
         {
-            if(_meshRenderersList[i].material.name == _baseMaterialsList[i].name)
-            {
-                _meshRenderersList[i].material = outlineMaterial;
-            }
+            _meshRenderersList[i].material = outlineMaterial;
         }
     }
 
@@ -77,10 +72,7 @@ public class HighlightComponent : MonoBehaviour
     {
         for(var i = 0; i < _meshRenderersList.Count; i++)
         {
-            if(_meshRenderersList[i].material.name == _baseMaterialsList[i].name)
-            {
-                _meshRenderersList[i].material = blueprintMaterial;
-            }
+            _meshRenderersList[i].material = blueprintMaterial;
         }
     }
 }

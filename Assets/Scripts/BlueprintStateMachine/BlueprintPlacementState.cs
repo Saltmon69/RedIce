@@ -36,9 +36,6 @@ public class BlueprintPlacementState : BlueprintBaseState
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
 
-        _highlightComponent = _machineToPlace.GetComponent<HighlightComponent>();
-        _highlightComponent.Blueprint();
-
         try
         {
             _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
@@ -136,7 +133,6 @@ public class BlueprintPlacementState : BlueprintBaseState
 
     private void InventoryItemCostRemoval()
     {
-        _highlightComponent.BaseMaterial();
         _machineCollider.enabled = false;
         
         for(var i = 0; i < _machineCost.buildingMaterialList.Count; i++)
