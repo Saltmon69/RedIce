@@ -16,6 +16,8 @@ public class PlayerInteraction : MonoBehaviour
     #region Variables
 
     
+    
+    
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
     public PlayerManager playerManager;
@@ -50,6 +52,8 @@ public class PlayerInteraction : MonoBehaviour
     #endregion
 
     #region Fonctions
+
+   
 
     private void FixedUpdate()
     {
@@ -90,68 +94,52 @@ public class PlayerInteraction : MonoBehaviour
         
     }
     
-    public void OnInteractionPressed(InputAction.CallbackContext ctx)
+    public void OnInteractionPressed()
     {
-        if (ctx.performed)
+        RaycastMaker(interactionRange);
+    }
+    
+    public void OnLeftClickPressed()
+    {
+        Debug.Log("Left Click Pressed");
+        if(isMiningModeActive)
         {
+            isApplyingDamage = true;
             RaycastMaker(interactionRange);
         }
     }
-    public void OnUsePressed(InputAction.CallbackContext ctx)
+    public void OnLeftClickReleased()
     {
-        if (ctx.performed)
-        {
-            if(isMiningModeActive)
-            {
-                isApplyingDamage = true;
-                RaycastMaker(interactionRange);
-            }
-        }
-        else if (ctx.canceled)
-            isApplyingDamage = false;
+        Debug.Log("Left Click Released");
+        isApplyingDamage = false;
+    }
+    public void OnPingPressed()
+    {
+        pingIsPressed = true;
+        playerMenuing.inMenu = true;
+        radialMenu.SetActive(true);
+    }
+
+    public void OnPingReleased()
+    {
+        pingIsPressed = false;
+        playerMenuing.inMenu = false;
+        radialMenu.SetActive(false);
     }
     
-    
-    
-    public void OnPingPressed(InputAction.CallbackContext ctx)
+    public void OnAvaPressed()
     {
-        if (ctx.started || ctx.performed)
-        {
-            pingIsPressed = true;
-            playerMenuing.inMenu = true;
-            radialMenu.SetActive(true);
-        }
-        else if (ctx.canceled)
-        {
-            pingIsPressed = false;
-            playerMenuing.inMenu = false;
-            radialMenu.SetActive(false);
-        }
-        
+        ava.SetActive(true);
+    }
+    public void OnAvaReleased()
+    {
+        ava.SetActive(false);
     }
     
-    public void OnAvaPressed(InputAction.CallbackContext ctx)
+    public void OnShootPressed()
     {
-        if (ctx.started || ctx.performed)
-        {
-            ava.SetActive(true);
-        }
-        else if (ctx.canceled)
-        {
-            ava.SetActive(false);
-        }
-        
+        Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
     }
-    
-    public void OnShootPressed(InputAction.CallbackContext ctx)
-    {
-        if(ctx.started || ctx.performed)
-            Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
-    }
-    
-    
-    
-    
     
     /// <summary>
     /// Permet de créer un raycast à partir de la position de la souris.

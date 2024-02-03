@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     #pragma warning disable 0649
 
     #region Variables
-
+    
     // Movements
     
     [SerializeField] CharacterController controller;
@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Fonctions
+
+  
     private void Update()
     {
         //Jump
@@ -113,36 +115,30 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    public void OnJumpPressed(InputAction.CallbackContext context)
+    public void OnJumpPressed()
     {
-        if(context.performed)
-            jump = true;
+        jump = true;
     }
     
-    public void OnSprintPressed(InputAction.CallbackContext context)
+    public void OnSprintPressed()
     {
-        if (context.performed)
-        {
-            sprint = true;
-        }
-        else if (context.canceled)
-        {
-            sprint = false;
-        }
+        sprint = true;
+    }
+
+    public void OnSprintReleased()
+    {
+        sprint = false;
     }
     
-    public void OnCrouchPressed(InputAction.CallbackContext context)
+    public void OnCrouchPressed()
     {
-        if (context.started || context.performed)
+        if(crouch == false)
         {
-            if(crouch == false)
-            {
-                crouch = true;
-            }
-            else
-            {
-                crouch = false;
-            }
+            crouch = true;
+        }
+        else
+        {
+            crouch = false;
         }
     }
     
