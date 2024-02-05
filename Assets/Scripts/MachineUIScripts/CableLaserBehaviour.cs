@@ -43,7 +43,7 @@ public class CableLaserBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (!isSetup)
+        if(!isSetup)
         {
             CheckpointsUpdate();
             if(checkpointList.Count > 0)CheckpointPosition();
@@ -58,6 +58,12 @@ public class CableLaserBehaviour : MonoBehaviour
                 checkpointsCount = checkpointList.Count;
                 wasLinked = isLinked;
             }
+        }
+        else if (outputMachine.transform.position != checkpointList[0] ||
+                 inputMachine.transform.position != checkpointList[^1])
+        {
+            CheckpointsUpdate();
+            CheckpointPosition();
         }
         CheckpointCheck();
     }
@@ -119,7 +125,7 @@ public class CableLaserBehaviour : MonoBehaviour
             _blueprintLineRenderer.SetPosition(i, blueprintCheckpointList[i]);
         }
     }
-    
+
     /// <summary>
     /// Cette fonction permet d'afficher le cable et de regarder si le cable heurte un object en chemin, dans ce cas il se coupe
     /// </summary>
@@ -127,7 +133,7 @@ public class CableLaserBehaviour : MonoBehaviour
     {
         isLinked = true;
         _lineRenderer.positionCount = checkpointList.Count;
-        
+
         for (var i = 0; i < checkpointList.Count; i++)
         {
             //on ne prend pas en compte l'entrée et la sortie car elle touche forcément la machine concerné
@@ -149,7 +155,7 @@ public class CableLaserBehaviour : MonoBehaviour
         }
         
         //si le cable a été couper mais qu'il ne l'est plus ou du moins au meme endroit, réactualise le line renderer
-        if (checkpointsCount != _lineRenderer.positionCount && isSetup)
+        if(checkpointsCount != _lineRenderer.positionCount && isSetup)
         {
             checkpointsCount = _lineRenderer.positionCount;
             CheckpointPosition();

@@ -35,10 +35,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
 
-        try
-        {
-            _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
-        }catch(NullReferenceException){}
+        _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
 
         _machineCost = _machineToPlace.GetComponent<MachineCost>();
         
