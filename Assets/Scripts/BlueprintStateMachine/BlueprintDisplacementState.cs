@@ -121,6 +121,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
                 if(_playerInventoryItemList[j].item == _machineCost.buildingMaterialList[i])
                 {
                     _playerInventoryItemList[j].count += _materialAmountLeft;
+                    _materialAmountLeft = 0;
                     if(_playerInventoryItemList[j].count > _playerInventoryItemList[j].stackSize)
                     {
                         _materialAmountLeft = _playerInventoryItemList[j].stackSize - _playerInventoryItemList[j].count;
