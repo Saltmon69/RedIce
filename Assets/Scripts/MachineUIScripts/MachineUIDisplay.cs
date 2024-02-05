@@ -85,9 +85,9 @@ public class MachineUIDisplay : MonoBehaviour
     
     [HideInInspector] public List<GameObject> thisMachineOutputList;
     [HideInInspector] public List<CableLaserBehaviour> thisMachineOutputCableList;
-    public List<GameObject> thisMachineInputList;
+    [HideInInspector] public List<GameObject> thisMachineInputList;
     [HideInInspector] public List<CableLaserBehaviour> thisMachineInputCableList;
-    [HideInInspector] public List<MachineUIDisplay> thisMachineCableMachineUIDisplayList;
+    public List<MachineUIDisplay> thisMachineCableMachineUIDisplayList;
     private int _machineTransferAmount;
     private int _transferMachineItemIndex;
     private int _transferMachineItemAmount;
@@ -187,9 +187,10 @@ public class MachineUIDisplay : MonoBehaviour
         if(craftProgress >= machineCraftingTime && isMachineActivated)
         {
             _machineMaterialsReadyForCraft = 0;
-            
+
             for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
             {
+                _isMachineMaterialReadyList[i] = false;
                 _machineTransferAmount = _machineCraftRecipe.inputsAmount[i];
                 
                 //regarde les ressources prête que le joueur utilise pour construire son objet/matériaux 
@@ -198,7 +199,7 @@ public class MachineUIDisplay : MonoBehaviour
                     CheckForMaterials(this, _machineCraftRecipe.inputs[i]);
                     _isMachineMaterialReadyList[i] = _isMaterialReady;
                 }
-                
+
                 if(!_isMachineMaterialReadyList[i])
                 {
                     //pour chaques machines connecté par cable sur les inputs de cette machines, on essaye de recuperer les matériaux manquant pour le craft
@@ -206,10 +207,9 @@ public class MachineUIDisplay : MonoBehaviour
                     for(var j = 0; j < thisMachineCableMachineUIDisplayList.Count; j++)
                     {
                         if(!thisMachineInputCableList[j].isSetup) continue;
-
                         Debug.Log("Is Taking From Another Machine");
 
-                        if (thisMachineCableMachineUIDisplayList[j].machineItemList.Contains(_machineCraftRecipe.inputs[i]))
+                        if(thisMachineCableMachineUIDisplayList[j].machineItemList.Contains(_machineCraftRecipe.inputs[i]))
                         {
                             CheckForMaterials(thisMachineCableMachineUIDisplayList[j], _machineCraftRecipe.inputs[i]);
                         }
@@ -225,6 +225,7 @@ public class MachineUIDisplay : MonoBehaviour
             //si il y a toutes les ressources de prete pour cree l'objet/matériaux alors on supprime ce que la recette demande et on reçois le resultat
             if(_machineMaterialsReadyForCraft == _machineCraftRecipe.inputs.Count)
             {
+                Debug.Log("has enough materials");
                 //supprime les ressources requises pour la création du resultat de la recette
                 for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
                 {

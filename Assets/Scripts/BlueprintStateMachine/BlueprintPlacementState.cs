@@ -21,7 +21,6 @@ public class BlueprintPlacementState : BlueprintBaseState
     private InventoryItem _thisPlayerInventoryItem;
     private List<InventoryItem> _playerInventoryItemList;
     private int _materialAmountLeft;
-    public bool isComputerPlaced;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -39,14 +38,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         try
         {
             _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
-            isComputerPlaced = true;
-        }
-        catch (NullReferenceException)
-        {
-            isComputerPlaced = false;
-        }
-        
-        Debug.Log(isComputerPlaced);
+        }catch(NullReferenceException){}
 
         _machineCost = _machineToPlace.GetComponent<MachineCost>();
         
@@ -87,39 +79,37 @@ public class BlueprintPlacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.Mouse1) && _machineCollider.canBePlaced)
         {
-            if(isComputerPlaced)
+            if(hitData.transform.CompareTag("BaseFloor") && !_machineToPlace.CompareTag("Tirolienne") && !_machineToPlace.CompareTag("Computer"))
             {
-                if (hitData.transform.CompareTag("BaseFloor") && !_machineToPlace.CompareTag("Tirolienne") && !_machineToPlace.CompareTag("Computer"))
+                if (_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <=
+                    _computerUIDisplay.maxPower)
                 {
-                    if (_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <=
-                        _computerUIDisplay.maxPower)
-                    {
-                        _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
-
-                        InventoryItemCostRemoval();
-                        blueprint.SwitchState(blueprint.buildingState);
-                    }
-                    else
-                    {
-                        _basePower = hitData.transform.GetComponent<BasePower>();
-                        _basePower.Flash();
-                    }
-                }
-
-                if (hitData.transform.CompareTag("Ground") && _machineToPlace.CompareTag("Tirolienne"))
-                {
-                    _machineToPlace.transform.GetComponent<TirolienneMachine>().isPlaced = true;
+                    _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
 
                     InventoryItemCostRemoval();
                     blueprint.SwitchState(blueprint.buildingState);
                 }
-
-                if (hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
+                else
                 {
-                    InventoryItemCostRemoval();
-                    _machineToPlace.transform.position = hitData.transform.position + Vector3.up;
-                    blueprint.SwitchState(blueprint.buildingState);
+                    _basePower = hitData.transform.GetComponent<BasePower>();
+                    _basePower.Flash();
                 }
+            }
+
+            if (hitData.transform.CompareTag("Ground") && _machineToPlace.CompareTag("Tirolienne"))
+            {
+                _machineToPlace.transform.GetComponent<TirolienneMachine>().isPlaced = true;
+
+                InventoryItemCostRemoval();
+                blueprint.SwitchState(blueprint.buildingState);
+            }
+                
+            if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
+            {
+                InventoryItemCostRemoval();
+                _machineToPlace.transform.position = hitData.transform.position + Vector3.up;
+                blueprint.SwitchState(blueprint.buildingState);
+                
             }
         }
     }

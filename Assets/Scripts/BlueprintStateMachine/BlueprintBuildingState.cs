@@ -26,6 +26,8 @@ public class BlueprintBuildingState : BlueprintBaseState
     private GameObject _plusSignPrefab;
     private bool _hasEnoughMaterial;
     private int _materialsReady;
+    private GameObject _computerMachine;
+    private bool _isComputerPlaced;
     
     private PlayerMenuing _playerMenuing;
 
@@ -76,13 +78,25 @@ public class BlueprintBuildingState : BlueprintBaseState
             }
         }
 
+        _computerMachine = GameObject.FindWithTag("Computer");
+        _isComputerPlaced = _computerMachine != null;
+        
         //on assigne chaque bouton a sa machine correspondante
         for(var i = 0; i < _machinesPrefab.Length; i++)
         {
             var a = i;
             if(_machinesPrefabTier1.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(0).GetChild(1).gameObject.transform); 
             if(_machinesPrefabTier2.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(1).GetChild(1).gameObject.transform); 
-            if(_machinesPrefabTier3.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(2).GetChild(1).gameObject.transform); 
+            if(_machinesPrefabTier3.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(2).GetChild(1).gameObject.transform);
+
+            if(_machinesPrefab[a].CompareTag("Computer"))
+            {
+                _thisMachineButton.GetComponent<Button>().interactable = !_isComputerPlaced;
+            }
+            else
+            {
+                _thisMachineButton.GetComponent<Button>().interactable = _isComputerPlaced;
+            }
             
             _thisMachineButton.transform.GetChild(0).GetComponent<Text>().text = _machinesPrefab[a].name;
 
