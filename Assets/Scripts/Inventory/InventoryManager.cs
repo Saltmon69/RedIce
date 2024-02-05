@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using VInspector;
 
 [Description("Ce script va gérer l'inventaire joueur. Il contient la liste des slots composant l'inventaire ainsi que " +
              "les fonctions permettant d'ajouter des objets à l'inventaire donné.")]
@@ -12,6 +13,7 @@ public class InventoryManager : MonoBehaviour
     
     #region Variables
 
+    [Tab("Inventaire")]
     [Tooltip("Array des slots de cet inventaire")]
     public InventorySlot[] slots;
     
@@ -29,6 +31,12 @@ public class InventoryManager : MonoBehaviour
     
     [Tooltip("Taille de l'inventaire qui sera généré")]
     public int inventorySize;
+    
+    [Tab("Debug")]
+    
+    [Tooltip("Item a donner avec le bouton de cheat")]
+    public ItemClass itemToGive;
+    public int numberOfItemsToGive = 1;
     
     #endregion
 
@@ -135,7 +143,15 @@ public class InventoryManager : MonoBehaviour
             slots[i] = slot.GetComponent<InventorySlot>();
         }
     }
-    
+
+    [Button("Give Item")]
+    public void DevCheat()
+    {
+        for (int i = 0; i < numberOfItemsToGive; i++)
+        {
+            AddItemExclusive(itemToGive);
+        }
+    }
     #endregion
 
 }

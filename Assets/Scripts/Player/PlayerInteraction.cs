@@ -24,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
     [SerializeField] GameObject ava;
+    [SerializeField] private Camera mainCamera;
     
     
     
@@ -46,6 +47,7 @@ public class PlayerInteraction : MonoBehaviour
     [Tab("Lunette AVA")]
     public bool avaIsPressed;
     [SerializeField] GameObject darkMatterBullet;
+    
     
     
 
@@ -89,6 +91,7 @@ public class PlayerInteraction : MonoBehaviour
                     itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
                 }
             }
+            
             
         }
         
