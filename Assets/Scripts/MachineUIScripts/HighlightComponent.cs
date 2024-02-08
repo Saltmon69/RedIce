@@ -21,11 +21,8 @@ public class HighlightComponent : MonoBehaviour
 
         if(this.gameObject.transform.childCount > 0)
         {
-            for(var i = 0; i < this.gameObject.transform.childCount; i++)
-            {
-                _meshRenderersList.Add(this.gameObject.transform.GetChild(i).GetComponent<MeshRenderer>());
-            }
-        
+            _meshRenderersList.AddRange(this.gameObject.transform.GetComponentsInChildren<MeshRenderer>());
+
             for(var i = 0; i < _meshRenderersList.Count; i++)
             {
                 _baseMaterialsList.Add(_meshRenderersList[i].material);
