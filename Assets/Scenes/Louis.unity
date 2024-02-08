@@ -5490,7 +5490,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 123
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 1
@@ -6301,27 +6301,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4272152946484833650}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1596962289 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3248441275126521545, guid: cb95b067687f1e14abf49369c5aa3df9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1084243708996061966}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1596962295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596962289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62ab711d6e64b440bf97d5143407033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chestUpgradeItemTierList: []
-  playerInventory: {fileID: 908899181}
-  upgradeState: 0
 --- !u!1 &1649047468
 GameObject:
   m_ObjectHideFlags: 0
@@ -6779,6 +6758,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2371164971936151162, guid: cb95b067687f1e14abf49369c5aa3df9,
+        type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 908899181}
     - target: {fileID: 3248441275126521545, guid: cb95b067687f1e14abf49369c5aa3df9,
         type: 3}
       propertyPath: m_Name
@@ -6787,16 +6771,12 @@ PrefabInstance:
     - target: {fileID: 3248441275126521545, guid: cb95b067687f1e14abf49369c5aa3df9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3248441275126521545, guid: cb95b067687f1e14abf49369c5aa3df9,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1596962295}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb95b067687f1e14abf49369c5aa3df9, type: 3}
 --- !u!1001 &1312693141340814077
 PrefabInstance:
@@ -7125,6 +7105,11 @@ PrefabInstance:
       propertyPath: radialMenu
       value: 
       objectReference: {fileID: 1852070371}
+    - target: {fileID: 6226800707968606254, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6251371320260076479, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: m_Name

@@ -24,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
     [SerializeField] GameObject ava;
+    [SerializeField] private Camera mainCamera;
     
     
     
@@ -48,6 +49,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] GameObject darkMatterBullet;
     
     
+    
 
     #endregion
 
@@ -57,39 +59,42 @@ public class PlayerInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-        if (itemHit.collider != null)
+        if (isMiningModeActive)
         {
-            if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+            if (itemHit.collider != null)
             {
-                mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-
-                if (isApplyingDamage)
+                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
                 {
-                    switch (itemHit.collider.tag)
+                    mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+
+                    if (isApplyingDamage)
                     {
-                        case"MineraiCrit":
-                            mineraiClass.critMultiplicator = 2;
-                            mineraiClass.takeDamage(damage);
-                            Destroy(itemHit.collider.gameObject);
-                            break;
-                        case"Minerai":
-                            mineraiClass.critMultiplicator = 1;
-                            mineraiClass.takeDamage(damage);
-                            break;
+                        switch (itemHit.collider.tag)
+                        {
+                            case"MineraiCrit":
+                                mineraiClass.critMultiplicator = 2;
+                                mineraiClass.takeDamage(damage);
+                                Destroy(itemHit.collider.gameObject);
+                                break;
+                            case"Minerai":
+                                mineraiClass.critMultiplicator = 1;
+                                mineraiClass.takeDamage(damage);
+                                break;
+                        }
                     }
                 }
             }
-
-            if (itemHit.collider.CompareTag("EON"))
+            else
             {
-                itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (itemHit.collider.CompareTag("EON"))
                 {
-                    itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
+                    itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
+                    }
                 }
             }
-            
         }
         
     }
@@ -101,7 +106,7 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnLeftClickPressed()
     {
-        Debug.Log("Left Click Pressed");
+        
         if(isMiningModeActive)
         {
             isApplyingDamage = true;

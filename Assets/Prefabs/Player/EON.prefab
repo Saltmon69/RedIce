@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 807329043413062299}
   - component: {fileID: 7070900064547131931}
   - component: {fileID: 1669462176714063477}
+  - component: {fileID: 2371164971936151162}
   m_Layer: 0
   m_Name: EON
   m_TagString: EON
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1931554770415737720
 Transform:
   m_ObjectHideFlags: 0
@@ -147,3 +148,18 @@ MonoBehaviour:
   navMeshSurface: {fileID: 0}
   agent: {fileID: 7070900064547131931}
   subject: {fileID: 0}
+--- !u!114 &2371164971936151162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248441275126521545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62ab711d6e64b440bf97d5143407033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chestUpgradeItemTierList: []
+  playerInventory: {fileID: 0}
+  upgradeState: 0

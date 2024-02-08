@@ -14,11 +14,14 @@ public class DarkMatterObject : MonoBehaviour
     private BoxCollider boxCollider;
     private PlayerManager playerManager;
     private bool playerInTrigger = false;
-
+    
+    [SerializeField] PlayerInteraction playerInteraction;
+    [SerializeField] private GameObject AntiMatterVFX;
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
+        playerInteraction = FindObjectOfType<PlayerInteraction>();
     }
 
     private void Update()
@@ -54,6 +57,20 @@ public class DarkMatterObject : MonoBehaviour
                 boxCollider.isTrigger = false;
             }
         }
+
+        if (AntiMatterVFX != null)
+        {
+            if (playerInteraction.avaIsPressed)
+            {
+                AntiMatterVFX.SetActive(true);
+            }
+            else
+            {
+                AntiMatterVFX.SetActive(false);
+            }
+            
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
