@@ -2540,6 +2540,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3181611585659217383, guid: d4395ece841255746b9c9678a39f7e14,
+        type: 3}
+      propertyPath: mineraiMesh
+      value: 
+      objectReference: {fileID: 878559540}
     - target: {fileID: 4382883145219206503, guid: d4395ece841255746b9c9678a39f7e14,
         type: 3}
       propertyPath: m_Name
@@ -2552,18 +2557,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.1
       objectReference: {fileID: 0}
     - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.96
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6175349469823589825, guid: d4395ece841255746b9c9678a39f7e14,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7669460339017609207, guid: d4395ece841255746b9c9678a39f7e14,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4885,6 +4910,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44b1f42f1891ca43be59e2a808613f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!33 &878559540 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 4800204475225577359, guid: d4395ece841255746b9c9678a39f7e14,
+    type: 3}
+  m_PrefabInstance: {fileID: 321500512}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &887844478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3920515309773505688, guid: 1256acb3dede1e0438a4da0376b6d8b7,

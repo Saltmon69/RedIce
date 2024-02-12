@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [Description("Script qui gère les inputs du joueur en utilisant le New Input System. C'est un singleton.")]
 public class InputManager : MonoBehaviour
@@ -45,9 +44,8 @@ public class InputManager : MonoBehaviour
         
         //Déplacement (Z Q S D Shift C )
         playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
-        playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
-        playerHorizontalMovement.Run.canceled += _ => playerMovement.OnSprintReleased();
         playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
+        playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
         playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();
         
         
@@ -57,13 +55,12 @@ public class InputManager : MonoBehaviour
         
         //Interaction (E, Left Click, Middle Click, A, Right Click)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
-        playerInteractionActions.LeftClick.performed += ctx => playerInteraction.OnLeftClickPressed();
-        playerInteractionActions.LeftClick.canceled += ctx => playerInteraction.OnLeftClickReleased();
+        playerInteractionActions.LeftClick.started += _ => playerInteraction.OnLeftClickPressed();
+        playerInteractionActions.LeftClick.canceled += _ => playerInteraction.OnLeftClickReleased();
         playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
         playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
         playerInteractionActions.AVA.performed += _ => playerInteraction.OnAvaPressed();
-        playerInteractionActions.AVA.canceled += _ => playerInteraction.OnAvaReleased();
-        playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
+        //playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
         
         //Menu (Esc, I, M)
         playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnEscapePressed();
