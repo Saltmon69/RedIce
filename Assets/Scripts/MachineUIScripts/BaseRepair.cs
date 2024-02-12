@@ -17,6 +17,7 @@ public class BaseRepair : MonoBehaviour
     public List<GameObject> itemSpriteList;
     public bool isBuildable;
     public int materialsReady;
+    public bool isBuilt;
 
     private void Awake()
     {

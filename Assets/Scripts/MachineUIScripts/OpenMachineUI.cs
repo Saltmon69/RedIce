@@ -22,6 +22,9 @@ public class OpenMachineUI : MonoBehaviour
 
     private PlayerMenuing _playerMenuing;
 
+    public bool hasInteractedWithComputer;
+    public int numberOfMachineInteracted;
+
     public void Awake()
     {
         _layerMask = LayerMask.GetMask("Machine");
@@ -54,6 +57,7 @@ public class OpenMachineUI : MonoBehaviour
                     thisDisplay.playerInventory = thisPlayerInventory;
                     thisDisplay.ActivateUIDisplay();
                     _hasHitMachine = true;
+                    numberOfMachineInteracted++;
                 }
 
                 if(_gameObjetHit.transform.CompareTag("Computer"))
@@ -62,6 +66,7 @@ public class OpenMachineUI : MonoBehaviour
                     thisComputerDisplay.playerInventory = thisPlayerInventory;
                     thisComputerDisplay.ActivateUIDisplay();
                     _hasHitMachine = true;
+                    hasInteractedWithComputer = true;
                 }
                 
                 if(_gameObjetHit.transform.CompareTag("Chest"))
@@ -74,6 +79,7 @@ public class OpenMachineUI : MonoBehaviour
 
                 if(_gameObjetHit.transform.CompareTag("Ground"))
                 {
+                    _gameObjetHit.GetComponent<BaseRepair>().isBuilt = true;
                     _gameObjetHit.SetActive(false);
                     _gameObjetHit.transform.parent.GetChild(1).gameObject.SetActive(true);
                     
