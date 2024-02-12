@@ -18,7 +18,10 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] GameObject critGameObject;
     [SerializeField] InventoryManager inventoryManager;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] private MeshFilter mineraiMesh;
     private PlayerInteraction playerInteraction;
+    private Vector3[] mineraiVertices;
+    
     
 
     [Tab("Valeurs")]
@@ -30,9 +33,15 @@ public class MineraiClass : MonoBehaviour
     #endregion
 
     #region Fonctions
-    private void Start()
+    private void Awake()
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        mineraiVertices = mineraiMesh.mesh.vertices;
+
+    }
+
+    private void OnEnable()
+    {
         CritPointCreation();
     }
 
@@ -70,8 +79,6 @@ public class MineraiClass : MonoBehaviour
                 quantity = 0;
         }
     }
-
-    
     
     public void DestroyGameObject()
     {
@@ -79,7 +86,6 @@ public class MineraiClass : MonoBehaviour
         Destroy(gameObject, 2f);
     }
     
-
     /// <summary>
     /// Le but de cette fonction est de calculer la quantité de ressources que le joueur va recevoir en fonction de la quantité de dégâts infligés au minerai.
     /// </summary>
@@ -107,9 +113,6 @@ public class MineraiClass : MonoBehaviour
         return ended;
     }
     
-    
-    
-    
     /// <summary>
     /// Permet la création de point critique de façon aléatoire sur le minerai. 
     /// </summary>
@@ -120,11 +123,8 @@ public class MineraiClass : MonoBehaviour
         
         for (int i = 0; i < critPointNumber; i++)
         {
-            float rdmNegPos = Random.Range(-0.60f, -0.65f); //Valeur négative
-            float rdmPosPos = Random.Range(0.60f, 0.65f); //Valeur positive
-            GameObject critPoint = Instantiate(critGameObject, transform);
-            critPoint.transform.localPosition = new Vector3(Random.Range(rdmNegPos, rdmPosPos), Random.Range(rdmNegPos, rdmPosPos), Random.Range(rdmNegPos, rdmPosPos));
-            
+            Vector3 selectedVertices = mineraiVertices[Random.Range(0, mineraiVertices.Length)];
+            Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity);
         }
     }
     
