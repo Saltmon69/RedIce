@@ -28,8 +28,8 @@ public class QuestHelper : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z)) _zPressed = true;
-        if(Input.GetKeyDown(KeyCode.Q)) _qPressed = true;
+        if(Input.GetKeyDown(KeyCode.W)) _zPressed = true;
+        if(Input.GetKeyDown(KeyCode.A)) _qPressed = true;
         if(Input.GetKeyDown(KeyCode.S)) _sPressed = true;
         if(Input.GetKeyDown(KeyCode.D)) _dPressed = true;
 
@@ -39,6 +39,9 @@ public class QuestHelper : MonoBehaviour
 
         numberOfCablesPlaced = _machineCableStock.transform.childCount;
 
-        if (!_machineStock.transform.GetChild(_machineStock.transform.childCount - 1).GetComponent<MachineCollider>().enabled) isDisplacementUsed = false;
+        if (_machineStock.transform.childCount > 1)
+        {
+            if(!_machineStock.transform.GetChild(_machineStock.transform.childCount - 1).GetComponent<MachineCollider>().enabled) isDisplacementUsed = false; 
+        }
     }
 }
