@@ -63,28 +63,62 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (itemHit.collider != null)
             {
-                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+                if (itemHit.collider.GetComponent<MineraiClass>() || itemHit.collider.GetComponentInParent<MineraiClass>())
                 {
-                    mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-
+                    if(mineraiClass == null)
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
+                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                        else
+                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
                     if (isApplyingDamage)
                     {
-                        switch (itemHit.collider.tag)
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
                         {
-                            case"MineraiCrit":
-                                mineraiClass.critMultiplicator = 2;
-                                mineraiClass.takeDamage(damage);
-                                Destroy(itemHit.collider.gameObject);
-                                break;
-                            case"Minerai":
-                                mineraiClass.critMultiplicator = 1;
-                                mineraiClass.takeDamage(damage);
-                                break;
+                            mineraiClass.critMultiplicator = 2;
+                            mineraiClass.takeDamage(damage);
+                            Destroy(itemHit.collider.gameObject);
                         }
+                        else
+                        {
+                            mineraiClass.critMultiplicator = 1;
+                            mineraiClass.takeDamage(damage);
+                        }
+                        
                     }
                 }
+                /*if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+                {
+                    if(mineraiClass == null)
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
+                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                        else
+                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                    else
+                    {
+                        if (isApplyingDamage)
+                        {
+                            switch (itemHit.collider.tag)
+                            {
+                                case"MineraiCrit":
+                                    mineraiClass.critMultiplicator = 2;
+                                    mineraiClass.takeDamage(damage);
+                                    Destroy(itemHit.collider.gameObject);
+                                    break;
+                                case"Minerai":
+                                    mineraiClass.critMultiplicator = 1;
+                                    mineraiClass.takeDamage(damage);
+                                    break;
+                            }
+                        }
+                    }
+                    
+
+                }*/
             }
-            else
+        }
+        else
+        {
+            if (itemHit.collider != null)
             {
                 if (itemHit.collider.CompareTag("EON"))
                 {
@@ -106,9 +140,9 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnLeftClickPressed()
     {
-        
         if(isMiningModeActive)
         {
+            Debug.Log("Left Click Pressed");
             isApplyingDamage = true;
             RaycastMaker(interactionRange);
         }

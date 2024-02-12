@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
         
         //Interaction (E, Left Click, Middle Click, A, Right Click)
         playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
-        playerInteractionActions.LeftClick.started += _ => playerInteraction.OnLeftClickPressed();
+        playerInteractionActions.LeftClick.performed += _ => playerInteraction.OnLeftClickPressed();
         playerInteractionActions.LeftClick.canceled += _ => playerInteraction.OnLeftClickReleased();
         playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
         playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();

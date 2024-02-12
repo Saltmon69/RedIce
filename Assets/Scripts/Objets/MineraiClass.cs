@@ -124,7 +124,7 @@ public class MineraiClass : MonoBehaviour
         for (int i = 0; i < critPointNumber; i++)
         {
             Vector3 selectedVertices = mineraiVertices[Random.Range(0, mineraiVertices.Length)];
-            Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity);
+            Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform);
         }
     }
     
