@@ -51,20 +51,11 @@ public class PlayerMenuing : MonoBehaviour
     /// </summary>
     public void OnEscapePressed()
     {
-        if (inMenu || !mainMenu.activeSelf)
-        {
-            inMenu = false;
-            mainMenu.SetActive(false);
-            inventory.SetActive(false);
-            map.SetActive(false);
-        }
-        else
-        {
-            inMenu = true;
-            mainMenu.SetActive(true);
-            inventory.SetActive(false);
-            map.SetActive(false);
-        }
+        inMenu = true;
+        mainMenu.SetActive(true);
+        inventory.SetActive(false);
+        map.SetActive(false);
+        
     }
     
     /// <summary>

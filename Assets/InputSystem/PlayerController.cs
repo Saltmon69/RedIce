@@ -318,7 +318,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""MainMenu"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c575fa51-828c-4050-a218-05ba955d82a5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -327,7 +327,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Inventory"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""0f93a32a-c38f-4cbc-b023-5adca10ad9a4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -336,7 +336,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Map"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""b066137a-b2b0-489f-abde-bf7cf362fccd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
