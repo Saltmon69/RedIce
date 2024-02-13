@@ -168,16 +168,19 @@ public class PlayerInteraction : MonoBehaviour
     
     public void OnAvaPressed()
     {
+        avaIsPressed = true;
         ava.SetActive(true);
     }
     public void OnAvaReleased()
     {
+        avaIsPressed = false;
         ava.SetActive(false);
     }
     
     public void OnShootPressed()
     {
-        Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
+        if(avaIsPressed)
+            Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
     }
     
     /// <summary>
