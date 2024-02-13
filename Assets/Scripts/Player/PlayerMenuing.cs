@@ -22,6 +22,7 @@ public class PlayerMenuing : MonoBehaviour
 
     
     [HideInInspector] public bool inMenu;
+    [SerializeField] public PlayerModeSelect playerModeSelect;
     
 
     // Évite un potentiel oubli d'activation lors des tests et builds.
@@ -51,11 +52,13 @@ public class PlayerMenuing : MonoBehaviour
     /// </summary>
     public void OnEscapePressed()
     {
-        inMenu = true;
-        mainMenu.SetActive(true);
-        inventory.SetActive(false);
-        map.SetActive(false);
-        
+        if(playerModeSelect.canPlayerSwitchMode)
+        {
+            inMenu = true;
+            mainMenu.SetActive(true);
+            inventory.SetActive(false);
+            map.SetActive(false); 
+        }
     }
     
     /// <summary>

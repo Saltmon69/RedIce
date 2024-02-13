@@ -126,7 +126,7 @@ public class OpenMachineUI : MonoBehaviour
             _isUIUp = false;
 
             modeSelection.canPlayerSwitchMode = true;
-            _playerMenuing.enabled = true;
+            _playerMenuing.inMenu = false;
             _playerMenuing.OutMenu();
         }
     }

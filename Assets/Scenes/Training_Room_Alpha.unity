@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2245,7 +2245,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.6666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 9f561e185e83a924e933a2de04a8cecf, type: 2}
   m_BuildHeightMesh: 0
@@ -6955,12 +6955,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1115628761}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1153707220 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6226800707968606254, guid: 768611c461c9b8e45b904463325d7581,
-    type: 3}
-  m_PrefabInstance: {fileID: 4272152946484833650}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1157328553
 GameObject:
   m_ObjectHideFlags: 0
@@ -10987,6 +10981,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f73a27e52f2d94b954f9f1b189238f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1670844523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6145196428884594907, guid: 768611c461c9b8e45b904463325d7581,
+    type: 3}
+  m_PrefabInstance: {fileID: 4272152946484833650}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1683163191
 GameObject:
   m_ObjectHideFlags: 0
@@ -12404,7 +12404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc51ab8afa244d4eb60996190e8b463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectModel: {fileID: 1153707220}
+  objectModel: {fileID: 1670844523}
 --- !u!1 &1913458796
 GameObject:
   m_ObjectHideFlags: 0
@@ -16843,6 +16843,16 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 660863081}
+    - target: {fileID: 5258631492502487850, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: openMachineUI
+      value: 
+      objectReference: {fileID: 1298702005}
+    - target: {fileID: 5258631492502487850, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: playerModeSelect
+      value: 
+      objectReference: {fileID: 540398142}
     - target: {fileID: 5449722461265170088, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: ava
@@ -16879,6 +16889,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5282967020656324644, guid: 8acf1ebf6054ae64c9ffe1c7928b0ea2,
         type: 3}
+    - target: {fileID: 6145196428884594907, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6226800707968606254, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: m_IsActive
