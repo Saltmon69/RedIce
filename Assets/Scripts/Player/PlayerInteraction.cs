@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 using VInspector;
 
 [Description("Gère les interactions du joueur")]
@@ -33,6 +35,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isApplyingDamage = false;
     public float damage;
     public bool isMiningModeActive;
+    public VisualEffect vfxLaser;
     
     // Raycast
     [Tab("Raycast")]
@@ -72,6 +75,7 @@ public class PlayerInteraction : MonoBehaviour
                             mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
                     if (isApplyingDamage)
                     {
+                        vfxLaser.Play();
                         if (itemHit.collider.CompareTag("MineraiCrit"))
                         {
                             mineraiClass.critMultiplicator = 2;
@@ -83,7 +87,10 @@ public class PlayerInteraction : MonoBehaviour
                             mineraiClass.critMultiplicator = 1;
                             mineraiClass.takeDamage(damage);
                         }
-                        
+                    }
+                    else
+                    {
+                        vfxLaser.Stop();
                     }
                 }
                 /*if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
