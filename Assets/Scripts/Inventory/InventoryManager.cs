@@ -149,7 +149,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < numberOfItemsToGive; i++)
         {
-            AddItemExclusive(itemToGive);
+            AddItem(itemToGive);
         }
     }
     #endregion
