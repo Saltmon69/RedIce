@@ -10,13 +10,13 @@ public class MachineCollider : MonoBehaviour
     
     private HighlightComponent _highlightComponent;
     private Collider _thisCollider;
-    public List<BoxCollider> _childColliderList;
+    public List<Collider> _childColliderList;
     public List<GameObject> _collisionList;
 
     private void Awake()
     {
         _collisionList = new List<GameObject>();
-        _childColliderList = new List<BoxCollider>();
+        _childColliderList = new List<Collider>();
         
         _highlightComponent = this.gameObject.GetComponent<HighlightComponent>();
         _thisCollider = this.gameObject.GetComponent<Collider>();
@@ -25,7 +25,7 @@ public class MachineCollider : MonoBehaviour
         {
             try
             {
-                _childColliderList.Add(this.transform.GetChild(i).GetComponent<BoxCollider>());
+                _childColliderList.Add(this.transform.GetChild(i).GetComponent<Collider>());
                 Physics.IgnoreCollision(_thisCollider, _childColliderList[i - 1]);
             }catch(MissingComponentException){}
         }

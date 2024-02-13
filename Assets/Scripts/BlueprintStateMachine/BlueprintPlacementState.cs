@@ -67,7 +67,7 @@ public class BlueprintPlacementState : BlueprintBaseState
     
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
-        if (hitData.transform.gameObject.layer == 3)
+        if(hitData.transform.gameObject.layer == 3)
         {
             _machineToPlace.transform.position = hitData.point;
         }

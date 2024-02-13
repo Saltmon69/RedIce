@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -28,6 +29,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     private int _materialsReady;
     private GameObject _computerMachine;
     private bool _isComputerPlaced;
+    private Vector3 _machineStartPlacement;
     
     private PlayerMenuing _playerMenuing;
 
@@ -108,7 +110,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
     public void MachineChosen(int machineNumber, BlueprintStateMachineManager blueprint)
     {
-        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStock.transform);
+        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStartPlacement, quaternion.identity, _machineStock.transform);
         _playerMenuing.enabled = true;
         _playerMenuing.OutMenu();
         _playerMenuing.enabled = false;
@@ -123,8 +125,14 @@ public class BlueprintBuildingState : BlueprintBaseState
             blueprint.SwitchState(blueprint.startState);
         }
     }
-    
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit){}
+
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
+    {
+        if(hitData.transform.gameObject.layer == 3)
+        {
+            _machineStartPlacement = hitData.point;
+        }
+    }
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {

@@ -15,7 +15,7 @@ public class QuestHelper : MonoBehaviour
     public bool isComputerPlaced;
 
     private GameObject _machineCableStock;
-    public int numberOfCablesPlaced;
+    public bool cableReady;
 
     private GameObject _machineStock;
     public bool isDisplacementUsed;
@@ -37,9 +37,12 @@ public class QuestHelper : MonoBehaviour
 
         if(GameObject.FindWithTag("Computer") != null) isComputerPlaced = true;
 
-        numberOfCablesPlaced = _machineCableStock.transform.childCount;
+        if(_machineCableStock.transform.childCount > 0 && !cableReady)
+        {
+            if(_machineStock.transform.GetChild(_machineCableStock.transform.childCount - 1).GetComponent<CableLaserBehaviour>().isSetup) cableReady = true;
+        }
 
-        if (_machineStock.transform.childCount > 1)
+        if(_machineStock.transform.childCount > 1 && !isDisplacementUsed)
         {
             if(!_machineStock.transform.GetChild(_machineStock.transform.childCount - 1).GetComponent<MachineCollider>().enabled) isDisplacementUsed = false; 
         }
