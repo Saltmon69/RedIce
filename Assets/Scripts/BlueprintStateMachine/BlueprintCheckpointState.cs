@@ -71,14 +71,14 @@ public class BlueprintCheckpointState : BlueprintBaseState
     
     public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
     {
-        if (hitData.transform.gameObject.layer == 3)
+        if(hitData.transform.gameObject.layer == 3)
         {
             _thisCheckpoint.transform.position = hitData.point + Vector3.up * 1;
         }
         
         //si le chemin emprunté par le cable est valide, alors le joueur confirme la connection entre les deux machines
         //retour à la sélection d'une sortie pour le cablage entre deux machines
-        if (hitData.transform.CompareTag("BaseFloor"))
+        if(hitData.transform.CompareTag("BaseFloor"))
         {
             if (Input.GetKeyDown(KeyCode.Mouse1) && _cableLaserBehaviour.wasLinked)
             {

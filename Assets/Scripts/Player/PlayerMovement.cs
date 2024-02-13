@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
@@ -10,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     #pragma warning disable 0649
 
     #region Variables
-
+    
     // Movements
     
     [SerializeField] CharacterController controller;
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Fonctions
+
+  
     private void Update()
     {
         //Jump
@@ -119,14 +122,12 @@ public class PlayerMovement : MonoBehaviour
     
     public void OnSprintPressed()
     {
-        if (sprint == false)
-        {
-            sprint = true;
-        }
-        else
-        {
-            sprint = false;
-        }
+        sprint = true;
+    }
+
+    public void OnSprintReleased()
+    {
+        sprint = false;
     }
     
     public void OnCrouchPressed()

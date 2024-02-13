@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using VInspector;
 
@@ -15,12 +16,15 @@ public class PlayerInteraction : MonoBehaviour
     #region Variables
 
     
+    
+    
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
     public PlayerManager playerManager;
     public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
     [SerializeField] GameObject ava;
+    [SerializeField] private Camera mainCamera;
     
     
     
@@ -28,12 +32,13 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] MineraiClass mineraiClass;
     public bool isApplyingDamage = false;
     public float damage;
+    public bool isMiningModeActive;
     
     // Raycast
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
     RaycastHit itemHit;
-    
+
     // Ping
     [Tab("Ping")]
     public bool pingIsPressed;
@@ -44,114 +49,139 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] GameObject darkMatterBullet;
     
     
+    
 
     #endregion
 
     #region Fonctions
+
+   
+
+    private void FixedUpdate()
+    {
+        if (isMiningModeActive)
+        {
+            if (itemHit.collider != null)
+            {
+                if (itemHit.collider.GetComponent<MineraiClass>() || itemHit.collider.GetComponentInParent<MineraiClass>())
+                {
+                    if(mineraiClass == null)
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
+                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                        else
+                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                    if (isApplyingDamage)
+                    {
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
+                        {
+                            mineraiClass.critMultiplicator = 2;
+                            mineraiClass.takeDamage(damage);
+                            Destroy(itemHit.collider.gameObject);
+                        }
+                        else
+                        {
+                            mineraiClass.critMultiplicator = 1;
+                            mineraiClass.takeDamage(damage);
+                        }
+                        
+                    }
+                }
+                /*if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+                {
+                    if(mineraiClass == null)
+                        if (itemHit.collider.CompareTag("MineraiCrit"))
+                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                        else
+                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                    else
+                    {
+                        if (isApplyingDamage)
+                        {
+                            switch (itemHit.collider.tag)
+                            {
+                                case"MineraiCrit":
+                                    mineraiClass.critMultiplicator = 2;
+                                    mineraiClass.takeDamage(damage);
+                                    Destroy(itemHit.collider.gameObject);
+                                    break;
+                                case"Minerai":
+                                    mineraiClass.critMultiplicator = 1;
+                                    mineraiClass.takeDamage(damage);
+                                    break;
+                            }
+                        }
+                    }
+                    
+
+                }*/
+            }
+        }
+        else
+        {
+            if (itemHit.collider != null)
+            {
+                if (itemHit.collider.CompareTag("EON"))
+                {
+                    itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
+                    }
+                }
+            }
+        }
+        
+    }
     
     public void OnInteractionPressed()
     {
         RaycastMaker(interactionRange);
-        
     }
     
-    private void FixedUpdate()
+    public void OnLeftClickPressed()
     {
-        if (avaIsPressed)
+        if(isMiningModeActive)
         {
-            ava.SetActive(true);
+            Debug.Log("Left Click Pressed");
+            isApplyingDamage = true;
+            RaycastMaker(interactionRange);
         }
-        else
-        {
-            ava.SetActive(false);
-        }
-        
-        if (itemHit.collider != null)
-        {
-            if (itemHit.collider.CompareTag("Machine"))
-            {
-                Debug.Log(itemHit.collider.name);
-            }
-
-            if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
-            {
-                mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-
-                if (isApplyingDamage == true)
-                {
-                    switch (itemHit.collider.tag)
-                    {
-                        case"MineraiCrit":
-                            mineraiClass.critMultiplicator = 2;
-                            mineraiClass.takeDamage(damage);
-                            Destroy(itemHit.collider.gameObject);
-                            break;
-                        case"Minerai":
-                            mineraiClass.critMultiplicator = 1;
-                            mineraiClass.takeDamage(damage);
-                            break;
-                    }
-                }
-            }
-
-            if (itemHit.collider.CompareTag("EON"))
-            {
-                itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
-                }
-            }
-            
-        }
-        
     }
-    
-    public void OnUsePressed()
+    public void OnLeftClickReleased()
     {
-        isApplyingDamage = true;
-        RaycastMaker(interactionRange);
-    }
-    
-    public void OnUseReleased()
-    {
+        Debug.Log("Left Click Released");
         isApplyingDamage = false;
     }
-    
     public void OnPingPressed()
     {
         pingIsPressed = true;
         playerMenuing.inMenu = true;
         radialMenu.SetActive(true);
-        
     }
-    
+
     public void OnPingReleased()
     {
         pingIsPressed = false;
         playerMenuing.inMenu = false;
         radialMenu.SetActive(false);
-        
     }
     
     public void OnAvaPressed()
     {
-        if (avaIsPressed)
-        {
-            avaIsPressed = false;
-        }
-        else
-        {
-            avaIsPressed = true;
-        }
-        
+        avaIsPressed = true;
+        ava.SetActive(true);
+    }
+    public void OnAvaReleased()
+    {
+        avaIsPressed = false;
+        ava.SetActive(false);
     }
     
-    /*public void OnShootPressed()
+    public void OnShootPressed()
     {
-        Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
-    }*/
-    
+        if(avaIsPressed)
+            Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
+    }
     
     /// <summary>
     /// Permet de créer un raycast à partir de la position de la souris.
@@ -160,6 +190,7 @@ public class PlayerInteraction : MonoBehaviour
     /// <returns>Retourne l'objet touché et sa position</returns>
     public RaycastHit RaycastMaker(float range)
     {
+        
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         ray.direction = playerCamera.transform.forward;
         Physics.Raycast(ray, out RaycastHit hit, range);

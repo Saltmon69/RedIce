@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -9,12 +10,15 @@ public class BlueprintBuildingState : BlueprintBaseState
 {
     private GameObject _machineBuildingDisplay;
     private GameObject[] _machinesPrefab;
+    private GameObject[] _machinesPrefabTier1;
+    private GameObject[] _machinesPrefabTier2;
+    private GameObject[] _machinesPrefabTier3;
     private GameObject _machineStock;
     private GameObject _machineSelectedPlacementMode;
     private GameObject _machineBuildingButton;
     private GameObject _thisMachineButton;
     private GameObject _playerInventory;
-    private InventoryItem _thisPlayerInventoryItemList;
+    private InventoryItem _thisPlayerInventoryItem;
     private List<ItemClass> _playerItemList;
     private List<int> _playerAmountList;
     private GameObject _materialRecipePrefab;
@@ -23,19 +27,34 @@ public class BlueprintBuildingState : BlueprintBaseState
     private GameObject _plusSignPrefab;
     private bool _hasEnoughMaterial;
     private int _materialsReady;
+    private GameObject _computerMachine;
+    private bool _isComputerPlaced;
+    private Vector3 _machineStartPlacement;
+    
+    private PlayerMenuing _playerMenuing;
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(true);
 
         _machineStock = GameObject.Find("MachineStock");
+        
+        _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
+        _playerMenuing.enabled = true;
+        _playerMenuing.InMenu();
+        _playerMenuing.enabled = false;
 
         //active l'interface de sélection des machines
         _machineBuildingDisplay = Object.Instantiate(Resources.Load<GameObject>("MachineUI/UIMachineBuildingCanvas"));
-        _machineBuildingDisplay = _machineBuildingDisplay.transform.GetChild(0).GetChild(1).gameObject;
 
         _machineBuildingButton = Resources.Load<GameObject>("MachineUI/MachineButton");
+        
         _machinesPrefab = Resources.LoadAll<GameObject>("Machines");
+        
+        _machinesPrefabTier1 = Resources.LoadAll<GameObject>("Machines/Tier1");
+        _machinesPrefabTier2 = Resources.LoadAll<GameObject>("Machines/Tier2");
+        _machinesPrefabTier3 = Resources.LoadAll<GameObject>("Machines/Tier3");
+
         _materialRecipePrefab = Resources.Load<GameObject>("MachineUI/MaterialRecipe");
         _plusSignPrefab = Resources.Load<GameObject>("MachineUI/PlusSignImage");
 
@@ -48,38 +67,53 @@ public class BlueprintBuildingState : BlueprintBaseState
         {
             if(_playerInventory.transform.GetChild(i).childCount == 0) continue;
 
-            _thisPlayerInventoryItemList = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
+            _thisPlayerInventoryItem = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
                 
-            if(!_playerItemList.Contains(_thisPlayerInventoryItemList.item))
+            if(!_playerItemList.Contains(_thisPlayerInventoryItem.item))
             {
-                _playerItemList.Add(_thisPlayerInventoryItemList.item);
-                _playerAmountList.Add(_thisPlayerInventoryItemList.count);
+                _playerItemList.Add(_thisPlayerInventoryItem.item);
+                _playerAmountList.Add(_thisPlayerInventoryItem.count);
             }
             else
             {
-                _playerAmountList[_playerItemList.IndexOf(_thisPlayerInventoryItemList.item)] += _thisPlayerInventoryItemList.count;
+                _playerAmountList[_playerItemList.IndexOf(_thisPlayerInventoryItem.item)] += _thisPlayerInventoryItem.count;
             }
         }
 
-        //si les machine non pas précédement été chargé, alors on assigne chaque bouton a sa machine correspondante
+        _computerMachine = GameObject.FindWithTag("Computer");
+        _isComputerPlaced = _computerMachine != null;
+        
+        //on assigne chaque bouton a sa machine correspondante
         for(var i = 0; i < _machinesPrefab.Length; i++)
         {
             var a = i;
-            _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform); 
+            if(_machinesPrefabTier1.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(0).GetChild(1).gameObject.transform); 
+            if(_machinesPrefabTier2.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(1).GetChild(1).gameObject.transform); 
+            if(_machinesPrefabTier3.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(2).GetChild(1).gameObject.transform);
+
+            if(_machinesPrefab[a].CompareTag("Computer"))
+            {
+                _thisMachineButton.GetComponent<Button>().interactable = !_isComputerPlaced;
+            }
+            else
+            {
+                _thisMachineButton.GetComponent<Button>().interactable = _isComputerPlaced;
+            }
+            
             _thisMachineButton.transform.GetChild(0).GetComponent<Text>().text = _machinesPrefab[a].name;
 
             RecipeMaterialManager(_machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialList, _machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialAmountList);
             if(_hasEnoughMaterial) _thisMachineButton.GetComponent<Button>().onClick.AddListener(() => { MachineChosen(a, blueprint); });
         }
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
     public void MachineChosen(int machineNumber, BlueprintStateMachineManager blueprint)
     {
-        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStock.transform);
+        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStartPlacement, quaternion.identity, _machineStock.transform);
+        _playerMenuing.enabled = true;
+        _playerMenuing.OutMenu();
+        _playerMenuing.enabled = false;
         blueprint.SwitchState(blueprint.placementState);
     }
     
@@ -91,16 +125,20 @@ public class BlueprintBuildingState : BlueprintBaseState
             blueprint.SwitchState(blueprint.startState);
         }
     }
-    
-    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit){}
+
+    public override void RayState(BlueprintStateMachineManager blueprint, RaycastHit hitData, RaycastHit oldHitData, bool hadHit)
+    {
+        if(hitData.transform.gameObject.layer == 3)
+        {
+            _machineStartPlacement = hitData.point;
+        }
+    }
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(false);
-        Object.Destroy(_machineBuildingDisplay.transform.parent.parent.gameObject);
+        Object.Destroy(_machineBuildingDisplay);
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
     
     private void RecipeMaterialManager(List<ItemClass> materialList, List<int> materialAmountList)

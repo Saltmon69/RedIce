@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using VInspector;
 
@@ -21,8 +22,9 @@ public class PlayerMenuing : MonoBehaviour
 
     
     [HideInInspector] public bool inMenu;
+    [SerializeField] public PlayerModeSelect playerModeSelect;
     
-    
+
     // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
@@ -48,29 +50,21 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche Esc
     /// </summary>
-    public void OnMainMenuPressed()
+    public void OnEscapePressed()
     {
-        
-        if (inMenu)
-        {
-            inMenu = false;
-            mainMenu.SetActive(false);
-            inventory.SetActive(false);
-            map.SetActive(false);
-        }
-        else
+        if(playerModeSelect.canPlayerSwitchMode)
         {
             inMenu = true;
             mainMenu.SetActive(true);
             inventory.SetActive(false);
-            map.SetActive(false);
+            map.SetActive(false); 
         }
     }
     
     /// <summary>
     /// Touche I
     /// </summary>
-    public void OnInventoryPressed()
+    public void OnIPressed()
     {
         inMenu = true;
         inventory.SetActive(true);
@@ -81,13 +75,12 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche M
     /// </summary>
-    public void OnMapPressed()
+    public void OnMPressed()
     {
         inMenu = true;
         map.SetActive(true);
         mainMenu.SetActive(false);
         inventory.SetActive(false);
-
     }
     
     
@@ -96,7 +89,7 @@ public class PlayerMenuing : MonoBehaviour
         inMenu = false;
     }
     
-    private void InMenu()
+    public void InMenu()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -111,7 +104,7 @@ public class PlayerMenuing : MonoBehaviour
         }
     }
     
-    private void OutMenu()
+    public void OutMenu()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -121,8 +114,6 @@ public class PlayerMenuing : MonoBehaviour
         playerMouseLook.enabled = true;
         playerInteraction.enabled = true;
         ATH.SetActive(true);
-        
-        //ajouter
         mainMenu.SetActive(false);
     }
 }

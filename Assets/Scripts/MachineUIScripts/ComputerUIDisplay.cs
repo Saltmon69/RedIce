@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ComputerUIDisplay : MonoBehaviour
@@ -17,12 +18,20 @@ public class ComputerUIDisplay : MonoBehaviour
     private List<Transform> _computerPlayerInventoryList;
     private GameObject _thisComputerPlayerInventorySlot;
     private GameObject _computerPlayerInventoryUI;
+    
+    public GameObject thisBase;
 
     public int upgradeState;
     private bool _isItemRemoved;
     
     public int maxPower;
     public int currentPowerUsage;
+
+
+    public void Awake()
+    {
+        thisBase = GameObject.FindWithTag("BaseFloor");
+    }
 
     public void ActivateUIDisplay()
     {
@@ -35,16 +44,13 @@ public class ComputerUIDisplay : MonoBehaviour
         for(var i = 2; i < _thisComputerUIDisplay.transform.childCount; i++)
         {
             _computerUpgradeSlotUIList.Add(_thisComputerUIDisplay.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject);
-            if(i > 2) _thisComputerUIDisplay.transform.GetChild(i).gameObject.SetActive(false);
+            if(i > 2 + upgradeState) _thisComputerUIDisplay.transform.GetChild(i).gameObject.SetActive(false);
         }
 
         _computerPlayerInventoryUI = _thisComputerUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         
-        upgradeState = 0;
-
         LoadComputerInventory();
         LoadPlayerInventory();
-        LoadUpgradeState();
         StartCoroutine(UpgradeCheck());
         MaxPowerUpgrade();
     }
@@ -70,10 +76,9 @@ public class ComputerUIDisplay : MonoBehaviour
                 if(_itemInUpgradeSlotList[upgradeState].item == computerUpgradeItemTierList[upgradeState])
                 {
                     Debug.Log("the right upgrade has been added");
-                    _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).SetSiblingIndex(1);
                     if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
-                    this.gameObject.transform.GetChild(upgradeState + 2).gameObject.SetActive(true);
-                    upgradeState++;;
+                    thisBase.transform.GetChild(upgradeState).gameObject.SetActive(true);
+                    upgradeState++;
                     MaxPowerUpgrade();
                 }
             }
@@ -90,10 +95,10 @@ public class ComputerUIDisplay : MonoBehaviour
                 maxPower = 50;
                 break;
             case 1:
-                maxPower = 80;
+                maxPower = 70;
                 break;
             case 2:
-                maxPower = 80;
+                maxPower = 90;
                 break;
             case 3:
                 maxPower = 110;
@@ -107,16 +112,6 @@ public class ComputerUIDisplay : MonoBehaviour
         }
     }
 
-    private void LoadUpgradeState()
-    {
-        for(var i = 0; i < upgradeState; i++)
-        {
-            _thisComputerUIDisplay.transform.GetChild(i + 2).SetSiblingIndex(1);
-            if(i + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(i + 3).gameObject.SetActive(true);
-            this.gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
-        }
-    }
-    
     //prend tous les objets stocké dans l'inventaire du joueur et le met sur l'inventaire joueur qu il y a déja disposer sur la machine
     private void LoadPlayerInventory()
     {
@@ -131,10 +126,10 @@ public class ComputerUIDisplay : MonoBehaviour
 
     private void LoadComputerInventory()
     {
-        for(var i = 0; i <= upgradeState; i++)
+        if(this.gameObject.transform.childCount == 1) return;
+        for(var i = 0; i < upgradeState; i++)
         {
-            if(this.gameObject.transform.childCount == 7) continue; 
-            this.gameObject.transform.GetChild(7).SetParent(_computerUpgradeSlotUIList[i].transform);
+            this.gameObject.transform.GetChild(1).SetParent(_computerUpgradeSlotUIList[i].transform);
             _itemInUpgradeSlotList[i] = _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<InventoryItem>();
         }
     }

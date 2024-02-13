@@ -43,7 +43,7 @@
                 },
                 {
                     "name": "Run",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "f9514e62-fcea-4cb8-a06d-ee68e2138a12",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -52,7 +52,7 @@
                 },
                 {
                     "name": "Crouch",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "28dd2693-23d3-48a1-8818-9631263accdd",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -179,7 +179,7 @@
             "actions": [
                 {
                     "name": "Interaction",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "7247d07c-c653-4d50-bedc-f6326d0d28af",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -187,13 +187,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Use",
+                    "name": "LeftClick",
                     "type": "PassThrough",
                     "id": "d4703103-add4-480b-bb74-578501e56788",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Hold",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Ping",
@@ -201,7 +201,7 @@
                     "id": "701ec9ad-1bfd-496f-8b42-483fc939a26a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -210,17 +210,26 @@
                     "id": "b338dc93-fb47-436a-adc1-4192932eb15b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold(duration=0.1)",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Shoot",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "cf9465b9-f33d-4824-8479-65d45c42f142",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll Wheel",
+                    "type": "Button",
+                    "id": "3fae7eac-3e36-4b2b-bd52-e83125499bbb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -228,7 +237,7 @@
                     "name": "",
                     "id": "50217e3c-595b-4df1-9002-49cfde52bc37",
                     "path": "<Keyboard>/e",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interaction",
@@ -242,14 +251,14 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Use",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "20c8fe2d-2ed3-4587-ab77-8bf0852f849e",
-                    "path": "<Mouse>/middleButton",
+                    "path": "<Keyboard>/tab",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
@@ -287,16 +296,16 @@
             "actions": [
                 {
                     "name": "MainMenu",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "c575fa51-828c-4050-a218-05ba955d82a5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Inventory",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "0f93a32a-c38f-4cbc-b023-5adca10ad9a4",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -305,7 +314,7 @@
                 },
                 {
                     "name": "Map",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "b066137a-b2b0-489f-abde-bf7cf362fccd",
                     "expectedControlType": "Button",
                     "processors": "",

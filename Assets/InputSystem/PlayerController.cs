@@ -65,7 +65,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Run"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""f9514e62-fcea-4cb8-a06d-ee68e2138a12"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -74,7 +74,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Crouch"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""28dd2693-23d3-48a1-8818-9631263accdd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -201,7 +201,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Interaction"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""7247d07c-c653-4d50-bedc-f6326d0d28af"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -209,13 +209,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Use"",
+                    ""name"": ""LeftClick"",
                     ""type"": ""PassThrough"",
                     ""id"": ""d4703103-add4-480b-bb74-578501e56788"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold"",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Ping"",
@@ -223,7 +223,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""id"": ""701ec9ad-1bfd-496f-8b42-483fc939a26a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -232,17 +232,26 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""id"": ""b338dc93-fb47-436a-adc1-4192932eb15b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.1)"",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""cf9465b9-f33d-4824-8479-65d45c42f142"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll Wheel"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fae7eac-3e36-4b2b-bd52-e83125499bbb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -250,7 +259,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""50217e3c-595b-4df1-9002-49cfde52bc37"",
                     ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
@@ -264,14 +273,14 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Use"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""20c8fe2d-2ed3-4587-ab77-8bf0852f849e"",
-                    ""path"": ""<Mouse>/middleButton"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
@@ -309,16 +318,16 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""MainMenu"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c575fa51-828c-4050-a218-05ba955d82a5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Inventory"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""0f93a32a-c38f-4cbc-b023-5adca10ad9a4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -327,7 +336,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Map"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""b066137a-b2b0-489f-abde-bf7cf362fccd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -385,10 +394,11 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         // Interact
         m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
         m_Interact_Interaction = m_Interact.FindAction("Interaction", throwIfNotFound: true);
-        m_Interact_Use = m_Interact.FindAction("Use", throwIfNotFound: true);
+        m_Interact_LeftClick = m_Interact.FindAction("LeftClick", throwIfNotFound: true);
         m_Interact_Ping = m_Interact.FindAction("Ping", throwIfNotFound: true);
         m_Interact_AVA = m_Interact.FindAction("AVA", throwIfNotFound: true);
         m_Interact_Shoot = m_Interact.FindAction("Shoot", throwIfNotFound: true);
+        m_Interact_ScrollWheel = m_Interact.FindAction("Scroll Wheel", throwIfNotFound: true);
         // Menuing
         m_Menuing = asset.FindActionMap("Menuing", throwIfNotFound: true);
         m_Menuing_MainMenu = m_Menuing.FindAction("MainMenu", throwIfNotFound: true);
@@ -542,19 +552,21 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Interact;
     private List<IInteractActions> m_InteractActionsCallbackInterfaces = new List<IInteractActions>();
     private readonly InputAction m_Interact_Interaction;
-    private readonly InputAction m_Interact_Use;
+    private readonly InputAction m_Interact_LeftClick;
     private readonly InputAction m_Interact_Ping;
     private readonly InputAction m_Interact_AVA;
     private readonly InputAction m_Interact_Shoot;
+    private readonly InputAction m_Interact_ScrollWheel;
     public struct InteractActions
     {
         private @PlayerController m_Wrapper;
         public InteractActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interaction => m_Wrapper.m_Interact_Interaction;
-        public InputAction @Use => m_Wrapper.m_Interact_Use;
+        public InputAction @LeftClick => m_Wrapper.m_Interact_LeftClick;
         public InputAction @Ping => m_Wrapper.m_Interact_Ping;
         public InputAction @AVA => m_Wrapper.m_Interact_AVA;
         public InputAction @Shoot => m_Wrapper.m_Interact_Shoot;
+        public InputAction @ScrollWheel => m_Wrapper.m_Interact_ScrollWheel;
         public InputActionMap Get() { return m_Wrapper.m_Interact; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -567,9 +579,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
-            @Use.started += instance.OnUse;
-            @Use.performed += instance.OnUse;
-            @Use.canceled += instance.OnUse;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
             @Ping.started += instance.OnPing;
             @Ping.performed += instance.OnPing;
             @Ping.canceled += instance.OnPing;
@@ -579,6 +591,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @ScrollWheel.started += instance.OnScrollWheel;
+            @ScrollWheel.performed += instance.OnScrollWheel;
+            @ScrollWheel.canceled += instance.OnScrollWheel;
         }
 
         private void UnregisterCallbacks(IInteractActions instance)
@@ -586,9 +601,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
-            @Use.started -= instance.OnUse;
-            @Use.performed -= instance.OnUse;
-            @Use.canceled -= instance.OnUse;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
             @Ping.started -= instance.OnPing;
             @Ping.performed -= instance.OnPing;
             @Ping.canceled -= instance.OnPing;
@@ -598,6 +613,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @ScrollWheel.started -= instance.OnScrollWheel;
+            @ScrollWheel.performed -= instance.OnScrollWheel;
+            @ScrollWheel.canceled -= instance.OnScrollWheel;
         }
 
         public void RemoveCallbacks(IInteractActions instance)
@@ -689,10 +707,11 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     public interface IInteractActions
     {
         void OnInteraction(InputAction.CallbackContext context);
-        void OnUse(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
         void OnPing(InputAction.CallbackContext context);
         void OnAVA(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnScrollWheel(InputAction.CallbackContext context);
     }
     public interface IMenuingActions
     {
