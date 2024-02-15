@@ -66,34 +66,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (itemHit.collider != null)
             {
-                if (itemHit.collider.GetComponent<MineraiClass>() || itemHit.collider.GetComponentInParent<MineraiClass>())
-                {
-                    if(mineraiClass == null)
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-                        else
-                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-                    if (isApplyingDamage)
-                    {
-                        vfxLaser.Play();
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                        {
-                            mineraiClass.critMultiplicator = 2;
-                            mineraiClass.takeDamage(damage);
-                            Destroy(itemHit.collider.gameObject);
-                        }
-                        else
-                        {
-                            mineraiClass.critMultiplicator = 1;
-                            mineraiClass.takeDamage(damage);
-                        }
-                    }
-                    else
-                    {
-                        vfxLaser.Stop();
-                    }
-                }
-                /*if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
                 {
                     if(mineraiClass == null)
                         if (itemHit.collider.CompareTag("MineraiCrit"))
@@ -118,9 +91,7 @@ public class PlayerInteraction : MonoBehaviour
                             }
                         }
                     }
-                    
-
-                }*/
+                }
             }
         }
         else

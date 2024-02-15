@@ -57,7 +57,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.75
+  m_BaseOffset: 1.25
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1669462176714063477
@@ -112,8 +112,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.989531
-  m_Center: {x: 0.13295303, y: 1.3599999, z: 0}
+  m_Radius: 0.9794896
+  m_Center: {x: 0.13295303, y: 0.718267, z: -0.08517982}
 --- !u!95 &2586345954495333991
 Animator:
   serializedVersion: 5
@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 8666663655962087308, guid: 29274ef3d8a02b64094cadbadf0b6c4d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2
+      value: -1.29
       objectReference: {fileID: 0}
     - target: {fileID: 8666663655962087308, guid: 29274ef3d8a02b64094cadbadf0b6c4d,
         type: 3}
