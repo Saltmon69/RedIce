@@ -91,6 +91,8 @@ public class BlueprintBuildingState : BlueprintBaseState
             if(_machinesPrefabTier2.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(1).GetChild(1).gameObject.transform); 
             if(_machinesPrefabTier3.Contains(_machinesPrefab[i])) _thisMachineButton = Object.Instantiate(_machineBuildingButton, _machineBuildingDisplay.transform.GetChild(2).GetChild(1).gameObject.transform);
 
+            _thisMachineButton.transform.GetComponent<Image>().sprite = _machinesPrefab[i].GetComponent<SpriteRenderer>().sprite;
+            
             if(_machinesPrefab[a].CompareTag("Computer"))
             {
                 _thisMachineButton.GetComponent<Button>().interactable = !_isComputerPlaced;

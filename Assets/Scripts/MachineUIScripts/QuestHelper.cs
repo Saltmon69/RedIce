@@ -39,12 +39,12 @@ public class QuestHelper : MonoBehaviour
 
         if(_machineCableStock.transform.childCount > 0 && !cableReady)
         {
-            if(_machineStock.transform.GetChild(_machineCableStock.transform.childCount - 1).GetComponent<CableLaserBehaviour>().isSetup) cableReady = true;
+            if(_machineCableStock.transform.GetChild(_machineCableStock.transform.childCount - 1).GetComponent<CableLaserBehaviour>().isSetup) cableReady = true;
         }
 
-        if(_machineStock.transform.childCount > 1 && !isDisplacementUsed)
+        if(_machineStock.transform.childCount > 0 && !isDisplacementUsed)
         {
-            if(!_machineStock.transform.GetChild(_machineStock.transform.childCount - 1).GetComponent<MachineCollider>().enabled) isDisplacementUsed = false; 
+            if(!_machineStock.transform.GetChild(0).GetComponent<MachineCollider>().enabled) isDisplacementUsed = true; 
         }
     }
 }

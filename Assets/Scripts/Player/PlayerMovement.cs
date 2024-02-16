@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 0.1f, groundMask); // Sert à vérifir si le joueur touche le sol.
+        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask); // Sert à vérifir si le joueur touche le sol.
         
         if (isGrounded && verticalVelocity.y < 0)
         {

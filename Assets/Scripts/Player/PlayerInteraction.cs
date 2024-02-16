@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 using VInspector;
 
 [Description("Gère les interactions du joueur")]
@@ -33,6 +35,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isApplyingDamage = false;
     public float damage;
     public bool isMiningModeActive;
+    public VisualEffect vfxLaser;
     
     // Raycast
     [Tab("Raycast")]
@@ -63,30 +66,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (itemHit.collider != null)
             {
-                if (itemHit.collider.GetComponent<MineraiClass>() || itemHit.collider.GetComponentInParent<MineraiClass>())
-                {
-                    if(mineraiClass == null)
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-                        else
-                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-                    if (isApplyingDamage)
-                    {
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                        {
-                            mineraiClass.critMultiplicator = 2;
-                            mineraiClass.takeDamage(damage);
-                            Destroy(itemHit.collider.gameObject);
-                        }
-                        else
-                        {
-                            mineraiClass.critMultiplicator = 1;
-                            mineraiClass.takeDamage(damage);
-                        }
-                        
-                    }
-                }
-                /*if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
+                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
                 {
                     if(mineraiClass == null)
                         if (itemHit.collider.CompareTag("MineraiCrit"))
@@ -111,9 +91,7 @@ public class PlayerInteraction : MonoBehaviour
                             }
                         }
                     }
-                    
-
-                }*/
+                }
             }
         }
         else
