@@ -62,6 +62,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(itemHit.collider);
         if (isMiningModeActive)
         {
             if (itemHit.collider != null)
@@ -91,6 +92,10 @@ public class PlayerInteraction : MonoBehaviour
                             }
                         }
                     }
+                }
+                else
+                {
+                    isApplyingDamage = false;
                 }
             }
         }
