@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 586070133}
-  m_IndirectSpecularColor: {r: 4602.8013, g: 3253.4204, b: 3231.817, a: 1}
+  m_IndirectSpecularColor: {r: 4613.4595, g: 3258.5278, b: 3227.606, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -560,7 +560,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &706494032
+--- !u!1 &720958021
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -568,8 +568,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 706494034}
-  - component: {fileID: 706494033}
+  - component: {fileID: 720958023}
+  - component: {fileID: 720958022}
   m_Layer: 0
   m_Name: Local Volumetric Fog
   m_TagString: Untagged
@@ -577,27 +577,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &706494033
+--- !u!114 &720958022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706494032}
+  m_GameObject: {fileID: 720958021}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    albedo: {r: 1, g: 1, b: 1, a: 1}
-    meanFreePath: 1
+    albedo: {r: 1, g: 0, b: 0, a: 1}
+    meanFreePath: 0.2
     blendingMode: 1
     priority: 0
     anisotropy: 0
-    volumeMask: {fileID: 0}
-    textureScrollingSpeed: {x: 0, y: 0, z: 0}
-    textureTiling: {x: 1, y: 1, z: 1}
+    volumeMask: {fileID: 11700000, guid: 42e651b7d56aa464b87cdfd128f3399b, type: 3}
+    textureScrollingSpeed: {x: 1, y: 0, z: 0}
+    textureTiling: {x: 1, y: 0, z: 0}
     positiveFade: {x: 0.1, y: 0.1, z: 0.1}
     negativeFade: {x: 0.1, y: 0.1, z: 0.1}
     m_EditorUniformFade: 0.1
@@ -608,21 +608,21 @@ MonoBehaviour:
     invertFade: 0
     distanceFadeStart: 10000
     distanceFadeEnd: 10000
-    textureOffset: {x: 0, y: 0, z: 0}
+    textureOffset: {x: -1826.2194, y: -0, z: -0}
     falloffMode: 0
-    maskMode: 1
-    materialMask: {fileID: 2100000, guid: da9c08a6931d7c543a9472c8e15b41e2, type: 2}
+    maskMode: 0
+    materialMask: {fileID: 0}
   m_Version: 2
---- !u!4 &706494034
+--- !u!4 &720958023
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706494032}
+  m_GameObject: {fileID: 720958021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.112, y: 19.62, z: -5.42656}
+  m_LocalPosition: {x: 11.528358, y: 16.382502, z: -4.9277873}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -692,7 +692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1239876803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,7 +724,7 @@ MonoBehaviour:
     invertFade: 0
     distanceFadeStart: 10000
     distanceFadeEnd: 10000
-    textureOffset: {x: -618.6574, y: -0, z: -0}
+    textureOffset: {x: -1612.0835, y: -0, z: -0}
     falloffMode: 0
     maskMode: 1
     materialMask: {fileID: 2100000, guid: da9c08a6931d7c543a9472c8e15b41e2, type: 2}
@@ -1229,6 +1229,6 @@ SceneRoots:
   - {fileID: 1239876804}
   - {fileID: 888388093}
   - {fileID: 641478610}
-  - {fileID: 706494034}
   - {fileID: 2684448382727355391}
   - {fileID: 625360660217634194}
+  - {fileID: 720958023}
