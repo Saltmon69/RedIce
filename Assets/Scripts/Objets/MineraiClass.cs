@@ -61,7 +61,6 @@ public class MineraiClass : MonoBehaviour
     {
         mineraiLife -= damage * critMultiplicator;
         quantity += damage * critMultiplicator;
-        Debug.Log("Quantity : " + quantity);
         if (mineraiLife <= 0)
         {
             bool ended = QuantityCalculator(quantity);
