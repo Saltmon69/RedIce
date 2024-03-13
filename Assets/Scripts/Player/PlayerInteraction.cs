@@ -51,7 +51,9 @@ public class PlayerInteraction : MonoBehaviour
     public bool avaIsPressed;
     [SerializeField] GameObject darkMatterBullet;
     
-    
+    [Tab("SFX")]
+    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioClip laserSFX;
     
 
     #endregion
@@ -62,7 +64,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(itemHit.collider);
         if (isMiningModeActive)
         {
             if (itemHit.collider != null)
@@ -125,14 +126,20 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(isMiningModeActive)
         {
-            Debug.Log("Left Click Pressed");
+            if (sfxObject == null)
+            { 
+                SFXManager.instance.PlaySFX(laserSFX, transform, 0.5f, true);
+                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
+            }
+            
+            
             isApplyingDamage = true;
             RaycastMaker(interactionRange);
         }
     }
     public void OnLeftClickReleased()
     {
-        Debug.Log("Left Click Released");
+        Destroy(sfxObject);
         isApplyingDamage = false;
     }
     public void OnPingPressed()

@@ -17,10 +17,10 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] private ItemClass darkMatter;
     [SerializeField] GameObject critGameObject;
     [SerializeField] InventoryManager inventoryManager;
-    [SerializeField] AudioSource audioSource;
     [SerializeField] private MeshFilter mineraiMesh;
     private PlayerInteraction playerInteraction;
     private Vector3[] mineraiVertices;
+    [SerializeField] private MineraiSpawner spawner;
     
     
 
@@ -29,6 +29,9 @@ public class MineraiClass : MonoBehaviour
     public int critMultiplicator = 1;
     float quantity = 0;
     
+    [Tab("SFX")]
+    [SerializeField] private AudioClip mineraiDestroyedSFX;
+    [SerializeField] private GameObject sfxObject = null;
     
     #endregion
 
@@ -37,6 +40,7 @@ public class MineraiClass : MonoBehaviour
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         mineraiVertices = mineraiMesh.mesh.vertices;
+        spawner = GetComponentInParent<MineraiSpawner>();
 
     }
 
@@ -81,8 +85,13 @@ public class MineraiClass : MonoBehaviour
     
     public void DestroyGameObject()
     {
-        audioSource.Play();
-        Destroy(gameObject, 2f);
+        if (sfxObject == null)
+        {
+            SFXManager.instance.PlaySFX(mineraiDestroyedSFX, transform, 0.5f, false);
+            sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
+        }
+        spawner.activeMinerai = null;
+        Destroy(gameObject, 0.5f);
     }
     
     /// <summary>

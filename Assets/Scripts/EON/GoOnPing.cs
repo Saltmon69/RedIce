@@ -37,7 +37,11 @@ public class GoOnPing : IState, IObserver
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
-        Debug.Log(ping);
+        if (activeOrder == Order.Follow)
+        {
+            stateMachine.ChangeState(new Follow());
+        }
+        
         stateMachine.agent.SetDestination(ping.transform.position);
         
         if (Vector3.Distance(stateMachine.transform.position, ping.transform.position) < 2)
@@ -50,10 +54,7 @@ public class GoOnPing : IState, IObserver
             stateMachine.ChangeState(new Mine());
         }
 
-        if (activeOrder == Order.Follow)
-        {
-            stateMachine.ChangeState(new Follow());
-        }
+        
                 
     }
 

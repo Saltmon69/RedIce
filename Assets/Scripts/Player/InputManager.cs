@@ -44,6 +44,7 @@ public class InputManager : MonoBehaviour
         
         //Déplacement (Z Q S D Shift C )
         playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
+        playerHorizontalMovement.Deplacement.performed += ctx => playerMovement.OnMovePressed();
         playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
         playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
         playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();

@@ -125,25 +125,6 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.InitialiseItem(item);
     }
     
-    #endregion
-
-    #region Fonction UI
-
-    /// <summary>
-    /// Permet de créer un inventaire
-    /// </summary>
-    /// <param name="size"></param>
-    public void InitInventory(int size)
-    {
-        slots = new InventorySlot[size];
-        var panel = Instantiate(inventoryPanel, canvas.transform);
-        for (int i = 0; i < size; i++)
-        {
-            var slot = Instantiate(inventorySlot, panel.transform);
-            slots[i] = slot.GetComponent<InventorySlot>();
-        }
-    }
-
     [Button("Give Item")]
     public void DevCheat()
     {
@@ -152,6 +133,10 @@ public class InventoryManager : MonoBehaviour
             AddItem(itemToGive);
         }
     }
+    
     #endregion
+    
+
+    
 
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VInspector;
 
 [Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
@@ -13,14 +14,15 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
     
     // Movements
-    
+    [Tab("Mouvements")]
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
     bool sprint = false;
+    bool walk = false;
 
     // Jump
-    
+    [Tab("Saut")]
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
@@ -30,10 +32,17 @@ public class PlayerMovement : MonoBehaviour
     float halfHeight;
     
     // Crouch
-    
+    [Tab("Crouch")]
     [SerializeField] Transform playerCamera;
     private bool crouch;
     
+    [Tab("SFX")]
+    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField] private AudioClip landSFX;
+    [SerializeField] private AudioClip walkSFX;
+    [SerializeField] private AudioClip runSFX;
+    [SerializeField] private AudioClip crouchSFX;
+    [SerializeField] private GameObject sfxObject = null;
     #endregion
 
     #region Fonctions
@@ -72,15 +81,30 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forwardRelative = camForward.normalized * horizontalInput.y;
         Vector3 rightRelative = camRight.normalized * horizontalInput.x;
         
-        Vector3 moveDirection = forwardRelative + rightRelative;
-        
         //Mouvements
+        
+        Vector3 moveDirection = forwardRelative + rightRelative;
         
         Vector3 horizontalVelocity = (moveDirection) * speed;
         controller.Move(horizontalVelocity * Time.deltaTime);
+
+        if (walk)
+        {
+            if(sfxObject == null)
+            {
+                SFXManager.instance.PlaySFX(walkSFX, transform, 0.5f, false);
+                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
+            }
+        }
+        else
+        {
+            Destroy(sfxObject);
+        }
         
         verticalVelocity.y += gravity * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
+        
+        
         
         if (crouch)
         {
@@ -141,6 +165,15 @@ public class PlayerMovement : MonoBehaviour
             crouch = false;
         }
     }
+
+    public void OnMovePressed()
+    {
+        if (walk == false)
+            walk = true;
+        else
+            walk = false;
+    }
     
+   
     #endregion
 }
