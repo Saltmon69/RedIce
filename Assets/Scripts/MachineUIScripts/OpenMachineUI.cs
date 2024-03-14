@@ -14,6 +14,7 @@ public class OpenMachineUI : MonoBehaviour
 
     public ComputerUIDisplay thisComputerDisplay;
     public ChestUIDisplay thisChestUIDisplay;
+    public GeneratorUIDisplay thisGeneratorUIDisplay;
     
     public PlayerModeSelect modeSelection;
 
@@ -77,6 +78,14 @@ public class OpenMachineUI : MonoBehaviour
                     _hasHitMachine = true;
                 }
 
+                if(_gameObjetHit.transform.CompareTag("Generator"))
+                {
+                    thisGeneratorUIDisplay = _gameObjetHit.transform.GetComponent<GeneratorUIDisplay>();
+                    thisGeneratorUIDisplay.playerInventory = thisPlayerInventory;
+                    thisGeneratorUIDisplay.ActivateUIDisplay();
+                    _hasHitMachine = true;
+                }
+
                 if(_gameObjetHit.transform.CompareTag("Ground"))
                 {
                     _gameObjetHit.GetComponent<BaseRepair>().isBuilt = true;
@@ -121,6 +130,12 @@ public class OpenMachineUI : MonoBehaviour
             {
                 thisChestUIDisplay.DeactivateUIDisplay();
                 thisChestUIDisplay = null;
+            }
+            
+            if(thisGeneratorUIDisplay != null)
+            {
+                thisGeneratorUIDisplay.DeactivateUIDisplay();
+                thisGeneratorUIDisplay = null;
             }
         
             _isUIUp = false;
