@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5476,7 +5476,7 @@ PrefabInstance:
     - target: {fileID: 129710760574037213, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 165295264920280383, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
@@ -5486,12 +5486,12 @@ PrefabInstance:
     - target: {fileID: 294040316847657357, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1069355867522845521, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2461121410716691887, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
@@ -5575,6 +5575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2975438701018604160, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975438701018604160, guid: 415e594a25b35704f8fbc9667578f1fc,
+        type: 3}
       propertyPath: m_TagString
       value: Generator
       objectReference: {fileID: 0}
@@ -5586,7 +5591,17 @@ PrefabInstance:
     - target: {fileID: 6483940008594823382, guid: 415e594a25b35704f8fbc9667578f1fc,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494228414095291989, guid: 415e594a25b35704f8fbc9667578f1fc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921315996332395378, guid: 415e594a25b35704f8fbc9667578f1fc,
+        type: 3}
+      propertyPath: meltingBaseTime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

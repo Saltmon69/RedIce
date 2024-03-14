@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GeneratorUIDisplay : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GeneratorUIDisplay : MonoBehaviour
     private List<Transform> _computerPlayerInventoryList;
     private GameObject _thisComputerPlayerInventorySlot;
     private GameObject _computerPlayerInventoryUI;
+    private Slider _thisSlider;
     
     private ComputerUIDisplay _computerUIDisplay;
     
@@ -25,10 +27,15 @@ public class GeneratorUIDisplay : MonoBehaviour
     
     private bool _isItemRemoved;
     private bool _isItemMelting;
+
+    public int itemCount;
+
+    public bool isUIUp;
     
     public void Awake()
     {
         _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
+        _isItemRemoved = true;
     }
     
     public void ActivateUIDisplay()
@@ -37,6 +44,9 @@ public class GeneratorUIDisplay : MonoBehaviour
         _thisGeneratorUIDisplay = Instantiate(_generatorUIPrefab);
         _generatorUpgradeSlotUI = _thisGeneratorUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _computerPlayerInventoryUI = _thisGeneratorUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        _thisSlider = _thisGeneratorUIDisplay.transform.GetChild(3).GetComponent<Slider>();
+        _thisSlider.maxValue = meltingBaseTime;
+        isUIUp = true;
         
         LoadGeneratorInventory();
         LoadPlayerInventory();
@@ -51,17 +61,18 @@ public class GeneratorUIDisplay : MonoBehaviour
             if(_generatorUpgradeSlotUI.transform.childCount == 0 && !_isItemRemoved && !_isItemMelting)
             {
                 Debug.Log("an item has been removed");
+                _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
                 _isItemRemoved = true;
-                _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.stackSize; //changer
                 _itemInMeltingSlot = null;
             }
 
             if(_generatorUpgradeSlotUI.transform.childCount > 0 && _isItemRemoved && !_isItemMelting)
             {
                 _isItemRemoved = false;
-                Debug.Log("a new item has been added");
                 _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-                _computerUIDisplay.maxPower += _itemInMeltingSlot.item.stackSize; //changer
+                _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
+                itemCount = _itemInMeltingSlot.count;
+                Debug.Log("a new item has been added");
             }
 
             yield return new WaitForSeconds(0.05f);
@@ -72,15 +83,19 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            meltingTime -= Time.deltaTime;
-            
             if(meltingTime <= 0)
             {
-                if(_generatorUpgradeSlotUI.transform.childCount > 0)
+                if(_generatorUpgradeSlotUI.transform.childCount > 0 && _itemInMeltingSlot.item.atomicMass > 0)
                 {
                     _isItemMelting = true;
                     meltingTime = meltingBaseTime;
+                    
+                    _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
+                    _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+                    _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
+                    
                     _itemInMeltingSlot.count--;
+                    itemCount = _itemInMeltingSlot.count;
                     _itemInMeltingSlot.RefreshCount();
                     
                     if(_itemInMeltingSlot.count <= 0)
@@ -93,7 +108,31 @@ public class GeneratorUIDisplay : MonoBehaviour
                     _isItemMelting = false;
                 }
             }
+
+            _thisSlider.value = meltingTime;
+            
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    public void Update()
+    {
+        if(meltingTime <= 0)
+        {
+            if(_isItemMelting && !isUIUp)
+            {
+                itemCount -= 1;
+                meltingTime = meltingBaseTime;
+            
+                if(itemCount == 0)
+                {
+                    _isItemMelting = false;
+                }
+            }
+        }
+        else
+        {
+            meltingTime -= Time.deltaTime;
         }
     }
 
@@ -114,6 +153,9 @@ public class GeneratorUIDisplay : MonoBehaviour
         if(this.gameObject.transform.childCount == 1) return;
         this.gameObject.transform.GetChild(1).SetParent(_generatorUpgradeSlotUI.transform);
         _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+        Debug.Log(_itemInMeltingSlot.count - itemCount + " items used while away");
+        _itemInMeltingSlot.count = itemCount;
+        _itemInMeltingSlot.RefreshCount();
     }
     
     //change tous les objets que contient l inventaire du joueur par l'inventaire joueur qu'il y a sur la machine
@@ -143,9 +185,16 @@ public class GeneratorUIDisplay : MonoBehaviour
 
     public void DeactivateUIDisplay()
     {
+        meltingTime = meltingBaseTime;
+        _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
+        _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+        _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
+        itemCount = _itemInMeltingSlot.count;
+        
         SavePlayerInventory();
         SaveGeneratorInventory();
         StopAllCoroutines();
+        isUIUp = false;
         Destroy(_thisGeneratorUIDisplay);
     }
 }
