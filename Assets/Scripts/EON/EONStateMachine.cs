@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using VInspector;
 
 [Description("Ce script est la state machine du robot assistant EON. Il va s'occuper d'éxecuter les états mais pas de les définir ou décider quand en changer.")]
 public class EONStateMachine : MonoBehaviour
@@ -13,13 +14,18 @@ public class EONStateMachine : MonoBehaviour
 
     [SerializeField] IState currentState;
     
+    [Tab("Valeurs")]
     public float distanceToPlayer;
     public float distanceToPing;
     public float timeInIdle;
+    
+    [Tab("NavMesh")]
     public NavMeshSurface navMeshSurface;
     public NavMeshAgent agent;
-    
     public GameObject subject;
+    
+    [Tab("Anims")]
+    public Animator anim;
     
     #endregion
 
@@ -34,10 +40,17 @@ public class EONStateMachine : MonoBehaviour
     private void Update()
     {
         distanceToPlayer = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
-        
-        //Debug.Log("State : " + currentState);
-        
         currentState.OnUpdate(this);
+        
+        if (currentState is GoOnPing || currentState is Follow)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        else if (currentState is Idle)
+        {
+            anim.SetBool("isWalking", false);
+        }
+        
         
         
     }

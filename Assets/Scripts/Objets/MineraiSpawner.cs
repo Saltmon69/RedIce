@@ -6,31 +6,31 @@ using UnityEngine;
 public class MineraiSpawner : MonoBehaviour
 {
     public GameObject minerai;
-    private GameObject activeMinerai;
-    public float spawnTime = 3f;
+    public GameObject activeMinerai;
+    private float timer;
+    public float spawnDelay = 3f;
 
     
     private void Awake()
     {
-        ClassicSpawn();
+        activeMinerai = Instantiate(minerai, transform.position, transform.rotation, gameObject.transform);
+        
     }
 
     private void Update()
     {
         if (activeMinerai == null)
         {
-            StartCoroutine(SpawnMinerai());
+            if (timer < spawnDelay)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                activeMinerai = Instantiate(minerai, transform.position, transform.rotation);
+                timer = 0;
+            }
         }
     }
-
-    public IEnumerator SpawnMinerai()
-    {
-        yield return new WaitForSeconds(spawnTime);
-        activeMinerai = Instantiate(minerai, transform.position, transform.rotation);
-    }
     
-    public void ClassicSpawn()
-    {
-        activeMinerai = Instantiate(minerai, transform.position, transform.rotation);
-    }
 }

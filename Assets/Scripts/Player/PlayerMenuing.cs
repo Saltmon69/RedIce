@@ -9,6 +9,8 @@ using VInspector;
 
 public class PlayerMenuing : MonoBehaviour
 {
+    InputManager inputManager;
+    
     [Tab("Menus")]
     [SerializeField] GameObject mainMenu;
     public GameObject inventory;
@@ -28,11 +30,17 @@ public class PlayerMenuing : MonoBehaviour
     // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
+        inputManager = InputManager.instance;
+        
         inMenu = false;
         mainMenu.SetActive(false);
         inventory.SetActive(false);
         map.SetActive(false);
         ATH.SetActive(true);
+
+        inputManager.mainMenu.performed += OnEscape;
+        inputManager.inventory.performed += OnI;
+        inputManager.map.performed += OnM;
     }
 
     private void Update()
@@ -50,7 +58,7 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche Esc
     /// </summary>
-    public void OnEscapePressed()
+    public void OnEscape(InputAction.CallbackContext context)
     {
         if(playerModeSelect.canPlayerSwitchMode)
         {
@@ -64,7 +72,7 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche I
     /// </summary>
-    public void OnIPressed()
+    public void OnI(InputAction.CallbackContext context)
     {
         inMenu = true;
         inventory.SetActive(true);
@@ -75,7 +83,7 @@ public class PlayerMenuing : MonoBehaviour
     /// <summary>
     /// Touche M
     /// </summary>
-    public void OnMPressed()
+    public void OnM(InputAction.CallbackContext context)
     {
         inMenu = true;
         map.SetActive(true);

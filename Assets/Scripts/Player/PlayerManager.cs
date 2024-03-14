@@ -56,6 +56,24 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Image temperatureBar;
     
     
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
+        
+        playerMaxHealth = playerHealth;
+        maxOxygen = oxygen;
+        maxRadiation = radiation;
+        maxPressure = pressure;
+        maxTemperature = temperature;
+    }
     private void Update()
     {   
         UIUpdater();
@@ -95,6 +113,33 @@ public class PlayerManager : MonoBehaviour
         pressureBar.fillAmount = (float) pressure / maxPressure;
         temperatureBar.fillAmount = temperature / maxTemperature;
     }
+    
+    public void TakeDamage(float damage, ZoneType zone)
+    {
+        switch (zone)
+        {
+            case ZoneType.Hot:
+                temperature += damage;
+                break;
+            case ZoneType.Cold:
+                temperature -= damage;
+                break;
+            case ZoneType.Pressure:
+                pressure += (int)damage;
+                break;
+            case ZoneType.Toxic:
+                playerHealth -= (int)damage;
+                break;
+            case ZoneType.Radiation:
+                radiation -= (int)damage;
+                break;
+            case ZoneType.LowOxygen:
+                oxygen -= (int)damage;
+                break;
+        }
+    }
+    
+    
     
 }
 

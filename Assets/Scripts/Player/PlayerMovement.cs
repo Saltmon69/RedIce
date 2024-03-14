@@ -4,48 +4,71 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VInspector;
 
 [Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
-
-    #region Variables
     
-    // Movements
+    InputManager inputManager;
+   
+    [Tab("States")]
+    [SerializeField] bool sprint = false;
+    [SerializeField] bool walk = false;
+    [SerializeField] bool isGrounded;
+    [SerializeField] bool jump;
+    [SerializeField] bool crouch;
     
+    
+    [Tab("Mouvements")]
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
-    bool sprint = false;
-
-    // Jump
     
+    [Tab("Saut")]
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
     Vector3 verticalVelocity = Vector3.zero;
-    bool isGrounded;
-    bool jump;
     float halfHeight;
     
-    // Crouch
-    
+    [Tab("Crouch")]
     [SerializeField] Transform playerCamera;
-    private bool crouch;
     
-    #endregion
+    [Tab("SFX")]
+    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField] private AudioClip landSFX;
+    [SerializeField] private AudioClip walkSFX;
+    [SerializeField] private AudioClip runSFX;
+    [SerializeField] private AudioClip crouchSFX;
+    [SerializeField] private GameObject sfxObject = null;
+    
 
     #region Fonctions
 
-  
+    
+    private void Start()
+    {
+        inputManager = InputManager.instance;
+        
+        inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
+        inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
+        inputManager.deplacement.performed += Walk;
+        inputManager.deplacement.canceled += Walk;
+        inputManager.jump.performed += OnJumpPressed;
+        inputManager.run.performed += OnSprint;
+        inputManager.run.canceled += OnSprint;
+        inputManager.crouch.performed += OnCrouchPressed;
+    }
+
     private void Update()
     {
         //Jump
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask); // Sert à vérifir si le joueur touche le sol.
+        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -72,15 +95,16 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forwardRelative = camForward.normalized * horizontalInput.y;
         Vector3 rightRelative = camRight.normalized * horizontalInput.x;
         
-        Vector3 moveDirection = forwardRelative + rightRelative;
-        
         //Mouvements
+        
+        Vector3 moveDirection = forwardRelative + rightRelative;
         
         Vector3 horizontalVelocity = (moveDirection) * speed;
         controller.Move(horizontalVelocity * Time.deltaTime);
-        
         verticalVelocity.y += gravity * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
+        
+        
         
         if (crouch)
         {
@@ -108,29 +132,42 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    public void ReceiveInput (Vector2 _horizontalInput)
-    {
-        horizontalInput = _horizontalInput;
-        
-    }
     
-    public void OnJumpPressed()
+    public void Walk(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if(sfxObject == null)
+            {
+                SFXManager.instance.PlaySFX(walkSFX, transform, 0.5f, false);
+                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
+            }
+        }
+        else if(context.canceled)
+        {
+            Destroy(sfxObject);
+        }
+    }
+    public void OnJumpPressed(InputAction.CallbackContext context)
     {
         jump = true;
     }
     
-    public void OnSprintPressed()
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        sprint = true;
+        if (context.performed)
+        {
+            sprint = true;
+        }
+        else if(context.canceled)
+        {
+            sprint = false;
+        }
     }
 
-    public void OnSprintReleased()
-    {
-        sprint = false;
-    }
     
-    public void OnCrouchPressed()
+    
+    public void OnCrouchPressed(InputAction.CallbackContext context)
     {
         if(crouch == false)
         {
@@ -142,5 +179,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
+    
+   
     #endregion
 }
