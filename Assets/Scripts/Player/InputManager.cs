@@ -3,13 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using VInspector;
 
 [Description("Script qui gère les inputs du joueur en utilisant le New Input System. C'est un singleton.")]
 public class InputManager : MonoBehaviour
 {
-    #region Variables
-
+    
     public static InputManager instance;
+    
+    [Tab("Movements")]
+    [HideInInspector] public InputAction deplacement;
+    [HideInInspector] public InputAction jump;
+    [HideInInspector] public InputAction run;
+    [HideInInspector] public InputAction crouch;
+    [HideInInspector] public InputAction mousex;
+    [HideInInspector] public InputAction mousey;
+    
+    [Tab("Interactions")]
+    [HideInInspector] public InputAction interact;
+    [HideInInspector] public InputAction leftClick;
+    [HideInInspector] public InputAction ping;
+    [HideInInspector] public InputAction ava;
+    [HideInInspector] public InputAction shoot;
+    [HideInInspector] public InputAction scrollWheel;
+    
+    [Tab("Menuing")]
+    [HideInInspector] public InputAction mainMenu;
+    [HideInInspector] public InputAction inventory;
+    [HideInInspector] public InputAction map;
+    
     
     
     // Varaibles des scripts de mouvement et autres interactions
@@ -25,67 +48,115 @@ public class InputManager : MonoBehaviour
     PlayerController.MenuingActions playerMenuingActions;
     
     
-    Vector2 horizontalInput;
-    Vector2 mouseInput;
     
-    #endregion
     
-    #region Fonctions
+    
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
         
         playerController = new PlayerController();
-        playerHorizontalMovement = playerController.PlayerMovement;
-        playerInteractionActions = playerController.Interact;
-        playerMenuingActions = playerController.Menuing;
-        
-        // playerMovement.[action].performed += ctx => Action à effectuer;
-        
-        //Déplacement (Z Q S D Shift C )
-        playerHorizontalMovement.Deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
-        playerHorizontalMovement.Deplacement.performed += ctx => playerMovement.OnMovePressed();
-        playerHorizontalMovement.Jump.performed += _ => playerMovement.OnJumpPressed();
-        playerHorizontalMovement.Run.performed += _ => playerMovement.OnSprintPressed();
-        playerHorizontalMovement.Crouch.performed += _ => playerMovement.OnCrouchPressed();
         
         
-        //Mouvement caméra (Souris)
-        playerHorizontalMovement.MouseX.performed += ctx => mouseInput.x = ctx.ReadValue<float>();
-        playerHorizontalMovement.MouseY.performed += ctx => mouseInput.y = ctx.ReadValue<float>();
+        InitDeplacement();
+        InitInteractions();
+        InitMenuing();
         
-        //Interaction (E, Left Click, Middle Click, A, Right Click)
-        playerInteractionActions.Interaction.performed += _ => playerInteraction.OnInteractionPressed();
-        playerInteractionActions.LeftClick.performed += _ => playerInteraction.OnLeftClickPressed();
-        playerInteractionActions.LeftClick.canceled += _ => playerInteraction.OnLeftClickReleased();
-        playerInteractionActions.Ping.started += ctx => playerInteraction.OnPingPressed();
-        playerInteractionActions.Ping.canceled += ctx => playerInteraction.OnPingReleased();
-        playerInteractionActions.AVA.performed += _ => playerInteraction.OnAvaPressed();
-        playerInteractionActions.AVA.canceled += _ => playerInteraction.OnAvaReleased();
-        playerInteractionActions.Shoot.performed += _ => playerInteraction.OnShootPressed();
-        
-        //Menu (Esc, I, M)
-        playerMenuingActions.MainMenu.performed += ctx => playerMenuing.OnEscapePressed();
-        playerMenuingActions.Inventory.performed += ctx => playerMenuing.OnIPressed();
-        playerMenuingActions.Map.performed += ctx => playerMenuing.OnMPressed();
+        EnableDeplacement();
+        EnableInteractions();
+        EnableMenuing();
         
     }
 
-    private void OnEnable()
+    private void InitDeplacement()
     {
-        playerController.Enable();
-    }
-
-    private void OnDestroy()
-    {
-        playerController.Disable();
-    }
-
-    private void Update()
-    {
-        playerMovement.ReceiveInput(horizontalInput);
-        playerMouseLook.ReceiveInput(mouseInput);
+        deplacement = playerController.PlayerMovement.Deplacement;
+        jump = playerController.PlayerMovement.Jump;
+        run = playerController.PlayerMovement.Run;
+        crouch = playerController.PlayerMovement.Crouch;
+        mousex = playerController.PlayerMovement.MouseX;
+        mousey = playerController.PlayerMovement.MouseY;
     }
     
-    #endregion
+    private void InitInteractions()
+    {
+        interact = playerController.Interact.Interaction;
+        leftClick = playerController.Interact.LeftClick;
+        ping = playerController.Interact.Ping;
+        ava = playerController.Interact.AVA;
+        shoot = playerController.Interact.Shoot;
+        scrollWheel = playerController.Interact.ScrollWheel;
+    }
+    
+    private void InitMenuing()
+    {
+        mainMenu = playerController.Menuing.MainMenu;
+        inventory = playerController.Menuing.Inventory;
+        map = playerController.Menuing.Map;
+    }
+    
+    private void EnableDeplacement()
+    {
+        deplacement.Enable();
+        jump.Enable();
+        run.Enable();
+        crouch.Enable();
+        mousex.Enable();
+        mousey.Enable();
+    }
+    
+    private void EnableInteractions()
+    {
+        interact.Enable();
+        leftClick.Enable();
+        ping.Enable();
+        ava.Enable();
+        shoot.Enable();
+        scrollWheel.Enable();
+    }
+    
+    private void EnableMenuing()
+    {
+        mainMenu.Enable();
+        inventory.Enable();
+        map.Enable();
+    }
+    
+    private void DisableDeplacement()
+    {
+        deplacement.Disable();
+        jump.Disable();
+        run.Disable();
+        crouch.Disable();
+        mousex.Disable();
+        mousey.Disable();
+    }
+    
+    private void DisableInteractions()
+    {
+        interact.Disable();
+        leftClick.Disable();
+        ping.Disable();
+        ava.Disable();
+        shoot.Disable();
+        scrollWheel.Disable();
+    }
+    
+    private void DisableMenuing()
+    {
+        mainMenu.Disable();
+        inventory.Disable();
+        map.Disable();
+    }
+    
+    
+    
 }    

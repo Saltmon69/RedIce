@@ -8,6 +8,7 @@ using UnityEngine;
 [Description("Gère les mouvements de caméra")]   
 public class PlayerMouseLook : MonoBehaviour
 {
+    InputManager inputManager;
     
     [SerializeField] float mouseSensitivityX = 8f;
     [SerializeField] float mouseSensitivityY = 0.5f;
@@ -17,12 +18,21 @@ public class PlayerMouseLook : MonoBehaviour
     [SerializeField] float xClamp = 85f;
     float xRotation = 0f;
 
+    
+    
+    private void Start()
+    {
+        inputManager = InputManager.instance;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
+        inputManager.mousex.performed += ctx => mouseX = ctx.ReadValue<float>() * mouseSensitivityX;
+        inputManager.mousey.performed += ctx => mouseY = ctx.ReadValue<float>() * mouseSensitivityY;
+    }
 
     private void Update()
     {
         transform.Rotate(Vector3.up * mouseX * Time.deltaTime);
-        
-        
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -xClamp, xClamp);
         Vector3 targetRotation = transform.eulerAngles;
@@ -30,9 +40,5 @@ public class PlayerMouseLook : MonoBehaviour
         playerCamera.eulerAngles = targetRotation;
     }
 
-    public void ReceiveInput(Vector2 mouseInput)
-    {
-        mouseX = mouseInput.x * mouseSensitivityX;
-        mouseY = mouseInput.y * mouseSensitivityY;
-    }
+    
 }
