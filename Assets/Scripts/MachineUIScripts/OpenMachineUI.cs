@@ -88,13 +88,16 @@ public class OpenMachineUI : MonoBehaviour
 
                 if(_gameObjetHit.transform.CompareTag("Ground"))
                 {
-                    _gameObjetHit.GetComponent<BaseRepair>().isBuilt = true;
-                    _gameObjetHit.SetActive(false);
-                    _gameObjetHit.transform.parent.GetChild(1).gameObject.SetActive(true);
-                    
-                    for(var i = 0; i < _gameObjetHit.GetComponent<MachineCost>().buildingMaterialList.Count; i++)
+                    if(_gameObjetHit.GetComponent<BaseRepair>().isBuildable)
                     {
-                        DestroyImmediate(_gameObjetHit.transform.parent.GetChild(_gameObjetHit.transform.parent.childCount - 1).gameObject);
+                        _gameObjetHit.GetComponent<BaseRepair>().isBuilt = true;
+                        _gameObjetHit.SetActive(false);
+                        _gameObjetHit.transform.parent.GetChild(1).gameObject.SetActive(true);
+                    
+                        for(var i = 0; i < _gameObjetHit.GetComponent<MachineCost>().buildingMaterialList.Count; i++)
+                        {
+                            DestroyImmediate(_gameObjetHit.transform.parent.GetChild(_gameObjetHit.transform.parent.childCount - 1).gameObject);
+                        }
                     }
                 }
 

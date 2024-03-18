@@ -92,11 +92,16 @@ public class MachineUIDisplay : MonoBehaviour
     private int _transferMachineItemIndex;
     private int _transferMachineItemAmount;
 
+    private GameObject _particleSystemPrefab;
+    private ParticleSystem _thisParticleSystem;
+
     //charge tous les endroit clés que le code utilise régulierement au sein de l'ui
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-
+        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(3).GetComponent<Camera>();
+    Debug.Log(Camera.main.transform.GetChild(3).gameObject);
+        
         _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -120,6 +125,7 @@ public class MachineUIDisplay : MonoBehaviour
         _craftButtonPrefab = Resources.Load<GameObject>("MachineUI/CraftButton");
         _inventoryItemPrefab = Resources.Load<GameObject>("MachineUI/InventoryItem");
         _inventoryItemButtonUIPrefab = Resources.Load<GameObject>("MachineUI/InventoryButton");
+        _particleSystemPrefab = Resources.Load<GameObject>("MachineUI/OutputMaterialsParticle");
     }
 
     //fonction qui doit etre appelé par un script externe affin d'activer l'UI de la machine
@@ -129,7 +135,7 @@ public class MachineUIDisplay : MonoBehaviour
 
         LoadUIReferences();
         OnDisplayInstantiate();
-        
+
         if(_hasItemInUpgradeSlot) this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
 
         LoadInventory();
@@ -249,8 +255,14 @@ public class MachineUIDisplay : MonoBehaviour
                     AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
 
                     if(!isUIOpen) continue;
-                    _thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
-                    _thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
+                    //_thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
+                    //_thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
+
+                    _thisParticleSystem = Instantiate(_particleSystemPrefab, _machineOutputMaterialsUI.transform).GetComponent<ParticleSystem>();
+                    Material mat = new Material(Shader.Find("Sprites/Default"));
+                    mat.SetTexture("_MainTex", _machineCraftRecipe.outputs[i].sprite.texture);
+                    _thisParticleSystem.GetComponent<Renderer>().material = mat;
+                    _thisParticleSystem.maxParticles = _machineCraftRecipe.outputsAmount[i];
                 }
                 craftProgress = 0;
             }
@@ -552,7 +564,7 @@ public class MachineUIDisplay : MonoBehaviour
     {
         _thisTransferAmountUI = Instantiate(_machineInventoryTransferUIPrefab, 
                                             _machineInventoryUI.transform.GetChild(machineItemList.IndexOf(thisItem)).transform.position,
-                                            Quaternion.identity, 
+                                            _thisMachineUIDisplay.transform.rotation,
                                             _thisMachineUIDisplay.transform);
         
         _transferAmountUISlider = _thisTransferAmountUI.transform.GetChild(1).GetComponent<Slider>();
@@ -562,7 +574,7 @@ public class MachineUIDisplay : MonoBehaviour
         _thisTransferAmountUI.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => { Destroy(_thisTransferAmountUI); });
         _thisTransferAmountUI.transform.GetChild(4).GetComponent<Button>().onClick.AddListener(() => { ConfirmTransaction(thisItem); });
         _thisTransferAmountUI.transform.GetChild(5).GetComponent<Image>().sprite = thisItem.sprite;
-        
+
         while (true)
         {
             if(_transferAmount != (int)_transferAmountUISlider.value)
@@ -615,7 +627,7 @@ public class MachineUIDisplay : MonoBehaviour
             yield return new WaitForSeconds(0.02f);
         }
     }
-    
+
     //charge l'inventaire de la machine grace à sa liste d'item de son inventaire qu'elle possède
     private void LoadInventory()
     {
