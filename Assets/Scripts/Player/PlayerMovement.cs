@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
+    [SerializeField] LayerMask obstacleMask;
     Vector3 verticalVelocity = Vector3.zero;
     float halfHeight;
     
@@ -74,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask);
+        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask|obstacleMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -158,7 +159,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnJumpPressed(InputAction.CallbackContext context)
     {
-        jump = true;
+        if(context.performed)
+         jump = true;
     }
     
     public void OnSprint(InputAction.CallbackContext context)
