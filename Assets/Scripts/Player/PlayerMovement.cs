@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     
     [Tab("Crouch")]
     [SerializeField] Transform playerCamera;
+    [SerializeField] private float standingHeight;
+    [SerializeField] private float crouchHeight;
+    
     
     [Tab("SFX")]
     [SerializeField] private AudioClip jumpSFX;
@@ -51,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.instance;
+        
+        standingHeight = controller.height;
+        crouchHeight = standingHeight / 2;
         
         inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
         inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
@@ -108,16 +114,18 @@ public class PlayerMovement : MonoBehaviour
         
         if (crouch)
         {
-            controller.height = 1f;
+            controller.height = crouchHeight;
             speed = 6f;
-            transform.localScale = new Vector3(1, 0.5f, 1);
+            playerCamera.localPosition = new Vector3(0, 0.5f, 0);
+            
             
         }
         if (!crouch)
         {
-            controller.height = 2f;
+            controller.height = standingHeight;
             speed = 12f;
-            transform.localScale = new Vector3(1, 1, 1);
+            playerCamera.localPosition = new Vector3(0, 0.8f, 0);
+            
         }
 
         if (!crouch)
