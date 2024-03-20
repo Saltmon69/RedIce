@@ -525,6 +525,141 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d204fcd9846a7c40b5ea1aaee51757d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deplacement:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 87b73d83-ad1a-426a-bdfb-5c7ad1d17490
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  jump:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8097891e-760f-4163-b6af-ff304d923abc
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  run:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f519ea02-4077-43b2-ad01-54cecaeb4f33
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  crouch:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d8f5ce17-c02d-48a6-85e4-f71455900fb3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mousex:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 4f2e2086-b2f4-44a5-a4ee-49a07d27798e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mousey:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e346d69e-a184-4a7a-a463-74e484b3c31f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  interact:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8e14fdc6-f2f2-48fb-a278-a5bdfbc69a18
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  leftClick:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 12c25ad4-2bce-4385-a53d-6c5a522d15b7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  ping:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 044ebcb7-8ad9-45da-add0-a9d9c94ef24f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  ava:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3f16857e-9342-4c31-be39-69fab2dfb845
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  shoot:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5b76b432-2305-44c6-ab3e-e7b8a7428cbb
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  scrollWheel:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: db4d5aa4-b704-4263-89b6-7b821ac63341
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mainMenu:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9b2217b9-0d78-49d6-a517-34585be84cf6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  inventory:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 126d7759-4c55-4258-921a-9d43538ac9a3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  map:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a71f0d4c-c544-4cd2-b893-9eaac8c49ad2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   playerMovement: {fileID: 4637863884708602113}
   playerMouseLook: {fileID: 4719104758492762471}
   playerInteraction: {fileID: 5449722461265170088}
@@ -541,6 +676,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842a75ec40103f14baf0c4c02afb79cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprint: 0
+  walk: 0
+  isGrounded: 0
+  jump: 0
+  crouch: 0
   controller: {fileID: 2579387265488698256}
   speed: 12
   jumpHeight: 3
@@ -548,7 +688,18 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
   playerCamera: {fileID: 6462875800664825794}
+  standingHeight: 0
+  crouchHeight: 0
+  jumpSFX: {fileID: 0}
+  landSFX: {fileID: 0}
+  walkSFX: {fileID: 8300000, guid: bb81c053534f09543b3e540b721389f7, type: 3}
+  runSFX: {fileID: 0}
+  crouchSFX: {fileID: 0}
+  sfxObject: {fileID: 0}
 --- !u!114 &4719104758492762471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,11 +729,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 1314400097453793767}
+  ava: {fileID: 0}
+  mainCamera: {fileID: 1314400097453793767}
   playerManager: {fileID: 7117418156004916260}
   playerMenuing: {fileID: 5258631492502487850}
   radialMenu: {fileID: 0}
-  ava: {fileID: 0}
-  mainCamera: {fileID: 1314400097453793767}
   mineraiClass: {fileID: 0}
   isApplyingDamage: 0
   damage: 6
@@ -590,9 +741,11 @@ MonoBehaviour:
   vfxLaser: {fileID: 0}
   interactionRange: 3
   pingIsPressed: 0
-  avaIsPressed: 0
   darkMatterBullet: {fileID: 5282967020656324644, guid: 8acf1ebf6054ae64c9ffe1c7928b0ea2,
     type: 3}
+  avaIsPressed: 0
+  sfxObject: {fileID: 0}
+  laserSFX: {fileID: 8300000, guid: 4fb84c129e005954ca6e80a0fa581b67, type: 3}
 --- !u!114 &5258631492502487850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,7 +967,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 95
+    m_Bits: 223
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1198,7 +1351,7 @@ PrefabInstance:
     - target: {fileID: 8954831147398031098, guid: 2ae5f00f9fa1a9b4faf214963949d2e0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

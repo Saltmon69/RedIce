@@ -30,11 +30,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
+    [SerializeField] LayerMask obstacleMask;
     Vector3 verticalVelocity = Vector3.zero;
     float halfHeight;
     
     [Tab("Crouch")]
     [SerializeField] Transform playerCamera;
+    [SerializeField] private float standingHeight;
+    [SerializeField] private float crouchHeight;
+    
     
     [Tab("SFX")]
     [SerializeField] private AudioClip jumpSFX;
@@ -52,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
     {
         inputManager = InputManager.instance;
         
+        standingHeight = controller.height;
+        crouchHeight = standingHeight / 2;
+        
         inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
         inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
         inputManager.deplacement.performed += Walk;
@@ -68,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask);
+        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask|obstacleMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -108,16 +115,18 @@ public class PlayerMovement : MonoBehaviour
         
         if (crouch)
         {
-            controller.height = 1f;
+            controller.height = crouchHeight;
             speed = 6f;
-            transform.localScale = new Vector3(1, 0.5f, 1);
+            playerCamera.localPosition = new Vector3(0, 0.5f, 0);
+            
             
         }
         if (!crouch)
         {
-            controller.height = 2f;
+            controller.height = standingHeight;
             speed = 12f;
-            transform.localScale = new Vector3(1, 1, 1);
+            playerCamera.localPosition = new Vector3(0, 0.8f, 0);
+            
         }
 
         if (!crouch)
@@ -150,7 +159,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnJumpPressed(InputAction.CallbackContext context)
     {
-        jump = true;
+        if(context.performed)
+         jump = true;
     }
     
     public void OnSprint(InputAction.CallbackContext context)
