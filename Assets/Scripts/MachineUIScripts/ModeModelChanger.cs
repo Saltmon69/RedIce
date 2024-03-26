@@ -11,6 +11,9 @@ public class ModeModelChanger : MonoBehaviour
 
     private void OnDisable()
     {
-        objectModel.SetActive(false);
+        try
+        {
+            objectModel.SetActive(false); 
+        }catch(MissingReferenceException){}
     }
 }
