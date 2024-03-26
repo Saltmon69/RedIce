@@ -46,7 +46,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip walkSFX;
     [SerializeField] private AudioClip runSFX;
     [SerializeField] private AudioClip crouchSFX;
-    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioSource audioSource;
+    
     
 
     #region Fonctions
@@ -75,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask|obstacleMask);
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask|obstacleMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -146,15 +147,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            if(sfxObject == null)
-            {
-                SFXManager.instance.PlaySFX(walkSFX, transform, 0.5f, false);
-                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-            }
+            audioSource.clip = walkSFX;
+            audioSource.loop = true;
+            audioSource.Play();
         }
         else if(context.canceled)
         {
-            Destroy(sfxObject);
+           audioSource.Stop();
+           audioSource.loop = false;
         }
     }
     public void OnJumpPressed(InputAction.CallbackContext context)
