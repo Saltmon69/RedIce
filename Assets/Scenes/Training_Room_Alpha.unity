@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -215,6 +215,74 @@ MonoBehaviour:
   minerai: {fileID: 1364146757966246061, guid: 15238c6a0aa13d5459ede4b58f89ef7f, type: 3}
   activeMinerai: {fileID: 0}
   spawnDelay: 30
+--- !u!1001 &143618497
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1577616225}
+    m_Modifications:
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3431061026140485148, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+        type: 3}
+      propertyPath: m_Name
+      value: Fractioneuse
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61e2e4575895dcf4e80a18f812a9eff4, type: 3}
 --- !u!1 &151241198 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 87381582206348816, guid: 1256acb3dede1e0438a4da0376b6d8b7,
@@ -2453,6 +2521,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44b1f42f1891ca43be59e2a808613f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!20 &1506301219 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5201668742061511783, guid: 768611c461c9b8e45b904463325d7581,
+    type: 3}
+  m_PrefabInstance: {fileID: 1863824170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1527780443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,6 +2574,12 @@ MonoBehaviour:
   minerai: {fileID: 8081059915905416420, guid: 6c35827aee148d741b6094971a9ce416, type: 3}
   activeMinerai: {fileID: 0}
   spawnDelay: 30
+--- !u!4 &1577616225 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5029638674470952378, guid: 415e594a25b35704f8fbc9667578f1fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 3022230574552004103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1716137629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2652,6 +2732,12 @@ MonoBehaviour:
   minerai: {fileID: 2435792403633877848, guid: b7d9667eae1e1cd458c8170cb9db1347, type: 3}
   activeMinerai: {fileID: 0}
   spawnDelay: 30
+--- !u!4 &1775088368 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2247851744629597551, guid: 61e2e4575895dcf4e80a18f812a9eff4,
+    type: 3}
+  m_PrefabInstance: {fileID: 143618497}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1795876980 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9034075090298650930, guid: 1256acb3dede1e0438a4da0376b6d8b7,
@@ -3596,7 +3682,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1506301219}
     - target: {fileID: 1923493792126193465, guid: 1256acb3dede1e0438a4da0376b6d8b7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5605,7 +5691,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5029638674470952378, guid: 415e594a25b35704f8fbc9667578f1fc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1775088368}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 415e594a25b35704f8fbc9667578f1fc, type: 3}
 --- !u!1 &3425800215250881040 stripped
@@ -5644,7 +5734,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1506301219}
     - target: {fileID: 1016198503247383853, guid: 292b8c7392b8b014ba831839919bc4d7,
         type: 3}
       propertyPath: objectModel
@@ -5724,12 +5814,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1506301219}
     - target: {fileID: 6023526044767489565, guid: 292b8c7392b8b014ba831839919bc4d7,
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1506301219}
     - target: {fileID: 7356136397884128013, guid: 292b8c7392b8b014ba831839919bc4d7,
         type: 3}
       propertyPath: m_Name
