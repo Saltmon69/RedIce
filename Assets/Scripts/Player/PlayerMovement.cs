@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
         crouchHeight = standingHeight / 2;
         
         inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
-        inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
         inputManager.deplacement.performed += Walk;
         inputManager.deplacement.canceled += Walk;
         inputManager.jump.performed += OnJumpPressed;
