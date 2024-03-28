@@ -38,6 +38,8 @@ public class UICursorDataDisplay : MonoBehaviour
     private GameObject _materialRecipePrefab;
     private GameObject _plusSignPrefab;
     private GameObject _equalSignPrefab;
+    private GameObject _machineMaterialPrefab;
+    private GameObject _thisMachineMaterial;
 
     private void Awake()
     {
@@ -46,6 +48,7 @@ public class UICursorDataDisplay : MonoBehaviour
         _materialRecipePrefab = Resources.Load<GameObject>("MachineUI/MaterialRecipe");
         _plusSignPrefab = Resources.Load<GameObject>("MachineUI/PlusSignImage");
         _equalSignPrefab = Resources.Load<GameObject>("MachineUI/EqualSignImage");
+        _machineMaterialPrefab = Resources.Load<GameObject>("MachineUI/MachineCrafts");
 
         currentDelay = baseDelay;
 
@@ -108,7 +111,7 @@ public class UICursorDataDisplay : MonoBehaviour
         Debug.Log("in");
         
         _thisInfoCursorDisplay = Instantiate(_infoCursorDisplayPrefab, _resultList[0].gameObject.transform.position, this.gameObject.transform.GetChild(0).rotation, this.gameObject.transform.GetChild(0));
-        _thisInfoCursorDisplay.GetComponent<RectTransform>().position += displayOffset;
+        _thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition += displayOffset;
         
         DisplayOverview();
 
@@ -128,6 +131,9 @@ public class UICursorDataDisplay : MonoBehaviour
 
     private void DisplayCraftRecipeListMaker()
     {
+        inputRecipeList = new List<Recipe>();
+        outputRecipeList = new List<Recipe>();
+        
         for(var i = 0; i < _allCraftArray.Length; i++)
         {
             if(_allCraftArray[i].inputs.Contains(_itemDisplaying))
@@ -148,40 +154,67 @@ public class UICursorDataDisplay : MonoBehaviour
         _thisDisplayCraft.GetChild(1).GetComponent<Image>().sprite = _itemDisplaying.sprite;
         _thisDisplayCraft.GetChild(2).GetChild(0).GetComponent<Text>().text = _itemDisplaying.nom;
 
-        for(var i = 0; i < _allMachineArray.Length; i++)
-        {
-            try
-            {
-                if(_allMachineArray[i].GetComponent<MachineUIDisplay>()._machineCraftList.Contains(outputRecipeList[0]))
-                {
-                    Debug.Log("sprite");
-                    _thisDisplayCraft.GetChild(3).GetChild(1).GetComponent<Image>().sprite = _allMachineArray[i].GetComponent<SpriteRenderer>().sprite;
-                    Debug.Log("sprite2");
-                }
-            }catch(NullReferenceException){}
-        }
-        
-        //genere la nouvelle recette avec les images contenu dans les scriptable objects qui compose le craft tout en rajoutant des signes "+" et "="
-        for(var y = 0; y < outputRecipeList[0].inputs.Count + outputRecipeList[0].outputs.Count; y++)
-        {
-            _instantiatedMachineUIRecipeMaterial = Instantiate(_materialRecipePrefab, _thisDisplayCraft.GetChild(3).GetChild(3).transform);
-            
-            _instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>().text = y < outputRecipeList[0].inputs.Count ? outputRecipeList[0].inputsAmount[y] + "" : outputRecipeList[0].outputsAmount[y - outputRecipeList[0].inputs.Count] + "";
-            _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = y < outputRecipeList[0].inputs.Count ? outputRecipeList[0].inputs[y].sprite : outputRecipeList[0].outputs[y - outputRecipeList[0].inputs.Count].sprite;
-
-            if(y == outputRecipeList[0].inputs.Count - 1)
-            {                    
-                Instantiate(_equalSignPrefab, _thisDisplayCraft.GetChild(3).GetChild(3).transform);
-            }
-            else if(y != outputRecipeList[0].inputs.Count + outputRecipeList[0].outputs.Count - 1)
-            {
-                Instantiate(_plusSignPrefab, _thisDisplayCraft.GetChild(3).GetChild(3).transform);
-            }
-        }
+        DisplayMaterialFromMachine(outputRecipeList[0], _thisDisplayCraft.GetChild(3).GetChild(0).GetChild(0));
     }
 
     private void DisplayUses()
     {
         _thisDisplayUses = _thisInfoCursorDisplay.transform.GetChild(0);
+
+        for (var i = 0; i < inputRecipeList.Count; i++)
+        {
+            DisplayMaterialFromMachine(inputRecipeList[i], _thisDisplayUses.GetChild(1).GetChild(0).GetChild(0));
+        }
+    }
+
+    private void DisplayMaterialFromMachine(Recipe thisRecipe, Transform thisDisplayLocation)
+    {
+        _thisMachineMaterial = Instantiate(_machineMaterialPrefab, thisDisplayLocation);
+        
+        for(var i = 0; i < _allMachineArray.Length; i++)
+        {
+            try
+            {
+                if(_allMachineArray[i].GetComponent<MachineUIDisplay>().machineTier1CraftList.Contains(thisRecipe))
+                {
+                    _thisMachineMaterial.transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+                    _thisMachineMaterial.transform.GetChild(1).GetComponent<Image>().sprite = _allMachineArray[i].GetComponent<SpriteRenderer>().sprite;
+                    _thisMachineMaterial.transform.GetChild(2).GetComponent<Text>().text = _allMachineArray[i].name;
+                }
+                if(_allMachineArray[i].GetComponent<MachineUIDisplay>().machineTier2CraftList.Contains(thisRecipe))
+                {
+                    _thisMachineMaterial.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
+                    _thisMachineMaterial.transform.GetChild(1).GetComponent<Image>().sprite = _allMachineArray[i].GetComponent<SpriteRenderer>().sprite;
+                    _thisMachineMaterial.transform.GetChild(2).GetComponent<Text>().text = _allMachineArray[i].name;
+                }
+                if(_allMachineArray[i].GetComponent<MachineUIDisplay>().machineTier3CraftList.Contains(thisRecipe))
+                {
+                    _thisMachineMaterial.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                    _thisMachineMaterial.transform.GetChild(1).GetComponent<Image>().sprite = _allMachineArray[i].GetComponent<SpriteRenderer>().sprite;
+                    _thisMachineMaterial.transform.GetChild(2).GetComponent<Text>().text = _allMachineArray[i].name;
+                }
+                
+            }catch(NullReferenceException){}
+        }
+        
+        //genere la nouvelle recette avec les images contenu dans les scriptable objects qui compose le craft tout en rajoutant des signes "+" et "="
+        for(var y = 0; y < thisRecipe.inputs.Count + thisRecipe.outputs.Count; y++)
+        {
+            _instantiatedMachineUIRecipeMaterial = Instantiate(_materialRecipePrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+
+            _instantiatedMachineUIRecipeMaterial.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            _instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>().text = y < thisRecipe.inputs.Count ? thisRecipe.inputsAmount[y] + "" : thisRecipe.outputsAmount[y - thisRecipe.inputs.Count] + "";
+            _instantiatedMachineUIRecipeMaterial.transform.GetChild(1).gameObject.SetActive(false);
+            _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = y < thisRecipe.inputs.Count ? thisRecipe.inputs[y].sprite : thisRecipe.outputs[y - thisRecipe.inputs.Count].sprite;
+
+            if(y == thisRecipe.inputs.Count - 1)
+            {                    
+                Instantiate(_equalSignPrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+            }
+            else if(y != thisRecipe.inputs.Count + thisRecipe.outputs.Count - 1)
+            {
+                Instantiate(_plusSignPrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+            }
+        }
     }
 }
