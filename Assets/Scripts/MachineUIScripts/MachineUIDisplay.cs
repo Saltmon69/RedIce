@@ -47,7 +47,7 @@ public class MachineUIDisplay : MonoBehaviour
     public List<Recipe> machineTier1CraftList;
     public List<Recipe> machineTier2CraftList;
     public List<Recipe> machineTier3CraftList;
-    private List<Recipe> _machineCraftList;
+    [HideInInspector] public List<Recipe> _machineCraftList;
     private List<GameObject> _machineCraftingButtonList;
     public List<ItemClass> machineUpgradeItemTier;
     private InventoryItem _thisUpgradeInventoryItemInSlot;
