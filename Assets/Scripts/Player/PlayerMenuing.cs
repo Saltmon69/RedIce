@@ -30,7 +30,7 @@ public class PlayerMenuing : MonoBehaviour
     // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
-        inputManager = InputManager.instance;
+        inputManager = GetComponent<InputManager>();
         
         inMenu = false;
         mainMenu.SetActive(false);

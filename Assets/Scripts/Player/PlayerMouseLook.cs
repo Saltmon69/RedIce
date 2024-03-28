@@ -22,7 +22,7 @@ public class PlayerMouseLook : MonoBehaviour
     
     private void Start()
     {
-        inputManager = InputManager.instance;
+        inputManager = GetComponent<InputManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         

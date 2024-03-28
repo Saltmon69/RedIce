@@ -55,7 +55,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = InputManager.instance;
+        inputManager = GetComponent<InputManager>();
 
         inputManager.interact.performed += OnInteraction;
         
@@ -138,13 +138,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(isMiningModeActive)
             {
-                if (sfxObject == null)
-                { 
-                    SFXManager.instance.PlaySFX(laserSFX, transform, 0.5f, true);
-                    sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-                }
-                
-                
                 isApplyingDamage = true;
                 RaycastMaker(interactionRange);
             }
