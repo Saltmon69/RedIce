@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,18 +16,15 @@ public class PlayerInteraction : MonoBehaviour
 {
     #region Variables
 
-    
-    
+    InputManager inputManager;
     
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
+    [SerializeField] GameObject ava;
+    [SerializeField] private Camera mainCamera;
     public PlayerManager playerManager;
     public PlayerMenuing playerMenuing;
     public GameObject radialMenu;
-    [SerializeField] GameObject ava;
-    [SerializeField] private Camera mainCamera;
-    
-    
     
     [Tab("Minage")]
     [SerializeField] MineraiClass mineraiClass;
@@ -37,19 +33,16 @@ public class PlayerInteraction : MonoBehaviour
     public bool isMiningModeActive;
     public VisualEffect vfxLaser;
     
-    // Raycast
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
     RaycastHit itemHit;
-
-    // Ping
+    
     [Tab("Ping")]
     public bool pingIsPressed;
     
-    // Lunette AVA
     [Tab("Lunette AVA")]
-    public bool avaIsPressed;
     [SerializeField] GameObject darkMatterBullet;
+    public bool avaIsPressed;
     
     [Tab("SFX")]
     [SerializeField] private GameObject sfxObject = null;
@@ -60,7 +53,24 @@ public class PlayerInteraction : MonoBehaviour
 
     #region Fonctions
 
-   
+    private void Awake()
+    {
+        inputManager = GetComponent<InputManager>();
+
+        inputManager.interact.performed += OnInteraction;
+        
+        inputManager.leftClick.performed += OnLeftClick;
+        inputManager.leftClick.canceled += OnLeftClick;
+        
+        inputManager.ping.performed += OnPing;
+        inputManager.ping.canceled += OnPing;
+        
+        inputManager.ava.performed += OnAva;
+        inputManager.ava.canceled += OnAva;
+        
+        inputManager.shoot.performed += OnShoot;
+    }
+
 
     private void FixedUpdate()
     {
@@ -117,57 +127,57 @@ public class PlayerInteraction : MonoBehaviour
         
     }
     
-    public void OnInteractionPressed()
+    public void OnInteraction(InputAction.CallbackContext context)
     {
         RaycastMaker(interactionRange);
     }
     
-    public void OnLeftClickPressed()
+    public void OnLeftClick(InputAction.CallbackContext context)
     {
-        if(isMiningModeActive)
+        if (context.performed)
         {
-            if (sfxObject == null)
-            { 
-                SFXManager.instance.PlaySFX(laserSFX, transform, 0.5f, true);
-                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
+            if(isMiningModeActive)
+            {
+                isApplyingDamage = true;
+                RaycastMaker(interactionRange);
             }
-            
-            
-            isApplyingDamage = true;
-            RaycastMaker(interactionRange);
+        }
+        if(context.canceled)
+        {
+            Destroy(sfxObject);
+            isApplyingDamage = false;
         }
     }
-    public void OnLeftClickReleased()
+    public void OnPing(InputAction.CallbackContext context)
     {
-        Destroy(sfxObject);
-        isApplyingDamage = false;
-    }
-    public void OnPingPressed()
-    {
-        pingIsPressed = true;
-        playerMenuing.inMenu = true;
-        radialMenu.SetActive(true);
-    }
-
-    public void OnPingReleased()
-    {
-        pingIsPressed = false;
-        playerMenuing.inMenu = false;
-        radialMenu.SetActive(false);
+        if (context.performed)
+        {
+            pingIsPressed = true;
+            playerMenuing.inMenu = true;
+            radialMenu.SetActive(true);
+        }
+        else if(context.canceled)
+        {
+            pingIsPressed = false;
+            playerMenuing.inMenu = false;
+            radialMenu.SetActive(false);
+        }
     }
     
-    public void OnAvaPressed()
+    public void OnAva(InputAction.CallbackContext context)
     {
-        avaIsPressed = true;
-        ava.SetActive(true);
+        if (context.performed)
+        {
+            avaIsPressed = true;
+            ava.SetActive(true);
+        }
+        else if(context.canceled)
+        {
+            avaIsPressed = false;
+            ava.SetActive(false);
+        }
     }
-    public void OnAvaReleased()
-    {
-        avaIsPressed = false;
-        ava.SetActive(false);
-    }
-    
-    public void OnShootPressed()
+    public void OnShoot(InputAction.CallbackContext context)
     {
         if(avaIsPressed)
             Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);

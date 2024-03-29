@@ -10,31 +10,35 @@ using VInspector;
 public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
-
-    #region Variables
     
-    // Movements
+    InputManager inputManager;
+   
+    [Tab("States")]
+    [SerializeField] bool sprint = false;
+    [SerializeField] bool walk = false;
+    [SerializeField] bool isGrounded;
+    [SerializeField] bool jump;
+    [SerializeField] bool crouch;
+    
+    
     [Tab("Mouvements")]
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
-    bool sprint = false;
-    bool walk = false;
-
-    // Jump
+    
     [Tab("Saut")]
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] LayerMask groundMask;
+    [SerializeField] LayerMask obstacleMask;
     Vector3 verticalVelocity = Vector3.zero;
-    bool isGrounded;
-    bool jump;
     float halfHeight;
     
-    // Crouch
     [Tab("Crouch")]
     [SerializeField] Transform playerCamera;
-    private bool crouch;
+    [SerializeField] private float standingHeight;
+    [SerializeField] private float crouchHeight;
+    
     
     [Tab("SFX")]
     [SerializeField] private AudioClip jumpSFX;
@@ -42,19 +46,37 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip walkSFX;
     [SerializeField] private AudioClip runSFX;
     [SerializeField] private AudioClip crouchSFX;
-    [SerializeField] private GameObject sfxObject = null;
-    #endregion
+    [SerializeField] private AudioSource audioSource;
+    
+    
 
     #region Fonctions
 
-  
+    
+    private void Start()
+    {
+        inputManager = GetComponent<InputManager>();
+        
+        standingHeight = controller.height;
+        crouchHeight = standingHeight / 2;
+        
+        inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
+        inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
+        inputManager.deplacement.performed += Walk;
+        inputManager.deplacement.canceled += Walk;
+        inputManager.jump.performed += OnJumpPressed;
+        inputManager.run.performed += OnSprint;
+        inputManager.run.canceled += OnSprint;
+        inputManager.crouch.performed += OnCrouchPressed;
+    }
+
     private void Update()
     {
         //Jump
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask); // Sert à vérifir si le joueur touche le sol.
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask|obstacleMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -87,20 +109,6 @@ public class PlayerMovement : MonoBehaviour
         
         Vector3 horizontalVelocity = (moveDirection) * speed;
         controller.Move(horizontalVelocity * Time.deltaTime);
-
-        if (walk)
-        {
-            if(sfxObject == null)
-            {
-                SFXManager.instance.PlaySFX(walkSFX, transform, 0.5f, false);
-                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-            }
-        }
-        else
-        {
-            Destroy(sfxObject);
-        }
-        
         verticalVelocity.y += gravity * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
         
@@ -108,16 +116,18 @@ public class PlayerMovement : MonoBehaviour
         
         if (crouch)
         {
-            controller.height = 1f;
+            controller.height = crouchHeight;
             speed = 6f;
-            transform.localScale = new Vector3(1, 0.5f, 1);
+            playerCamera.localPosition = new Vector3(0, 0.5f, 0);
+            
             
         }
         if (!crouch)
         {
-            controller.height = 2f;
+            controller.height = standingHeight;
             speed = 12f;
-            transform.localScale = new Vector3(1, 1, 1);
+            playerCamera.localPosition = new Vector3(0, 0.8f, 0);
+            
         }
 
         if (!crouch)
@@ -132,29 +142,42 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    
+    public void Walk(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            /*audioSource.clip = walkSFX;
+            audioSource.loop = true;
+            audioSource.Play();*/
+        }
+        else if(context.canceled)
+        {
+          /* audioSource.Stop();
+           audioSource.loop = false;*/
+        }
+    }
+    public void OnJumpPressed(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+         jump = true;
+    }
+    
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            sprint = true;
+        }
+        else if(context.canceled)
+        {
+            sprint = false;
+        }
+    }
 
-    public void ReceiveInput (Vector2 _horizontalInput)
-    {
-        horizontalInput = _horizontalInput;
-        
-    }
     
-    public void OnJumpPressed()
-    {
-        jump = true;
-    }
     
-    public void OnSprintPressed()
-    {
-        sprint = true;
-    }
-
-    public void OnSprintReleased()
-    {
-        sprint = false;
-    }
-    
-    public void OnCrouchPressed()
+    public void OnCrouchPressed(InputAction.CallbackContext context)
     {
         if(crouch == false)
         {
@@ -165,14 +188,7 @@ public class PlayerMovement : MonoBehaviour
             crouch = false;
         }
     }
-
-    public void OnMovePressed()
-    {
-        if (walk == false)
-            walk = true;
-        else
-            walk = false;
-    }
+    
     
    
     #endregion
