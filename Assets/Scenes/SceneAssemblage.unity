@@ -8,8 +8,9 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 4bc23dde709d7784abe2dbe55a1e40e0
+  m_OcclusionCullingData: {fileID: 36300000, guid: 8e7a02cf33a9d1b4888e570467e56a4b,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -3640,6 +3641,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 9043149096432700346, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0, type: 3}
+--- !u!192 &1939459578
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939459570}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 5, z: 0}
+  m_IsViewVolume: 1
 --- !u!1001 &1956391535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4023,6 +4035,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: -2622693029754297583, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: -1855533830389090514, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
         type: 3}
       propertyPath: m_Layer
@@ -4033,6 +4050,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: -1855533830389090514, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: -567883683350728161, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
         type: 3}
       propertyPath: m_Layer
@@ -4042,11 +4064,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: -567883683350728161, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
         type: 3}
       propertyPath: m_Name
       value: Sliced_Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4056,6 +4088,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1939459574}
+    - targetCorrespondingSourceObject: {fileID: -2622693029754297583, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939459578}
     - targetCorrespondingSourceObject: {fileID: -1855533830389090514, guid: d6a0421fca9f2eb4fa6e293f3d0c59b0,
         type: 3}
       insertIndex: -1
