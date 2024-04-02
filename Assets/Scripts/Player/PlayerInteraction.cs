@@ -16,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     #region Variables
 
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
     
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
@@ -45,9 +45,13 @@ public class PlayerInteraction : MonoBehaviour
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip laserSFX;
     
+    [Tab("VFX")]
+    [SerializeField] private GameObject instantiatedLaserVFX;
+    [SerializeField] private GameObject laserVFX;
+    [SerializeField] private GameObject laserImpactVFX;
 
     #endregion
 
@@ -55,7 +59,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = GetComponent<InputManager>();
+        
 
         inputManager.interact.performed += OnInteraction;
         
@@ -139,12 +143,25 @@ public class PlayerInteraction : MonoBehaviour
             if(isMiningModeActive)
             {
                 isApplyingDamage = true;
+                laserVFX.SetActive(true);
+                audioSource.loop = true;
+                audioSource.clip = laserSFX;
+                audioSource.Play();
+                VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
+                effect.Play();
                 RaycastMaker(interactionRange);
+                
+                if(instantiatedLaserVFX == null)
+                    instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
+                else
+                    instantiatedLaserVFX.transform.position = itemHit.point;
             }
         }
         if(context.canceled)
         {
-            Destroy(sfxObject);
+            audioSource.Stop();
+            Destroy(instantiatedLaserVFX);
+            laserVFX.SetActive(false);
             isApplyingDamage = false;
         }
     }
@@ -196,6 +213,7 @@ public class PlayerInteraction : MonoBehaviour
         Physics.Raycast(ray, out RaycastHit hit, range);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
+        
         return hit;
     }
     

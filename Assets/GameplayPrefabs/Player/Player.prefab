@@ -676,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842a75ec40103f14baf0c4c02afb79cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
   sprint: 0
   walk: 0
   isGrounded: 0
@@ -728,6 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f73a27e52f2d94b954f9f1b189238f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 0}
   playerCamera: {fileID: 1314400097453793767}
   ava: {fileID: 0}
   mainCamera: {fileID: 1314400097453793767}
@@ -744,8 +746,11 @@ MonoBehaviour:
   darkMatterBullet: {fileID: 5282967020656324644, guid: 8acf1ebf6054ae64c9ffe1c7928b0ea2,
     type: 3}
   avaIsPressed: 0
-  sfxObject: {fileID: 0}
+  audioSource: {fileID: 0}
   laserSFX: {fileID: 8300000, guid: 4fb84c129e005954ca6e80a0fa581b67, type: 3}
+  instantiatedLaserVFX: {fileID: 0}
+  laserVFX: {fileID: 0}
+  laserImpactVFX: {fileID: 0}
 --- !u!114 &5258631492502487850
 MonoBehaviour:
   m_ObjectHideFlags: 0

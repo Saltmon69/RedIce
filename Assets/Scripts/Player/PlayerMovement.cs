@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
     
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
    
     [Tab("States")]
     [SerializeField] bool sprint = false;

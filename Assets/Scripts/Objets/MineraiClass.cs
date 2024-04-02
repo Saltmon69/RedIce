@@ -85,11 +85,7 @@ public class MineraiClass : MonoBehaviour
     
     public void DestroyGameObject()
     {
-        if (sfxObject == null)
-        {
-            SFXManager.instance.PlaySFX(mineraiDestroyedSFX, transform, 0.5f, false);
-            sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-        }
+        
         spawner.activeMinerai = null;
         Destroy(gameObject, 0.5f);
     }
