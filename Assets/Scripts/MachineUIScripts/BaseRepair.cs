@@ -24,12 +24,14 @@ public class BaseRepair : MonoBehaviour
         _playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>().inventory.transform.GetChild(0).GetChild(1).gameObject;
         _machineCost = this.gameObject.GetComponent<MachineCost>();
         _itemSprite = Resources.Load<GameObject>("MachineUI/ItemSprite");
+        Debug.Log(_itemSprite);
     }
     
     void Start()
     {
         for (var i = 0; i < _machineCost.buildingMaterialList.Count; i++)
         {
+            Debug.Log("yes");
             _thisItemSprite = Instantiate(_itemSprite, new Vector3(this.gameObject.transform.position.x + (i + 0.5f -_machineCost.buildingMaterialList.Count / 2) * 10, altitude, this.gameObject.transform.position.y), quaternion.identity, this.gameObject.transform.parent);
             _thisItemSprite.GetComponent<SpriteRenderer>().sprite = _machineCost.buildingMaterialList[i].sprite;
             itemSpriteList.Add(_thisItemSprite);
