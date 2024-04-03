@@ -36,10 +36,9 @@ public class PlayerManager : MonoBehaviour
     float maxTemperature;
     
     [Tab("State Machine")]
-    //Variables pour le syst Observateur
     [Tooltip("Liste des observateurs")]
     public List<IObserver> observers = new List<IObserver>();
-    [HideInInspector] public GameObject activePing;
+    public GameObject activePing;
     public Order activeOrder;
     
     [Tab("Barres Constantes")]
