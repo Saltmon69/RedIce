@@ -30,8 +30,9 @@ public class MineraiClass : MonoBehaviour
     float quantity = 0;
     
     [Tab("SFX")]
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip mineraiDestroyedSFX;
-    [SerializeField] private GameObject sfxObject = null;
+    
     
     #endregion
 
