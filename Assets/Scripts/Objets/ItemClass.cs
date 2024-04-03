@@ -22,7 +22,7 @@ public class ItemClass : ScriptableObject
     public float rendement;
     [Tooltip("L'objet est utilisable")]
     public bool isUsable; 
-    [Tooltip("La masse atomique de l'objet")]  
+    [Tooltip("La masse atomique de la ressource")]  
     public int atomicMass;
 }
 

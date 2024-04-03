@@ -148,10 +148,11 @@ public class MachineUIDisplay : MonoBehaviour
         LoadInventory();
         LoadPlayerInventory();
 
-        _machineCraftList = new List<Recipe>();
+
         _machineCraftingButtonList = new List<GameObject>();
         
         //assigne chaque tier de craft a la liste de craft
+        _machineCraftList = new List<Recipe>();
         foreach(var t in machineTier1CraftList) _machineCraftList.Add(t);
         foreach(var t in machineTier2CraftList) _machineCraftList.Add(t);
         foreach(var t in machineTier3CraftList) _machineCraftList.Add(t);

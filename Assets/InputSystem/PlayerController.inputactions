@@ -179,7 +179,7 @@
             "actions": [
                 {
                     "name": "Interaction",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "7247d07c-c653-4d50-bedc-f6326d0d28af",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -188,16 +188,16 @@
                 },
                 {
                     "name": "LeftClick",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "d4703103-add4-480b-bb74-578501e56788",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Ping",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "701ec9ad-1bfd-496f-8b42-483fc939a26a",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -206,7 +206,7 @@
                 },
                 {
                     "name": "AVA",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "b338dc93-fb47-436a-adc1-4192932eb15b",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -215,7 +215,7 @@
                 },
                 {
                     "name": "Shoot",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "cf9465b9-f33d-4824-8479-65d45c42f142",
                     "expectedControlType": "Button",
                     "processors": "",

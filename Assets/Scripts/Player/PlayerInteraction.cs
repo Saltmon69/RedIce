@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     #region Variables
 
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
     
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
@@ -32,7 +31,6 @@ public class PlayerInteraction : MonoBehaviour
     public bool isApplyingDamage = false;
     public float damage;
     public bool isMiningModeActive;
-    public VisualEffect vfxLaser;
     
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
@@ -46,9 +44,13 @@ public class PlayerInteraction : MonoBehaviour
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip laserSFX;
     
+    [Tab("VFX")]
+    [SerializeField] private GameObject instantiatedLaserVFX;
+    [SerializeField] private GameObject laserVFX;
+    [SerializeField] private GameObject laserImpactVFX;
 
     #endregion
 
@@ -56,7 +58,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = InputManager.instance;
+        
 
         inputManager.interact.performed += OnInteraction;
         
@@ -139,21 +141,27 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(isMiningModeActive)
             {
-                if (sfxObject == null)
-                { 
-                    SFXManager.instance.PlaySFX(laserSFX, transform, 0.5f, true);
-                    sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-                }
-                
-                
+                laserVFX.SetActive(true);
                 isApplyingDamage = true;
+                audioSource.loop = true;
+                audioSource.clip = laserSFX;
+                audioSource.Play();
+                VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
+                effect.Play();
                 RaycastMaker(interactionRange);
+                
+                if(instantiatedLaserVFX == null)
+                    instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
+                else
+                    instantiatedLaserVFX.transform.position = itemHit.point;
             }
         }
         if(context.canceled)
         {
-            Destroy(sfxObject);
             isApplyingDamage = false;
+            audioSource.Stop();
+            Destroy(instantiatedLaserVFX);
+            laserVFX.SetActive(false);
         }
     }
     public void OnPing(InputAction.CallbackContext context)
@@ -204,6 +212,7 @@ public class PlayerInteraction : MonoBehaviour
         Physics.Raycast(ray, out RaycastHit hit, range);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
+        
         return hit;
     }
     

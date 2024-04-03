@@ -43,9 +43,7 @@ public class InputManager : MonoBehaviour
     
     // Variables du New Input System
     PlayerController playerController;
-    PlayerController.PlayerMovementActions playerHorizontalMovement;
-    PlayerController.InteractActions playerInteractionActions;
-    PlayerController.MenuingActions playerMenuingActions;
+    
     
     
     
@@ -64,7 +62,6 @@ public class InputManager : MonoBehaviour
         }
         
         playerController = new PlayerController();
-        
         
         InitDeplacement();
         InitInteractions();
