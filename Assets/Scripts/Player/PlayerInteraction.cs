@@ -103,7 +103,6 @@ public class PlayerInteraction : MonoBehaviour
         }
         if (itemHit.collider != null)
         {
-            
             switch (itemHit.collider.tag)
             {
                 case "MineraiCrit":
@@ -122,9 +121,6 @@ public class PlayerInteraction : MonoBehaviour
                     break;
             }
         }
-        
-        
-        
     }
     
     public void OnInteraction(InputAction.CallbackContext context)
@@ -143,8 +139,6 @@ public class PlayerInteraction : MonoBehaviour
                 audioSource.loop = true;
                 audioSource.clip = laserSFX;
                 audioSource.Play();
-                VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
-                
             }
         }
         if(context.canceled)
@@ -202,7 +196,6 @@ public class PlayerInteraction : MonoBehaviour
         Physics.Raycast(ray, out RaycastHit hit, range);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
-        
         return hit;
     }
     

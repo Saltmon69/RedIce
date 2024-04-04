@@ -73,6 +73,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 6611217804662568823, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_Carve
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: darkMatter
@@ -87,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: ressources.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
@@ -106,6 +111,12 @@ PrefabInstance:
       propertyPath: ressources.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 5b39a732016e21f49bf51c65dd88afc2,
+        type: 2}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: ressources.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5591f70b6a50b234bae86b3199a32d19,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
