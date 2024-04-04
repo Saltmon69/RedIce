@@ -147,14 +147,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            /*audioSource.clip = walkSFX;
+            walk = true;
+            audioSource.clip = walkSFX;
             audioSource.loop = true;
-            audioSource.Play();*/
+            audioSource.Play();
         }
         else if(context.canceled)
         {
-          /* audioSource.Stop();
-           audioSource.loop = false;*/
+            walk = false;
+           audioSource.Stop();
+           audioSource.loop = false;
         }
     }
     public void OnJumpPressed(InputAction.CallbackContext context)

@@ -36,10 +36,9 @@ public class PlayerManager : MonoBehaviour
     float maxTemperature;
     
     [Tab("State Machine")]
-    //Variables pour le syst Observateur
     [Tooltip("Liste des observateurs")]
     public List<IObserver> observers = new List<IObserver>();
-    [HideInInspector] public GameObject activePing;
+    public GameObject activePing;
     public Order activeOrder;
     
     [Tab("Barres Constantes")]
@@ -50,10 +49,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Image oxygenBar;
     [Tooltip("Barre de radiation")]
     [SerializeField] private Image radiationBar;
-    [Tooltip("Barre de pression")]
-    [SerializeField] private Image pressureBar;
-    [Tooltip("Barre de température")]
-    [SerializeField] private Image temperatureBar;
+    
     
     
     private void Awake()
@@ -110,8 +106,6 @@ public class PlayerManager : MonoBehaviour
         healthBar.fillAmount = (float) playerHealth / playerMaxHealth;
         oxygenBar.fillAmount = (float) oxygen / maxOxygen;
         radiationBar.fillAmount = (float) radiation / maxRadiation;
-        pressureBar.fillAmount = (float) pressure / maxPressure;
-        temperatureBar.fillAmount = temperature / maxTemperature;
     }
     
     public void TakeDamage(float damage, ZoneType zone)
@@ -119,10 +113,10 @@ public class PlayerManager : MonoBehaviour
         switch (zone)
         {
             case ZoneType.Hot:
-                temperature += damage;
+                playerHealth -= (int)damage;
                 break;
             case ZoneType.Cold:
-                temperature -= damage;
+                playerHealth -= (int)damage;
                 break;
             case ZoneType.Pressure:
                 pressure += (int)damage;

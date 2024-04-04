@@ -31,7 +31,6 @@ public class PlayerInteraction : MonoBehaviour
     public bool isApplyingDamage = false;
     public float damage;
     public bool isMiningModeActive;
-    public VisualEffect vfxLaser;
     
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
@@ -142,8 +141,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(isMiningModeActive)
             {
-                isApplyingDamage = true;
                 laserVFX.SetActive(true);
+                isApplyingDamage = true;
                 audioSource.loop = true;
                 audioSource.clip = laserSFX;
                 audioSource.Play();
@@ -159,10 +158,10 @@ public class PlayerInteraction : MonoBehaviour
         }
         if(context.canceled)
         {
+            isApplyingDamage = false;
             audioSource.Stop();
             Destroy(instantiatedLaserVFX);
             laserVFX.SetActive(false);
-            isApplyingDamage = false;
         }
     }
     public void OnPing(InputAction.CallbackContext context)
