@@ -104,6 +104,7 @@ public class PlayerMenuing : MonoBehaviour
         //Time.timeScale = 0;
             
         inputManager.DisableDeplacement();
+        playerMouseLook.enabled = false;
         
         if (!playerInteraction.pingIsPressed)
         {
@@ -120,7 +121,25 @@ public class PlayerMenuing : MonoBehaviour
         
         inputManager.EnableDeplacement();
         inputManager.EnableInteractions();
+        playerMouseLook.enabled = true;
+        
         ATH.SetActive(true);
         mainMenu.SetActive(false);
+    }
+
+    public void Map()
+    {
+        inMenu = true;
+        map.SetActive(true);
+        mainMenu.SetActive(false);
+        inventory.SetActive(false);
+    }
+
+    public void Inventory()
+    {
+        inMenu = true;
+        inventory.SetActive(true);
+        mainMenu.SetActive(false);
+        map.SetActive(false);
     }
 }
