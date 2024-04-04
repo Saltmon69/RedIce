@@ -77,57 +77,50 @@ public class PlayerInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isMiningModeActive)
+        if (isApplyingDamage)
         {
-            if (itemHit.collider != null)
-            {
-                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
-                {
-                    if(mineraiClass == null)
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-                        else
-                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-                    else
-                    {
-                        if (isApplyingDamage)
-                        {
-                            switch (itemHit.collider.tag)
-                            {
-                                case"MineraiCrit":
-                                    mineraiClass.critMultiplicator = 2;
-                                    mineraiClass.takeDamage(damage);
-                                    Destroy(itemHit.collider.gameObject);
-                                    break;
-                                case"Minerai":
-                                    mineraiClass.critMultiplicator = 1;
-                                    mineraiClass.takeDamage(damage);
-                                    break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    isApplyingDamage = false;
-                }
-            }
+            VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
+            RaycastMaker(interactionRange);
+            effect.Play();
+            if(instantiatedLaserVFX == null)
+                instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
+            else
+                instantiatedLaserVFX.transform.position = itemHit.point;
         }
         else
         {
-            if (itemHit.collider != null)
-            {
-                if (itemHit.collider.CompareTag("EON"))
-                {
-                    itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
-                    if (Input.GetKeyDown(KeyCode.Escape))
-                    {
-                        itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
-                    }
-                }
-            }
+            if(instantiatedLaserVFX != null)
+                Destroy(instantiatedLaserVFX);
         }
         
+        if (mineraiClass != null)
+        {
+            if (mineraiClass.mineraiLife <= 0)
+            {
+                isApplyingDamage = false;
+                mineraiClass = null;
+            }
+        }
+        if (itemHit.collider != null)
+        {
+            switch (itemHit.collider.tag)
+            {
+                case "MineraiCrit":
+                    if (mineraiClass != itemHit.collider.GetComponentInParent<MineraiClass>())
+                        mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                    mineraiClass.critMultiplicator = 2;
+                    mineraiClass.takeDamage(damage);
+                    mineraiClass.critPoints.Remove(itemHit.collider.gameObject);
+                    Destroy(itemHit.collider.gameObject);
+                    break;
+                case "Minerai":
+                    if(mineraiClass != itemHit.collider.GetComponent<MineraiClass>())
+                        mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                    mineraiClass.critMultiplicator = 1;
+                    mineraiClass.takeDamage(damage);
+                    break;
+            }
+        }
     }
     
     public void OnInteraction(InputAction.CallbackContext context)
@@ -146,21 +139,12 @@ public class PlayerInteraction : MonoBehaviour
                 audioSource.loop = true;
                 audioSource.clip = laserSFX;
                 audioSource.Play();
-                VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
-                effect.Play();
-                RaycastMaker(interactionRange);
-                
-                if(instantiatedLaserVFX == null)
-                    instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
-                else
-                    instantiatedLaserVFX.transform.position = itemHit.point;
             }
         }
         if(context.canceled)
         {
             isApplyingDamage = false;
             audioSource.Stop();
-            Destroy(instantiatedLaserVFX);
             laserVFX.SetActive(false);
         }
     }
@@ -212,7 +196,6 @@ public class PlayerInteraction : MonoBehaviour
         Physics.Raycast(ray, out RaycastHit hit, range);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
-        
         return hit;
     }
     
