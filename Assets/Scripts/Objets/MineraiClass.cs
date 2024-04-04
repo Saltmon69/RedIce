@@ -28,6 +28,7 @@ public class MineraiClass : MonoBehaviour
     public float mineraiLife;
     public int critMultiplicator = 1;
     float quantity = 0;
+    public List<GameObject> critPoints = new List<GameObject>();
     
     [Tab("SFX")]
     [SerializeField] private AudioSource audioSource;
@@ -129,7 +130,7 @@ public class MineraiClass : MonoBehaviour
         for (int i = 0; i < critPointNumber; i++)
         {
             Vector3 selectedVertices = mineraiVertices[Random.Range(0, mineraiVertices.Length)];
-            Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform);
+            critPoints.Add(Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform));
         }
     }
     
