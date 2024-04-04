@@ -99,8 +99,8 @@ public class InputManager : MonoBehaviour
         inventory = playerController.Menuing.Inventory;
         map = playerController.Menuing.Map;
     }
-    
-    private void EnableDeplacement()
+
+    public void EnableDeplacement()
     {
         deplacement.Enable();
         jump.Enable();
@@ -109,8 +109,8 @@ public class InputManager : MonoBehaviour
         mousex.Enable();
         mousey.Enable();
     }
-    
-    private void EnableInteractions()
+
+    public void EnableInteractions()
     {
         interact.Enable();
         leftClick.Enable();
@@ -126,8 +126,8 @@ public class InputManager : MonoBehaviour
         inventory.Enable();
         map.Enable();
     }
-    
-    private void DisableDeplacement()
+
+    public void DisableDeplacement()
     {
         deplacement.Disable();
         jump.Disable();
@@ -136,8 +136,8 @@ public class InputManager : MonoBehaviour
         mousex.Disable();
         mousey.Disable();
     }
-    
-    private void DisableInteractions()
+
+    public void DisableInteractions()
     {
         interact.Disable();
         leftClick.Disable();

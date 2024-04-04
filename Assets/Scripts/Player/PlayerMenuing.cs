@@ -103,11 +103,11 @@ public class PlayerMenuing : MonoBehaviour
         Cursor.visible = true;
         //Time.timeScale = 0;
             
-        playerMovement.enabled = false;
-        playerMouseLook.enabled = false;
+        inputManager.DisableDeplacement();
+        
         if (!playerInteraction.pingIsPressed)
         {
-            playerInteraction.enabled = false;
+            inputManager.DisableInteractions();
             ATH.SetActive(false);
         }
     }
@@ -118,9 +118,8 @@ public class PlayerMenuing : MonoBehaviour
         Cursor.visible = false;
         //Time.timeScale = 1;
         
-        playerMovement.enabled = true;
-        playerMouseLook.enabled = true;
-        playerInteraction.enabled = true;
+        inputManager.EnableDeplacement();
+        inputManager.EnableInteractions();
         ATH.SetActive(true);
         mainMenu.SetActive(false);
     }
