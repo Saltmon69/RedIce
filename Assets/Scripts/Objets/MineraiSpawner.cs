@@ -27,7 +27,7 @@ public class MineraiSpawner : MonoBehaviour
             }
             else
             {
-                activeMinerai = Instantiate(minerai, transform.position, transform.rotation);
+                activeMinerai = Instantiate(minerai, transform.position, transform.rotation, gameObject.transform);
                 timer = 0;
             }
         }
