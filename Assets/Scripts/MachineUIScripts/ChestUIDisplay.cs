@@ -29,6 +29,7 @@ public class ChestUIDisplay : MonoBehaviour
     private bool _upgradeItemIsSaved;
 
     private GameObject _chestGameObjectSelected;
+    private bool _gotOpen;
 
     public void ActivateUIDisplay()
     {
@@ -42,7 +43,7 @@ public class ChestUIDisplay : MonoBehaviour
         
         _hasItemInUpgradeSlot = false;
         
-        LoadChestInventory();
+        if(_gotOpen) LoadChestInventory();
         LoadPlayerInventory();
         LoadUpgradeSlot();
         StartCoroutine(UpgradeCheck());
@@ -182,6 +183,7 @@ public class ChestUIDisplay : MonoBehaviour
         SavePlayerInventory();
         SaveChestInventory();
         StopAllCoroutines();
+        _gotOpen = true;
         Destroy(_thisChestUIDisplay);
     }
 }
