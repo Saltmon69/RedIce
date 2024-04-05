@@ -425,7 +425,7 @@ PrefabInstance:
         type: 3}
       propertyPath: objectModel
       value: 
-      objectReference: {fileID: 923194591}
+      objectReference: {fileID: 1798421685}
     - target: {fileID: 1538770428896879160, guid: 292b8c7392b8b014ba831839919bc4d7,
         type: 3}
       propertyPath: modeSelectedUI
@@ -1504,12 +1504,6 @@ MonoBehaviour:
   displayOffset: {x: 0, y: 0, z: 0}
   inputRecipeList: []
   outputRecipeList: []
---- !u!1 &923194591 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6145196428884594907, guid: 768611c461c9b8e45b904463325d7581,
-    type: 3}
-  m_PrefabInstance: {fileID: 1212966383}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1034739276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3874676540419351229, guid: 292b8c7392b8b014ba831839919bc4d7,
@@ -3984,6 +3978,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6918351882738838780, guid: 768611c461c9b8e45b904463325d7581,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7117418156004916260, guid: 768611c461c9b8e45b904463325d7581,
         type: 3}
       propertyPath: healthBar
@@ -4967,6 +4966,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 388211860927710160, guid: 1256acb3dede1e0438a4da0376b6d8b7,
     type: 3}
   m_PrefabInstance: {fileID: 1083640474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1798421685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6918351882738838780, guid: 768611c461c9b8e45b904463325d7581,
+    type: 3}
+  m_PrefabInstance: {fileID: 1212966383}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1814978176
 PrefabInstance:
