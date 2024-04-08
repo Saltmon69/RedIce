@@ -28,10 +28,12 @@ public class MineraiClass : MonoBehaviour
     public float mineraiLife;
     public int critMultiplicator = 1;
     float quantity = 0;
+    public List<GameObject> critPoints = new List<GameObject>();
     
     [Tab("SFX")]
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip mineraiDestroyedSFX;
-    [SerializeField] private GameObject sfxObject = null;
+    
     
     #endregion
 
@@ -85,11 +87,7 @@ public class MineraiClass : MonoBehaviour
     
     public void DestroyGameObject()
     {
-        if (sfxObject == null)
-        {
-            SFXManager.instance.PlaySFX(mineraiDestroyedSFX, transform, 0.5f, false);
-            sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-        }
+        
         spawner.activeMinerai = null;
         Destroy(gameObject, 0.5f);
     }
@@ -132,7 +130,7 @@ public class MineraiClass : MonoBehaviour
         for (int i = 0; i < critPointNumber; i++)
         {
             Vector3 selectedVertices = mineraiVertices[Random.Range(0, mineraiVertices.Length)];
-            Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform);
+            critPoints.Add(Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform));
         }
     }
     

@@ -30,7 +30,7 @@ public class PlayerMenuing : MonoBehaviour
     // Évite un potentiel oubli d'activation lors des tests et builds.
     private void Start()
     {
-        inputManager = InputManager.instance;
+        inputManager = GetComponent<InputManager>();
         
         inMenu = false;
         mainMenu.SetActive(false);
@@ -101,13 +101,14 @@ public class PlayerMenuing : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
             
-        playerMovement.enabled = false;
+        inputManager.DisableDeplacement();
         playerMouseLook.enabled = false;
+        
         if (!playerInteraction.pingIsPressed)
         {
-            playerInteraction.enabled = false;
+            inputManager.DisableInteractions();
             ATH.SetActive(false);
         }
     }
@@ -116,12 +117,29 @@ public class PlayerMenuing : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         
-        playerMovement.enabled = true;
+        inputManager.EnableDeplacement();
+        inputManager.EnableInteractions();
         playerMouseLook.enabled = true;
-        playerInteraction.enabled = true;
+        
         ATH.SetActive(true);
         mainMenu.SetActive(false);
+    }
+
+    public void Map()
+    {
+        inMenu = true;
+        map.SetActive(true);
+        mainMenu.SetActive(false);
+        inventory.SetActive(false);
+    }
+
+    public void Inventory()
+    {
+        inMenu = true;
+        inventory.SetActive(true);
+        mainMenu.SetActive(false);
+        map.SetActive(false);
     }
 }

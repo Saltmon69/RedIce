@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     #region Variables
 
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
     
     [Tab("Références")]
     [SerializeField] Camera playerCamera;
@@ -32,7 +31,6 @@ public class PlayerInteraction : MonoBehaviour
     public bool isApplyingDamage = false;
     public float damage;
     public bool isMiningModeActive;
-    public VisualEffect vfxLaser;
     
     [Tab("Raycast")]
     [SerializeField] float interactionRange;
@@ -46,9 +44,13 @@ public class PlayerInteraction : MonoBehaviour
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip laserSFX;
     
+    [Tab("VFX")]
+    [SerializeField] private GameObject instantiatedLaserVFX;
+    [SerializeField] private GameObject laserVFX;
+    [SerializeField] private GameObject laserImpactVFX;
 
     #endregion
 
@@ -56,7 +58,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        inputManager = InputManager.instance;
+        
 
         inputManager.interact.performed += OnInteraction;
         
@@ -75,57 +77,50 @@ public class PlayerInteraction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isMiningModeActive)
+        if (isApplyingDamage)
         {
-            if (itemHit.collider != null)
-            {
-                if (itemHit.collider.CompareTag("Minerai") || itemHit.collider.CompareTag("MineraiCrit"))
-                {
-                    if(mineraiClass == null)
-                        if (itemHit.collider.CompareTag("MineraiCrit"))
-                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-                        else
-                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-                    else
-                    {
-                        if (isApplyingDamage)
-                        {
-                            switch (itemHit.collider.tag)
-                            {
-                                case"MineraiCrit":
-                                    mineraiClass.critMultiplicator = 2;
-                                    mineraiClass.takeDamage(damage);
-                                    Destroy(itemHit.collider.gameObject);
-                                    break;
-                                case"Minerai":
-                                    mineraiClass.critMultiplicator = 1;
-                                    mineraiClass.takeDamage(damage);
-                                    break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    isApplyingDamage = false;
-                }
-            }
+            VisualEffect effect = laserImpactVFX.GetComponent<VisualEffect>();
+            RaycastMaker(interactionRange);
+            effect.Play();
+            if(instantiatedLaserVFX == null)
+                instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
+            else
+                instantiatedLaserVFX.transform.position = itemHit.point;
         }
         else
         {
-            if (itemHit.collider != null)
-            {
-                if (itemHit.collider.CompareTag("EON"))
-                {
-                    itemHit.collider.GetComponent<ChestUIDisplay>().ActivateUIDisplay();
-                    if (Input.GetKeyDown(KeyCode.Escape))
-                    {
-                        itemHit.collider.GetComponent<ChestUIDisplay>().DeactivateUIDisplay();
-                    }
-                }
-            }
+            if(instantiatedLaserVFX != null)
+                Destroy(instantiatedLaserVFX);
         }
         
+        if (mineraiClass != null)
+        {
+            if (mineraiClass.mineraiLife <= 0)
+            {
+                isApplyingDamage = false;
+                mineraiClass = null;
+            }
+        }
+        if (itemHit.collider != null)
+        {
+            switch (itemHit.collider.tag)
+            {
+                case "MineraiCrit":
+                    if (mineraiClass != itemHit.collider.GetComponentInParent<MineraiClass>())
+                        mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                    mineraiClass.critMultiplicator = 2;
+                    mineraiClass.takeDamage(damage);
+                    mineraiClass.critPoints.Remove(itemHit.collider.gameObject);
+                    Destroy(itemHit.collider.gameObject);
+                    break;
+                case "Minerai":
+                    if(mineraiClass != itemHit.collider.GetComponent<MineraiClass>())
+                        mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                    mineraiClass.critMultiplicator = 1;
+                    mineraiClass.takeDamage(damage);
+                    break;
+            }
+        }
     }
     
     public void OnInteraction(InputAction.CallbackContext context)
@@ -139,21 +134,18 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(isMiningModeActive)
             {
-                if (sfxObject == null)
-                { 
-                    SFXManager.instance.PlaySFX(laserSFX, transform, 0.5f, true);
-                    sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-                }
-                
-                
+                laserVFX.SetActive(true);
                 isApplyingDamage = true;
-                RaycastMaker(interactionRange);
+                audioSource.loop = true;
+                audioSource.clip = laserSFX;
+                audioSource.Play();
             }
         }
         if(context.canceled)
         {
-            Destroy(sfxObject);
             isApplyingDamage = false;
+            audioSource.Stop();
+            laserVFX.SetActive(false);
         }
     }
     public void OnPing(InputAction.CallbackContext context)

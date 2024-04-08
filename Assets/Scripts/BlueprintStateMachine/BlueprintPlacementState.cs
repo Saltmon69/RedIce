@@ -60,8 +60,8 @@ public class BlueprintPlacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à construire
         if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
         {
+            GameObject.DestroyImmediate(_machineToPlace);
             blueprint.SwitchState(blueprint.buildingState);
-            GameObject.Destroy(_machineToPlace);
         }
     }
     

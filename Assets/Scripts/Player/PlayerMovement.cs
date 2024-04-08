@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #pragma warning disable 0649
     
-    InputManager inputManager;
+    [SerializeField] InputManager inputManager;
    
     [Tab("States")]
     [SerializeField] bool sprint = false;
@@ -46,7 +46,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip walkSFX;
     [SerializeField] private AudioClip runSFX;
     [SerializeField] private AudioClip crouchSFX;
-    [SerializeField] private GameObject sfxObject = null;
+    [SerializeField] private AudioSource audioSource;
+    
     
 
     #region Fonctions
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Start()
     {
-        inputManager = InputManager.instance;
+        inputManager = GetComponent<InputManager>();
         
         standingHeight = controller.height;
         crouchHeight = standingHeight / 2;
@@ -75,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckSphere(bottomPoint, 1f, groundMask|obstacleMask);
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask|obstacleMask);
         
         if (isGrounded && verticalVelocity.y < 0)
         {
@@ -89,6 +90,15 @@ public class PlayerMovement : MonoBehaviour
                 verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
             jump = false;
+        }
+
+        if (walk)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource.Stop();
         }
         
         //Caméra
@@ -146,15 +156,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            if(sfxObject == null)
-            {
-                SFXManager.instance.PlaySFX(walkSFX, transform, 0.5f, false);
-                sfxObject = SFXManager.instance.InstantiatedSFXObject.gameObject;
-            }
+            walk = true;
+            audioSource.clip = walkSFX;
+            audioSource.loop = true;
         }
         else if(context.canceled)
-        {
-            Destroy(sfxObject);
+        { 
+            walk = false;
+            audioSource.loop = false;
         }
     }
     public void OnJumpPressed(InputAction.CallbackContext context)

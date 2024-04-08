@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class PingBehaviour : MonoBehaviour
 {
-    private void Start()
+    private NavMeshSurface navMeshSurface;
+    private EONStateMachine stateMachine;
+    
+    private void OnTriggerEnter(Collider other)
     {
-        Canvas canvas = gameObject.GetComponentInChildren<Canvas>();
-        canvas.worldCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-    }
-
-    void Update()
-    {
-        gameObject.transform.LookAt(GameObject.Find("Player").transform.position);
+        navMeshSurface = other.GetComponent<NavMeshSurface>();
+        stateMachine = FindObjectOfType<EONStateMachine>();
+        stateMachine.navMeshSurface = navMeshSurface;
+        navMeshSurface.BuildNavMesh();
     }
 }
