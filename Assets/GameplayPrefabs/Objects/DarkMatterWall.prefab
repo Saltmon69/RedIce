@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2038799250250758347}
   - component: {fileID: 7330907198953750578}
   - component: {fileID: 8384533579150309309}
+  - component: {fileID: 8349379242484401968}
   m_Layer: 0
   m_Name: DarkMatterWall
   m_TagString: DarkMatterObject
@@ -118,7 +119,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107fbeb487e86234a84f6c9fc87410a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  darkMatterMaterial: {fileID: 2100000, guid: 7f6a938805060294a959b209e39d1e5e, type: 2}
+  darkMatterMaterial: {fileID: -876546973899608171, guid: 8074b0d44ad5b67418d1593da654e55a,
+    type: 3}
   defaultMaterial: {fileID: 2100000, guid: 5f0d267ad2b97904ba9961e1e7298971, type: 2}
   darkMatterType: 0
   darkMatterState: 1
+  playerInteraction: {fileID: 0}
+--- !u!208 &8349379242484401968
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148793369399472701}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

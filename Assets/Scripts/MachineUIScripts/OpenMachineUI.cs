@@ -105,9 +105,8 @@ public class OpenMachineUI : MonoBehaviour
                 if(_hasHitMachine)
                 {
                     _isUIUp = true;
-                    _playerMenuing.enabled = true;
                     _playerMenuing.InMenu();
-                    _playerMenuing.enabled = false;
+                    _playerMenuing.inMenu = true;
                     if(_hasHitMachine) Time.timeScale = 1;
                     modeSelection.canPlayerSwitchMode = false;
                 }

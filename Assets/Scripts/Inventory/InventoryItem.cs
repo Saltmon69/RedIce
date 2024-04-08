@@ -18,6 +18,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private InventoryManager inventoryManager;
     
+    
     [Space(10)]
     
     [Header("UI")] 
@@ -68,6 +69,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.raycastTarget = false;
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
+        
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -80,8 +82,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         image.raycastTarget = true;
         
-        var itemInSlot = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryItem>();
-
+        InventoryItem itemInSlot = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryItem>();
        
         if (itemInSlot != null)  // On vérifie que l'objet est bien lâché sur un slot et par conséquent si le slot contient un objet. Cela permet d'éviter un placement random sur l'UI.
         {
@@ -102,6 +103,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                     RefreshCount();
                 }
             }
+        }
+        else
+        {
+            transform.SetParent(parentAfterDrag);
+            transform.position = parentAfterDrag.position;
         }
         
         // Permet de remettre l'objet là où il était avant le drag

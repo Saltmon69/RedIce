@@ -15,7 +15,10 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
     [Tooltip("L'objet Player")]
     public GameObject player;
-
+    [Tooltip("Liste des observateurs")]
+    public List<IObserver> observers = new List<IObserver>();
+    public GameObject activePing;
+    public Order activeOrder;
     
     //Variables de valeurs
     [Tab("Constantes")]
@@ -34,12 +37,6 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Température du joueur")]
     public float temperature;
     float maxTemperature;
-    
-    [Tab("State Machine")]
-    [Tooltip("Liste des observateurs")]
-    public List<IObserver> observers = new List<IObserver>();
-    public GameObject activePing;
-    public Order activeOrder;
     
     [Tab("Barres Constantes")]
     //Variables pour l'UI

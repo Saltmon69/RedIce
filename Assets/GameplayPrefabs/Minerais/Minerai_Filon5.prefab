@@ -73,12 +73,23 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 6611217804662568823, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_Carve
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: darkMatter
       value: 
       objectReference: {fileID: 11400000, guid: 98922baa20e47744d87a62d3b84cd476,
         type: 2}
+    - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: critGameObject
+      value: 
+      objectReference: {fileID: 6017107049336794476, guid: 0d279feed86ca74479e96d8965857190,
+        type: 3}
     - target: {fileID: 6749711141435770705, guid: d272bc52f532a3241a340ba57c3cf21e,
         type: 3}
       propertyPath: mineraiDestroyedSFX
@@ -95,6 +106,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c4d99b69cb3ebe34793483c7ab97e811,
         type: 2}
+    - target: {fileID: 7589248309974998962, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589248309974998962, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589248309974998962, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9154215279198366609, guid: d272bc52f532a3241a340ba57c3cf21e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ba192cfe5ee4976468ef4f543435ced4,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

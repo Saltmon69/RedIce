@@ -91,6 +91,15 @@ public class PlayerMovement : MonoBehaviour
             }
             jump = false;
         }
+
+        if (walk)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource.Stop();
+        }
         
         //Caméra
         
@@ -150,13 +159,11 @@ public class PlayerMovement : MonoBehaviour
             walk = true;
             audioSource.clip = walkSFX;
             audioSource.loop = true;
-            audioSource.Play();
         }
         else if(context.canceled)
-        {
+        { 
             walk = false;
-           audioSource.Stop();
-           audioSource.loop = false;
+            audioSource.loop = false;
         }
     }
     public void OnJumpPressed(InputAction.CallbackContext context)

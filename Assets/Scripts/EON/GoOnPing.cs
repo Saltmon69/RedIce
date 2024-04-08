@@ -19,7 +19,6 @@ public class GoOnPing : IState, IObserver
     public void OnEnter(EONStateMachine stateMachine)
     {
         stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
-        stateMachine.navMeshSurface.BuildNavMesh();
         if (ping == null)
         {
             ping = stateMachine.subject.GetComponent<PlayerManager>().activePing;
