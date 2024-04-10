@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2602,6 +2602,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Inventory
       objectReference: {fileID: 0}
+    - target: {fileID: 408100107339418430, guid: 1256acb3dede1e0438a4da0376b6d8b7,
+        type: 3}
+      propertyPath: objectModel
+      value: 
+      objectReference: {fileID: 371795919}
     - target: {fileID: 410150085038382047, guid: 1256acb3dede1e0438a4da0376b6d8b7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3997,6 +4002,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5331197953506208503, guid: 1256acb3dede1e0438a4da0376b6d8b7,
+        type: 3}
+      propertyPath: objectModel
+      value: 
+      objectReference: {fileID: 1106442176}
     - target: {fileID: 5331510132765780116, guid: 1256acb3dede1e0438a4da0376b6d8b7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4907,6 +4917,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 9109406977365950627, guid: 1256acb3dede1e0438a4da0376b6d8b7,
+        type: 3}
+      propertyPath: objectModel
+      value: 
+      objectReference: {fileID: 1286528384}
     m_RemovedComponents:
     - {fileID: 7316440088240887056, guid: 1256acb3dede1e0438a4da0376b6d8b7, type: 3}
     m_RemovedGameObjects:

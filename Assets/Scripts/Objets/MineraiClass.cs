@@ -21,6 +21,7 @@ public class MineraiClass : MonoBehaviour
     private PlayerInteraction playerInteraction;
     private Vector3[] mineraiVertices;
     [SerializeField] private MineraiSpawner spawner;
+    [SerializeField] private MeshRandomSlicer meshRandomSlicer;
     
     
 
@@ -87,7 +88,7 @@ public class MineraiClass : MonoBehaviour
     
     public void DestroyGameObject()
     {
-        
+        meshRandomSlicer.DestroyMesh();
         spawner.activeMinerai = null;
         Destroy(gameObject, 0.5f);
     }
