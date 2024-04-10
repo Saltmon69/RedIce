@@ -13,7 +13,7 @@ public class PlayerModeSelect : MonoBehaviour
     public float time;
     public CanvasGroup canvasGroupMode; 
         
-    public Slider modeSelectedUI;
+    public GameObject modeSelectedUI;
 
     public List<GameObject> modeList;
 
@@ -48,7 +48,13 @@ public class PlayerModeSelect : MonoBehaviour
             StartCoroutine(UICanvasAlpha(wait));
             
             oldSelectedMod = modeSelected;
-            modeSelectedUI.value = (float)modeSelected / 2;
+
+            for (var i = 0; i < modeSelectedUI.transform.childCount; i++)
+            {
+                modeSelectedUI.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            
+            modeSelectedUI.transform.GetChild(modeSelected).gameObject.SetActive(true);;
         }
         else
         {
