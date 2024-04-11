@@ -136,8 +136,8 @@ public class PlayerInteraction : MonoBehaviour
             {
                 laserVFX.SetActive(true);
                 isApplyingDamage = true;
-                audioSource.loop = true;
                 audioSource.clip = laserSFX;
+                audioSource.loop = true;
                 audioSource.Play();
             }
         }
