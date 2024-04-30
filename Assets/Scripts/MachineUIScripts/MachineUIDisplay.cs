@@ -498,11 +498,13 @@ public class MachineUIDisplay : MonoBehaviour
         if(!_isInPreview)
         {
             _isInPreview = true;
+            _upgradePreviewButtonUI.transform.GetChild(0).gameObject.SetActive(true);
             SetCraftingButtonToMachineTier(_machineUpgradeTier + 1);
         }
         else
         {
             _isInPreview = false;
+            _upgradePreviewButtonUI.transform.GetChild(0).gameObject.SetActive(false);
             SetCraftingButtonToMachineTier(_machineUpgradeTier);
             
             if(_usedRecipeIndex != -1) SetRecipeOnClick(_usedRecipeIndex, true);
