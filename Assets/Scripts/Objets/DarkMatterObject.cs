@@ -36,11 +36,13 @@ public class DarkMatterObject : MonoBehaviour
             {
                 meshRenderer.material = darkMatterMaterial;
                 boxCollider.isTrigger = true;
+                gameObject.layer = 0;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
                 boxCollider.isTrigger = false;
+                gameObject.layer = 7;
             }
         }
         if (darkMatterType == DarkMatterType.Platform)
@@ -48,12 +50,14 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
+                gameObject.layer = 0;
                 boxCollider.isTrigger = true;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
                 boxCollider.isTrigger = false;
+                gameObject.layer = 3;
             }
         }
         

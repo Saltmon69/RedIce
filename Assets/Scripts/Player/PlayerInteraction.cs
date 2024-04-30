@@ -41,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     
     [Tab("Lunette AVA")]
     [SerializeField] GameObject darkMatterBullet;
+    [SerializeField] PlayerModeSelect playerModeSelect;
     public bool avaIsPressed;
     
     [Tab("SFX")]
@@ -154,12 +155,14 @@ public class PlayerInteraction : MonoBehaviour
         {
             pingIsPressed = true;
             playerMenuing.inMenu = true;
+            inputManager.DisableDeplacement();
             radialMenu.SetActive(true);
         }
         else if(context.canceled)
         {
             pingIsPressed = false;
             playerMenuing.inMenu = false;
+            inputManager.EnableDeplacement();
             radialMenu.SetActive(false);
         }
     }
@@ -168,8 +171,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (context.performed)
         {
-            avaIsPressed = true;
-            ava.SetActive(true);
+            if (playerModeSelect.modeSelected == 1)
+            {
+                avaIsPressed = true;
+                ava.SetActive(true);
+            }
         }
         else if(context.canceled)
         {
