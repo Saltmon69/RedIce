@@ -155,14 +155,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             pingIsPressed = true;
             playerMenuing.inMenu = true;
-            inputManager.DisableDeplacement();
             radialMenu.SetActive(true);
         }
         else if(context.canceled)
         {
             pingIsPressed = false;
             playerMenuing.inMenu = false;
-            inputManager.EnableDeplacement();
             radialMenu.SetActive(false);
         }
     }
