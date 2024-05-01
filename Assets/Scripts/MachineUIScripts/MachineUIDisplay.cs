@@ -262,11 +262,12 @@ public class MachineUIDisplay : MonoBehaviour
                     AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
 
                     if(!isUIOpen) continue;
-                    //_thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
-                    //_thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
 
                     _thisParticleSystem = Instantiate(_particleSystemPrefab, _machineOutputMaterialsUI.transform).GetComponent<ParticleSystem>();
                     Material mat = new Material(Shader.Find("Sprites/Default"));
+                    
+                    Debug.Log(_machineCraftRecipe.outputs[i].sprite.texture);
+                    
                     mat.SetTexture("_MainTex", _machineCraftRecipe.outputs[i].sprite.texture);
                     _thisParticleSystem.GetComponent<Renderer>().material = mat;
                     _thisParticleSystem.maxParticles = _machineCraftRecipe.outputsAmount[i];
