@@ -45,8 +45,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip laserSFX;
+    [SerializeField] private AudioSource laserAudioSource;
     
     [Tab("VFX")]
     [SerializeField] private GameObject instantiatedLaserVFX;
@@ -137,15 +136,13 @@ public class PlayerInteraction : MonoBehaviour
             {
                 laserVFX.SetActive(true);
                 isApplyingDamage = true;
-                audioSource.clip = laserSFX;
-                audioSource.loop = true;
-                audioSource.Play();
+                laserAudioSource.Play();
             }
         }
         if(context.canceled)
         {
             isApplyingDamage = false;
-            audioSource.Stop();
+            laserAudioSource.Stop();
             laserVFX.SetActive(false);
         }
     }
