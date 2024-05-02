@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class BlueprintStartState : BlueprintBaseState
 {
+    private PlayerMenuing _playerMenuing;
+    
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(1).gameObject.SetActive(true);
         GameObject.Find("ModeSelectionManager").GetComponent<PlayerModeSelect>().canPlayerSwitchMode = true;
+        
+        _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -17,7 +21,7 @@ public class BlueprintStartState : BlueprintBaseState
         }
 
         //ouvre l'interface de construction des machines
-        if(Input.GetKeyDown(KeyCode.Mouse1))
+        if(Input.GetKeyDown(KeyCode.Mouse1) && !_playerMenuing.inMenu)
         {
             blueprint.SwitchState(blueprint.buildingState);
         }
