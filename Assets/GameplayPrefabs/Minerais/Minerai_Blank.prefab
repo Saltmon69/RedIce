@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 495729555688363872}
   - component: {fileID: 6611217804662568823}
   - component: {fileID: 3612514420405885887}
+  - component: {fileID: 5417769131283635088}
   m_Layer: 0
   m_Name: Minerai_Blank
   m_TagString: Minerai
@@ -57,8 +58,10 @@ MonoBehaviour:
   inventoryManager: {fileID: 0}
   mineraiMesh: {fileID: 3679811351300355385}
   spawner: {fileID: 0}
+  meshRandomSlicer: {fileID: 5417769131283635088}
   mineraiLife: 100
   critMultiplicator: 1
+  critPoints: []
   audioSource: {fileID: 3612514420405885887}
   mineraiDestroyedSFX: {fileID: 8300000, guid: fc37584d5be7b4e4d8f80334e9d4679a, type: 3}
 --- !u!64 &2009720269470289217
@@ -82,7 +85,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4763303156730768361, guid: ec6f86730417e0a44addc6c1f4d0b4e2, type: 3}
+  m_Mesh: {fileID: -604989752147960914, guid: a195b2acd3f4257428e1130c0cb7bfd9, type: 3}
 --- !u!33 &3679811351300355385
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -90,7 +93,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3495891538214699530}
-  m_Mesh: {fileID: -4763303156730768361, guid: ec6f86730417e0a44addc6c1f4d0b4e2, type: 3}
+  m_Mesh: {fileID: -604989752147960914, guid: a195b2acd3f4257428e1130c0cb7bfd9, type: 3}
 --- !u!23 &495729555688363872
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -111,7 +114,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 816a4189aff445e49afdb2b7ca5de2fc, type: 2}
+  - {fileID: 2100000, guid: 473590ea709a4944bacba273ed8601e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -246,6 +249,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5417769131283635088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3495891538214699530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529da46cbb0240145a30b6bbec881090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CutCascades: 10
+  ExplodeForce: 2
 --- !u!1 &5510450209597536858
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +290,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3.42, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2611999801620954999}

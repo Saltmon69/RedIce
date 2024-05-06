@@ -41,11 +41,11 @@ public class PlayerInteraction : MonoBehaviour
     
     [Tab("Lunette AVA")]
     [SerializeField] GameObject darkMatterBullet;
+    [SerializeField] PlayerModeSelect playerModeSelect;
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip laserSFX;
+    [SerializeField] private AudioSource laserAudioSource;
     
     [Tab("VFX")]
     [SerializeField] private GameObject instantiatedLaserVFX;
@@ -136,15 +136,13 @@ public class PlayerInteraction : MonoBehaviour
             {
                 laserVFX.SetActive(true);
                 isApplyingDamage = true;
-                audioSource.loop = true;
-                audioSource.clip = laserSFX;
-                audioSource.Play();
+                laserAudioSource.Play();
             }
         }
         if(context.canceled)
         {
             isApplyingDamage = false;
-            audioSource.Stop();
+            laserAudioSource.Stop();
             laserVFX.SetActive(false);
         }
     }
@@ -168,8 +166,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (context.performed)
         {
-            avaIsPressed = true;
-            ava.SetActive(true);
+            if (playerModeSelect.modeSelected == 1)
+            {
+                avaIsPressed = true;
+                ava.SetActive(true);
+            }
         }
         else if(context.canceled)
         {
