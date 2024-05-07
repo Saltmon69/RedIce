@@ -31,7 +31,9 @@ public class BlueprintPlacementState : BlueprintBaseState
         //viens prendre la machine que l'on a sélectionné pour la placer / construire
         _machineToPlace = _machineStock.transform.GetChild(_machineStock.transform.childCount - 1).gameObject;
         _machineToPlace.layer = 2;
-        
+
+        LayerChanger(2);
+
         _machineCollider = _machineToPlace.transform.GetComponent<MachineCollider>();
         _machineCollider.enabled = true;
 
@@ -84,6 +86,7 @@ public class BlueprintPlacementState : BlueprintBaseState
                     _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
 
                     InventoryItemCostRemoval();
+                    LayerChanger(6);
                     blueprint.SwitchState(blueprint.buildingState);
                 }
                 else
@@ -115,7 +118,7 @@ public class BlueprintPlacementState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(false);
         
-        _machineToPlace.layer = 6;
+        if(_machineToPlace != null) _machineToPlace.layer = 6;
     }
 
     private void InventoryItemCostRemoval()
@@ -141,6 +144,15 @@ public class BlueprintPlacementState : BlueprintBaseState
                     if(_materialAmountLeft <= 0) break;
                 }
             }
+        }
+    }
+
+    private void LayerChanger(int layer)
+    {
+        if(_machineToPlace.transform.childCount == 0) return;
+        for(var i = 0; i < _machineToPlace.transform.childCount; i++)
+        {
+            _machineToPlace.transform.GetChild(i).gameObject.layer = layer;
         }
     }
 }

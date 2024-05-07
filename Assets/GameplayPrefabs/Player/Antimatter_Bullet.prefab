@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2855340350358027503, guid: 05cfa9726c71cc54eb40c741de808c77,
         type: 3}
       propertyPath: m_Name
-      value: AntimatterOrb_02 Variant
+      value: Antimatter_Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 8045319910034875717, guid: 05cfa9726c71cc54eb40c741de808c77,
         type: 3}
@@ -108,7 +108,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

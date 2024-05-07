@@ -11,7 +11,7 @@ public class DarkMatterObject : MonoBehaviour
     public DarkMatterState darkMatterState;
 
     private MeshRenderer meshRenderer;
-    private BoxCollider boxCollider;
+    private MeshCollider meshCollider;
     private PlayerManager playerManager;
     private bool playerInTrigger = false;
     
@@ -19,7 +19,7 @@ public class DarkMatterObject : MonoBehaviour
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        boxCollider = GetComponent<BoxCollider>();
+        meshCollider = GetComponent<MeshCollider>();
         playerInteraction = FindObjectOfType<PlayerInteraction>();
     }
 
@@ -35,12 +35,14 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
-                boxCollider.isTrigger = true;
+                meshCollider.isTrigger = true;
+                gameObject.layer = 0;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-                boxCollider.isTrigger = false;
+                meshCollider.isTrigger = false;
+                gameObject.layer = 7;
             }
         }
         if (darkMatterType == DarkMatterType.Platform)
@@ -48,12 +50,14 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
-                boxCollider.isTrigger = true;
+                gameObject.layer = 0;
+                meshCollider.isTrigger = true;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-                boxCollider.isTrigger = false;
+                meshCollider.isTrigger = false;
+                gameObject.layer = 3;
             }
         }
         

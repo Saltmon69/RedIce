@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VInspector;
 
@@ -101,7 +102,7 @@ public class PlayerMenuing : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
             
         inputManager.DisableDeplacement();
         playerMouseLook.enabled = false;
@@ -117,7 +118,7 @@ public class PlayerMenuing : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        //Time.timeScale = 1;
+        Time.timeScale = 1;
         
         inputManager.EnableDeplacement();
         inputManager.EnableInteractions();
@@ -127,14 +128,10 @@ public class PlayerMenuing : MonoBehaviour
         mainMenu.SetActive(false);
     }
 
-    public void Map()
+    public void MainMenu()
     {
-        inMenu = true;
-        map.SetActive(true);
-        mainMenu.SetActive(false);
-        inventory.SetActive(false);
+        SceneManager.LoadScene("Scene_Menu");
     }
-
     public void Inventory()
     {
         inMenu = true;
