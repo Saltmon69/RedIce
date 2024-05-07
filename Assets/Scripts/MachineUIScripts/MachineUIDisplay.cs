@@ -106,7 +106,7 @@ public class MachineUIDisplay : MonoBehaviour
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(3).GetComponent<Camera>();
+        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetChild(3).GetComponent<Camera>();
 
         _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
@@ -262,11 +262,12 @@ public class MachineUIDisplay : MonoBehaviour
                     AddItemToInventory(_machineCraftRecipe.outputs[i], _machineCraftRecipe.outputsAmount[i], false);
 
                     if(!isUIOpen) continue;
-                    //_thisMachineOutputMaterial = Instantiate(_inventoryItemPrefab, _machineOutputMaterialsUI.transform).GetComponent<InventoryItem>();
-                    //_thisMachineOutputMaterial.InitialiseItem(_machineCraftRecipe.outputs[i]);
 
                     _thisParticleSystem = Instantiate(_particleSystemPrefab, _machineOutputMaterialsUI.transform).GetComponent<ParticleSystem>();
                     Material mat = new Material(Shader.Find("Sprites/Default"));
+                    
+                    Debug.Log(_machineCraftRecipe.outputs[i].sprite.texture);
+                    
                     mat.SetTexture("_MainTex", _machineCraftRecipe.outputs[i].sprite.texture);
                     _thisParticleSystem.GetComponent<Renderer>().material = mat;
                     _thisParticleSystem.maxParticles = _machineCraftRecipe.outputsAmount[i];
@@ -498,11 +499,13 @@ public class MachineUIDisplay : MonoBehaviour
         if(!_isInPreview)
         {
             _isInPreview = true;
+            _upgradePreviewButtonUI.transform.GetChild(0).gameObject.SetActive(true);
             SetCraftingButtonToMachineTier(_machineUpgradeTier + 1);
         }
         else
         {
             _isInPreview = false;
+            _upgradePreviewButtonUI.transform.GetChild(0).gameObject.SetActive(false);
             SetCraftingButtonToMachineTier(_machineUpgradeTier);
             
             if(_usedRecipeIndex != -1) SetRecipeOnClick(_usedRecipeIndex, true);

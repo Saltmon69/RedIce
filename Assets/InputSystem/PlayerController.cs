@@ -175,7 +175,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""f8a32bd7-fabf-421d-8e8a-3aa4c2fece0f"",
                     ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.05)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",

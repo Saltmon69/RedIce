@@ -152,8 +152,9 @@ public class BlueprintBuildingState : BlueprintBaseState
         {
             _instantiatedMachineUIRecipeMaterial = Object.Instantiate(_materialRecipePrefab, _thisMachineButton.transform.GetChild(1));
             _machineRecipeMaterial = _instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>();
-
+            
             _instantiatedMachineUIRecipeMaterial.transform.GetChild(0).GetComponent<Image>().sprite = materialList[i].sprite;
+
 
             if(i != materialList.Count - 1)
             {
