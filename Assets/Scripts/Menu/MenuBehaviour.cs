@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,18 @@ public class MenuBehaviour : MonoBehaviour
 {
 
     public RectTransform initPosition;
+    public RectTransform outOfScreenPosition;
+
+    public GameObject mainMenu;
+    public GameObject optionsMenu;
+    public GameObject creditsMenu;
+
+    private void Start()
+    {
+        initPosition = mainMenu.GetComponent<RectTransform>();
+        outOfScreenPosition = optionsMenu.GetComponent<RectTransform>();
+        
+    }
 
     public void Play()
     {
