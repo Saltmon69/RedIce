@@ -5,19 +5,38 @@ using UnityEngine;
 
 public class DarkMatterBullet : MonoBehaviour
 {
-    public float speed = 20f;
+    public float speed = 5f;
     public Rigidbody rb;
-    
+    public bool isVisible;
+    public float timeToDestroy = 5f;
+    public float timer = 0f;
+    private float speedDisplay;
 
-
-    void Start()
+    private void Start()
     {
-        rb.velocity = transform.forward * speed;
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = transform.forward;
+        speedDisplay = rb.velocity.magnitude;
     }
-
     private void Update()
     {
-        Destroy(gameObject, 5f);
+        rb.velocity = transform.forward * speed * (Time.time/10);
+        speedDisplay = rb.velocity.magnitude;
+        Debug.Log(speedDisplay);
+        
+        if (isVisible == false)
+        {
+            timer += Time.deltaTime;
+            if (timer >= timeToDestroy)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            timer = 0;
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,10 +56,15 @@ public class DarkMatterBullet : MonoBehaviour
                 Destroy(gameObject, 0.1f);
             }
         }
-        else
-        {
-            Destroy(gameObject, 5f);
-        }
-       
+    }
+
+    private void OnBecameInvisible()
+    {
+        isVisible = false;
+    }
+
+    private void OnBecameVisible()
+    {
+        isVisible = true;
     }
 }

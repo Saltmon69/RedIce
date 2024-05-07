@@ -8,13 +8,13 @@ using UnityEngine;
 public class PingBehaviour : MonoBehaviour
 {
     private NavMeshSurface navMeshSurface;
-    private void Start()
+    private EONStateMachine stateMachine;
+    
+    private void OnTriggerEnter(Collider other)
     {
-       Physics.Raycast(transform.position, -transform.up, out var hit, 100f);
-         navMeshSurface = hit.collider.GetComponent<NavMeshSurface>();
-         navMeshSurface.BuildNavMesh();
-        Debug.Log(hit.collider.name);
-        
+        navMeshSurface = other.GetComponent<NavMeshSurface>();
+        stateMachine = FindObjectOfType<EONStateMachine>();
+        stateMachine.navMeshSurface = navMeshSurface;
+        navMeshSurface.BuildNavMesh();
     }
-
 }
