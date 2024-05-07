@@ -41,11 +41,11 @@ public class PlayerInteraction : MonoBehaviour
     
     [Tab("Lunette AVA")]
     [SerializeField] GameObject darkMatterBullet;
+    [SerializeField] PlayerModeSelect playerModeSelect;
     public bool avaIsPressed;
     
     [Tab("SFX")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip laserSFX;
+    [SerializeField] private AudioSource laserAudioSource;
     
     [Tab("VFX")]
     [SerializeField] private GameObject instantiatedLaserVFX;
@@ -86,11 +86,40 @@ public class PlayerInteraction : MonoBehaviour
                 instantiatedLaserVFX = Instantiate(laserImpactVFX, itemHit.point, Quaternion.identity);
             else
                 instantiatedLaserVFX.transform.position = itemHit.point;
+            
+            if (itemHit.collider != null)
+            {
+                switch (itemHit.collider.tag)
+                {
+                    case "MineraiCrit":
+                        if (mineraiClass != itemHit.collider.GetComponentInParent<MineraiClass>())
+                            mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
+                        mineraiClass.critMultiplicator = 2;
+                        mineraiClass.takeDamage(damage);
+                        mineraiClass.critPoints.Remove(itemHit.collider.gameObject);
+                        Destroy(itemHit.collider.gameObject);
+                        break;
+                    case "Minerai":
+                        if(mineraiClass != itemHit.collider.GetComponent<MineraiClass>())
+                            mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
+                        mineraiClass.critMultiplicator = 1;
+                        mineraiClass.takeDamage(damage);
+                        break;
+                }
+            }
         }
         else
         {
             if(instantiatedLaserVFX != null)
                 Destroy(instantiatedLaserVFX);
+            if (mineraiClass != null)
+            {
+                bool ended = mineraiClass.QuantityCalculator(mineraiClass.quantity);
+                if (ended)
+                {
+                    mineraiClass.quantity = 0;
+                }
+            }
         }
         
         if (mineraiClass != null)
@@ -101,26 +130,7 @@ public class PlayerInteraction : MonoBehaviour
                 mineraiClass = null;
             }
         }
-        if (itemHit.collider != null)
-        {
-            switch (itemHit.collider.tag)
-            {
-                case "MineraiCrit":
-                    if (mineraiClass != itemHit.collider.GetComponentInParent<MineraiClass>())
-                        mineraiClass = itemHit.collider.GetComponentInParent<MineraiClass>();
-                    mineraiClass.critMultiplicator = 2;
-                    mineraiClass.takeDamage(damage);
-                    mineraiClass.critPoints.Remove(itemHit.collider.gameObject);
-                    Destroy(itemHit.collider.gameObject);
-                    break;
-                case "Minerai":
-                    if(mineraiClass != itemHit.collider.GetComponent<MineraiClass>())
-                        mineraiClass = itemHit.collider.GetComponent<MineraiClass>();
-                    mineraiClass.critMultiplicator = 1;
-                    mineraiClass.takeDamage(damage);
-                    break;
-            }
-        }
+        
     }
     
     public void OnInteraction(InputAction.CallbackContext context)
@@ -136,15 +146,13 @@ public class PlayerInteraction : MonoBehaviour
             {
                 laserVFX.SetActive(true);
                 isApplyingDamage = true;
-                audioSource.loop = true;
-                audioSource.clip = laserSFX;
-                audioSource.Play();
+                laserAudioSource.Play();
             }
         }
         if(context.canceled)
         {
             isApplyingDamage = false;
-            audioSource.Stop();
+            laserAudioSource.Stop();
             laserVFX.SetActive(false);
         }
     }
@@ -168,8 +176,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (context.performed)
         {
-            avaIsPressed = true;
-            ava.SetActive(true);
+            if (playerModeSelect.modeSelected == 1)
+            {
+                avaIsPressed = true;
+                ava.SetActive(true);
+            }
         }
         else if(context.canceled)
         {

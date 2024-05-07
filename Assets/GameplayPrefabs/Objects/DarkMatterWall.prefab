@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6499014531298851222}
   - component: {fileID: 160469737681388736}
   - component: {fileID: 2038799250250758347}
-  - component: {fileID: 7330907198953750578}
   - component: {fileID: 8384533579150309309}
   - component: {fileID: 8349379242484401968}
+  - component: {fileID: 5979136524884232237}
   m_Layer: 0
   m_Name: DarkMatterWall
   m_TagString: DarkMatterObject
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22.3, y: 4.65, z: 4.813097}
-  m_LocalScale: {x: 8.8982, y: 9.317, z: 0.13283}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6148793369399472701}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -9195204725169369977, guid: f590410732c81c54190064e37e73dd7d, type: 3}
 --- !u!23 &2038799250250758347
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: f6af30abcf2baec4e908a9292ccf93f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7330907198953750578
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6148793369399472701}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8384533579150309309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   darkMatterMaterial: {fileID: -876546973899608171, guid: 8074b0d44ad5b67418d1593da654e55a,
     type: 3}
-  defaultMaterial: {fileID: 2100000, guid: 5f0d267ad2b97904ba9961e1e7298971, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: f6af30abcf2baec4e908a9292ccf93f5, type: 2}
   darkMatterType: 0
   darkMatterState: 1
   playerInteraction: {fileID: 0}
@@ -141,3 +120,25 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!64 &5979136524884232237
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148793369399472701}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9195204725169369977, guid: f590410732c81c54190064e37e73dd7d, type: 3}
