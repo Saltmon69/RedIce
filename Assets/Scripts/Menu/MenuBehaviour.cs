@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class MenuBehaviour : MonoBehaviour
 {
 
+    public RectTransform initPosition;
+
     public void Play()
     {
         SceneManager.LoadScene(1, LoadSceneMode.Single);
