@@ -35,29 +35,15 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                boxCollider.isTrigger = true;
-=======
                 meshCollider.isTrigger = true;
->>>>>>> origin/Artiste
-=======
-                meshCollider.isTrigger = true;
->>>>>>> Louis
+                
                 gameObject.layer = 0;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                boxCollider.isTrigger = false;
-=======
                 meshCollider.isTrigger = false;
->>>>>>> origin/Artiste
-=======
-                meshCollider.isTrigger = false;
->>>>>>> Louis
+
                 gameObject.layer = 7;
             }
         }
@@ -67,28 +53,13 @@ public class DarkMatterObject : MonoBehaviour
             {
                 meshRenderer.material = darkMatterMaterial;
                 gameObject.layer = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                boxCollider.isTrigger = true;
-=======
+
                 meshCollider.isTrigger = true;
->>>>>>> origin/Artiste
-=======
-                meshCollider.isTrigger = true;
->>>>>>> Louis
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                boxCollider.isTrigger = false;
-=======
                 meshCollider.isTrigger = false;
->>>>>>> origin/Artiste
-=======
-                meshCollider.isTrigger = false;
->>>>>>> Louis
                 gameObject.layer = 3;
             }
         }
