@@ -11,7 +11,7 @@ public class DarkMatterObject : MonoBehaviour
     public DarkMatterState darkMatterState;
 
     private MeshRenderer meshRenderer;
-    private BoxCollider boxCollider;
+    private MeshCollider meshCollider;
     private PlayerManager playerManager;
     private bool playerInTrigger = false;
     
@@ -19,7 +19,7 @@ public class DarkMatterObject : MonoBehaviour
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        boxCollider = GetComponent<BoxCollider>();
+        meshCollider = GetComponent<MeshCollider>();
         playerInteraction = FindObjectOfType<PlayerInteraction>();
     }
 
@@ -35,13 +35,21 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
+<<<<<<< HEAD
                 boxCollider.isTrigger = true;
+=======
+                meshCollider.isTrigger = true;
+>>>>>>> origin/Artiste
                 gameObject.layer = 0;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
+<<<<<<< HEAD
                 boxCollider.isTrigger = false;
+=======
+                meshCollider.isTrigger = false;
+>>>>>>> origin/Artiste
                 gameObject.layer = 7;
             }
         }
@@ -51,12 +59,20 @@ public class DarkMatterObject : MonoBehaviour
             {
                 meshRenderer.material = darkMatterMaterial;
                 gameObject.layer = 0;
+<<<<<<< HEAD
                 boxCollider.isTrigger = true;
+=======
+                meshCollider.isTrigger = true;
+>>>>>>> origin/Artiste
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
+<<<<<<< HEAD
                 boxCollider.isTrigger = false;
+=======
+                meshCollider.isTrigger = false;
+>>>>>>> origin/Artiste
                 gameObject.layer = 3;
             }
         }

@@ -28,7 +28,7 @@ public class MineraiClass : MonoBehaviour
     [Tab("Valeurs")]
     public float mineraiLife;
     public int critMultiplicator = 1;
-    float quantity = 0;
+    public float quantity = 0;
     public List<GameObject> critPoints = new List<GameObject>();
     
     [Tab("SFX")]
@@ -62,6 +62,8 @@ public class MineraiClass : MonoBehaviour
                 playerInteraction = player.GetComponent<PlayerInteraction>();
             }
         }catch(NullReferenceException){}
+        
+        
     }
     
     public void takeDamage(float damage)
@@ -70,19 +72,8 @@ public class MineraiClass : MonoBehaviour
         quantity += damage * critMultiplicator;
         if (mineraiLife <= 0)
         {
-            bool ended = QuantityCalculator(quantity);
-            if (ended)
-            {
-                quantity = 0;
-                DestroyGameObject();
-            }
-        }
-        else if(playerInteraction.isApplyingDamage == false)
-        {
-            bool ended;
-            ended = QuantityCalculator(quantity);
-            if (ended)
-                quantity = 0;
+            audioSource.PlayOneShot(mineraiDestroyedSFX);
+            DestroyGameObject();
         }
     }
     
@@ -98,7 +89,7 @@ public class MineraiClass : MonoBehaviour
     /// </summary>
     /// <param name="quantity"> La quantité de dégâts infligés</param>
     /// <returns>La fonction a fini de s'exécuter</returns>
-    private bool QuantityCalculator(float quantity)
+    public bool QuantityCalculator(float quantity)
     {
         bool ended = false;
 
