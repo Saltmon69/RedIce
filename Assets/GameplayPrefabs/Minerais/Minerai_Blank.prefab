@@ -60,14 +60,7 @@ MonoBehaviour:
   meshRandomSlicer: {fileID: 5417769131283635088}
   mineraiLife: 100
   critMultiplicator: 1
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   quantity: 0
->>>>>>> origin/Artiste
-=======
-  quantity: 0
->>>>>>> Louis
   critPoints: []
   audioSource: {fileID: 3612514420405885887}
   mineraiDestroyedSFX: {fileID: 8300000, guid: fc37584d5be7b4e4d8f80334e9d4679a, type: 3}
@@ -258,7 +251,6 @@ AudioSource:
     m_RotationOrder: 4
 --- !u!114 &5417769131283635088
 MonoBehaviour:
-<<<<<<< HEAD
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -271,58 +263,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CutCascades: 10
   ExplodeForce: 2
-<<<<<<< HEAD
---- !u!1 &5510450209597536858
-GameObject:
-=======
->>>>>>> origin/Artiste
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7589248309974998962}
-  - component: {fileID: 9154215279198366609}
-  m_Layer: 0
-  m_Name: Sprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7589248309974998962
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510450209597536858}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.42, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2611999801620954999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &9154215279198366609
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510450209597536858}
-=======
-  m_GameObject: {fileID: 3495891538214699530}
->>>>>>> origin/Artiste
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529da46cbb0240145a30b6bbec881090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CutCascades: 10
-  ExplodeForce: 2
-=======
->>>>>>> Louis
