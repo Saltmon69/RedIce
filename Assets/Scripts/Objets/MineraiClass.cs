@@ -100,17 +100,16 @@ public class MineraiClass : MonoBehaviour
 
         foreach (var ressource in ressources)
         {
+            
             for(float i = 0; i < quantity * ressource.rendement; i++)
             {
                 inventoryManager.AddItem(ressource);
-                InstantiateFeedback(ressource.sprite, (int)(quantity * ressource.rendement));
             }
         }
         
         for(float i = 0; i < quantity * darkMatter.rendement; i++)
         {
             inventoryManager.AddItem(darkMatter);
-            InstantiateFeedback(darkMatter.sprite, (int)(quantity * darkMatter.rendement));
         }
 
         ended = true;
