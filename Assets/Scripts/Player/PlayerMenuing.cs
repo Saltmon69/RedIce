@@ -15,7 +15,6 @@ public class PlayerMenuing : MonoBehaviour
     [Tab("Menus")]
     [SerializeField] GameObject mainMenu;
     public GameObject inventory;
-    [SerializeField] GameObject map;
     [SerializeField] GameObject ATH;
     
     [Tab("Références")]
@@ -36,7 +35,6 @@ public class PlayerMenuing : MonoBehaviour
         inMenu = false;
         mainMenu.SetActive(false);
         inventory.SetActive(false);
-        map.SetActive(false);
         ATH.SetActive(true);
 
         inputManager.mainMenu.performed += OnEscape;
@@ -66,7 +64,7 @@ public class PlayerMenuing : MonoBehaviour
             inMenu = true;
             mainMenu.SetActive(true);
             inventory.SetActive(false);
-            map.SetActive(false); 
+            
         }
     }
     
@@ -78,7 +76,7 @@ public class PlayerMenuing : MonoBehaviour
         inMenu = true;
         inventory.SetActive(true);
         mainMenu.SetActive(false);
-        map.SetActive(false);
+        
     }
     
     /// <summary>
@@ -87,7 +85,6 @@ public class PlayerMenuing : MonoBehaviour
     public void OnM(InputAction.CallbackContext context)
     {
         inMenu = true;
-        map.SetActive(true);
         mainMenu.SetActive(false);
         inventory.SetActive(false);
     }
@@ -137,6 +134,6 @@ public class PlayerMenuing : MonoBehaviour
         inMenu = true;
         inventory.SetActive(true);
         mainMenu.SetActive(false);
-        map.SetActive(false);
+        
     }
 }

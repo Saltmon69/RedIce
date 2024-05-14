@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using VInspector;
 using Random = UnityEngine.Random;
 
@@ -34,6 +35,10 @@ public class MineraiClass : MonoBehaviour
     [Tab("SFX")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip mineraiDestroyedSFX;
+
+    [Tab("UI")] 
+    [SerializeField] private GameObject UI;
+    [SerializeField] private GameObject quantityFbPrefab;
     
     
     #endregion
@@ -98,12 +103,14 @@ public class MineraiClass : MonoBehaviour
             for(float i = 0; i < quantity * ressource.rendement; i++)
             {
                 inventoryManager.AddItem(ressource);
+                InstantiateFeedback(ressource.sprite, (int)(quantity * ressource.rendement));
             }
         }
         
         for(float i = 0; i < quantity * darkMatter.rendement; i++)
         {
             inventoryManager.AddItem(darkMatter);
+            InstantiateFeedback(darkMatter.sprite, (int)(quantity * darkMatter.rendement));
         }
 
         ended = true;
@@ -125,6 +132,15 @@ public class MineraiClass : MonoBehaviour
             critPoints.Add(Instantiate(critGameObject, transform.TransformPoint(selectedVertices), Quaternion.identity, transform));
         }
     }
+
+    private void InstantiateFeedback(Sprite sprite, int quantity)
+    {
+        GameObject feedback = Instantiate(quantityFbPrefab, UI.transform);
+        feedback.GetComponentInChildren<Image>().sprite = sprite;
+        feedback.GetComponentInChildren<Text>().text = "x" + quantity;
+    }
+
+
     
     #endregion
 }
