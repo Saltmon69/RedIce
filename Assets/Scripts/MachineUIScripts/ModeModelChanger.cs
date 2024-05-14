@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class ModeModelChanger : MonoBehaviour
 {
-    public GameObject objectModel;
+    
+    public Animator objectModel;
 
+    public int HMBswitch;
+    
     private void OnEnable()
     {
-        objectModel.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        try
+        for(var i = 0; i < objectModel.parameters.Length; i++)
         {
-            objectModel.SetActive(false); 
-        }catch(MissingReferenceException){}
+            objectModel.SetBool(objectModel.GetParameter(i).name, false);
+        }
+        
+        objectModel.SetBool(objectModel.GetParameter(HMBswitch).name, true);
     }
 }
