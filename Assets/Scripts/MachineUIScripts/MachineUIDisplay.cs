@@ -106,8 +106,9 @@ public class MachineUIDisplay : MonoBehaviour
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(3).GetComponent<Camera>();
-
+        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
+        _thisMachineUIDisplay.GetComponent<Canvas>().planeDistance = 5;
+        
         _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -143,7 +144,12 @@ public class MachineUIDisplay : MonoBehaviour
         LoadUIReferences();
         OnDisplayInstantiate();
 
-        if(_hasItemInUpgradeSlot) this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
+        if (_hasItemInUpgradeSlot)
+        {
+            this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
+            _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
+        }
+
 
         LoadInventory();
         LoadPlayerInventory();
@@ -307,6 +313,8 @@ public class MachineUIDisplay : MonoBehaviour
     //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
     private void SetRecipeOnClick(int a, bool isClicked)
     {
+        _isMachineForcedToDeactivate = true;
+        
         //supprime l ancienne recette affiché
         for(var i = 0; i < _machineRecipeUI.transform.childCount; i++)
         {
@@ -633,6 +641,7 @@ public class MachineUIDisplay : MonoBehaviour
     //crée l'ui pour la transaction des items de la machine a déplacer dans notre inventaire
     private IEnumerator TransferAmountUI(ItemClass thisItem)
     {
+        if(_thisTransferAmountUI != null) DestroyImmediate(_thisTransferAmountUI);
         _thisTransferAmountUI = Instantiate(_machineInventoryTransferUIPrefab, 
                                             _machineInventoryUI.transform.GetChild(machineItemList.IndexOf(thisItem)).transform.position,
                                             _thisMachineUIDisplay.transform.rotation,
@@ -732,7 +741,12 @@ public class MachineUIDisplay : MonoBehaviour
         isUIOpen = false;
         SavePlayerInventory();
         StopAllCoroutines();
-        if(_machineUpgradeSlotUI.transform.childCount > 0) _machineUpgradeSlotUI.gameObject.transform.SetParent(this.transform);
+        _hasItemInUpgradeSlot = false;
+        if (_machineUpgradeSlotUI.transform.childCount > 0)
+        {
+            _machineUpgradeSlotUI.transform.GetChild(0).transform.SetParent(this.gameObject.transform);
+            _hasItemInUpgradeSlot = true;
+        }
         Destroy(_thisMachineUIDisplay);
     }
 }
