@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 2741870510481702703}
   - {fileID: 8230837582497546640}
   - {fileID: 4494218372893494184}
+  - {fileID: 8701664046871803738}
 --- !u!114 &2741870510481702703
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -123,10 +124,10 @@ MonoBehaviour:
     m_Value: 55261.973
   aerosolDensity:
     m_OverrideState: 1
-    m_Value: 0.48
+    m_Value: 0.61
   aerosolTint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.47913203, b: 0, a: 1}
+    m_Value: {r: 1, g: 0.67476684, b: 0, a: 1}
   aerosolMaximumAltitude:
     m_OverrideState: 1
     m_Value: 30
@@ -138,7 +139,7 @@ MonoBehaviour:
     m_Value: 3
   groundTint:
     m_OverrideState: 1
-    m_Value: {r: 0.4, g: 0.24535991, b: 0.14901963, a: 1}
+    m_Value: {r: 0.6509434, g: 0.16631326, b: 0.11913488, a: 1}
   groundColorTexture:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -171,7 +172,7 @@ MonoBehaviour:
     m_Value: 1
   horizonTint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.41960785, b: 0, a: 1}
+    m_Value: {r: 0.6698113, g: 0.5182058, b: 0.17945886, a: 1}
   zenithTint:
     m_OverrideState: 1
     m_Value: {r: 0.7137255, g: 0.48235294, b: 0.23137255, a: 1}
@@ -197,19 +198,19 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 2
   rayTracing:
     m_OverrideState: 1
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 2.5
   directLightingStrength:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.6
   radius:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 2
   spatialBilateralAggressiveness:
     m_OverrideState: 1
     m_Value: 1
@@ -238,13 +239,13 @@ MonoBehaviour:
     m_Value: 1
   m_StepCount:
     m_OverrideState: 1
-    m_Value: 32
+    m_Value: 16
   m_FullResolution:
     m_OverrideState: 1
     m_Value: 1
   m_MaximumRadiusInPixels:
     m_OverrideState: 1
-    m_Value: 256
+    m_Value: 80
   m_BilateralUpsample:
     m_OverrideState: 1
     m_Value: 1
@@ -278,7 +279,7 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   enabled:
     m_OverrideState: 1
     m_Value: 1
@@ -290,7 +291,7 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.27450982, g: 0.16470589, b: 0.039215688, a: 1}
+    m_Value: {r: 0.9137255, g: 0.44410852, b: 0.1764706, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 2244
@@ -311,22 +312,22 @@ MonoBehaviour:
     m_Value: 2016
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 150
+    m_Value: 110
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0.67058825, g: 0.3882353, b: 0.08627451, a: 1}
+    m_Value: {r: 0.6415094, g: 0.51848924, b: 0.06899248, a: 1}
   globalLightProbeDimmer:
     m_OverrideState: 1
-    m_Value: 0.46
+    m_Value: 0.56
   depthExtent:
     m_OverrideState: 1
     m_Value: 0.1
   denoisingMode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 3
   anisotropy:
     m_OverrideState: 0
     m_Value: 0
@@ -344,10 +345,38 @@ MonoBehaviour:
     m_Value: 64
   m_VolumetricFogBudget:
     m_OverrideState: 1
-    m_Value: 0.33
+    m_Value: 0.666
   m_ResolutionDepthRatio:
     m_OverrideState: 1
-    m_Value: 0.666
+    m_Value: 0.5
   directionalLightsOnly:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &8701664046871803738
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f034cba68ab55e046ae1445a42f18c0e, type: 3}
+  m_Name: IndirectLightingController
+  m_EditorClassIdentifier: 
+  active: 1
+  indirectDiffuseLightingMultiplier:
+    m_OverrideState: 1
+    m_Value: 1.2e-10
+  indirectDiffuseLightingLayers:
+    m_OverrideState: 1
+    m_Value: 255
+  reflectionLightingMultiplier:
+    m_OverrideState: 1
+    m_Value: 0.73
+  reflectionLightingLayers:
+    m_OverrideState: 1
+    m_Value: 255
+  reflectionProbeIntensityMultiplier:
+    m_OverrideState: 1
+    m_Value: 1.43
