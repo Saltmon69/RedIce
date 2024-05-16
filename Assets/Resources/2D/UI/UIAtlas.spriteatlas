@@ -15,15 +15,15 @@ SpriteAtlas:
       compressionQuality: 50
       maxTextureSize: 2048
       textureCompression: 0
-      filterMode: 0
-      generateMipMaps: 1
+      filterMode: 1
+      generateMipMaps: 0
       readable: 1
       crunchedCompression: 0
       sRGB: 1
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 4096
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 1
@@ -40,451 +40,246 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 0
-      enableTightPacking: 0
+      enableTightPacking: 1
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 0d5c54d73a6a6f948856f0e12027b0e1, type: 3}
-    - {fileID: 102900000, guid: 72e65a015880cd848b2f39937448a707, type: 3}
-    - {fileID: 102900000, guid: da5c911b7739a24458e31080c9459562, type: 3}
     - {fileID: 102900000, guid: 8eba73719af74ee47988cc6e6aab1b4e, type: 3}
-    - {fileID: 102900000, guid: e24f5ea42429ea043885941b783946e1, type: 3}
+    - {fileID: 102900000, guid: 0d5c54d73a6a6f948856f0e12027b0e1, type: 3}
+    - {fileID: 102900000, guid: da5c911b7739a24458e31080c9459562, type: 3}
+    - {fileID: 102900000, guid: 72e65a015880cd848b2f39937448a707, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
-<<<<<<< HEAD
-<<<<<<< HEAD
-    - 5a73e41083156f246b98df661c731e29: 21300000
-    - 84c79220ef58f3245a7ac1211ec553dc: 21300000
-=======
-<<<<<<< HEAD
-    - 5a73e41083156f246b98df661c731e29: 21300000
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-    - 5a73e41083156f246b98df661c731e29: 21300000
->>>>>>> Louis
-    - 75a20b107932ada43a590b95b25375e9: 21300000
->>>>>>> origin/Artiste
+    - 8e6f6410880f38a44b87a2fc3e538697: 21300000
     - fa8e6f20e07490f40b62f915247dbd0f: 21300000
+    - 9955d730e575cd1438af5bfccb886718: 21300000
     - 9b8b9c7021b7ac9458d2db6e329a3c67: 21300000
-<<<<<<< HEAD
+    - 256689f03648d354086a0fda7edb854b: 21300000
+    - 500f8f01ae05e49409664421b89edc97: 21300000
+    - 9223b21187d0c5d4d9698ca153c09a3c: 21300000
     - 6e35ab21986b17b42809e58001f7446d: 21300000
-    - e97d4741dcfab14428f0b835fd97ad03: 21300000
     - 06c93a41da749be458b30ffbbc31cadd: 21300000
-    - 89732d814cd5cbc4b8a1175bbf42edac: 21300000
-=======
-    - c1294d80cd8248e48a54809b1af0392d: 21300000
-    - 4a9f06c04848f6b439c77263a7706cbb: 21300000
-    - 6e35ab21986b17b42809e58001f7446d: 21300000
-    - e97d4741dcfab14428f0b835fd97ad03: 21300000
-    - 06c93a41da749be458b30ffbbc31cadd: 21300000
-    - e0133c415f37563419b06ca26f6b066a: 21300000
-<<<<<<< HEAD
-<<<<<<< HEAD
-    - 89732d814cd5cbc4b8a1175bbf42edac: 21300000
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-    - 89732d814cd5cbc4b8a1175bbf42edac: 21300000
->>>>>>> Louis
-    - 5d1e0da1a343be04991abe4ae80978d5: 21300000
     - 963b70b1eb770124aa1d786a2a361346: 21300000
->>>>>>> origin/Artiste
+    - 8edb70c15abbd654e8b5b3ef0b45aa58: 21300000
     - 99c81ee1a8de5d64085fe8a0cb3c3cf8: 21300000
+    - 53e205f1d623011478d6703dffb551c9: 21300000
     - e7513f02130142d4998d524e53cc574d: 21300000
+    - 2ebd3a32562d6b349ac1d9bd3375896a: 21300000
+    - 2f7f6c324d703bb4d9e408a02ec31ff8: 21300000
     - 4be50862c19cc5c4c937a04c156c4304: 21300000
     - 44279f6206a6ed945bfaf21b818f02aa: 21300000
-    - 9b8d48030c9168646ab444fb112f6e9c: -1158203735
+    - 271343724af83f74bba829541c8c285e: 21300000
+    - 9b8d48030c9168646ab444fb112f6e9c: 21300000
+    - bc77a313d63b39943836a959caa4f31a: 21300000
     - fc7dfe132f7da724292a4c3f697f651f: 21300000
-    - a60d38532919fb24fb41ce5ea629e4c1: 21300000
     - 6dc771a3646ba8e40a2b4cac77ee94ca: 21300000
+    - 6133bcb35de80c74087674a277c34b5e: 21300000
+    - 7819ecb321159e94d80cddf9651a98d7: 21300000
     - c2b09384bb1117044936e0fa51ae5bd6: 21300000
-    - 3d092235254071d4dadb6007c84ffb11: 21300000
     - 13220c45270782140b232441c76582ff: 21300000
     - 4e5f46755a426ec46860b6a86fe05c7d: 21300000
-    - 6c9d1e753186f614ba7ae04a7224fab9: 21300000
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+    - 1693a385af9a1aa49ad14167bbba867a: 21300000
     - 3f239395c23982b488e783def7a1eb2f: 21300000
->>>>>>> Louis
-    - 82c0a1b585f0fed42a11ad02df12c8d4: 21300000
     - dd9962e59e2a7394590115c4ddff2652: 21300000
     - f705e546bf94b494c8f0b5721e88bb6a: 21300000
-    - 41ac2286e113183439256cce04a0f7f7: 21300000
-<<<<<<< HEAD
+    - 11415256876dde84db8084300c5b934a: 21300000
+    - e5a27a7603eb8fc4ba0081bd458553e5: 21300000
+    - 7b84f9864afed254782e02593031e08b: 21300000
     - cef2c7b6cd3c31345b612bd4ddec1b0a: 21300000
     - cef17ab63bc56524e972b7fd36139259: 21300000
     - b1204ee670d90eb4ca86aff3b36e0b37: 21300000
+    - 0b68ab174aa273b4d99b6f980a0e736f: 21300000
+    - b255d828fe1b9d34095fc2bbe8fb6b75: 21300000
     - 12239d58d5a668e4a811c8919a71a00f: 21300000
-=======
-    - 3f239395c23982b488e783def7a1eb2f: 21300000
-<<<<<<< HEAD
-    - 82c0a1b585f0fed42a11ad02df12c8d4: 21300000
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-    - dd9962e59e2a7394590115c4ddff2652: 21300000
-    - f705e546bf94b494c8f0b5721e88bb6a: 21300000
-    - 41ac2286e113183439256cce04a0f7f7: 21300000
-=======
->>>>>>> Louis
-    - 852320969b12d2a4680835acf204b247: 21300000
-    - ef86e5b682ea4154287582873c346076: 21300000
-    - cef2c7b6cd3c31345b612bd4ddec1b0a: 21300000
-    - cef17ab63bc56524e972b7fd36139259: 21300000
-    - b1204ee670d90eb4ca86aff3b36e0b37: 21300000
-    - 90f12a170c70cfd4cb05581db1d854c5: 21300000
-    - 9a6355776bfa91c4ba45bffc0e6b11f2: 21300000
-    - e3316cf722cff92478748dc2ca3e01a4: 21300000
-    - 0c02bd28648834144a589109988bf3c5: 21300000
-    - d5e1bb789067e6a45a8f8deb42960a4c: 21300000
-    - 355d1498b8d04cb4790ff60d8ac22aa9: 21300000
->>>>>>> origin/Artiste
     - f115d1c8e7a612144a4d11de9adf384f: 21300000
+    - 819d85c8d25e1e841a7a4c58bb8f6487: 21300000
     - 01e3952995fab0642bb50526e708293b: 21300000
-    - 057a654996e969343b9e69cb201b0ce4: 21300000
     - cd9c8769492b59a409db17f8a7aa5be9: 21300000
     - 2caccf79afdc6414e93e19d607aabcbe: 21300000
+    - 95ade499562981248828a195ebae7bf1: 21300000
     - 380aa8c92c2e24142b03837f8c3020e5: 21300000
     - 3a2136d9ab9bcd94b9c8c0d8b5a64f69: 21300000
+    - 3f9fe5f9ee3ead9469361847fcd39c2c: 21300000
     - 88bb954a2af1536448f3c4a5bfa0a942: 21300000
-    - 4fc2e9fa5d4f5314e868907833acb62b: 21300000
+    - f71358ea5ba723947b30288dc6d67671: 21300000
+    - 5dc902faf5f3c4847a15cca932124ebc: 21300000
     - 645b681b86165b74798816bc2f98d41f: 21300000
-    - a1409d4ba19f8c941b1ebf0365491fe1: 21300000
+    - 2ca4828ba3d25ce4fb2ef044c9adf426: 21300000
+    - d6c6079baa9a76b41a21783c44438d3c: 21300000
+    - 6c1940ab53a093d41a33a8fc483600af: 21300000
+    - 587a05cb80ce07746ada444ec7f4e248: 21300000
     - 8185c02c28598b24aa36af0cd33f2377: 21300000
     - 2f27c34c5f45c4e4fbf62f1763a60778: 21300000
     - ae36855ce8a5c434d9541a21bb6a8356: 21300000
+    - a6dda95c5d5e9e14cb90344437549faa: 21300000
     - 3809257cb3adfe144a9ed1a5d21c3cb1: 21300000
-<<<<<<< HEAD
-    - 30c7c8ac916667442bd9f90c67a7ae45: 21300000
-    - 3c2730ec582160a45a8104a552ad67e6: 21300000
-=======
-    - 277b44ac521c4c44e8562e2926d853a7: 21300000
-    - 30c7c8ac916667442bd9f90c67a7ae45: 21300000
-    - 3c2730ec582160a45a8104a552ad67e6: 21300000
-    - 4a419eec00dd3184dbd0fc0423d1e83a: -1213093913
-    - 4a419eec00dd3184dbd0fc0423d1e83a: -96918526
-    - 6cbe4e2d73da03e4ab80fbb939e27094: 21300000
-    - 318ea73d5c66ae84bba6831ef17dde24: 21300000
-    - 8489318d342874845b1cb63261808f19: 21300000
->>>>>>> origin/Artiste
+    - 544556dcf6293fb4ebad8b126ef9783d: 21300000
+    - dd30e68d0bcc6684c9c2653a5532052b: 21300000
     - 0652ca9d687544e43be0fbdbc6fced92: 21300000
-    - a81a9acd7b521504f920c234f7ca3add: 21300000
     - 19bf21dd1cf075c4dbae7f2bedba9eea: 21300000
     - 6b75b6dd606532f4d84b418f86c19de6: 21300000
-    - 7d55eded5bf430b46a64910f41804e8b: 21300000
     - c2c01f1e7b7e65c489e629dbb74c9663: 21300000
     - 5a21e32ecfe7f3e4c9b9764e132febc1: 21300000
-<<<<<<< HEAD
-    - b8b6057ee98be3940b20311a435ab0dd: 21300000
-=======
-    - 75e5b92e523900a4299b15a36efd8e08: 21300000
-<<<<<<< HEAD
-<<<<<<< HEAD
-    - b8b6057ee98be3940b20311a435ab0dd: 21300000
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-    - b8b6057ee98be3940b20311a435ab0dd: 21300000
->>>>>>> Louis
-    - 47e47a8e3e2b09e499973a4ea9f8350d: 21300000
->>>>>>> origin/Artiste
     - 82ccdcbe888441c47997e33137f961d2: 21300000
+    - bb1ef8ce49b78d94490bc8c4dccbcd21: 21300000
     - ba192cfe5ee4976468ef4f543435ced4: 21300000
-    - 1f0cc90f3e456ec4e8d609188ff2f339: 21300000
-    - e323ee0fb2639b34eaed4af2d610d635: 21300000
+    - e08d681f53a3be64e9f072f412dda048: 21300000
     - bd3f87effec5ee54e9d99a1ce65e463f: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: 5a73e41083156f246b98df661c731e29, type: 3}
-  - {fileID: 21300000, guid: 84c79220ef58f3245a7ac1211ec553dc, type: 3}
-=======
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: 5a73e41083156f246b98df661c731e29, type: 3}
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - {fileID: 21300000, guid: 5a73e41083156f246b98df661c731e29, type: 3}
->>>>>>> Louis
-  - {fileID: 21300000, guid: 75a20b107932ada43a590b95b25375e9, type: 3}
->>>>>>> origin/Artiste
+  - {fileID: 21300000, guid: 8e6f6410880f38a44b87a2fc3e538697, type: 3}
   - {fileID: 21300000, guid: fa8e6f20e07490f40b62f915247dbd0f, type: 3}
+  - {fileID: 21300000, guid: 9955d730e575cd1438af5bfccb886718, type: 3}
   - {fileID: 21300000, guid: 9b8b9c7021b7ac9458d2db6e329a3c67, type: 3}
-<<<<<<< HEAD
+  - {fileID: 21300000, guid: 256689f03648d354086a0fda7edb854b, type: 3}
+  - {fileID: 21300000, guid: 500f8f01ae05e49409664421b89edc97, type: 3}
+  - {fileID: 21300000, guid: 9223b21187d0c5d4d9698ca153c09a3c, type: 3}
   - {fileID: 21300000, guid: 6e35ab21986b17b42809e58001f7446d, type: 3}
-  - {fileID: 21300000, guid: e97d4741dcfab14428f0b835fd97ad03, type: 3}
   - {fileID: 21300000, guid: 06c93a41da749be458b30ffbbc31cadd, type: 3}
-  - {fileID: 21300000, guid: 89732d814cd5cbc4b8a1175bbf42edac, type: 3}
-=======
-  - {fileID: 21300000, guid: c1294d80cd8248e48a54809b1af0392d, type: 3}
-  - {fileID: 21300000, guid: 4a9f06c04848f6b439c77263a7706cbb, type: 3}
-  - {fileID: 21300000, guid: 6e35ab21986b17b42809e58001f7446d, type: 3}
-  - {fileID: 21300000, guid: e97d4741dcfab14428f0b835fd97ad03, type: 3}
-  - {fileID: 21300000, guid: 06c93a41da749be458b30ffbbc31cadd, type: 3}
-  - {fileID: 21300000, guid: e0133c415f37563419b06ca26f6b066a, type: 3}
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: 89732d814cd5cbc4b8a1175bbf42edac, type: 3}
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - {fileID: 21300000, guid: 89732d814cd5cbc4b8a1175bbf42edac, type: 3}
->>>>>>> Louis
-  - {fileID: 21300000, guid: 5d1e0da1a343be04991abe4ae80978d5, type: 3}
   - {fileID: 21300000, guid: 963b70b1eb770124aa1d786a2a361346, type: 3}
->>>>>>> origin/Artiste
+  - {fileID: 21300000, guid: 8edb70c15abbd654e8b5b3ef0b45aa58, type: 3}
   - {fileID: 21300000, guid: 99c81ee1a8de5d64085fe8a0cb3c3cf8, type: 3}
+  - {fileID: 21300000, guid: 53e205f1d623011478d6703dffb551c9, type: 3}
   - {fileID: 21300000, guid: e7513f02130142d4998d524e53cc574d, type: 3}
+  - {fileID: 21300000, guid: 2ebd3a32562d6b349ac1d9bd3375896a, type: 3}
+  - {fileID: 21300000, guid: 2f7f6c324d703bb4d9e408a02ec31ff8, type: 3}
   - {fileID: 21300000, guid: 4be50862c19cc5c4c937a04c156c4304, type: 3}
   - {fileID: 21300000, guid: 44279f6206a6ed945bfaf21b818f02aa, type: 3}
-  - {fileID: -1158203735, guid: 9b8d48030c9168646ab444fb112f6e9c, type: 3}
+  - {fileID: 21300000, guid: 271343724af83f74bba829541c8c285e, type: 3}
+  - {fileID: 21300000, guid: 9b8d48030c9168646ab444fb112f6e9c, type: 3}
+  - {fileID: 21300000, guid: bc77a313d63b39943836a959caa4f31a, type: 3}
   - {fileID: 21300000, guid: fc7dfe132f7da724292a4c3f697f651f, type: 3}
-  - {fileID: 21300000, guid: a60d38532919fb24fb41ce5ea629e4c1, type: 3}
   - {fileID: 21300000, guid: 6dc771a3646ba8e40a2b4cac77ee94ca, type: 3}
+  - {fileID: 21300000, guid: 6133bcb35de80c74087674a277c34b5e, type: 3}
+  - {fileID: 21300000, guid: 7819ecb321159e94d80cddf9651a98d7, type: 3}
   - {fileID: 21300000, guid: c2b09384bb1117044936e0fa51ae5bd6, type: 3}
-  - {fileID: 21300000, guid: 3d092235254071d4dadb6007c84ffb11, type: 3}
   - {fileID: 21300000, guid: 13220c45270782140b232441c76582ff, type: 3}
   - {fileID: 21300000, guid: 4e5f46755a426ec46860b6a86fe05c7d, type: 3}
-  - {fileID: 21300000, guid: 6c9d1e753186f614ba7ae04a7224fab9, type: 3}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+  - {fileID: 21300000, guid: 1693a385af9a1aa49ad14167bbba867a, type: 3}
   - {fileID: 21300000, guid: 3f239395c23982b488e783def7a1eb2f, type: 3}
->>>>>>> Louis
-  - {fileID: 21300000, guid: 82c0a1b585f0fed42a11ad02df12c8d4, type: 3}
   - {fileID: 21300000, guid: dd9962e59e2a7394590115c4ddff2652, type: 3}
   - {fileID: 21300000, guid: f705e546bf94b494c8f0b5721e88bb6a, type: 3}
-  - {fileID: 21300000, guid: 41ac2286e113183439256cce04a0f7f7, type: 3}
-<<<<<<< HEAD
+  - {fileID: 21300000, guid: 11415256876dde84db8084300c5b934a, type: 3}
+  - {fileID: 21300000, guid: e5a27a7603eb8fc4ba0081bd458553e5, type: 3}
+  - {fileID: 21300000, guid: 7b84f9864afed254782e02593031e08b, type: 3}
   - {fileID: 21300000, guid: cef2c7b6cd3c31345b612bd4ddec1b0a, type: 3}
   - {fileID: 21300000, guid: cef17ab63bc56524e972b7fd36139259, type: 3}
   - {fileID: 21300000, guid: b1204ee670d90eb4ca86aff3b36e0b37, type: 3}
+  - {fileID: 21300000, guid: 0b68ab174aa273b4d99b6f980a0e736f, type: 3}
+  - {fileID: 21300000, guid: b255d828fe1b9d34095fc2bbe8fb6b75, type: 3}
   - {fileID: 21300000, guid: 12239d58d5a668e4a811c8919a71a00f, type: 3}
-=======
-  - {fileID: 21300000, guid: 3f239395c23982b488e783def7a1eb2f, type: 3}
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: 82c0a1b585f0fed42a11ad02df12c8d4, type: 3}
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-  - {fileID: 21300000, guid: dd9962e59e2a7394590115c4ddff2652, type: 3}
-  - {fileID: 21300000, guid: f705e546bf94b494c8f0b5721e88bb6a, type: 3}
-  - {fileID: 21300000, guid: 41ac2286e113183439256cce04a0f7f7, type: 3}
-=======
->>>>>>> Louis
-  - {fileID: 21300000, guid: 852320969b12d2a4680835acf204b247, type: 3}
-  - {fileID: 21300000, guid: ef86e5b682ea4154287582873c346076, type: 3}
-  - {fileID: 21300000, guid: cef2c7b6cd3c31345b612bd4ddec1b0a, type: 3}
-  - {fileID: 21300000, guid: cef17ab63bc56524e972b7fd36139259, type: 3}
-  - {fileID: 21300000, guid: b1204ee670d90eb4ca86aff3b36e0b37, type: 3}
-  - {fileID: 21300000, guid: 90f12a170c70cfd4cb05581db1d854c5, type: 3}
-  - {fileID: 21300000, guid: 9a6355776bfa91c4ba45bffc0e6b11f2, type: 3}
-  - {fileID: 21300000, guid: e3316cf722cff92478748dc2ca3e01a4, type: 3}
-  - {fileID: 21300000, guid: 0c02bd28648834144a589109988bf3c5, type: 3}
-  - {fileID: 21300000, guid: d5e1bb789067e6a45a8f8deb42960a4c, type: 3}
-  - {fileID: 21300000, guid: 355d1498b8d04cb4790ff60d8ac22aa9, type: 3}
->>>>>>> origin/Artiste
   - {fileID: 21300000, guid: f115d1c8e7a612144a4d11de9adf384f, type: 3}
+  - {fileID: 21300000, guid: 819d85c8d25e1e841a7a4c58bb8f6487, type: 3}
   - {fileID: 21300000, guid: 01e3952995fab0642bb50526e708293b, type: 3}
-  - {fileID: 21300000, guid: 057a654996e969343b9e69cb201b0ce4, type: 3}
   - {fileID: 21300000, guid: cd9c8769492b59a409db17f8a7aa5be9, type: 3}
   - {fileID: 21300000, guid: 2caccf79afdc6414e93e19d607aabcbe, type: 3}
+  - {fileID: 21300000, guid: 95ade499562981248828a195ebae7bf1, type: 3}
   - {fileID: 21300000, guid: 380aa8c92c2e24142b03837f8c3020e5, type: 3}
   - {fileID: 21300000, guid: 3a2136d9ab9bcd94b9c8c0d8b5a64f69, type: 3}
+  - {fileID: 21300000, guid: 3f9fe5f9ee3ead9469361847fcd39c2c, type: 3}
   - {fileID: 21300000, guid: 88bb954a2af1536448f3c4a5bfa0a942, type: 3}
-  - {fileID: 21300000, guid: 4fc2e9fa5d4f5314e868907833acb62b, type: 3}
+  - {fileID: 21300000, guid: f71358ea5ba723947b30288dc6d67671, type: 3}
+  - {fileID: 21300000, guid: 5dc902faf5f3c4847a15cca932124ebc, type: 3}
   - {fileID: 21300000, guid: 645b681b86165b74798816bc2f98d41f, type: 3}
-  - {fileID: 21300000, guid: a1409d4ba19f8c941b1ebf0365491fe1, type: 3}
+  - {fileID: 21300000, guid: 2ca4828ba3d25ce4fb2ef044c9adf426, type: 3}
+  - {fileID: 21300000, guid: d6c6079baa9a76b41a21783c44438d3c, type: 3}
+  - {fileID: 21300000, guid: 6c1940ab53a093d41a33a8fc483600af, type: 3}
+  - {fileID: 21300000, guid: 587a05cb80ce07746ada444ec7f4e248, type: 3}
   - {fileID: 21300000, guid: 8185c02c28598b24aa36af0cd33f2377, type: 3}
   - {fileID: 21300000, guid: 2f27c34c5f45c4e4fbf62f1763a60778, type: 3}
   - {fileID: 21300000, guid: ae36855ce8a5c434d9541a21bb6a8356, type: 3}
+  - {fileID: 21300000, guid: a6dda95c5d5e9e14cb90344437549faa, type: 3}
   - {fileID: 21300000, guid: 3809257cb3adfe144a9ed1a5d21c3cb1, type: 3}
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: 30c7c8ac916667442bd9f90c67a7ae45, type: 3}
-  - {fileID: 21300000, guid: 3c2730ec582160a45a8104a552ad67e6, type: 3}
-=======
-  - {fileID: 21300000, guid: 277b44ac521c4c44e8562e2926d853a7, type: 3}
-  - {fileID: 21300000, guid: 30c7c8ac916667442bd9f90c67a7ae45, type: 3}
-  - {fileID: 21300000, guid: 3c2730ec582160a45a8104a552ad67e6, type: 3}
-  - {fileID: -1213093913, guid: 4a419eec00dd3184dbd0fc0423d1e83a, type: 3}
-  - {fileID: -96918526, guid: 4a419eec00dd3184dbd0fc0423d1e83a, type: 3}
-  - {fileID: 21300000, guid: 6cbe4e2d73da03e4ab80fbb939e27094, type: 3}
-  - {fileID: 21300000, guid: 318ea73d5c66ae84bba6831ef17dde24, type: 3}
-  - {fileID: 21300000, guid: 8489318d342874845b1cb63261808f19, type: 3}
->>>>>>> origin/Artiste
+  - {fileID: 21300000, guid: 544556dcf6293fb4ebad8b126ef9783d, type: 3}
+  - {fileID: 21300000, guid: dd30e68d0bcc6684c9c2653a5532052b, type: 3}
   - {fileID: 21300000, guid: 0652ca9d687544e43be0fbdbc6fced92, type: 3}
-  - {fileID: 21300000, guid: a81a9acd7b521504f920c234f7ca3add, type: 3}
   - {fileID: 21300000, guid: 19bf21dd1cf075c4dbae7f2bedba9eea, type: 3}
   - {fileID: 21300000, guid: 6b75b6dd606532f4d84b418f86c19de6, type: 3}
-  - {fileID: 21300000, guid: 7d55eded5bf430b46a64910f41804e8b, type: 3}
   - {fileID: 21300000, guid: c2c01f1e7b7e65c489e629dbb74c9663, type: 3}
   - {fileID: 21300000, guid: 5a21e32ecfe7f3e4c9b9764e132febc1, type: 3}
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: b8b6057ee98be3940b20311a435ab0dd, type: 3}
-=======
-  - {fileID: 21300000, guid: 75e5b92e523900a4299b15a36efd8e08, type: 3}
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - {fileID: 21300000, guid: b8b6057ee98be3940b20311a435ab0dd, type: 3}
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - {fileID: 21300000, guid: b8b6057ee98be3940b20311a435ab0dd, type: 3}
->>>>>>> Louis
-  - {fileID: 21300000, guid: 47e47a8e3e2b09e499973a4ea9f8350d, type: 3}
->>>>>>> origin/Artiste
   - {fileID: 21300000, guid: 82ccdcbe888441c47997e33137f961d2, type: 3}
+  - {fileID: 21300000, guid: bb1ef8ce49b78d94490bc8c4dccbcd21, type: 3}
   - {fileID: 21300000, guid: ba192cfe5ee4976468ef4f543435ced4, type: 3}
-  - {fileID: 21300000, guid: 1f0cc90f3e456ec4e8d609188ff2f339, type: 3}
-  - {fileID: 21300000, guid: e323ee0fb2639b34eaed4af2d610d635, type: 3}
+  - {fileID: 21300000, guid: e08d681f53a3be64e9f072f412dda048, type: 3}
   - {fileID: 21300000, guid: bd3f87effec5ee54e9d99a1ce65e463f, type: 3}
   m_PackedSpriteNamesToIndex:
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - Ordinateur_de_Controle
-  - "Icone_Minerais_AntiMati\xE8re_2"
-=======
-<<<<<<< HEAD
-  - Ordinateur_de_Controle
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - Ordinateur_de_Controle
->>>>>>> Louis
-  - Ui_Outil_Button_Orange
->>>>>>> origin/Artiste
+  - Ui_Slider_Barre_horizontal
   - Ui_Menu_Option_Alone
+  - Ui_Barre_Oxygene1
   - "Icone_Minerais_M\xE9taux_1"
-<<<<<<< HEAD
+  - Ui_Perso_InventaireView
+  - Ui_+ 1
+  - Ui_CaseCraft_3 1
   - Icone_Carbone
-  - RAFFINERIE
   - Icone_Minerais_Glace_1
-  - Fractionneuse
-=======
-  - Ui_Slider_Button_horizontal
-  - Icone_Minerais_Anti-Matiere_1
-  - Icone_Carbone
-  - RAFFINERIE
-  - Icone_Minerais_Glace_1
-  - Ui_Slider_Barre
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - Fractionneuse
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - Fractionneuse
->>>>>>> Louis
-  - Ui_Fleche_Slider
   - Ui_Barre_Vie1
->>>>>>> origin/Artiste
+  - Ui_Slider_Button 1
   - Icone_Bismuth
+  - Ui_Case_Modulaire1
   - Icone_Oxygene
+  - Ui_Inventaire_full_Fond
+  - Ui_ShootLaser_ButtonOrange 1
   - LogoRedIce
   - Icone_Cuivre
-  - Logotitle_1
+  - Ui_Barre_Vie_ContoureNoir
+  - Logotitle
+  - Ui_Case_Modulaire_Orange
   - Icone_Silicone
-  - Ui_Barre_Oxygene2
   - Icone_Or
+  - Ui_Fleche_Slider 1
+  - Ui_Barre_Oxygene_ContoureNoir
   - Icone_Argent
-  - Icone_Minerais_Standard
   - Ui_Barre_Mode
   - Ui_Menu_Credit
-  - Extracteur_Atmosphere
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+  - Ui_Main_ButtonOrange 1
   - Ui_Barre_Radiation1
->>>>>>> Louis
-  - Fusionneuse
   - Icone_Hydrogene
   - Ui_Menu_Quit
-  - MODULEUSE
-<<<<<<< HEAD
+  - Ui_Slider_Button_horizontal
+  - Ui_Perso_InventaireViewBis 1
+  - Ui_CaseModulaire2
   - Icone_Titane
   - Icone_Zinc
   - Ui_Menu_Play_Alone
+  - Ui_Slider_Barre_Levier 1
+  - Ui_Outil_Button 1
   - Ui_Main_Button 1
-=======
-  - Ui_Barre_Radiation1
-<<<<<<< HEAD
-  - Fusionneuse
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-  - Icone_Hydrogene
-  - Ui_Menu_Quit
-  - MODULEUSE
-=======
->>>>>>> Louis
-  - Ui_Crosshair
-  - Ui_Crosshair
-  - Icone_Titane
-  - Icone_Zinc
-  - Ui_Menu_Play_Alone
-  - Ui_CaseCraft
-  - Ui_CaseCraft_3
-  - Ui_Slider_Barre_horizontal
-  - Ui_Slider_Barre_Levier
-  - Ui_Levier_Button
-  - Ui_CaseCraft_2
->>>>>>> origin/Artiste
   - Ui_ModeConstruction
+  - Ui_ShootLaser_Button 1
   - Icone_Minerais_Standard_1
-  - Icone_Minerais_Corrosif
   - Ui_Menu_Quit_Alone
   - Ui_Fond_Inventaire2
+  - Ui_Barre_Radiation_ContoureNoir
   - Icone_Fer
   - Icone_Lithium
+  - Ui_= 1
   - Icone_Tungstene
-  - "Icone_Minerais_Pr\xE9cieux_"
+  - Ui_CaseCraft 1
+  - Ui_Levier_Button 1
   - Icone_Cuivre2
-  - Ui_Barre_Radiation2
+  - Ui_Banderole
+  - Ui_Inventaire_full_Cadre
+  - Ui_Slider_Barre 1
+  - Ui_Outil_Button_Orange 1
   - Ui_Case_Modulaire
   - "Icone_Minerais_Pr\xE9cieux_1"
   - Ui_Menu_Play
+  - Ui_Curseur 1
   - Icone_Etain
-<<<<<<< HEAD
-  - Tyrolienne
-  - Coffre
-=======
-  - Ui_ShootLaser_ButtonOrange
-  - Tyrolienne
-  - Coffre
-  - Ui_Roue_Ping_1
-  - Ui_Roue_Ping_0
-  - Ui_CaseModulaire3Orange
-  - Ui_Curseur
-  - Ui_+
->>>>>>> origin/Artiste
+  - Ui_Case_Modulaire 1
+  - Ui_Roue_Ping 1
   - Ui_Menu_Credit_Alone
-  - "Icone_Minerais_Anti-Mati\xE8re_1"
   - UI_Crosshair 1
   - Icone_Silicone2
-  - "Icone_Minerais_M\xE9taux"
   - Ui_ModeMain
   - Ui_Menu_Option
-<<<<<<< HEAD
-  - Fonderie
-=======
-  - "Ui_Temp\xE9rature"
-<<<<<<< HEAD
-<<<<<<< HEAD
-  - Fonderie
-=======
->>>>>>> parent of 64fdabb (tweaklbag)
-=======
-  - Fonderie
->>>>>>> Louis
-  - Ui_Perso_InventaireViewBis
->>>>>>> origin/Artiste
   - Ui_ModeMinage
+  - Ui_Fleche_Craft
   - Icone_Minerais_Corrosif_1
-  - Icone_Minerais_Glace
-  - Ui_Barre_Vie2
+  - Ui_Roue_Ping2 1
   - Icone_Aluminium
   m_RenderDataMap: {}
   m_Tag: UIAtlas
