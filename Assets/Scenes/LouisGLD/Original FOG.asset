@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: "Profil de fog N\xB02"
+  m_Name: Original FOG
   m_EditorClassIdentifier: 
   components:
   - {fileID: -1598941727991718448}
@@ -488,10 +488,10 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.27123773, g: 0.1764706, b: 0.9137255, a: 1}
+    m_Value: {r: 0.9137255, g: 0.44410852, b: 0.1764706, a: 1}
   maxFogDistance:
     m_OverrideState: 1
-    m_Value: 500
+    m_Value: 2244
   mipFogMaxMip:
     m_OverrideState: 0
     m_Value: 0.5
@@ -509,7 +509,7 @@ MonoBehaviour:
     m_Value: 2016
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 140
+    m_Value: 110
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -564,7 +564,7 @@ MonoBehaviour:
   active: 1
   indirectDiffuseLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 1.2e-10
   indirectDiffuseLightingLayers:
     m_OverrideState: 1
     m_Value: 255
