@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip runSFX;
     [SerializeField] private AudioClip crouchSFX;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Animator animator;
+    
     
     
 
@@ -156,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
+            
             walk = true;
             
         }
@@ -175,10 +178,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
+            animator.SetBool("Idle", true);
+            animator.SetBool("Running", true);
             sprint = true;
         }
         else if(context.canceled)
         {
+            animator.SetBool("Running", false);
             sprint = false;
         }
     }
