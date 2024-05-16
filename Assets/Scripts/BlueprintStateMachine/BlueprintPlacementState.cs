@@ -107,7 +107,7 @@ public class BlueprintPlacementState : BlueprintBaseState
             if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
             {
                 InventoryItemCostRemoval();
-                _machineToPlace.transform.position = hitData.transform.position + Vector3.up;
+                _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.5f;
                 blueprint.SwitchState(blueprint.buildingState);
                 
             }
