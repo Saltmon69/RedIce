@@ -102,7 +102,7 @@ public class UICursorDataDisplay : MonoBehaviour
 
         try
         {
-            Debug.Log(_resultList[0].gameObject);
+            //Debug.Log(_resultList[0].gameObject);
             _itemDisplaying = _resultList[0].gameObject.GetComponent<InventoryItem>().item;
         }
         catch(NullReferenceException){ return; }

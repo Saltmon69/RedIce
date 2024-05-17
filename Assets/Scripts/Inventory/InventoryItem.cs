@@ -68,7 +68,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         image.raycastTarget = false;
         parentAfterDrag = transform.parent;
-        transform.SetParent(transform.root);
+        transform.SetParent(inventoryManager.transform.GetChild(0));
         
     }
     
