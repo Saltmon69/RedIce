@@ -18,6 +18,17 @@ public class ItemStart : MonoBehaviour
             
             inventoryManager.DevCheat();
         }
+
+        StartCoroutine(time());
     }
 
+    public IEnumerator time()
+    {
+        while (true)
+        {
+            Debug.Log(Time.timeScale);
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+    }
 }

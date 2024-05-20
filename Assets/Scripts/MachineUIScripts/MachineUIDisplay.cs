@@ -140,7 +140,8 @@ public class MachineUIDisplay : MonoBehaviour
     public void ActivateUIDisplay()
     {
         isUIOpen = true;
-
+        //Time.timeScale = 1;
+        
         LoadUIReferences();
         OnDisplayInstantiate();
 
@@ -150,11 +151,9 @@ public class MachineUIDisplay : MonoBehaviour
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
         }
 
-
         LoadInventory();
         LoadPlayerInventory();
-
-
+        
         _machineCraftingButtonList = new List<GameObject>();
         
         //assigne chaque tier de craft a la liste de craft
@@ -313,8 +312,7 @@ public class MachineUIDisplay : MonoBehaviour
     //fonction qu il y a sur chacun des boutons affin d'afficher la nouvelle recette pour ce craft
     private void SetRecipeOnClick(int a, bool isClicked)
     {
-        _isMachineForcedToDeactivate = true;
-        
+       
         //supprime l ancienne recette affiché
         for(var i = 0; i < _machineRecipeUI.transform.childCount; i++)
         {
@@ -350,14 +348,15 @@ public class MachineUIDisplay : MonoBehaviour
                     Instantiate(_plusSignPrefab, _machineRecipeUI.transform);
                 }
             }
+            
+            CraftAmount();
         }
         else
         {
             _machineCraftUI.transform.GetChild(a).GetComponent<Image>().color = new Color(1,1,1);
+            _isMachineForcedToDeactivate = true;
             _usedRecipeIndex = -1;
         }
-        
-        CraftAmount();
     }
 
     //rafraichi l'UI de la recette pour qu elle correspond et soit directement lié avec le nombre de matériaux dans l'inventaire de la machine
@@ -402,9 +401,10 @@ public class MachineUIDisplay : MonoBehaviour
                         _recipeMaterialList[i].text = _machineCraftRecipe.outputsAmount[i - _machineCraftRecipe.inputs.Count] + " " + _machineCraftRecipe.outputs[i - _machineCraftRecipe.inputs.Count].nom;  
                     }
                 }  
+                CraftAmount();
             }
-            CraftAmount();
             yield return new WaitForSeconds(0.2f);
+            Debug.Log(("yes"));
         }
     }
 
@@ -569,6 +569,7 @@ public class MachineUIDisplay : MonoBehaviour
         }
     }
 
+    //actualise l affichage du montant de fois que l a mahcine peut repeter la recette
     private void CraftAmount()
     {
         if(!isUIOpen) return;
