@@ -33,16 +33,19 @@ public class BlueprintMoveState : BlueprintBaseState
             }
             
             //Actualise les matériaux pour le feedback de quel machine on va selectionner
-            if(hitData.transform.gameObject != oldHitData.transform.gameObject  || !hadHit)
+            if(hitData.transform.gameObject != oldHitData.transform.gameObject || !hadHit)
             {
-                if(hitData.transform.CompareTag("Untagged"))
+                try
                 {
-                    hitData.transform.GetComponent<HighlightComponent>().Outline();
-                }
-                else
-                {
-                    hitData.transform.parent.GetComponent<HighlightComponent>().Outline();
-                }
+                    if(hitData.transform.CompareTag("Untagged"))
+                    {
+                        hitData.transform.GetComponent<HighlightComponent>().Outline();
+                    }
+                    else
+                    {
+                        hitData.transform.parent.GetComponent<HighlightComponent>().Outline();
+                    }
+                }catch(NullReferenceException){}
             }
         }
 
