@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1931554770415737720}
   - component: {fileID: 7070900064547131931}
   - component: {fileID: 1669462176714063477}
-  - component: {fileID: 2371164971936151162}
   - component: {fileID: 16367248302268227}
   - component: {fileID: 2586345954495333991}
   - component: {fileID: 5659584728924816714}
@@ -81,21 +80,6 @@ MonoBehaviour:
   agent: {fileID: 7070900064547131931}
   subject: {fileID: 0}
   anim: {fileID: 2586345954495333991}
---- !u!114 &2371164971936151162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3248441275126521545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62ab711d6e64b440bf97d5143407033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chestUpgradeItemTierList: []
-  playerInventory: {fileID: 0}
-  upgradeState: 0
 --- !u!135 &16367248302268227
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -275,6 +259,7 @@ GameObject:
   - component: {fileID: 2310773229059174315}
   - component: {fileID: 5536890534705382691}
   - component: {fileID: 2723518474974835258}
+  - component: {fileID: 8680154183816367590}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Chest
@@ -291,7 +276,7 @@ Transform:
   m_GameObject: {fileID: 8313803807126882597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -385,6 +370,33 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 27d887cd8cc4af6488c7479b21ecf00d, type: 2}
   playerInventory: {fileID: 0}
   upgradeState: 0
+--- !u!54 &8680154183816367590
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313803807126882597}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &6961142402326888529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -411,7 +423,7 @@ PrefabInstance:
     - target: {fileID: 8666663655962087308, guid: 29274ef3d8a02b64094cadbadf0b6c4d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.43
+      value: -1.96
       objectReference: {fileID: 0}
     - target: {fileID: 8666663655962087308, guid: 29274ef3d8a02b64094cadbadf0b6c4d,
         type: 3}

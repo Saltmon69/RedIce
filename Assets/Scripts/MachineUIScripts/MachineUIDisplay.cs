@@ -109,7 +109,7 @@ public class MachineUIDisplay : MonoBehaviour
         _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
         _thisMachineUIDisplay.GetComponent<Canvas>().planeDistance = 5;
         
-        _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
+        _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
         _machineInventoryUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineInventoryDropSlotUI = _thisMachineUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _machineUpgradeSlotUI = _thisMachineUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -149,6 +149,7 @@ public class MachineUIDisplay : MonoBehaviour
         {
             this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
+            _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
         }
 
         LoadInventory();
@@ -404,7 +405,6 @@ public class MachineUIDisplay : MonoBehaviour
                 CraftAmount();
             }
             yield return new WaitForSeconds(0.2f);
-            Debug.Log(("yes"));
         }
     }
 
@@ -439,14 +439,11 @@ public class MachineUIDisplay : MonoBehaviour
                     _thisUpgradeInventoryItemInSlot = _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
                     _hasItemInUpgradeSlot = true;
 
-                    for(var i = 1; i <= machineUpgradeItemTier.Count; i++)
-                    {
-                        if(_thisUpgradeInventoryItemInSlot.item == machineUpgradeItemTier[^i])
-                        {
-                            _machineUpgradeTier = machineUpgradeItemTier.Count - i;
-                            SetCraftingButtonToMachineTier(_machineUpgradeTier);
-                        }
-                    }
+                    Debug.Log(_thisUpgradeInventoryItemInSlot.item);
+                    Debug.Log(machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item));
+                    
+                    _machineUpgradeTier = machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item);
+                    SetCraftingButtonToMachineTier(_machineUpgradeTier + 1);
                 }
 
                 if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
@@ -454,7 +451,7 @@ public class MachineUIDisplay : MonoBehaviour
                     Debug.Log("an upgrade item has been removed");
                     _machineUpgradeTier = 0;
                     SetCraftingButtonToMachineTier(_machineUpgradeTier);
-                    _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
+                    _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0f);
                     _hasItemInUpgradeSlot = false;
                     if(_usedRecipeIndex != -1) SetRecipeOnClick(_usedRecipeIndex, true);
                     
@@ -475,13 +472,13 @@ public class MachineUIDisplay : MonoBehaviour
         switch(upgradeSlotItemTier)
         {
             case 0:
-                _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
+                _machineBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0f);
                 break;
             case 1:
-                _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0.65f,0f, 0.5f);
+                _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0.65f,0f, 1f);
                 break;
             case 2:                         
-                _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0f,0f, 0.5f); 
+                _machineBackgroundUI.GetComponent<Image>().color = new Color(1f,0f,0f, 1f); 
                 break;
         }
 

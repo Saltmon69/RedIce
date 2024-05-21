@@ -19,7 +19,7 @@ public class ItemStart : MonoBehaviour
             inventoryManager.DevCheat();
         }
 
-        StartCoroutine(time());
+        //StartCoroutine(time());
     }
 
     public IEnumerator time()

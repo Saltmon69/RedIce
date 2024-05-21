@@ -53,7 +53,7 @@ public class UICursorDataDisplay : MonoBehaviour
         currentDelay = baseDelay;
 
         //_allCraftArray = new Recipe[]{};
-        _allCraftArray = Resources.LoadAll<Recipe>("Crafts");
+        _allCraftArray = Resources.LoadAll<Recipe>("SO/Crafts");
 
         _allMachineArray = Resources.LoadAll<GameObject>("Machines");
 
@@ -92,7 +92,9 @@ public class UICursorDataDisplay : MonoBehaviour
                 }
             }catch(ArgumentException){ _oldResultList = _resultList; }
 
-            yield return new WaitForSeconds(0.05f);
+            if(Input.GetKeyDown(KeyCode.Escape)) _thisInfoCursorDisplay.gameObject.SetActive(false);
+            
+            yield return new WaitForSecondsRealtime(0.05f);
         }
     }
 
@@ -110,7 +112,7 @@ public class UICursorDataDisplay : MonoBehaviour
         _isUIUp = true;
         Debug.Log("in");
         
-        _thisInfoCursorDisplay = Instantiate(_infoCursorDisplayPrefab, _resultList[0].gameObject.transform.position, this.gameObject.transform.GetChild(0).rotation, this.gameObject.transform.GetChild(0));
+        _thisInfoCursorDisplay = Instantiate(_infoCursorDisplayPrefab, _resultList[0].gameObject.transform.parent.position, this.gameObject.transform.GetChild(0).rotation, this.gameObject.transform.GetChild(0));
         _thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition += displayOffset;
         
         DisplayOverview();
