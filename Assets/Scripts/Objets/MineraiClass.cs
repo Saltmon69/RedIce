@@ -77,8 +77,13 @@ public class MineraiClass : MonoBehaviour
         quantity += damage * critMultiplicator;
         if (mineraiLife <= 0)
         {
-            audioSource.PlayOneShot(mineraiDestroyedSFX);
-            DestroyGameObject();
+            bool ended = QuantityCalculator(quantity);
+            if (ended)
+            {
+                audioSource.PlayOneShot(mineraiDestroyedSFX);
+                DestroyGameObject();
+            }
+            
         }
     }
     
@@ -98,6 +103,7 @@ public class MineraiClass : MonoBehaviour
     {
         bool ended = false;
 
+        Debug.Log("Quantity : " + quantity);
         foreach (var ressource in ressources)
         {
             

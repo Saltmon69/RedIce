@@ -120,12 +120,15 @@ public class PlayerInteraction : MonoBehaviour
                     mineraiClass.quantity = 0;
                 }
             }
+                
+            
         }
         
         if (mineraiClass != null)
         {
             if (mineraiClass.mineraiLife <= 0)
             {
+                
                 isApplyingDamage = false;
                 mineraiClass = null;
             }
