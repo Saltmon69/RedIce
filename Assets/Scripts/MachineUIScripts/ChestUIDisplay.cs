@@ -36,7 +36,7 @@ public class ChestUIDisplay : MonoBehaviour
         _chestUIPrefab = Resources.Load<GameObject>("MachineUI/UIChest");
         _thisChestUIDisplay = Instantiate(_chestUIPrefab);
         
-        _chestBackgroundUI = _thisChestUIDisplay.transform.GetChild(0).GetChild(0).gameObject;
+        _chestBackgroundUI = _thisChestUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
         _chestInventory = _thisChestUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _chestPlayerInventoryUI = _thisChestUIDisplay.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _chestUpgradeSlot = _thisChestUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
@@ -63,17 +63,17 @@ public class ChestUIDisplay : MonoBehaviour
                 if(_itemInUpgradeSlot.item == chestUpgradeItemTierList[1])
                 {
                     upgradeState = 2;
-                    _chestBackgroundUI.GetComponent<Image>().color = new Color(1f,0f,0f, 0.5f);
+                    _chestBackgroundUI.GetComponent<Image>().color = new Color(1f,0f,0f, 1f);
                 }
                 else if(_itemInUpgradeSlot.item == chestUpgradeItemTierList[0])
                 {
                     upgradeState = 1;
-                    _chestBackgroundUI.GetComponent<Image>().color = new Color(1f,0.65f,0f, 0.5f);
+                    _chestBackgroundUI.GetComponent<Image>().color = new Color(1f,0.65f,0f, 1f);
                 }
                 else
                 {
                     upgradeState = 0;
-                    _chestBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
+                    _chestBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0f);
                 }
                 
                 _hasItemInUpgradeSlot = true;
@@ -83,7 +83,7 @@ public class ChestUIDisplay : MonoBehaviour
             {
                 Debug.Log("an upgrade item has been removed");
                 upgradeState = 0;
-                _chestBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0.5f);
+                _chestBackgroundUI.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f, 0f);
                 _hasItemInUpgradeSlot = false;
             }
             

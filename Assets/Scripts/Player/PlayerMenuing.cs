@@ -62,6 +62,7 @@ public class PlayerMenuing : MonoBehaviour
         if(playerModeSelect.canPlayerSwitchMode)
         {
             inMenu = true;
+            Time.timeScale = 0;
             mainMenu.SetActive(true);
             inventory.SetActive(false);
             
@@ -74,6 +75,7 @@ public class PlayerMenuing : MonoBehaviour
     public void OnI(InputAction.CallbackContext context)
     {
         inMenu = true;
+        Time.timeScale = 0;
         inventory.SetActive(true);
         mainMenu.SetActive(false);
         
@@ -85,6 +87,7 @@ public class PlayerMenuing : MonoBehaviour
     public void OnM(InputAction.CallbackContext context)
     {
         inMenu = true;
+        Time.timeScale = 0;
         mainMenu.SetActive(false);
         inventory.SetActive(false);
     }
@@ -93,13 +96,14 @@ public class PlayerMenuing : MonoBehaviour
     public void OnQuitPressed()
     {
         inMenu = false;
+        Time.timeScale = 1;
     }
     
     public void InMenu()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
             
         inputManager.DisableDeplacement();
         playerMouseLook.enabled = false;
@@ -132,6 +136,7 @@ public class PlayerMenuing : MonoBehaviour
     public void Inventory()
     {
         inMenu = true;
+        Time.timeScale = 0;
         inventory.SetActive(true);
         mainMenu.SetActive(false);
         
