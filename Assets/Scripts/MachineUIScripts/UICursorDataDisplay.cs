@@ -72,27 +72,31 @@ public class UICursorDataDisplay : MonoBehaviour
             
             try
             {
-                if (!_isUIUp)
+                if(_resultList[0].gameObject != _oldResultList[0].gameObject)
                 {
-                    if(_resultList[0].gameObject != _oldResultList[0].gameObject)
-                    {
-                        currentDelay = baseDelay;
+                    currentDelay = baseDelay;
 
-                        _oldResultList = _resultList;
-                    }
-                    
-                    currentDelay -= 0.05f;
-                    
-                    if(currentDelay <= 0.05f && currentDelay >= 0f) CursorUIInformationDisplay();
+                    _oldResultList = _resultList;
                 }
-                else if(!_thisInfoCursorDisplay.gameObject.activeInHierarchy)
+                currentDelay -= 0.05f;
+                if(currentDelay <= 0.05f && currentDelay >= 0f) CursorUIInformationDisplay();
+
+                try
                 {
-                    Destroy(_thisInfoCursorDisplay.gameObject);
-                    _isUIUp = false;
-                }
+                    if(_isUIUp && !_thisInfoCursorDisplay.gameObject.activeInHierarchy)
+                    {
+                        Destroy(_thisInfoCursorDisplay.gameObject);
+                        _isUIUp = false;
+                    }
+                }catch(MissingReferenceException){_isUIUp = false;}
+
             }catch(ArgumentException){ _oldResultList = _resultList; }
 
-            if(Input.GetKeyDown(KeyCode.Escape) && _isUIUp) _thisInfoCursorDisplay.gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Escape) && _isUIUp)
+            {
+                DestroyImmediate(_thisInfoCursorDisplay.gameObject);
+                _isUIUp = false;
+            }
             
             yield return new WaitForSecondsRealtime(0.05f);
         }
@@ -101,6 +105,8 @@ public class UICursorDataDisplay : MonoBehaviour
     private void CursorUIInformationDisplay()
     {
         currentDelay = baseDelay;
+        
+        if(_isUIUp) Destroy(_thisInfoCursorDisplay.gameObject);
 
         try
         {
