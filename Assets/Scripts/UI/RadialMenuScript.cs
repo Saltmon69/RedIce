@@ -1,5 +1,6 @@
         using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RadialMenuScript : MonoBehaviour
@@ -24,6 +25,7 @@ public class RadialMenuScript : MonoBehaviour
         playerMenuing.inMenu = false;
         
         itemHit = playerInteraction.RaycastMaker(100f);    
+        Debug.Log(itemHit.collider.gameObject.name);
         
         if(itemHit.collider == null || itemHit.collider.CompareTag("Obstacle") || itemHit.collider.CompareTag("Ground") || itemHit.collider.CompareTag("Player") || itemHit.collider.CompareTag("Minerai"))
         {

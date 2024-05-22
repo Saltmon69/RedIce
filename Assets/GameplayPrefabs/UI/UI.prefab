@@ -1393,7 +1393,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1959691923, guid: 868eab999058c1b4ca436eeb91ff42b7, type: 3}
+  m_Sprite: {fileID: 225756740, guid: e08d681f53a3be64e9f072f412dda048, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1432,9 +1432,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: -1213093913, guid: 4a419eec00dd3184dbd0fc0423d1e83a,
+    m_HighlightedSprite: {fileID: -1564827913, guid: dd30e68d0bcc6684c9c2653a5532052b,
       type: 3}
-    m_PressedSprite: {fileID: -1213093913, guid: 4a419eec00dd3184dbd0fc0423d1e83a,
+    m_PressedSprite: {fileID: -1564827913, guid: dd30e68d0bcc6684c9c2653a5532052b,
       type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
@@ -5126,16 +5126,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5242222886456672070}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d52908cb43bc848408afcbc22cf4dd60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thisGameObject: {fileID: 0}
-  mono: []
+  mono:
+  - {fileID: 0}
   scriptReference: 0
   thisScript: {fileID: 0}
-  fieldNameList: []
+  fieldNameList:
+  - maxPower
+  - currentPowerUsage
+  - isPlayerOn
   fieldReference: 0
   fieldReferenceName: maxPower
   intFloatBool: 0
@@ -6097,7 +6101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 953177793, guid: 868eab999058c1b4ca436eeb91ff42b7, type: 3}
+  m_Sprite: {fileID: -203098751, guid: e08d681f53a3be64e9f072f412dda048, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6136,9 +6140,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: -96918526, guid: 4a419eec00dd3184dbd0fc0423d1e83a,
+    m_HighlightedSprite: {fileID: 1163343045, guid: dd30e68d0bcc6684c9c2653a5532052b,
       type: 3}
-    m_PressedSprite: {fileID: -96918526, guid: 4a419eec00dd3184dbd0fc0423d1e83a, type: 3}
+    m_PressedSprite: {fileID: 1163343045, guid: dd30e68d0bcc6684c9c2653a5532052b,
+      type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
