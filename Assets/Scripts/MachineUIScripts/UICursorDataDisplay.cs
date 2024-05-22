@@ -92,7 +92,7 @@ public class UICursorDataDisplay : MonoBehaviour
                 }
             }catch(ArgumentException){ _oldResultList = _resultList; }
 
-            if(Input.GetKeyDown(KeyCode.Escape)) _thisInfoCursorDisplay.gameObject.SetActive(false);
+            if(Input.GetKeyDown(KeyCode.Escape) && _isUIUp) _thisInfoCursorDisplay.gameObject.SetActive(false);
             
             yield return new WaitForSecondsRealtime(0.05f);
         }
