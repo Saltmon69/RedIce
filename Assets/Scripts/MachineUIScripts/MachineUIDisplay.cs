@@ -442,8 +442,8 @@ public class MachineUIDisplay : MonoBehaviour
                     Debug.Log(_thisUpgradeInventoryItemInSlot.item);
                     Debug.Log(machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item));
                     
-                    _machineUpgradeTier = machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item);
-                    SetCraftingButtonToMachineTier(_machineUpgradeTier + 1);
+                    _machineUpgradeTier = machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item) + 1;
+                    SetCraftingButtonToMachineTier(_machineUpgradeTier);
                 }
 
                 if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
