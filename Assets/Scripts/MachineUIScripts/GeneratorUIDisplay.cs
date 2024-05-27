@@ -42,9 +42,6 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         _generatorUIPrefab = Resources.Load<GameObject>("MachineUI/UIGenerator");
         _thisGeneratorUIDisplay = Instantiate(_generatorUIPrefab);
-        _thisGeneratorUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
-        _thisGeneratorUIDisplay.GetComponent<Canvas>().planeDistance = 5;
-        
         _generatorUpgradeSlotUI = _thisGeneratorUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _computerPlayerInventoryUI = _thisGeneratorUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _thisSlider = _thisGeneratorUIDisplay.transform.GetChild(3).GetComponent<Slider>();

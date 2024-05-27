@@ -35,8 +35,6 @@ public class ChestUIDisplay : MonoBehaviour
     {
         _chestUIPrefab = Resources.Load<GameObject>("MachineUI/UIChest");
         _thisChestUIDisplay = Instantiate(_chestUIPrefab);
-        _thisChestUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
-        _thisChestUIDisplay.GetComponent<Canvas>().planeDistance = 5;
         
         _chestBackgroundUI = _thisChestUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
         _chestInventory = _thisChestUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).gameObject;

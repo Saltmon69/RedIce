@@ -37,16 +37,13 @@ public class ComputerUIDisplay : MonoBehaviour
     {
         _computerUIPrefab = Resources.Load<GameObject>("MachineUI/UIComputer");
         _thisComputerUIDisplay = Instantiate(_computerUIPrefab);
-        _thisComputerUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
-        _thisComputerUIDisplay.GetComponent<Canvas>().planeDistance = 5;
-        
+
         _computerUpgradeSlotUIList = new List<GameObject>();
         _itemInUpgradeSlotList = new List<InventoryItem>(new InventoryItem[_thisComputerUIDisplay.transform.childCount - 2]);
 
         for(var i = 2; i < _thisComputerUIDisplay.transform.childCount; i++)
         {
             _computerUpgradeSlotUIList.Add(_thisComputerUIDisplay.transform.GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject);
-            if(i < 2 + upgradeState) _thisComputerUIDisplay.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);
             if(i > 2 + upgradeState) _thisComputerUIDisplay.transform.GetChild(i).gameObject.SetActive(false);
         }
 
@@ -79,8 +76,9 @@ public class ComputerUIDisplay : MonoBehaviour
                 if(_itemInUpgradeSlotList[upgradeState].item == computerUpgradeItemTierList[upgradeState])
                 {
                     Debug.Log("the right upgrade has been added");
-                    _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).GetChild(2).gameObject.SetActive(true);
                     if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
+                    thisBase.transform.GetChild(upgradeState).gameObject.SetActive(true);
+                    thisBase.transform.GetChild(upgradeState - 1).GetChild(2).gameObject.SetActive(true);
                     upgradeState++;
                     MaxPowerUpgrade();
                 }
