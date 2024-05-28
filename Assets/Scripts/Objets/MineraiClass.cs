@@ -36,7 +36,9 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip mineraiDestroyedSFX;
 
-    [Tab("UI")] 
+    [Tab("UI")]
+    [SerializeField] Canvas canvas;
+    [SerializeField] public GameObject image;
     [SerializeField] private GameObject UI;
     [SerializeField] private GameObject quantityFbPrefab;
     
@@ -46,6 +48,7 @@ public class MineraiClass : MonoBehaviour
     #region Fonctions
     private void Awake()
     {
+        canvas.worldCamera = Camera.main;
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         mineraiVertices = mineraiMesh.mesh.vertices;
         spawner = GetComponentInParent<MineraiSpawner>();

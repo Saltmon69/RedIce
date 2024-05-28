@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4351021-4d5f-402e-b304-5bc08c2defae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/LouisMLD.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/LouisMLD.unity.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RedIce/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RedIce/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GameplayPrefabs/Objects/DarkMatterPlatform.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameplayPrefabs/Objects/DarkMatterPlatform.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GameplayPrefabs/Objects/DarkMatterWall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameplayPrefabs/Objects/DarkMatterWall.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/2D/UI/UIAtlas.spriteatlas" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/2D/UI/UIAtlas.spriteatlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/3D/Models/Rocks/ROCK_03_Low.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/3D/Models/Rocks/ROCK_03_Low.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Anthony/VFX/SDF.vfx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Anthony/VFX/SDF.vfx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/HugoLD.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/HugoLD.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Objets/DarkMatterObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Objets/DarkMatterObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.polybrush/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.polybrush/Settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +31,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Menu/OptionsScript.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Objets/MineraiSpawner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ai.navigation@1.1.5/Runtime/NavMeshSurface.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.7.0/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.7.0/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/UIBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
@@ -58,32 +56,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
-    "Discover.Launch.Via.Unity": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Louis",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "configurable.group.build",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Louis&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\louis\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\louis\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\louis\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\louis\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\louis\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\louis\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/Desktop/Build Redice/BuildAvecLDPostProcess\RedIce.exe" />
@@ -289,6 +287,11 @@
       <workItem from="1716282229769" duration="218000" />
       <workItem from="1716363633744" duration="2172000" />
       <workItem from="1716801027020" duration="2197000" />
+      <workItem from="1716882870238" duration="4874000" />
+      <workItem from="1716888289843" duration="604000" />
+      <workItem from="1716888924148" duration="1341000" />
+      <workItem from="1716892181637" duration="565000" />
+      <workItem from="1716892770594" duration="328000" />
     </task>
     <servers />
   </component>

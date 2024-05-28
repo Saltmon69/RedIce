@@ -19,12 +19,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool isGrounded;
     [SerializeField] bool jump;
     [SerializeField] bool crouch;
+    [SerializeField] private bool falling;
     
     
     [Tab("Mouvements")]
     [SerializeField] CharacterController controller;
     [SerializeField] float speed = 12f;
     Vector2 horizontalInput;
+    Vector3 horizontalVelocity, moveDirection;
+    private Transform fallStart;
+    private Transform fallEnd;
     
     [Tab("Saut")]
     [SerializeField] float jumpHeight = 3f;
@@ -39,6 +43,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float standingHeight;
     [SerializeField] private float crouchHeight;
     
+    [Tab("References")]
+    [SerializeField] private PlayerManager playerManager;
+    
+    [Tab("Camera effects")]
+    public float baseCameraFOV = 60f;
+    public float baseCameraHeight = 1.8f;
+    
+    public float walkBobbingRate = .75f;
+    public float runBobbingRate = 1f;
+    public float maxWalkBobbingOffset = .2f;
+    public float maxRunBobbingOffset = .3f;
     
     [Tab("SFX")]
     [SerializeField] private AudioClip jumpSFX;
@@ -63,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         crouchHeight = standingHeight / 2;
         
         inputManager.deplacement.performed += ctx => horizontalInput = ctx.ReadValue<Vector2>();
-        inputManager.deplacement.canceled += ctx => horizontalInput = Vector2.zero;
+        
         inputManager.deplacement.performed += Walk;
         inputManager.deplacement.canceled += Walk;
         inputManager.jump.performed += OnJumpPressed;
@@ -74,17 +89,53 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //Jump
-        
+        // Jump
+    
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask|obstacleMask);
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask | obstacleMask);
         
+    
         if (isGrounded && verticalVelocity.y < 0)
         {
             verticalVelocity.y = -2f;
         }
-        
+
+        if (!isGrounded)
+        {
+            fallStart = transform;
+            falling = true;
+            Debug.Log("Falling");
+            if (!falling)
+            {
+                Debug.Log("FallEnd");
+                fallEnd = transform;
+                if (fallStart.position.y - fallEnd.position.y > 5f)
+                {
+                    playerManager.playerHealth -= 10 * ((int)((fallStart.position.y - fallEnd.position.y) - 5))/10;
+                }
+            }
+        }
+
+        if (isGrounded)
+        {
+            falling = false;
+        }
+    
+        // Caméra
+    
+        Vector3 camForward = playerCamera.forward;
+        Vector3 camRight = playerCamera.right;
+    
+        camForward.y = 0;
+        camRight.y = 0;
+    
+        Vector3 forwardRelative = camForward.normalized * horizontalInput.y;
+        Vector3 rightRelative = camRight.normalized * horizontalInput.x;
+    
+        // Mouvements
+        Vector3 moveDirection = forwardRelative + rightRelative;
+
         if (jump)
         {
             if (isGrounded)
@@ -93,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
             }
             jump = false;
         }
-
+    
         if (walk)
         {
             audioSource.Play();
@@ -102,57 +153,57 @@ public class PlayerMovement : MonoBehaviour
         {
             audioSource.Stop();
         }
-        
-        //Caméra
-        
-        Vector3 camForward = playerCamera.forward;
-        Vector3 camRight = playerCamera.right;
-        
-        camForward.y = 0;
-        camRight.y = 0;
-        
-        Vector3 forwardRelative = camForward.normalized * horizontalInput.y;
-        Vector3 rightRelative = camRight.normalized * horizontalInput.x;
-        
-        //Mouvements
-        
-        Vector3 moveDirection = forwardRelative + rightRelative;
-        
-        Vector3 horizontalVelocity = (moveDirection) * speed;
-        controller.Move(horizontalVelocity * Time.deltaTime);
-        verticalVelocity.y += gravity * Time.deltaTime;
-        controller.Move(verticalVelocity * Time.deltaTime);
-        
-        
-        
+    
         if (crouch)
         {
             controller.height = crouchHeight;
             speed = 6f;
             playerCamera.localPosition = new Vector3(0, 0.5f, 0);
-            
-            
         }
-        if (!crouch)
+        else
         {
             controller.height = standingHeight;
-            speed = 12f;
             playerCamera.localPosition = new Vector3(0, 0.8f, 0);
-            
-        }
-
-        if (!crouch)
-        {
+        
             if (sprint)
             {
                 speed = 24f;
             }
-            if (!sprint)
+            else
             {
                 speed = 12f;
             }
         }
+        // Conserver l'inertie en l'air
+        if (isGrounded)
+        {
+            horizontalVelocity = moveDirection * speed; // Met à jour la vitesse horizontale seulement au sol
+        }
+        // FOV
+        
+        float fovOffset = (controller.velocity.y < 0f) ? Mathf.Sqrt(Mathf.Abs(controller.velocity.y)) : 0f;
+        // Head Bobbing
+        if (isGrounded)
+        {
+            float bobbingRate = sprint ? runBobbingRate : walkBobbingRate;
+            float maxBobbingOffset = sprint ? maxRunBobbingOffset : maxWalkBobbingOffset;
+            Vector3 targetHeadPosition = Vector3.up * baseCameraHeight + Vector3.up *
+                (Mathf.PingPong(Time.time * bobbingRate, maxBobbingOffset) - maxBobbingOffset * 0.5f);
+            
+            if (walk)
+            {
+                playerCamera.localPosition = Vector3.Lerp(playerCamera.localPosition, targetHeadPosition, .1f);
+            }
+        }
+
+        // Effectuer le mouvement
+        controller.Move(horizontalVelocity * Time.deltaTime);
+    
+        verticalVelocity.y += gravity * Time.deltaTime;
+        controller.Move(verticalVelocity * Time.deltaTime);
+    
     }
+
     
     public void Walk(InputAction.CallbackContext context)
     {
