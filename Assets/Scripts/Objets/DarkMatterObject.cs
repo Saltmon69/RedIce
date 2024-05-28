@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DarkMatterObject : MonoBehaviour
@@ -17,13 +16,11 @@ public class DarkMatterObject : MonoBehaviour
     private bool playerInTrigger = false;
     
     [SerializeField] PlayerInteraction playerInteraction;
-    [SerializeField] public GameObject SFX;
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         meshCollider = GetComponent<MeshCollider>();
         playerInteraction = FindObjectOfType<PlayerInteraction>();
-        SFX.SetActive(false);
     }
 
     private void Update()
@@ -66,15 +63,7 @@ public class DarkMatterObject : MonoBehaviour
                 gameObject.layer = 3;
             }
         }
-
-        if (playerInteraction.avaIsPressed)
-        {
-            SFX.SetActive(true);
-        }
-        else
-        {
-            SFX.SetActive(false);
-        }
+        
         
     }
 
@@ -95,11 +84,7 @@ public class DarkMatterObject : MonoBehaviour
             playerInTrigger = false;
         }
     }
-
-    
 }
-
-
 
 public enum DarkMatterType
 {
