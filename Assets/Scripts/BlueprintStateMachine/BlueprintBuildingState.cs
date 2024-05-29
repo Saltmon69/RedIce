@@ -32,7 +32,8 @@ public class BlueprintBuildingState : BlueprintBaseState
     private Vector3 _machineStartPlacement;
     
     private PlayerMenuing _playerMenuing;
-
+    private InventoryUpgrade _inventoryUpgrade;
+    
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(true);
@@ -107,6 +108,21 @@ public class BlueprintBuildingState : BlueprintBaseState
             RecipeMaterialManager(_machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialList, _machinesPrefab[a].GetComponent<MachineCost>().buildingMaterialAmountList);
             if(_hasEnoughMaterial) _thisMachineButton.GetComponent<Button>().onClick.AddListener(() => { MachineChosen(a, blueprint); });
         }
+
+        _inventoryUpgrade = GameObject.FindWithTag("Respawn").gameObject.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<InventoryUpgrade>();
+
+        Debug.Log(_inventoryUpgrade);
+        
+        //checks for upgrade to unlock new machine menus
+        if(_inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Upgrades/OrangeToolModule")))
+        {
+            _machineBuildingDisplay.transform.GetChild(0).GetChild(0).GetChild(3).GetComponent<Button>().interactable = true;
+            
+            if (_inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Upgrades/RedToolModule")))
+            {
+                _machineBuildingDisplay.transform.GetChild(1).GetChild(0).GetChild(3).GetComponent<Button>().interactable = true;
+            }
+        } 
     }
 
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
