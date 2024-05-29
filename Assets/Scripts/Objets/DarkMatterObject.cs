@@ -36,12 +36,14 @@ public class DarkMatterObject : MonoBehaviour
             {
                 meshRenderer.material = darkMatterMaterial;
                 meshCollider.isTrigger = true;
+                
                 gameObject.layer = 0;
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
                 meshCollider.isTrigger = false;
+
                 gameObject.layer = 7;
             }
         }
@@ -51,6 +53,7 @@ public class DarkMatterObject : MonoBehaviour
             {
                 meshRenderer.material = darkMatterMaterial;
                 gameObject.layer = 0;
+
                 meshCollider.isTrigger = true;
             }
             if (darkMatterState == DarkMatterState.Normal)

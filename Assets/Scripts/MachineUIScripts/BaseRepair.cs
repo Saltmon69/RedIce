@@ -32,7 +32,10 @@ public class BaseRepair : MonoBehaviour
         for (var i = 0; i < _machineCost.buildingMaterialList.Count; i++)
         {
             Debug.Log("yes");
-            _thisItemSprite = Instantiate(_itemSprite, new Vector3(this.gameObject.transform.position.x + (i + 0.5f -_machineCost.buildingMaterialList.Count / 2) * 10, altitude, this.gameObject.transform.position.y), quaternion.identity, this.gameObject.transform.parent);
+            _thisItemSprite = Instantiate(_itemSprite, 
+                new Vector3(this.gameObject.transform.position.x + (i + 0.5f -_machineCost.buildingMaterialList.Count / 2) * 10, 
+                                   this.gameObject.transform.position.y + altitude, 
+                                   this.gameObject.transform.position.y), quaternion.identity, this.gameObject.transform.parent);
             _thisItemSprite.GetComponent<SpriteRenderer>().sprite = _machineCost.buildingMaterialList[i].sprite;
             itemSpriteList.Add(_thisItemSprite);
             _thisItemSprite.transform.GetChild(0).GetComponent<TextMesh>().text = _machineCost.buildingMaterialAmountList[i] + " manquant";

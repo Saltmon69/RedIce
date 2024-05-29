@@ -24,8 +24,15 @@ public class BlueprintLinkMachinesState : BlueprintBaseState
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            blueprint.SwitchState(blueprint.cableState);
             GameObject.Destroy(_thisCable);
+            
+            _machineUIDisplay = _cableLaserBehaviour.outputMachine.gameObject.GetComponent<MachineUIDisplay>();
+            
+            _machineUIDisplay.thisMachineOutputList.Remove(_cableLaserBehaviour.outputGameObject);
+            _machineUIDisplay.thisMachineOutputCableList.Remove(_thisCable.GetComponent<CableLaserBehaviour>());
+            _machineUIDisplay.thisMachineCableMachineUIDisplayList.Remove(_cableLaserBehaviour.outputMachine.GetComponent<MachineUIDisplay>());
+            
+            blueprint.SwitchState(blueprint.cableState);
         }
     }
     
