@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Timers;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,11 @@ public class EONStateMachine : MonoBehaviour
     
     [Tab("Anims")]
     public Animator anim;
+
+    [Tab("Destection System")] 
+    public GameObject detectionZone;
+    public List<MineraiClass> mineraiDetected = new List<MineraiClass>();
+    public bool isScanning;
     
     #endregion
 
@@ -41,6 +47,22 @@ public class EONStateMachine : MonoBehaviour
     {
         distanceToPlayer = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
         currentState.OnUpdate(this);
+        
+        float timer = 0;
+        float cdUntilOff = 5;
+
+        if (isScanning)
+        {
+            timer += Time.deltaTime;
+            if (timer >= cdUntilOff)
+            {
+                isScanning = false;
+                foreach (var VARIABLE in mineraiDetected)
+                {
+                    VARIABLE.image.SetActive(false);
+                }
+            }
+        }
         
         if (currentState is GoOnPing || currentState is Follow)
         {
@@ -68,7 +90,18 @@ public class EONStateMachine : MonoBehaviour
         currentState = newState;
         currentState.OnEnter(this);
     }
-    
+
+    public void Scanning()
+    {
+        isScanning = true;
+        detectionZone.SetActive(true);
+        foreach (var VARIABLE in mineraiDetected)
+        {
+            VARIABLE.image.SetActive(true);
+        }
+        detectionZone.SetActive(false);
+        
+    }
    
 
     #endregion 
