@@ -97,7 +97,7 @@ public class EONStateMachine : MonoBehaviour
         detectionZone.SetActive(true);
         foreach (var VARIABLE in mineraiDetected)
         {
-            VARIABLE.image.SetActive(true);
+            VARIABLE.detected = true;
         }
         detectionZone.SetActive(false);
         

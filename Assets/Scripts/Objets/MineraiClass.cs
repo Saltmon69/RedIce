@@ -30,7 +30,9 @@ public class MineraiClass : MonoBehaviour
     public float mineraiLife;
     public int critMultiplicator = 1;
     public float quantity = 0;
+    public int critPointQuantity = 6;
     public List<GameObject> critPoints = new List<GameObject>();
+    
     
     [Tab("SFX")]
     [SerializeField] private AudioSource audioSource;
@@ -40,18 +42,31 @@ public class MineraiClass : MonoBehaviour
     [SerializeField] Canvas canvas;
     [SerializeField] public GameObject image;
     [SerializeField] private GameObject UI;
+    [SerializeField] public GameObject grid;
     [SerializeField] private GameObject quantityFbPrefab;
+    private List<GameObject> feedbacks = new List<GameObject>();
     
+    
+    [Tab("Feedback")]
+    [SerializeField] private GameObject holographicMaterial;
+    private float timerVsisible = 0f;
+    private float activationCooldown = 1.5f;
+    private float deactivationCooldown = 10f;
+    [HideInInspector] public bool detected;
+    private ItemClass feedbackItem;
+    private int feedbackQuantity;
     
     #endregion
 
     #region Fonctions
     private void Awake()
     {
-        canvas.worldCamera = Camera.main;
+        canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         mineraiVertices = mineraiMesh.mesh.vertices;
         spawner = GetComponentInParent<MineraiSpawner>();
+        playerInteraction = GameObject.Find("Player").GetComponent<PlayerInteraction>();
+        grid = GameObject.Find("InventoryFBGrid");
 
     }
 
@@ -70,8 +85,46 @@ public class MineraiClass : MonoBehaviour
                 playerInteraction = player.GetComponent<PlayerInteraction>();
             }
         }catch(NullReferenceException){}
+
         
-        
+        if (detected)
+        {
+            
+            timerVsisible += Time.deltaTime;
+            if (timerVsisible >= activationCooldown)
+            {
+                holographicMaterial.SetActive(true);
+                timerVsisible = 0;
+            }
+            
+            if (Vector3.Distance(transform.position, playerInteraction.transform.position) <= playerInteraction.interactionRange * 2f)
+            {
+                //image.transform.LookAt(playerInteraction.transform);
+                image.SetActive(true);
+                holographicMaterial.SetActive(false);
+            }
+            else
+            {
+                image.SetActive(false);
+            }
+        }
+        else
+        {
+            timerVsisible += Time.deltaTime;
+            if (timerVsisible >= deactivationCooldown)
+            {
+                image.SetActive(false);
+                holographicMaterial.SetActive(false);
+                timerVsisible = 0;
+            }
+            image.SetActive(false);
+            holographicMaterial.SetActive(false);
+        }
+
+        if (feedbacks.Count > 0)
+        {
+            Destroy(feedbacks[0], 2f);
+        }
     }
     
     public void takeDamage(float damage)
@@ -109,7 +162,6 @@ public class MineraiClass : MonoBehaviour
         Debug.Log("Quantity : " + quantity);
         foreach (var ressource in ressources)
         {
-            
             for(float i = 0; i < quantity * ressource.rendement; i++)
             {
                 inventoryManager.AddItem(ressource);
@@ -132,7 +184,7 @@ public class MineraiClass : MonoBehaviour
     [Button("CritPointCreation")]
     public void CritPointCreation()
     {
-        int critPointNumber = Random.Range(1, 6);
+        int critPointNumber = Random.Range(3, critPointQuantity);
         
         for (int i = 0; i < critPointNumber; i++)
         {
@@ -143,12 +195,32 @@ public class MineraiClass : MonoBehaviour
 
     private void InstantiateFeedback(Sprite sprite, int quantity)
     {
-        GameObject feedback = Instantiate(quantityFbPrefab, UI.transform);
-        feedback.GetComponentInChildren<Image>().sprite = sprite;
-        feedback.GetComponentInChildren<Text>().text = "x" + quantity;
+        if (feedbacks.Count < 3)
+        {
+            GameObject feedback = Instantiate(quantityFbPrefab, grid.transform);
+            feedback.GetComponentInChildren<Image>().sprite = sprite;
+            feedback.GetComponentInChildren<Text>().text = "x" + quantity;
+        }
+        else
+        {
+            Destroy(feedbacks[0]);
+            feedbacks.RemoveAt(0);
+            GameObject feedback = Instantiate(quantityFbPrefab, grid.transform);
+            feedback.GetComponentInChildren<Image>().sprite = sprite;
+            feedback.GetComponentInChildren<Text>().text = "x" + quantity;
+        }
     }
 
+    private void OnBecameVisible()
+    {
+        detected = true;
+    }
 
-    
+    private void OnBecameInvisible()
+    {
+        timerVsisible = 0;
+        detected = false;
+    }
+
     #endregion
 }

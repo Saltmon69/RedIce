@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
     
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask | obstacleMask);
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.2f, 0.2f, 0.2f), Quaternion.identity, groundMask | obstacleMask);
         
     
         if (isGrounded && verticalVelocity.y < 0)
@@ -113,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
         {
             fallStart = transform;
             falling = true;
-            Debug.Log("Falling");
             if (!falling)
             {
                 Debug.Log("FallEnd");
