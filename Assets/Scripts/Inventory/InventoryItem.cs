@@ -17,8 +17,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public Transform parentAfterDrag;
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private InventoryManager inventoryManager;
-    
-    
+
     [Space(10)]
     
     [Header("UI")] 
@@ -68,13 +67,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         image.raycastTarget = false;
         parentAfterDrag = transform.parent;
-        transform.SetParent(inventoryManager.transform.GetChild(0));
+        transform.SetParent(inventoryManager.transform.parent.GetChild(0));
         
     }
     
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        Debug.Log(1920 / Screen.width);
+        transform.localPosition = Input.mousePosition * 1 - new Vector3(Screen.width/2, UnityEngine.Device.Screen.height/2, 0);
     }
     
     public void OnEndDrag(PointerEventData eventData)
