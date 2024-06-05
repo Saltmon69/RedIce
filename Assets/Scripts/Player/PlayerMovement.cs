@@ -5,6 +5,8 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VInspector;
+using Random = UnityEngine.Random;
+
 
 [Description("Gère les déplacements du joueur")]
 public class PlayerMovement : MonoBehaviour
@@ -54,6 +56,12 @@ public class PlayerMovement : MonoBehaviour
     public float runBobbingRate = 1f;
     public float maxWalkBobbingOffset = .2f;
     public float maxRunBobbingOffset = .3f;
+
+    private Vector3 e;
+    public float cameraShakeTreshold = 10f;
+    [Range(0f, 0.03f)] public float cameraShakeRate = 0.015f;
+    public float maxVerticalFallShakeAngle = 40f;
+    public float maxHorizontalFallShakeAngle = 40f;
     
     [Tab("SFX")]
     [SerializeField] private AudioClip jumpSFX;
@@ -93,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
     
         halfHeight = controller.height / 2;
         var bottomPoint = transform.TransformPoint(controller.center - Vector3.up * halfHeight);
-        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.4f, 0.1f, 0.4f), Quaternion.identity, groundMask | obstacleMask);
+        isGrounded = Physics.CheckBox(bottomPoint, new Vector3(0.2f, 0.2f, 0.2f), Quaternion.identity, groundMask | obstacleMask);
         
     
         if (isGrounded && verticalVelocity.y < 0)
@@ -105,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
         {
             fallStart = transform;
             falling = true;
-            Debug.Log("Falling");
             if (!falling)
             {
                 Debug.Log("FallEnd");
@@ -182,6 +189,23 @@ public class PlayerMovement : MonoBehaviour
         // FOV
         
         float fovOffset = (controller.velocity.y < 0f) ? Mathf.Sqrt(Mathf.Abs(controller.velocity.y)) : 0f;
+        playerCamera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCamera.GetComponent<Camera>().fieldOfView,
+            baseCameraFOV + fovOffset, .25f);
+        //Fall Effect
+        if(!isGrounded && Mathf.Abs(controller.velocity.y) > cameraShakeTreshold)
+        {
+            Vector3 newAngle = playerCamera.localEulerAngles;
+            newAngle += Vector3.right * Random.Range(-maxVerticalFallShakeAngle, maxVerticalFallShakeAngle);
+            newAngle += Vector3.forward * Random.Range(-maxHorizontalFallShakeAngle, maxHorizontalFallShakeAngle);
+            playerCamera.localEulerAngles = Vector3.Lerp(playerCamera.localEulerAngles, newAngle, cameraShakeRate);
+        }
+        else
+        {
+            e = playerCamera.localEulerAngles;
+            e.y = 0;
+            playerCamera.localEulerAngles = e;
+        }
+        
         // Head Bobbing
         if (isGrounded)
         {
