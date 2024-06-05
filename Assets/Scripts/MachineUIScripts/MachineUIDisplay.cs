@@ -106,7 +106,9 @@ public class MachineUIDisplay : MonoBehaviour
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
+        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        Debug.Log(Camera.main.gameObject);
+        Debug.Log(Camera.main.transform.GetChild(1).gameObject);
         _thisMachineUIDisplay.GetComponent<Canvas>().planeDistance = 5;
         
         _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
@@ -150,6 +152,7 @@ public class MachineUIDisplay : MonoBehaviour
             this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
+            _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localScale = Vector3.one * 0.8f;
         }
 
         LoadInventory();
@@ -501,6 +504,8 @@ public class MachineUIDisplay : MonoBehaviour
 
     private void SetMachineToUpgradePreview()
     {
+        if(_machineUpgradeTier == 3) return;
+        
         if(!_isInPreview)
         {
             _isInPreview = true;

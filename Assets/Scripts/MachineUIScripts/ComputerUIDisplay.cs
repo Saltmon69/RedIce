@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ComputerUIDisplay : MonoBehaviour
@@ -30,13 +29,15 @@ public class ComputerUIDisplay : MonoBehaviour
 
     public void Awake()
     {
-        thisBase = GameObject.FindWithTag("BaseFloor");
+        thisBase = GameObject.FindWithTag("Ground").transform.GetChild(1).gameObject;
     }
 
     public void ActivateUIDisplay()
     {
         _computerUIPrefab = Resources.Load<GameObject>("MachineUI/UIComputer");
         _thisComputerUIDisplay = Instantiate(_computerUIPrefab);
+        _thisComputerUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        _thisComputerUIDisplay.GetComponent<Canvas>().planeDistance = 5;
 
         _computerUpgradeSlotUIList = new List<GameObject>();
         _itemInUpgradeSlotList = new List<InventoryItem>(new InventoryItem[_thisComputerUIDisplay.transform.childCount - 2]);
@@ -51,12 +52,15 @@ public class ComputerUIDisplay : MonoBehaviour
         
         LoadComputerInventory();
         LoadPlayerInventory();
+        _isItemRemoved = true;
         StartCoroutine(UpgradeCheck());
         MaxPowerUpgrade();
     }
 
     private IEnumerator UpgradeCheck()
     {
+        _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).GetChild(2).gameObject.SetActive(false);
+        
         while(true)
         {
             if(_computerUpgradeSlotUIList[upgradeState].transform.childCount == 0 && !_isItemRemoved)
@@ -76,21 +80,29 @@ public class ComputerUIDisplay : MonoBehaviour
                 if(_itemInUpgradeSlotList[upgradeState].item == computerUpgradeItemTierList[upgradeState])
                 {
                     Debug.Log("the right upgrade has been added");
-                    if(upgradeState + 3 < _computerUpgradeSlotUIList.Count) _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
-                    thisBase.transform.GetChild(upgradeState).gameObject.SetActive(true);
-                    thisBase.transform.GetChild(upgradeState - 1).GetChild(2).gameObject.SetActive(true);
+                    if(upgradeState + 3 < _computerUpgradeSlotUIList.Count)
+                    {
+                        _thisComputerUIDisplay.transform.GetChild(upgradeState + 2).GetChild(2).gameObject.SetActive(true);
+                        _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).gameObject.SetActive(true);
+                        _thisComputerUIDisplay.transform.GetChild(upgradeState + 3).GetChild(2).gameObject.SetActive(false);
+                    }
+
+                    Debug.Log(thisBase.transform.GetChild(upgradeState).gameObject);
+                    
+                    thisBase.transform.GetChild(upgradeState).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(false);
+                    thisBase.transform.GetChild(upgradeState + 1).gameObject.SetActive(true);
+
                     upgradeState++;
                     MaxPowerUpgrade();
                 }
             }
-
             yield return new WaitForSeconds(0.05f);
         }
     }
 
     private void MaxPowerUpgrade()
     {
-        switch (upgradeState)
+        switch(upgradeState)
         {
             case 0:
                 maxPower = 50;
@@ -133,6 +145,9 @@ public class ComputerUIDisplay : MonoBehaviour
             {
                 this.gameObject.transform.GetChild(1).SetParent(_computerUpgradeSlotUIList[i].transform);
                 _itemInUpgradeSlotList[i] = _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<InventoryItem>();
+                _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
+                _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
+                _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localScale = Vector3.one * 0.8f;
             }catch(UnityException){}
         }
     }

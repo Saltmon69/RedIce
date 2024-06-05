@@ -42,6 +42,9 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         _generatorUIPrefab = Resources.Load<GameObject>("MachineUI/UIGenerator");
         _thisGeneratorUIDisplay = Instantiate(_generatorUIPrefab);
+        _thisGeneratorUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        _thisGeneratorUIDisplay.GetComponent<Canvas>().planeDistance = 5;
+        
         _generatorUpgradeSlotUI = _thisGeneratorUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _computerPlayerInventoryUI = _thisGeneratorUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _thisSlider = _thisGeneratorUIDisplay.transform.GetChild(3).GetComponent<Slider>();
@@ -156,6 +159,9 @@ public class GeneratorUIDisplay : MonoBehaviour
         Debug.Log(_itemInMeltingSlot.count - itemCount + " items used while away");
         _itemInMeltingSlot.count = itemCount;
         _itemInMeltingSlot.RefreshCount();
+        _itemInMeltingSlot.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        _itemInMeltingSlot.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
+        _itemInMeltingSlot.GetComponent<RectTransform>().localScale = Vector3.one * 0.8f;
     }
     
     //change tous les objets que contient l inventaire du joueur par l'inventaire joueur qu'il y a sur la machine

@@ -40,7 +40,8 @@ public class UICursorDataDisplay : MonoBehaviour
     private GameObject _equalSignPrefab;
     private GameObject _machineMaterialPrefab;
     private GameObject _thisMachineMaterial;
-
+    private GameObject _thisMachineCraft;
+    
     private void Awake()
     {
         _infoCursorDisplayPrefab = Resources.Load<GameObject>("MachineUI/OnCursorInformationUI");
@@ -59,6 +60,16 @@ public class UICursorDataDisplay : MonoBehaviour
 
         
         StartCoroutine(CursorOnMaterial());
+    }
+
+    private void Update()
+    {
+        if(_isUIUp && (!_thisInfoCursorDisplay.gameObject.activeSelf || Input.GetKeyDown(KeyCode.Escape)))
+        {
+            Debug.Log("UiCursor deactivated");
+            DestroyImmediate(_thisInfoCursorDisplay);
+            _isUIUp = false;
+        }
     }
 
     private IEnumerator CursorOnMaterial()
@@ -85,14 +96,7 @@ public class UICursorDataDisplay : MonoBehaviour
                     
                     if(currentDelay <= 0.05f && currentDelay >= 0f) CursorUIInformationDisplay();
                 }
-                else if(!_thisInfoCursorDisplay.gameObject.activeInHierarchy)
-                {
-                    Destroy(_thisInfoCursorDisplay.gameObject);
-                    _isUIUp = false;
-                }
             }catch(ArgumentException){ _oldResultList = _resultList; }
-
-            if(Input.GetKeyDown(KeyCode.Escape)) _thisInfoCursorDisplay.gameObject.SetActive(false);
             
             yield return new WaitForSecondsRealtime(0.05f);
         }
@@ -163,15 +167,18 @@ public class UICursorDataDisplay : MonoBehaviour
     {
         _thisDisplayUses = _thisInfoCursorDisplay.transform.GetChild(0);
 
-        for (var i = 0; i < inputRecipeList.Count; i++)
+        for(var i = 0; i < inputRecipeList.Count; i++)
         {
             DisplayMaterialFromMachine(inputRecipeList[i], _thisDisplayUses.GetChild(1).GetChild(0).GetChild(0));
         }
+        
+        _thisDisplayUses.GetChild(1).GetChild(0).GetChild(0).GetComponent<RectTransform>().offsetMin -= new Vector2(_thisMachineCraft.GetComponent<RectTransform>().offsetMin.x, 65 * _thisDisplayUses.GetChild(1).GetChild(0).GetChild(0).childCount);
     }
 
     private void DisplayMaterialFromMachine(Recipe thisRecipe, Transform thisDisplayLocation)
     {
         _thisMachineMaterial = Instantiate(_machineMaterialPrefab, thisDisplayLocation);
+        _thisMachineCraft = _thisMachineMaterial.transform.GetChild(3).GetChild(0).GetChild(0).gameObject;
         
         for(var i = 0; i < _allMachineArray.Length; i++)
         {
@@ -202,7 +209,7 @@ public class UICursorDataDisplay : MonoBehaviour
         //genere la nouvelle recette avec les images contenu dans les scriptable objects qui compose le craft tout en rajoutant des signes "+" et "="
         for(var y = 0; y < thisRecipe.inputs.Count + thisRecipe.outputs.Count; y++)
         {
-            _instantiatedMachineUIRecipeMaterial = Instantiate(_materialRecipePrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+            _instantiatedMachineUIRecipeMaterial = Instantiate(_materialRecipePrefab, _thisMachineCraft.transform);
 
             _instantiatedMachineUIRecipeMaterial.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             _instantiatedMachineUIRecipeMaterial.transform.GetChild(2).GetComponent<Text>().text = y < thisRecipe.inputs.Count ? thisRecipe.inputsAmount[y] + "" : thisRecipe.outputsAmount[y - thisRecipe.inputs.Count] + "";
@@ -211,12 +218,14 @@ public class UICursorDataDisplay : MonoBehaviour
 
             if(y == thisRecipe.inputs.Count - 1)
             {                    
-                Instantiate(_equalSignPrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+                Instantiate(_equalSignPrefab, _thisMachineCraft.transform);
             }
             else if(y != thisRecipe.inputs.Count + thisRecipe.outputs.Count - 1)
             {
-                Instantiate(_plusSignPrefab, _thisMachineMaterial.transform.GetChild(3).transform);
+                Instantiate(_plusSignPrefab, _thisMachineCraft.transform);
             }
         }
+        
+        _thisMachineCraft.GetComponent<RectTransform>().offsetMax = new Vector2(35 * _thisMachineCraft.transform.childCount - 85, _thisMachineCraft.GetComponent<RectTransform>().offsetMax.y);
     }
 }
