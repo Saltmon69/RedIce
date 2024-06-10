@@ -21,6 +21,7 @@ public class PlayerModeSelect : MonoBehaviour
     public bool couldPlayerSwitchMode;
     
     private PlayerMenuing _playerMenuing;
+    private bool _wasInMenu;
 
     private void Awake()
     {
@@ -37,6 +38,20 @@ public class PlayerModeSelect : MonoBehaviour
 
     private void Update()
     {
+
+        if(_playerMenuing.inMenu)
+        {
+            if(!_wasInMenu) modeList[modeSelected].transform.GetChild(0).gameObject.SetActive(false);
+            _wasInMenu = true;
+            return;
+        }
+
+        if(_wasInMenu)
+        {
+            modeList[modeSelected].transform.GetChild(0).gameObject.SetActive(true);
+            _wasInMenu = false;
+        }
+        
         //permet grâce a notre molette de choisir un des modes
         modeSelected = (modeSelected + modeList.Count + (int)Input.mouseScrollDelta.y) % modeList.Count;
 

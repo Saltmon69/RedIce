@@ -12,6 +12,7 @@ public class TirolienneMachine : MonoBehaviour
     public float speed;
     public float distanceToStop;
     private bool isInCinematic;
+    public float cableAltitude;
 
     public Collider[] firstPoleColliderHit;
     public Collider[] secondPoleColliderHit;
@@ -27,9 +28,9 @@ public class TirolienneMachine : MonoBehaviour
     {
         if(!isPlaced)
         {
-            this.gameObject.transform.GetChild(1).position = _player.transform.position + _player.transform.forward + _player.transform.right * 2 - Vector3.up * 0.5f;
-            _lineRenderer.SetPosition(0, this.gameObject.transform.GetChild(1).position + Vector3.up);
-            _lineRenderer.SetPosition(1, this.gameObject.transform.GetChild(2).position + Vector3.up);
+            this.gameObject.transform.GetChild(1).position = _player.transform.position + _player.transform.forward + _player.transform.right * 2;
+            _lineRenderer.SetPosition(0, this.gameObject.transform.GetChild(1).position + Vector3.up * cableAltitude);
+            _lineRenderer.SetPosition(1, this.gameObject.transform.GetChild(2).position + Vector3.up * cableAltitude);
         }
         else
         {

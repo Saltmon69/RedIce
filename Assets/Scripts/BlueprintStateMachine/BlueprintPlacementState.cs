@@ -16,7 +16,9 @@ public class BlueprintPlacementState : BlueprintBaseState
     
     private BasePower _basePower;
     private ComputerUIDisplay _computerUIDisplay;
+    private GeneratorUIDisplay _generatorUIDisplay;
     private MachineCost _machineCost;
+    
     private GameObject _playerInventory;
     private InventoryItem _thisPlayerInventoryItem;
     private List<InventoryItem> _playerInventoryItemList;
@@ -50,6 +52,8 @@ public class BlueprintPlacementState : BlueprintBaseState
             _thisPlayerInventoryItem = _playerInventory.transform.GetChild(i).GetChild(0).GetComponent<InventoryItem>();
             _playerInventoryItemList.Add(_thisPlayerInventoryItem);
         }
+        
+        _generatorUIDisplay = GameObject.FindWithTag("Generator").GetComponent<GeneratorUIDisplay>();
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -84,9 +88,10 @@ public class BlueprintPlacementState : BlueprintBaseState
                     _computerUIDisplay.maxPower)
                 {
                     _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
-
                     InventoryItemCostRemoval();
                     LayerChanger(6);
+                    if(_machineToPlace.CompareTag("Untagged")) _generatorUIDisplay.machineList.Add(_machineToPlace);
+                    
                     blueprint.SwitchState(blueprint.buildingState);
                 }
                 else
@@ -107,7 +112,7 @@ public class BlueprintPlacementState : BlueprintBaseState
             if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
             {
                 InventoryItemCostRemoval();
-                _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.5f;
+                _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.5f + Vector3.forward * 1.5f;
                 blueprint.SwitchState(blueprint.buildingState);
                 
             }

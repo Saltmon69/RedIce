@@ -199,7 +199,7 @@ public class BlueprintBuildingState : BlueprintBaseState
             }
             catch (NullReferenceException){}
 
-            _machineRecipeMaterial.text += "/" + materialAmountList[i] + " " + materialList[i].nom;
+            _machineRecipeMaterial.text += "/" + materialAmountList[i];
         }
         
         _hasEnoughMaterial = (_materialsReady == materialList.Count);

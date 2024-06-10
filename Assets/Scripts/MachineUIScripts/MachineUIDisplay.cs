@@ -106,7 +106,9 @@ public class MachineUIDisplay : MonoBehaviour
     private void OnDisplayInstantiate()
     {
         _thisMachineUIDisplay = Instantiate(_machineUIPrefab);
-        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(1).GetComponent<Camera>();
+        _thisMachineUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        Debug.Log(Camera.main.gameObject);
+        Debug.Log(Camera.main.transform.GetChild(1).gameObject);
         _thisMachineUIDisplay.GetComponent<Canvas>().planeDistance = 5;
         
         _machineBackgroundUI = _thisMachineUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
@@ -207,6 +209,18 @@ public class MachineUIDisplay : MonoBehaviour
         //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
         if(craftProgress >= machineCraftingTime && isMachineActivated)
         {
+            var machineItemCount = 0;
+            for(var i = 0; i < _machineCraftRecipe.outputs.Count; i++)
+            {
+                if(!machineItemList.Contains(_machineCraftRecipe.outputs[i])) machineItemCount++;
+            }
+
+            if (machineItemList.Count + machineItemCount > 7)
+            {
+                _isCraftFailed = true;
+                return;
+            }
+            
             _machineMaterialsReadyForCraft = 0;
 
             for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
@@ -425,6 +439,8 @@ public class MachineUIDisplay : MonoBehaviour
             //ajuste le nombre de materiaux sur l'ui de l'inventaire de la machine
             if(isUIOpen)
             {
+                if(_machineInventoryDropSlotUI.transform.childCount > 0 && machineItemList.Count >= 7) _machineInventoryDropSlotUI.SetActive(false);
+                
                 for(var i = 0; i < _machineInventoryAmountTextList.Count; i++)
                 {
                     _machineInventoryAmountTextList[i].text = machineItemAmountList[i].ToString();
@@ -501,6 +517,8 @@ public class MachineUIDisplay : MonoBehaviour
 
     private void SetMachineToUpgradePreview()
     {
+        if(_machineUpgradeTier == 3) return;
+        
         if(!_isInPreview)
         {
             _isInPreview = true;
@@ -562,6 +580,7 @@ public class MachineUIDisplay : MonoBehaviour
             {
                 _machineInventoryAmountTextList.Remove(_machineInventoryAmountTextList[_thisIndex]);
                 DestroyImmediate(_machineInventoryUI.transform.GetChild(_thisIndex).gameObject);
+                _machineInventoryDropSlotUI.SetActive(true);
             }
         }
     }

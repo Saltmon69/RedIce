@@ -18,6 +18,7 @@ public class BasePower : MonoBehaviour
     private Text _powerTextUI;
     private int _numberOfFlashes;
     private ComputerUIDisplay _computerUIDisplay;
+    private GeneratorUIDisplay _generatorUIDisplay;
 
     public void Awake()
     {
@@ -28,6 +29,8 @@ public class BasePower : MonoBehaviour
         {
             _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
         }catch(NullReferenceException){}
+
+        _generatorUIDisplay = this.gameObject.transform.parent.GetChild(this.gameObject.transform.parent.childCount - 1).gameObject.GetComponent<GeneratorUIDisplay>();
     }
 
     public void Update()
@@ -62,6 +65,7 @@ public class BasePower : MonoBehaviour
                 {
                     _thisPowerUI = Instantiate(powerUI);
                     _powerTextUI = _thisPowerUI.transform.GetChild(0).GetChild(0).GetComponent<Text>();
+                    _generatorUIDisplay.powerUI = _powerTextUI.gameObject;
                 }
             }
         }

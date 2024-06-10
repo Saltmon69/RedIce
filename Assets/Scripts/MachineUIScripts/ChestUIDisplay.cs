@@ -35,6 +35,8 @@ public class ChestUIDisplay : MonoBehaviour
     {
         _chestUIPrefab = Resources.Load<GameObject>("MachineUI/UIChest");
         _thisChestUIDisplay = Instantiate(_chestUIPrefab);
+        _thisChestUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        _thisChestUIDisplay.GetComponent<Canvas>().planeDistance = 5;
         
         _chestBackgroundUI = _thisChestUIDisplay.transform.GetChild(0).GetChild(2).gameObject;
         _chestInventory = _thisChestUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).gameObject;
@@ -139,6 +141,8 @@ public class ChestUIDisplay : MonoBehaviour
             if(_chestGameObjectSelected.transform.childCount > 0)
             {
                 _chestGameObjectSelected.transform.GetChild(0).SetParent(_chestUpgradeSlot.transform);
+                _chestUpgradeSlot.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
+                _chestUpgradeSlot.transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
             }
             
             Destroy(_chestGameObjectSelected);

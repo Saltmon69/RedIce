@@ -29,19 +29,33 @@ public class GeneratorUIDisplay : MonoBehaviour
     private bool _isItemMelting;
 
     public int itemCount;
-
+    public int addedPower;
+    
     public bool isUIUp;
+    
+    public int machinePowerSurplus;
+
+    public List<GameObject> machineList;
+    private GameObject _thisBase;
+
+    public GameObject powerUI;
     
     public void Awake()
     {
-        _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
         _isItemRemoved = true;
+        _thisBase = this.gameObject.transform.parent.gameObject;
+        _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
+        Debug.Log(_thisBase.gameObject);
     }
-    
+
     public void ActivateUIDisplay()
     {
         _generatorUIPrefab = Resources.Load<GameObject>("MachineUI/UIGenerator");
+        
         _thisGeneratorUIDisplay = Instantiate(_generatorUIPrefab);
+        _thisGeneratorUIDisplay.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        _thisGeneratorUIDisplay.GetComponent<Canvas>().planeDistance = 5;
+        
         _generatorUpgradeSlotUI = _thisGeneratorUIDisplay.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
         _computerPlayerInventoryUI = _thisGeneratorUIDisplay.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _thisSlider = _thisGeneratorUIDisplay.transform.GetChild(3).GetComponent<Slider>();
@@ -58,21 +72,34 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            if(_generatorUpgradeSlotUI.transform.childCount == 0 && !_isItemRemoved && !_isItemMelting)
+            if(_generatorUpgradeSlotUI.transform.childCount == 0 && !_isItemRemoved)
             {
                 Debug.Log("an item has been removed");
-                _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
                 _isItemRemoved = true;
                 _itemInMeltingSlot = null;
+                itemCount = 0;
+                if(_isItemMelting) itemCount = 1;
             }
 
-            if(_generatorUpgradeSlotUI.transform.childCount > 0 && _isItemRemoved && !_isItemMelting)
+            if(_generatorUpgradeSlotUI.transform.childCount > 0 && _isItemRemoved)
             {
-                _isItemRemoved = false;
-                _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-                _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
-                itemCount = _itemInMeltingSlot.count;
                 Debug.Log("a new item has been added");
+                _isItemRemoved = false;
+
+                _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+                _isItemMelting = true;
+                
+                addedPower = _itemInMeltingSlot.item.atomicMass;
+                itemCount = _itemInMeltingSlot.count;
+
+                _computerUIDisplay.MaxPowerUpgrade();
+                _computerUIDisplay.maxPower += addedPower;
+                
+                for (var i = 1; i <= machineList.Count; i++)
+                {
+                    machineList[^i].GetComponent<MachineUIDisplay>().enabled = true;
+                }
+                MachineSurplusDeactivation();
             }
 
             yield return new WaitForSeconds(0.05f);
@@ -83,29 +110,14 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            if(meltingTime <= 0)
+            if(_generatorUpgradeSlotUI.transform.childCount > 0)
             {
-                if(_generatorUpgradeSlotUI.transform.childCount > 0 && _itemInMeltingSlot.item.atomicMass > 0)
+                _itemInMeltingSlot.count = itemCount;
+                _itemInMeltingSlot.RefreshCount();
+                    
+                if(_itemInMeltingSlot.count <= 0)
                 {
-                    _isItemMelting = true;
-                    meltingTime = meltingBaseTime;
-                    
-                    _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
-                    _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-                    _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
-                    
-                    _itemInMeltingSlot.count--;
-                    itemCount = _itemInMeltingSlot.count;
-                    _itemInMeltingSlot.RefreshCount();
-                    
-                    if(_itemInMeltingSlot.count <= 0)
-                    {
-                        Destroy(_itemInMeltingSlot.gameObject);
-                    }
-                }
-                else
-                {
-                    _isItemMelting = false;
+                    Destroy(_itemInMeltingSlot.gameObject);
                 }
             }
 
@@ -119,14 +131,23 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         if(meltingTime <= 0)
         {
-            if(_isItemMelting && !isUIUp)
+            if(_isItemMelting)
             {
                 itemCount -= 1;
-                meltingTime = meltingBaseTime;
-            
-                if(itemCount == 0)
+                _computerUIDisplay.MaxPowerUpgrade();
+
+                if(itemCount <= 1)
                 {
+                    Debug.Log("stop");
                     _isItemMelting = false;
+                    _isItemRemoved = true;
+                    _itemInMeltingSlot = null;
+                    MachineSurplusDeactivation();
+                }
+                else
+                {
+                    meltingTime = meltingBaseTime;
+                    _computerUIDisplay.maxPower += addedPower;
                 }
             }
         }
@@ -134,8 +155,29 @@ public class GeneratorUIDisplay : MonoBehaviour
         {
             meltingTime -= Time.deltaTime;
         }
+        
+        machinePowerSurplus = _computerUIDisplay.currentPowerUsage - _computerUIDisplay.maxPower;
+        if(powerUI != null)
+        {
+            if(machinePowerSurplus > 0) powerUI.GetComponent<Text>().color = Color.red;
+            if(machinePowerSurplus <= 0) powerUI.GetComponent<Text>().color = Color.white;
+        }
     }
 
+    public void MachineSurplusDeactivation()
+    {
+        machinePowerSurplus = _computerUIDisplay.currentPowerUsage - _computerUIDisplay.maxPower;
+
+        for(var i = 1; i <= machineList.Count; i++)
+        {
+            if(machinePowerSurplus <= 0) return;
+            Debug.Log("power not sufficient enough" + machineList[^i]);
+            
+            machineList[^i].GetComponent<MachineUIDisplay>().enabled = false;
+            machinePowerSurplus -= machineList[^i].GetComponent<MachineCost>().machinePowerCost;
+        }
+    }
+    
     //prend tous les objets stocké dans l'inventaire du joueur et le met sur l'inventaire joueur qu il y a déja disposer sur la machine
     private void LoadPlayerInventory()
     {
@@ -150,12 +192,15 @@ public class GeneratorUIDisplay : MonoBehaviour
 
     private void LoadGeneratorInventory()
     {
-        if(this.gameObject.transform.childCount == 1) return;
+        if(this.gameObject.transform.childCount <= 1) return;
         this.gameObject.transform.GetChild(1).SetParent(_generatorUpgradeSlotUI.transform);
         _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
         Debug.Log(_itemInMeltingSlot.count - itemCount + " items used while away");
+        
         _itemInMeltingSlot.count = itemCount;
         _itemInMeltingSlot.RefreshCount();
+        _itemInMeltingSlot.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        _itemInMeltingSlot.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
     }
     
     //change tous les objets que contient l inventaire du joueur par l'inventaire joueur qu'il y a sur la machine
@@ -185,11 +230,13 @@ public class GeneratorUIDisplay : MonoBehaviour
 
     public void DeactivateUIDisplay()
     {
-        meltingTime = meltingBaseTime;
-        _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
-        _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-        _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
-        itemCount = _itemInMeltingSlot.count;
+        try
+        {
+            _computerUIDisplay.maxPower -= _itemInMeltingSlot.item.atomicMass;
+            if(_generatorUpgradeSlotUI.transform.childCount > 0) _itemInMeltingSlot = _generatorUpgradeSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+            _computerUIDisplay.maxPower += _itemInMeltingSlot.item.atomicMass;
+            itemCount = _itemInMeltingSlot.count;
+        }catch(NullReferenceException){}
         
         SavePlayerInventory();
         SaveGeneratorInventory();
