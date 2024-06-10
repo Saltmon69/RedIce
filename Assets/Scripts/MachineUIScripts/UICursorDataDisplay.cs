@@ -23,6 +23,7 @@ public class UICursorDataDisplay : MonoBehaviour
 
     private Vector3 _mousePosition;
     public Vector3 displayOffset;
+    public Vector2 maxPositionValue;
 
     private Transform _thisDisplayOverview;
     private Transform _thisDisplayCraft;
@@ -42,6 +43,7 @@ public class UICursorDataDisplay : MonoBehaviour
     private GameObject _thisMachineMaterial;
     private GameObject _thisMachineCraft;
     
+
     private void Awake()
     {
         _infoCursorDisplayPrefab = Resources.Load<GameObject>("MachineUI/OnCursorInformationUI");
@@ -118,7 +120,11 @@ public class UICursorDataDisplay : MonoBehaviour
         
         _thisInfoCursorDisplay = Instantiate(_infoCursorDisplayPrefab, _resultList[0].gameObject.transform.parent.position, this.gameObject.transform.GetChild(0).rotation, this.gameObject.transform.GetChild(0));
         _thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition += displayOffset;
-        
+
+        _thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition = new Vector3(
+            Mathf.Clamp(_thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition.x, -10000, maxPositionValue.x),
+            Mathf.Clamp(_thisInfoCursorDisplay.GetComponent<RectTransform>().localPosition.y, -maxPositionValue.y, maxPositionValue.y));
+
         DisplayOverview();
 
         DisplayCraftRecipeListMaker();
@@ -226,6 +232,6 @@ public class UICursorDataDisplay : MonoBehaviour
             }
         }
         
-        _thisMachineCraft.GetComponent<RectTransform>().offsetMax = new Vector2(35 * _thisMachineCraft.transform.childCount - 85, _thisMachineCraft.GetComponent<RectTransform>().offsetMax.y);
+        _thisMachineCraft.GetComponent<RectTransform>().offsetMax = new Vector2(25 * _thisMachineCraft.transform.childCount - 80, _thisMachineCraft.GetComponent<RectTransform>().offsetMax.y);
     }
 }

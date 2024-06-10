@@ -141,6 +141,8 @@ public class ChestUIDisplay : MonoBehaviour
             if(_chestGameObjectSelected.transform.childCount > 0)
             {
                 _chestGameObjectSelected.transform.GetChild(0).SetParent(_chestUpgradeSlot.transform);
+                _chestUpgradeSlot.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
+                _chestUpgradeSlot.transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
             }
             
             Destroy(_chestGameObjectSelected);

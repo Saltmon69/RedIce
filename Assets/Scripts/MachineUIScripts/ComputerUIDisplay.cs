@@ -29,7 +29,8 @@ public class ComputerUIDisplay : MonoBehaviour
 
     public void Awake()
     {
-        thisBase = GameObject.FindWithTag("Ground").transform.GetChild(1).gameObject;
+        thisBase = this.gameObject.transform.parent.parent.GetChild(2).GetChild(1).gameObject;
+        Debug.Log(thisBase.gameObject);
     }
 
     public void ActivateUIDisplay()
@@ -100,7 +101,7 @@ public class ComputerUIDisplay : MonoBehaviour
         }
     }
 
-    private void MaxPowerUpgrade()
+    public void MaxPowerUpgrade()
     {
         switch(upgradeState)
         {
@@ -147,7 +148,6 @@ public class ComputerUIDisplay : MonoBehaviour
                 _itemInUpgradeSlotList[i] = _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<InventoryItem>();
                 _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
                 _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
-                _computerUpgradeSlotUIList[i].transform.GetChild(0).GetComponent<RectTransform>().localScale = Vector3.one * 0.8f;
             }catch(UnityException){}
         }
     }

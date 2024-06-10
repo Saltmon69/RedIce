@@ -152,7 +152,6 @@ public class MachineUIDisplay : MonoBehaviour
             this.gameObject.transform.GetChild(this.gameObject.transform.childCount - 1).SetParent(_machineUpgradeSlotUI.transform);
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localPosition = Vector3.zero;
             _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0,0,0);
-            _machineUpgradeSlotUI.transform.GetChild(0).GetComponent<RectTransform>().localScale = Vector3.one * 0.8f;
         }
 
         LoadInventory();
@@ -210,6 +209,18 @@ public class MachineUIDisplay : MonoBehaviour
         //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
         if(craftProgress >= machineCraftingTime && isMachineActivated)
         {
+            var machineItemCount = 0;
+            for(var i = 0; i < _machineCraftRecipe.outputs.Count; i++)
+            {
+                if(!machineItemList.Contains(_machineCraftRecipe.outputs[i])) machineItemCount++;
+            }
+
+            if (machineItemList.Count + machineItemCount > 7)
+            {
+                _isCraftFailed = true;
+                return;
+            }
+            
             _machineMaterialsReadyForCraft = 0;
 
             for(var i = 0; i < _machineCraftRecipe.inputs.Count; i++)
@@ -428,6 +439,8 @@ public class MachineUIDisplay : MonoBehaviour
             //ajuste le nombre de materiaux sur l'ui de l'inventaire de la machine
             if(isUIOpen)
             {
+                if(_machineInventoryDropSlotUI.transform.childCount > 0 && machineItemList.Count >= 7) _machineInventoryDropSlotUI.SetActive(false);
+                
                 for(var i = 0; i < _machineInventoryAmountTextList.Count; i++)
                 {
                     _machineInventoryAmountTextList[i].text = machineItemAmountList[i].ToString();
@@ -567,6 +580,7 @@ public class MachineUIDisplay : MonoBehaviour
             {
                 _machineInventoryAmountTextList.Remove(_machineInventoryAmountTextList[_thisIndex]);
                 DestroyImmediate(_machineInventoryUI.transform.GetChild(_thisIndex).gameObject);
+                _machineInventoryDropSlotUI.SetActive(true);
             }
         }
     }

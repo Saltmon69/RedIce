@@ -22,7 +22,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     
     [Header("UI")] 
     public Image image;
-    public TextMeshProUGUI countText;
+    public Text countText;
     [SerializeField] private GameObject utilityPanel;
     [HideInInspector] public bool panelActive;
   
@@ -59,7 +59,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void RefreshCount()
     {
         bool textActive = count > 1;
-        countText.gameObject.SetActive(textActive);
+        countText.enabled = textActive;
         countText.text = count.ToString();
     }
 

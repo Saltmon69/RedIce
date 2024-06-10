@@ -21,6 +21,8 @@ public class BlueprintDisplacementState : BlueprintBaseState
     private GameObject _inventoryItemPrefab;
     private InventoryItem _thisInventoryItem;
 
+    private GeneratorUIDisplay _generatorUIDisplay;
+    
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(true);
@@ -36,6 +38,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         _machineCollider.enabled = true;
         
         _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
+        _generatorUIDisplay = GameObject.FindWithTag("Generator").GetComponent<GeneratorUIDisplay>();
 
         _machineCost = _machineToPlace.GetComponent<MachineCost>();
         
@@ -70,6 +73,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         {
             _computerUIDisplay.currentPowerUsage -= _machineCost.machinePowerCost;
             RecoverMachineMaterials();
+            if(_generatorUIDisplay.machineList.Contains(_machineToPlace)) _generatorUIDisplay.machineList.Remove(_machineToPlace);
             GameObject.Destroy(_machineToPlace);
             blueprint.SwitchState(blueprint.moveState);
         }
