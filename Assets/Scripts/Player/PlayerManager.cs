@@ -24,19 +24,19 @@ public class PlayerManager : MonoBehaviour
     [Tab("Constantes")]
     [Tooltip("Vie du joueur")]
     public int playerHealth;
-    int playerMaxHealth;
+    [HideInInspector] public int playerMaxHealth;
     [Tooltip("Oxygène du joueur")]
     public int oxygen;
-    int maxOxygen;
+    [HideInInspector] public int maxOxygen;
     [Tooltip("Radiation du joueur")]
     public int radiation;
-    int maxRadiation;
+    [HideInInspector] public int maxRadiation;
     [Tooltip("Pression du joueur")]
     public int pressure;
-    int maxPressure;
+    [HideInInspector] public int maxPressure;
     [Tooltip("Température du joueur")]
     public float temperature;
-    float maxTemperature;
+    [HideInInspector] public float maxTemperature;
     
     [Tab("Barres Constantes")]
     //Variables pour l'UI
@@ -116,7 +116,7 @@ public class PlayerManager : MonoBehaviour
                 playerHealth -= (int)damage;
                 break;
             case ZoneType.Pressure:
-                pressure += (int)damage;
+                pressure -= (int)damage;
                 break;
             case ZoneType.Toxic:
                 playerHealth -= (int)damage;

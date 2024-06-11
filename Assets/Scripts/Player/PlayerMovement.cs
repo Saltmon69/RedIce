@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         {
             fallStart = transform;
             falling = true;
-            Debug.Log("Falling");
+            //Debug.Log("Falling");
             if (!falling)
             {
                 Debug.Log("FallEnd");

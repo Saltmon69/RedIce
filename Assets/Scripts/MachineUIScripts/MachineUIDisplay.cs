@@ -215,7 +215,7 @@ public class MachineUIDisplay : MonoBehaviour
                 if(!machineItemList.Contains(_machineCraftRecipe.outputs[i])) machineItemCount++;
             }
 
-            if (machineItemList.Count + machineItemCount > 7)
+            if(machineItemList.Count + machineItemCount > 7)
             {
                 _isCraftFailed = true;
                 return;
@@ -458,8 +458,8 @@ public class MachineUIDisplay : MonoBehaviour
                     Debug.Log(_thisUpgradeInventoryItemInSlot.item);
                     Debug.Log(machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item));
                     
-                    _machineUpgradeTier = machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item);
-                    SetCraftingButtonToMachineTier(_machineUpgradeTier + 1);
+                    _machineUpgradeTier = machineUpgradeItemTier.IndexOf(_thisUpgradeInventoryItemInSlot.item) + 1;
+                    SetCraftingButtonToMachineTier(_machineUpgradeTier);
                 }
 
                 if(_machineUpgradeSlotUI.transform.childCount == 0 && _hasItemInUpgradeSlot)
@@ -517,7 +517,7 @@ public class MachineUIDisplay : MonoBehaviour
 
     private void SetMachineToUpgradePreview()
     {
-        if(_machineUpgradeTier == 3) return;
+        if(_machineUpgradeTier >= 2) return;
         
         if(!_isInPreview)
         {

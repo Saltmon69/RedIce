@@ -56,6 +56,9 @@ public class BlueprintPlacementState : BlueprintBaseState
         _generatorUIDisplay = GameObject.FindWithTag("Generator").GetComponent<GeneratorUIDisplay>();
 
         if(_machineToPlace.CompareTag("Tirolienne")) blueprint.distance = blueprint.tirolienneDistance;
+        
+
+        
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -78,6 +81,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         if(hitData.transform.gameObject.layer == 3)
         {
             _machineToPlace.transform.position = hitData.point;
+            if(_machineToPlace.CompareTag("Computer")) _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.75f + Vector3.forward * 1.75f;
         }
 
         //confirmation du placement de la machine si elle peut etre placé
@@ -117,7 +121,7 @@ public class BlueprintPlacementState : BlueprintBaseState
             if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
             {
                 InventoryItemCostRemoval();
-                _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.5f + Vector3.forward * 1.5f;
+                _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.75f + Vector3.forward * 1.75f;
                 blueprint.SwitchState(blueprint.buildingState);
                 
             }

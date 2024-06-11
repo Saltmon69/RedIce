@@ -38,7 +38,7 @@ public class TirolienneMachine : MonoBehaviour
     {
         if(!isPlaced)
         {
-            _poleList[0].transform.position = _player.transform.position + _player.transform.forward + _player.transform.right * 2 + Vector3.down;
+            _poleList[0].transform.position = _player.transform.position + _player.transform.forward + _player.transform.right * 2 + Vector3.down * 0.65f;
             _lineRenderer.SetPosition(0, _poleList[0].transform.position + Vector3.up * cableAltitude);
             _lineRenderer.SetPosition(1, _poleList[1].transform.position + Vector3.up * cableAltitude);
         }
@@ -63,7 +63,7 @@ public class TirolienneMachine : MonoBehaviour
         {
             if(currentSteps > 0) _player.transform.position = Vector3.MoveTowards(_player.transform.position, _player.transform.position + Vector3.up * cableAltitude, 0.5f);
             currentSteps--;
-            _player.transform.position = Vector3.MoveTowards(_player.transform.position, _endPosition, (speed - steps * 0.01f) / 10);
+            _player.transform.position = Vector3.MoveTowards(_player.transform.position, _endPosition, (speed - currentSteps * 0.01f) / 10);
 
             Debug.Log(Vector3.Distance(_player.transform.position, _endPosition));
             
