@@ -14,6 +14,7 @@ public class Idle : IState, IObserver
     public void OnEnter(EONStateMachine stateMachine)
     {
         stateMachine.subject.GetComponent<PlayerManager>().AddObserver(this);
+        stateMachine.Scanning();
         
     }
     

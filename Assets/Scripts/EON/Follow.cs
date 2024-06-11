@@ -12,6 +12,9 @@ public class Follow : IState, IObserver
     
     public GameObject ping;
     public Order? activeOrder;
+
+    private float timer;
+    private float scanningCd = 5f;
     
     public void OnEnter(EONStateMachine stateMachine)
     {
@@ -28,6 +31,13 @@ public class Follow : IState, IObserver
 
     public void OnUpdate(EONStateMachine stateMachine)
     {
+        timer += Time.deltaTime;
+        if (timer >= scanningCd)
+        {
+            stateMachine.Scanning();
+            timer = 0;
+        }
+        
         NavMeshAgent agent = stateMachine.GetComponent<NavMeshAgent>();
         
         agent.SetDestination(stateMachine.subject.transform.position);

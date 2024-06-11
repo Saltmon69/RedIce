@@ -33,7 +33,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isMiningModeActive;
     
     [Tab("Raycast")]
-    [SerializeField] float interactionRange;
+    public float interactionRange;
     RaycastHit itemHit;
     
     [Tab("Ping")]
@@ -50,6 +50,7 @@ public class PlayerInteraction : MonoBehaviour
     [Tab("VFX")]
     [SerializeField] private GameObject instantiatedLaserVFX;
     [SerializeField] private GameObject laserVFX;
+    [SerializeField] private VisualEffect laserAsset;
     [SerializeField] private GameObject laserImpactVFX;
 
     #endregion
@@ -59,7 +60,8 @@ public class PlayerInteraction : MonoBehaviour
     private void Awake()
     {
         
-
+        laserAsset.SetFloat("MaxRange", interactionRange);
+        
         inputManager.interact.performed += OnInteraction;
         
         inputManager.leftClick.performed += OnLeftClick;
@@ -207,7 +209,11 @@ public class PlayerInteraction : MonoBehaviour
         
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         ray.direction = playerCamera.transform.forward;
+        laserAsset.SetVector3("Origin", ray.origin);
+        laserAsset.SetVector3("RaycastDir", ray.direction);
         Physics.Raycast(ray, out RaycastHit hit, range);
+        laserAsset.SetVector3("HitPosition", hit.point);
+        laserAsset.SetBool("Hit", hit.collider != null);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red);
         itemHit = hit;
         return hit;
