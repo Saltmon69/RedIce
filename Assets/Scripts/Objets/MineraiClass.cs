@@ -146,6 +146,15 @@ public class MineraiClass : MonoBehaviour
     public void DestroyGameObject()
     {
         meshRandomSlicer.DestroyMesh();
+        foreach (var VARIABLE in meshRandomSlicer.subParts)
+        {
+            Destroy(VARIABLE.GameObject, 0.5f);
+        }
+
+        foreach (var VARIABLE in meshRandomSlicer.parts)
+        {
+            Destroy(VARIABLE.GameObject, 0.5f);
+        }
         spawner.activeMinerai = null;
         Destroy(gameObject, 0.5f);
     }

@@ -33,7 +33,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isMiningModeActive;
     
     [Tab("Raycast")]
-    [SerializeField]public float interactionRange;
+    public float interactionRange;
     RaycastHit itemHit;
     
     [Tab("Ping")]

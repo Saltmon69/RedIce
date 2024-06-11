@@ -8,6 +8,8 @@ public class MeshRandomSlicer : MonoBehaviour
     private Vector3 edgeVertex = Vector3.zero;
     private Vector2 edgeUV = Vector2.zero;
     private Plane edgePlane = new Plane();
+    public List<PartMesh> subParts = new List<PartMesh>();
+    public List<PartMesh> parts = new List<PartMesh>();
 
     public int CutCascades = 1;
     public float ExplodeForce = 0;
@@ -16,8 +18,8 @@ public class MeshRandomSlicer : MonoBehaviour
     {
         var originalMesh = GetComponent<MeshFilter>().mesh;
         originalMesh.RecalculateBounds();
-        var parts = new List<PartMesh>();
-        var subParts = new List<PartMesh>();
+        parts.Clear();
+        subParts.Clear();
 
         var mainPart = new PartMesh()
         {
