@@ -17,6 +17,8 @@ public class BlueprintStateMachineManager : MonoBehaviour
 
     public Camera mainCamera;
     public Ray ray;
+    [HideInInspector] public float startDistance;
+    public float tirolienneDistance;
     public float distance;
     private RaycastHit _hitData;
     private RaycastHit _oldHitData;
@@ -27,11 +29,11 @@ public class BlueprintStateMachineManager : MonoBehaviour
     public void Awake()
     {
         _currentState = startState;
-        
-        EnterState();
-
         mainCamera = Camera.main;
         _isOldHitDataNull = true;
+        startDistance = distance;
+        
+        EnterState();
     }
 
     public void EnterState()

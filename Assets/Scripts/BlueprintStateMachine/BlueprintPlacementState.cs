@@ -54,6 +54,8 @@ public class BlueprintPlacementState : BlueprintBaseState
         }
         
         _generatorUIDisplay = GameObject.FindWithTag("Generator").GetComponent<GeneratorUIDisplay>();
+
+        if(_machineToPlace.CompareTag("Tirolienne")) blueprint.distance = blueprint.tirolienneDistance;
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -101,9 +103,12 @@ public class BlueprintPlacementState : BlueprintBaseState
                 }
             }
 
-            if (hitData.transform.CompareTag("Ground") && _machineToPlace.CompareTag("Tirolienne"))
+            if(hitData.transform.CompareTag("Ground") && _machineToPlace.CompareTag("Tirolienne"))
             {
                 _machineToPlace.transform.GetComponent<TirolienneMachine>().isPlaced = true;
+                LayerChanger(6);
+
+                blueprint.distance = blueprint.startDistance;
 
                 InventoryItemCostRemoval();
                 blueprint.SwitchState(blueprint.buildingState);

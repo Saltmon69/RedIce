@@ -90,7 +90,7 @@ CapsuleCollider:
   m_Radius: 0.2
   m_Height: 4.5
   m_Direction: 1
-  m_Center: {x: 0, y: 2.4, z: 0}
+  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!114 &5717730056635382436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,16 +154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35fa219f8f37fcd4e898b6ccb2a54bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1
   isPlaced: 0
-  poleDetectionRadius: 30
+  poleDetectionRadius: 2
   speed: 2
   distanceToStop: 3
   cableAltitude: 11
-  firstPoleColliderHit: []
-  secondPoleColliderHit: []
+  steps: 15
+  currentSteps: 0
 --- !u!212 &2281375266851161962
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -408,7 +405,7 @@ GameObject:
   - component: {fileID: 889759661905196997}
   m_Layer: 6
   m_Name: 3DModel_0
-  m_TagString: Untagged
+  m_TagString: Tirolienne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -448,7 +445,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.2
   m_Height: 5.75
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}
@@ -492,7 +489,7 @@ GameObject:
   - component: {fileID: 377005547346391607}
   m_Layer: 6
   m_Name: 3DModel_1
-  m_TagString: Untagged
+  m_TagString: Tirolienne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -532,7 +529,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.2
   m_Height: 5.75
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -6,21 +7,30 @@ public class TirolienneMachine : MonoBehaviour
 {
     private GameObject _player;
     private LineRenderer _lineRenderer;
-    public LayerMask layerMask;
     public bool isPlaced;
     public float poleDetectionRadius;
     public float speed;
     public float distanceToStop;
     private bool isInCinematic;
     public float cableAltitude;
+    public int steps;
+    public int currentSteps;
 
-    public Collider[] firstPoleColliderHit;
-    public Collider[] secondPoleColliderHit;
-    
+    private Vector3 _endPosition;
+
+    private List<GameObject> _poleList;
+
     private void Awake()
     {
         _player = GameObject.FindWithTag("Player").gameObject;
         _lineRenderer = this.gameObject.transform.GetChild(0).GetComponent<LineRenderer>();
+        
+        _poleList = new List<GameObject>();
+        for(var i = 1; i < this.gameObject.transform.childCount; i++)
+        {
+            _poleList.Add(this.gameObject.transform.GetChild(i).gameObject);
+        }
+        
         isPlaced = false;
     }
 
@@ -28,51 +38,39 @@ public class TirolienneMachine : MonoBehaviour
     {
         if(!isPlaced)
         {
-            this.gameObject.transform.GetChild(1).position = _player.transform.position + _player.transform.forward + _player.transform.right * 2;
-            _lineRenderer.SetPosition(0, this.gameObject.transform.GetChild(1).position + Vector3.up * cableAltitude);
-            _lineRenderer.SetPosition(1, this.gameObject.transform.GetChild(2).position + Vector3.up * cableAltitude);
-        }
-        else
-        {
-            firstPoleColliderHit = Physics.OverlapSphere(this.gameObject.transform.GetChild(1).position, poleDetectionRadius, layerMask);
-            secondPoleColliderHit = Physics.OverlapSphere(this.gameObject.transform.GetChild(2).position, poleDetectionRadius, layerMask);
-            
-            if (Input.GetKeyDown(KeyCode.E) && !isInCinematic)
-            {
-                if(firstPoleColliderHit.Length > 0) UseTirolienne(firstPoleColliderHit ,this.gameObject.transform.GetChild(1), this.gameObject.transform.GetChild(2));
-                if(secondPoleColliderHit.Length > 0) UseTirolienne(secondPoleColliderHit ,this.gameObject.transform.GetChild(2), this.gameObject.transform.GetChild(1));
-            }
+            _poleList[0].transform.position = _player.transform.position + _player.transform.forward + _player.transform.right * 2 + Vector3.down;
+            _lineRenderer.SetPosition(0, _poleList[0].transform.position + Vector3.up * cableAltitude);
+            _lineRenderer.SetPosition(1, _poleList[1].transform.position + Vector3.up * cableAltitude);
         }
     }
 
-    private void UseTirolienne(Collider[] colliders, Transform startPole, Transform endPole)
+    public void UseTirolienne(GameObject pole)
     {
-        for (var i = 0; i < colliders.Length; i++)
+        if (Vector2.Distance(pole.transform.position, _player.transform.position) <= poleDetectionRadius && !isInCinematic)
         {
-            if(colliders[i].CompareTag("Player"))
-            {
-                _player.transform.position = startPole.transform.position + Vector3.left * 2 + Vector3.up;
-                StartCoroutine(PlayerDisplacement(endPole));
-            }
+            currentSteps = steps;
+            StartCoroutine(PlayerDisplacement(_poleList[^(_poleList.IndexOf(pole)+1)].transform));
         }
     }
 
     private IEnumerator PlayerDisplacement(Transform endPole)
     {
         isInCinematic = true;
-        _player.GetComponent<InputManager>().enabled = false;
-
+        _player.GetComponent<PlayerMovement>().enabled = false;
+        _endPosition = endPole.position + Vector3.up * (cableAltitude - 2);
+        
         while(true)
         {
-            _player.transform.position = Vector3.MoveTowards(_player.transform.position, endPole.position + Vector3.left * 2, speed / 10);
+            if(currentSteps > 0) _player.transform.position = Vector3.MoveTowards(_player.transform.position, _player.transform.position + Vector3.up * cableAltitude, 0.5f);
+            currentSteps--;
+            _player.transform.position = Vector3.MoveTowards(_player.transform.position, _endPosition, (speed - steps * 0.01f) / 10);
 
-            Debug.Log(Vector3.Distance(_player.transform.position, endPole.position));
+            Debug.Log(Vector3.Distance(_player.transform.position, _endPosition));
             
-            if(Vector3.Distance(_player.transform.position, endPole.position) <= distanceToStop)
+            if(Vector3.Distance(_player.transform.position, _endPosition) <= distanceToStop)
             {
-                Debug.Log("we're in");
+                _player.GetComponent<PlayerMovement>().enabled = true;
                 isInCinematic = false;
-                _player.GetComponent<InputManager>().enabled = true;
                 StopAllCoroutines();
                 yield return null;
             }

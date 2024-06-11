@@ -101,6 +101,12 @@ public class OpenMachineUI : MonoBehaviour
                     }
                 }
 
+                if (_gameObjetHit.transform.CompareTag("Tirolienne"))
+                {
+                    _gameObjetHit.transform.parent.GetComponent<TirolienneMachine>().UseTirolienne(_gameObjetHit);
+                    Debug.Log("we're in");
+                }
+
 
                 if(_hasHitMachine)
                 {
