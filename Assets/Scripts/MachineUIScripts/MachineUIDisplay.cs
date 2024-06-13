@@ -171,7 +171,7 @@ public class MachineUIDisplay : MonoBehaviour
             var a = i;
             _instantiatedMachineUIButton = Instantiate(_craftButtonPrefab, _machineCraftUI.transform);
             _instantiatedMachineUIButton.GetComponent<Button>().onClick.AddListener(() => { SetRecipeOnClick(a, true); });
-            _instantiatedMachineUIButton.transform.GetChild(0).GetComponent<Text>().text = _machineCraftList[a].name;
+            _instantiatedMachineUIButton.transform.GetChild(0).GetComponent<Text>().text = _machineCraftList[a].name.Substring(3);
             _machineCraftingButtonList.Add(_instantiatedMachineUIButton);
         }
 
@@ -203,7 +203,7 @@ public class MachineUIDisplay : MonoBehaviour
         }
         else if(craftProgress > 0)
         {
-            craftProgress -= Time.deltaTime * 5; 
+            craftProgress -= Time.deltaTime * 5;
         }
 
         //quand le craft est terminer alors on supprime le nombre de materiaux utiliser et on reçois le nombre d'objet ou matériaux crafté
@@ -764,6 +764,7 @@ public class MachineUIDisplay : MonoBehaviour
             _machineUpgradeSlotUI.transform.GetChild(0).transform.SetParent(this.gameObject.transform);
             _hasItemInUpgradeSlot = true;
         }
+        this.gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(isMachineActivated);
         Destroy(_thisMachineUIDisplay);
     }
 }

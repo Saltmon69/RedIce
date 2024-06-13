@@ -44,12 +44,11 @@ public class GeneratorUIDisplay : MonoBehaviour
     {
         _isItemRemoved = true;
         _thisBase = this.gameObject.transform.parent.gameObject;
-        _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
-        Debug.Log(_thisBase.gameObject);
     }
 
     public void ActivateUIDisplay()
     {
+        if(_computerUIDisplay == null) _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
         _generatorUIPrefab = Resources.Load<GameObject>("MachineUI/UIGenerator");
         
         _thisGeneratorUIDisplay = Instantiate(_generatorUIPrefab);
@@ -98,6 +97,7 @@ public class GeneratorUIDisplay : MonoBehaviour
                 for (var i = 1; i <= machineList.Count; i++)
                 {
                     machineList[^i].GetComponent<MachineUIDisplay>().enabled = true;
+                    machineList[^i].transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
                 }
                 MachineSurplusDeactivation();
             }
@@ -156,7 +156,7 @@ public class GeneratorUIDisplay : MonoBehaviour
             meltingTime -= Time.deltaTime;
         }
         
-        machinePowerSurplus = _computerUIDisplay.currentPowerUsage - _computerUIDisplay.maxPower;
+        if(_computerUIDisplay != null) machinePowerSurplus = _computerUIDisplay.currentPowerUsage - _computerUIDisplay.maxPower;
         if(powerUI != null)
         {
             if(machinePowerSurplus > 0) powerUI.GetComponent<Text>().color = Color.red;
@@ -174,6 +174,9 @@ public class GeneratorUIDisplay : MonoBehaviour
             Debug.Log("power not sufficient enough" + machineList[^i]);
             
             machineList[^i].GetComponent<MachineUIDisplay>().enabled = false;
+            machineList[^i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            machineList[^i].transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            
             machinePowerSurplus -= machineList[^i].GetComponent<MachineCost>().machinePowerCost;
         }
     }

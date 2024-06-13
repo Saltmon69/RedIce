@@ -46,9 +46,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Image oxygenBar;
     [Tooltip("Barre de radiation")]
     [SerializeField] private Image radiationBar;
-    
-    
-    
+
+    private bool _isAppearing;
+    public float flashingSpeed;
+
     private void Awake()
     {
         if (instance == null)
@@ -103,6 +104,36 @@ public class PlayerManager : MonoBehaviour
         healthBar.fillAmount = (float) playerHealth / playerMaxHealth;
         oxygenBar.fillAmount = (float) oxygen / maxOxygen;
         radiationBar.fillAmount = (float) radiation / maxRadiation;
+        
+        if(healthBar.fillAmount < 0.3f) FlashingBar(healthBar);
+        if(oxygenBar.fillAmount < 0.3f) FlashingBar(oxygenBar);
+        if(radiationBar.fillAmount < 0.3f) FlashingBar(radiationBar);
+    }
+
+    private void FlashingBar(Image bar)
+    {
+        if(_isAppearing)
+        {
+            if(bar.color.a > 0.3f)
+            {
+                bar.color -= new Color(0,0,0,Time.deltaTime * flashingSpeed);
+            }
+            else
+            {
+                _isAppearing = false;
+            }
+        }
+        else
+        {
+            if(bar.color.a < 1f)
+            {
+                bar.color += new Color(0,0,0,Time.deltaTime * flashingSpeed);
+            }
+            else
+            {
+                _isAppearing = true;
+            }
+        }
     }
     
     public void TakeDamage(float damage, ZoneType zone)

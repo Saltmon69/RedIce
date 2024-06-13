@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class MachineCollider : MonoBehaviour
     //se script mis sur chaque object possible d'être placé par le biais du blueprint afin de facilement voir si l'objet es plaçable ou non par des scripts externe
     public bool canBePlaced;
     public bool isActive;
+
+    private float _baseWaitingTime;
+    private float _waitingTime;
     
     private HighlightComponent _highlightComponent;
     private Collider _thisCollider;
@@ -29,22 +33,38 @@ public class MachineCollider : MonoBehaviour
                 Physics.IgnoreCollision(_thisCollider, _childColliderList[i - 1]);
             }catch(MissingComponentException){}
         }
+
+        _baseWaitingTime = 0.05f;
     }
 
     private void OnEnable()
     {
-        canBePlaced = true;
+        canBePlaced = false;
         isActive = true;
+        _highlightComponent.Highlight();
+        _waitingTime = _baseWaitingTime;
+        this.gameObject.GetComponent<Collider>().enabled = false;
+        StartCoroutine(TimeDelayCount());
+    }
+
+    private IEnumerator TimeDelayCount()
+    {
+        while(_waitingTime > 0)
+        {
+            _waitingTime -= 0.01f;
+            yield return new WaitForSeconds(0.01f);
+        }
+        this.gameObject.GetComponent<Collider>().enabled = true;
         _highlightComponent.Blueprint();
+        canBePlaced = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(isActive)
+        if(isActive && _waitingTime <= 0)
         {
             canBePlaced = false;
             _collisionList.Add(collision.gameObject);
-            Debug.Log("we want in");
             _highlightComponent.Highlight();
             IsTrigger(true);
         }
@@ -52,7 +72,7 @@ public class MachineCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(isActive)
+        if(isActive && _waitingTime <= 0)
         {
             _collisionList.Remove(other.gameObject);
 
@@ -67,7 +87,7 @@ public class MachineCollider : MonoBehaviour
 
     public void IsTrigger(bool enable)
     {
-        if(isActive)
+        if(isActive && _waitingTime <= 0)
         {
             _thisCollider.isTrigger = enable;
             
