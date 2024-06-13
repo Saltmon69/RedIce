@@ -439,7 +439,7 @@ public class MachineUIDisplay : MonoBehaviour
             //ajuste le nombre de materiaux sur l'ui de l'inventaire de la machine
             if(isUIOpen)
             {
-                if(_machineInventoryDropSlotUI.transform.childCount > 0 && machineItemList.Count >= 7) _machineInventoryDropSlotUI.SetActive(false);
+                if(_machineInventoryDropSlotUI.transform.childCount > 0 && machineItemList.Count > 7) _machineInventoryDropSlotUI.SetActive(false);
                 
                 for(var i = 0; i < _machineInventoryAmountTextList.Count; i++)
                 {

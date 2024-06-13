@@ -25,7 +25,7 @@ public class BlueprintMoveState : BlueprintBaseState
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 //change la position de la machine dans la hiérarchie a la derniere position pour etre retrouver facilement dans le prochain etat 
-                if(hitData.transform.CompareTag("Untagged"))
+                if(hitData.transform.CompareTag("Untagged") || hitData.transform.CompareTag("Chest"))
                 {
                     hitData.transform.SetSiblingIndex(hitData.transform.parent.childCount - 1);
                     blueprint.SwitchState(blueprint.displacementState);
@@ -37,7 +37,7 @@ public class BlueprintMoveState : BlueprintBaseState
             {
                 try
                 {
-                    if(hitData.transform.CompareTag("Untagged"))
+                    if(hitData.transform.CompareTag("Untagged") || hitData.transform.CompareTag("Chest"))
                     {
                         hitData.transform.GetComponent<HighlightComponent>().Outline();
                     }

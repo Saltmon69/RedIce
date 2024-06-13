@@ -71,6 +71,9 @@ public class BlueprintDisplacementState : BlueprintBaseState
         //retour au mode de sélection de la machine à déplacer
         if(Input.GetKeyDown(KeyCode.X))
         {
+            if(_machineToPlace.CompareTag("Untagged")) if(_machineToPlace.GetComponent<MachineUIDisplay>().machineItemList.Count > 0) return;
+            if(_machineToPlace.CompareTag("Chest")) return;
+            
             _computerUIDisplay.currentPowerUsage -= _machineCost.machinePowerCost;
             RecoverMachineMaterials();
             if(_generatorUIDisplay.machineList.Contains(_machineToPlace)) _generatorUIDisplay.machineList.Remove(_machineToPlace);

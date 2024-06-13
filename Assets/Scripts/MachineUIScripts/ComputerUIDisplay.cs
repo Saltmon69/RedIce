@@ -89,7 +89,11 @@ public class ComputerUIDisplay : MonoBehaviour
                     }
 
                     Debug.Log(thisBase.transform.GetChild(upgradeState).gameObject);
-                    
+
+                    if(upgradeState == 3)
+                    {
+                        thisBase.transform.GetChild(upgradeState + 1).GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
+                    }
                     thisBase.transform.GetChild(upgradeState).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(false);
                     thisBase.transform.GetChild(upgradeState + 1).gameObject.SetActive(true);
 
