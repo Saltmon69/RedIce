@@ -16,7 +16,7 @@ public class MachineUIDisplay : MonoBehaviour
     private GameObject _machineUpgradeSlotUI;
     private GameObject _machineCraftUI;
     private GameObject _machineRecipeUI;
-    private Slider _machineProgressSliderUI;
+    private Image _machineProgressSliderUI;
     private GameObject _machineOutputMaterialsUI;
     private Slider _machineActivationSliderUI;
     private GameObject _machinePlayerInventoryUI;
@@ -118,7 +118,7 @@ public class MachineUIDisplay : MonoBehaviour
         _upgradePreviewButtonUI = _thisMachineUIDisplay.transform.GetChild(2).GetChild(1).GetComponent<Button>();
         _machineCraftUI = _thisMachineUIDisplay.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject;
         _machineRecipeUI = _thisMachineUIDisplay.transform.GetChild(4).GetChild(1).GetChild(0).gameObject;
-        _machineProgressSliderUI = _thisMachineUIDisplay.transform.GetChild(5).GetComponent<Slider>();
+        _machineProgressSliderUI = _thisMachineUIDisplay.transform.GetChild(5).GetChild(1).GetComponent<Image>();
         _machineOutputMaterialsUI = _thisMachineUIDisplay.transform.GetChild(6).GetChild(0).gameObject;
         _machineActivationSliderUI = _thisMachineUIDisplay.transform.GetChild(7).GetComponent<Slider>();
         _machinePlayerInventoryUI = _thisMachineUIDisplay.transform.GetChild(8).GetChild(0).GetChild(0).GetChild(1).gameObject;
@@ -427,19 +427,18 @@ public class MachineUIDisplay : MonoBehaviour
     {
         while(true)
         {
-            //regarde si un nouvel objet a été déposer dans l'inventaire, si oui il le crée
-            if(_machineInventoryDropSlotUI.transform.childCount > 0)
-            {
-                _thisMachineInventoryItem = _machineInventoryDropSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
-                craftProgress = 0; 
-                AddItemToInventory(_thisMachineInventoryItem.item, _thisMachineInventoryItem.count, false);
-                Destroy(_thisMachineInventoryItem.gameObject);
-            }
-            
             //ajuste le nombre de materiaux sur l'ui de l'inventaire de la machine
             if(isUIOpen)
             {
-                if(_machineInventoryDropSlotUI.transform.childCount > 0 && machineItemList.Count > 7) _machineInventoryDropSlotUI.SetActive(false);
+                _machineInventoryDropSlotUI.SetActive(machineItemList.Count <= 7);
+                
+                //regarde si un nouvel objet a été déposer dans l'inventaire, si oui il le crée
+                if(_machineInventoryDropSlotUI.transform.childCount > 0)
+                {
+                    _thisMachineInventoryItem = _machineInventoryDropSlotUI.transform.GetChild(0).GetComponent<InventoryItem>();
+                    AddItemToInventory(_thisMachineInventoryItem.item, _thisMachineInventoryItem.count, false);
+                    Destroy(_thisMachineInventoryItem.gameObject);   
+                }
                 
                 for(var i = 0; i < _machineInventoryAmountTextList.Count; i++)
                 {
@@ -559,7 +558,8 @@ public class MachineUIDisplay : MonoBehaviour
         {
             _thisMachineItemButtonUI = Instantiate(_inventoryItemButtonUIPrefab, _machineInventoryUI.transform);
             _thisMachineItemButtonUI.transform.GetChild(0).GetComponent<Image>().sprite = thisItem.sprite;
-            _machineInventoryAmountTextList.Add(_thisMachineItemButtonUI.transform.GetChild(2).gameObject.GetComponent<Text>());
+            _thisMachineItemButtonUI.transform.GetChild(1).GetComponent<Text>().text = thisItem.name;
+            _machineInventoryAmountTextList.Add(_thisMachineItemButtonUI.transform.GetChild(3).gameObject.GetComponent<Text>());
             _machineInventoryAmountTextList[^1].text = thisAmount.ToString();
             _thisMachineItemButtonUI.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(TransferAmountUI(thisItem)); });
         }
@@ -580,7 +580,6 @@ public class MachineUIDisplay : MonoBehaviour
             {
                 _machineInventoryAmountTextList.Remove(_machineInventoryAmountTextList[_thisIndex]);
                 DestroyImmediate(_machineInventoryUI.transform.GetChild(_thisIndex).gameObject);
-                _machineInventoryDropSlotUI.SetActive(true);
             }
         }
     }
@@ -625,31 +624,33 @@ public class MachineUIDisplay : MonoBehaviour
     {
         _machineActivationSliderUI.value = isMachineActivated ? 1 : 0;
 
-        while (isUIOpen)
+        while(isUIOpen)
         {
-            if (!Input.GetKey(KeyCode.Mouse0))
+            if(!Input.GetKey(KeyCode.Mouse0))
             {
                 if(_isInPreview) _isMachineForcedToDeactivate = true;
                 
-                if (_machineActivationSliderUI.value <= 0.6f || _isMachineForcedToDeactivate)
+                if(_machineActivationSliderUI.value <= 0.6f || _isMachineForcedToDeactivate)
                 {
                     isMachineActivated = false;
                     _machineActivationSliderUI.value -= 0.05f;
                 }
                 
-                if (!isMachineActivated && _machineActivationSliderUI.value <= 0.6f)
+                if(!isMachineActivated && _machineActivationSliderUI.value <= 0.6f)
                 {
                     _isMachineForcedToDeactivate = false;
                 }
                 
-                if (_machineActivationSliderUI.value > 0.6f && !_isMachineForcedToDeactivate)
+                if(_machineActivationSliderUI.value > 0.6f && !_isMachineForcedToDeactivate)
                 {
                     isMachineActivated = true;
                     _machineActivationSliderUI.value += 0.05f;
                 }
             }
 
-            _machineProgressSliderUI.value = craftProgress / machineCraftingTime;
+            _machineActivationSliderUI.transform.GetChild(0).GetChild(0).gameObject.SetActive(!isMachineActivated);
+            _machineActivationSliderUI.transform.GetChild(0).GetChild(1).gameObject.SetActive(isMachineActivated);
+            _machineProgressSliderUI.fillAmount = craftProgress / machineCraftingTime;
             
             yield return new WaitForSeconds(0.02f);
         }

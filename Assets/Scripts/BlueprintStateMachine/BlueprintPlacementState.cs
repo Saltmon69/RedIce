@@ -56,9 +56,6 @@ public class BlueprintPlacementState : BlueprintBaseState
         _generatorUIDisplay = GameObject.FindWithTag("Generator").GetComponent<GeneratorUIDisplay>();
 
         if(_machineToPlace.CompareTag("Tirolienne")) blueprint.distance = blueprint.tirolienneDistance;
-        
-
-        
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -72,7 +69,7 @@ public class BlueprintPlacementState : BlueprintBaseState
         if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
         {
             GameObject.DestroyImmediate(_machineToPlace);
-            blueprint.SwitchState(blueprint.buildingState);
+            blueprint.SwitchState(blueprint.startState);
         }
     }
     
@@ -98,7 +95,7 @@ public class BlueprintPlacementState : BlueprintBaseState
                     LayerChanger(6);
                     if(_machineToPlace.CompareTag("Untagged")) _generatorUIDisplay.machineList.Add(_machineToPlace);
                     
-                    blueprint.SwitchState(blueprint.buildingState);
+                    blueprint.SwitchState(blueprint.placementState);
                 }
                 else
                 {
@@ -115,14 +112,14 @@ public class BlueprintPlacementState : BlueprintBaseState
                 blueprint.distance = blueprint.startDistance;
 
                 InventoryItemCostRemoval();
-                blueprint.SwitchState(blueprint.buildingState);
+                blueprint.SwitchState(blueprint.placementState);
             }
                 
             if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
             {
                 InventoryItemCostRemoval();
                 _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.75f + Vector3.forward * 1.75f;
-                blueprint.SwitchState(blueprint.buildingState);
+                blueprint.SwitchState(blueprint.startState);
                 
             }
         }

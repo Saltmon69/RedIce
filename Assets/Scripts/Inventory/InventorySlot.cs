@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,10 +10,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        if (transform.childCount == 0)
+        try
         {
-            InventoryItem item = eventData.pointerDrag.GetComponent<InventoryItem>();
-            item.parentAfterDrag = transform;
-        }
+            if (transform.childCount == 0)
+            {
+                InventoryItem item = eventData.pointerDrag.GetComponent<InventoryItem>();
+                item.parentAfterDrag = transform;
+            }
+        }catch(NullReferenceException){}
     }
 }
