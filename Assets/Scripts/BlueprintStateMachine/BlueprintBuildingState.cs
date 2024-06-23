@@ -33,6 +33,7 @@ public class BlueprintBuildingState : BlueprintBaseState
     
     private PlayerMenuing _playerMenuing;
     private InventoryUpgrade _inventoryUpgrade;
+    public int thisMachineNumber;
     
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
@@ -128,7 +129,8 @@ public class BlueprintBuildingState : BlueprintBaseState
     //fonction sur chacun des boutons permettant de crée la machine en plus de nous faire passer au mode de placement de la machine
     public void MachineChosen(int machineNumber, BlueprintStateMachineManager blueprint)
     {
-        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[machineNumber], _machineStartPlacement, quaternion.identity, _machineStock.transform);
+        thisMachineNumber = machineNumber;
+        _machineSelectedPlacementMode = Object.Instantiate(_machinesPrefab[thisMachineNumber], _machineStartPlacement, quaternion.identity, _machineStock.transform);
         _playerMenuing.enabled = true;
         _playerMenuing.OutMenu();
         _playerMenuing.enabled = false;
@@ -156,7 +158,6 @@ public class BlueprintBuildingState : BlueprintBaseState
     {
         GameObject.Find("UIStateCanvas").transform.GetChild(4).gameObject.SetActive(false);
         Object.Destroy(_machineBuildingDisplay);
-        
     }
     
     private void RecipeMaterialManager(List<ItemClass> materialList, List<int> materialAmountList)
@@ -199,7 +200,7 @@ public class BlueprintBuildingState : BlueprintBaseState
             }
             catch (NullReferenceException){}
 
-            _machineRecipeMaterial.text += "/" + materialAmountList[i];
+            _machineRecipeMaterial.text += "/" + materialAmountList[i] + " " + materialList[i].name;
         }
         
         _hasEnoughMaterial = (_materialsReady == materialList.Count);

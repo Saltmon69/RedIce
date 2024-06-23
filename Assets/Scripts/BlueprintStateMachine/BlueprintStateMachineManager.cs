@@ -24,6 +24,7 @@ public class BlueprintStateMachineManager : MonoBehaviour
     private RaycastHit _oldHitData;
     private bool _hasHit;
     private bool _isOldHitDataNull;
+    public GameObject controls;
 
     //la machine entre dans le premier état
     public void Awake()

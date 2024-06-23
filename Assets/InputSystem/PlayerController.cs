@@ -232,7 +232,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""id"": ""b338dc93-fb47-436a-adc1-4192932eb15b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.1)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -281,7 +281,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""20c8fe2d-2ed3-4587-ab77-8bf0852f849e"",
                     ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.1)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Ping"",

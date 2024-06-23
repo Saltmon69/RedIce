@@ -26,7 +26,7 @@ public class BlueprintPlacementState : BlueprintBaseState
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(true);
+        blueprint.controls.transform.GetChild(4).gameObject.SetActive(true);
         
         _machineStock = GameObject.Find("MachineStock");
 
@@ -87,15 +87,15 @@ public class BlueprintPlacementState : BlueprintBaseState
         {
             if(hitData.transform.CompareTag("BaseFloor") && !_machineToPlace.CompareTag("Tirolienne") && !_machineToPlace.CompareTag("Computer"))
             {
-                if (_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <=
+                if(_computerUIDisplay.currentPowerUsage + _machineCost.machinePowerCost <=
                     _computerUIDisplay.maxPower)
                 {
                     _computerUIDisplay.currentPowerUsage += _machineCost.machinePowerCost;
                     InventoryItemCostRemoval();
                     LayerChanger(6);
                     if(_machineToPlace.CompareTag("Untagged")) _generatorUIDisplay.machineList.Add(_machineToPlace);
-                    
-                    blueprint.SwitchState(blueprint.placementState);
+
+                    blueprint.buildingState.MachineChosen(blueprint.buildingState.thisMachineNumber, blueprint);
                 }
                 else
                 {
@@ -112,7 +112,7 @@ public class BlueprintPlacementState : BlueprintBaseState
                 blueprint.distance = blueprint.startDistance;
 
                 InventoryItemCostRemoval();
-                blueprint.SwitchState(blueprint.placementState);
+                blueprint.buildingState.MachineChosen(blueprint.buildingState.thisMachineNumber, blueprint);
             }
                 
             if(hitData.transform.CompareTag("BaseFloor") && _machineToPlace.CompareTag("Computer"))
@@ -120,14 +120,13 @@ public class BlueprintPlacementState : BlueprintBaseState
                 InventoryItemCostRemoval();
                 _machineToPlace.transform.position = hitData.transform.position + Vector3.up * 0.75f + Vector3.forward * 1.75f;
                 blueprint.SwitchState(blueprint.startState);
-                
             }
         }
     }
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(5).gameObject.SetActive(false);
+        blueprint.controls.transform.GetChild(4).gameObject.SetActive(false);
         
         if(_machineToPlace != null) _machineToPlace.layer = 6;
     }

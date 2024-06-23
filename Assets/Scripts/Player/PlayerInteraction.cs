@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using UnityEditor;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -42,6 +43,8 @@ public class PlayerInteraction : MonoBehaviour
     [Tab("Lunette AVA")]
     [SerializeField] GameObject darkMatterBullet;
     [SerializeField] PlayerModeSelect playerModeSelect;
+    [SerializeField] InventoryUpgrade inventoryUpgrade;
+    [SerializeField] public GameObject miningTool;
     public bool avaIsPressed;
     
     [Tab("SFX")]
@@ -136,6 +139,11 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         
+        if(playerModeSelect.modeSelected != 1)
+        {
+            avaIsPressed = false;
+            ava.SetActive(false);
+        }
     }
     
     public void OnInteraction(InputAction.CallbackContext context)
@@ -181,22 +189,22 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (context.performed)
         {
-            if (playerModeSelect.modeSelected == 1)
+            if(playerModeSelect.modeSelected == 1 && inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Upgrades/AVAPlayerModule")))
             {
-                avaIsPressed = true;
-                ava.SetActive(true);
+                avaIsPressed = !avaIsPressed;
+                ava.SetActive(avaIsPressed);
             }
         }
         else if(context.canceled)
         {
-            avaIsPressed = false;
-            ava.SetActive(false);
+            //avaIsPressed = false;
+            //ava.SetActive(false);
         }
     }
     public void OnShoot(InputAction.CallbackContext context)
     {
-        if(avaIsPressed)
-            Instantiate(darkMatterBullet, playerCamera.transform.position, playerCamera.transform.rotation);
+        if(avaIsPressed && inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Upgrades/AntimaterPlayerModule")))
+            Instantiate(darkMatterBullet, miningTool.transform.position, playerCamera.transform.rotation);
     }
     
     /// <summary>

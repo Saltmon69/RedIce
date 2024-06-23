@@ -20,9 +20,9 @@ public class DarkMatterBullet : MonoBehaviour
     }
     private void Update()
     {
-        rb.velocity = transform.forward * speed * (Time.time/10);
+        rb.velocity = transform.forward * (speed * Time.deltaTime);
         speedDisplay = rb.velocity.magnitude;
-        Debug.Log(speedDisplay);
+//        Debug.Log(speedDisplay);
         
         if (isVisible == false)
         {

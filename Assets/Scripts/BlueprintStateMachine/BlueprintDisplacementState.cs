@@ -25,7 +25,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
     
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(true);
+        blueprint.controls.transform.GetChild(2).gameObject.SetActive(true);
 
         _machineStock = GameObject.Find("MachineStock");
 
@@ -109,7 +109,7 @@ public class BlueprintDisplacementState : BlueprintBaseState
         
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(3).gameObject.SetActive(false);
+        blueprint.controls.transform.GetChild(2).gameObject.SetActive(false);
 
         _machineCollider.enabled = false;
         _machineToPlace.layer = 6;

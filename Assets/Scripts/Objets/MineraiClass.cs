@@ -32,6 +32,7 @@ public class MineraiClass : MonoBehaviour
     public float quantity = 0;
     public int critPointQuantity = 6;
     public List<GameObject> critPoints = new List<GameObject>();
+    public bool isFilledWithAntimater; 
     
     
     [Tab("SFX")]
@@ -67,7 +68,7 @@ public class MineraiClass : MonoBehaviour
         spawner = GetComponentInParent<MineraiSpawner>();
         playerInteraction = GameObject.Find("Player").GetComponent<PlayerInteraction>();
         grid = GameObject.Find("InventoryFBGrid");
-
+        isFilledWithAntimater = Random.Range(0f, 1f) > 0.80f;
     }
 
     private void OnEnable()
@@ -77,16 +78,6 @@ public class MineraiClass : MonoBehaviour
 
     private void FixedUpdate()
     {
-        try
-        {
-            GameObject player = Physics.OverlapSphere(transform.position, 10f).Where(x => x.CompareTag("Player")).FirstOrDefault().gameObject;
-            if (player != null)
-            {
-                playerInteraction = player.GetComponent<PlayerInteraction>();
-            }
-        }catch(NullReferenceException){}
-
-        
         if (detected)
         {
             
@@ -176,6 +167,9 @@ public class MineraiClass : MonoBehaviour
                 inventoryManager.AddItem(ressource);
             }
         }
+
+        
+        if(playerInteraction.gameObject.GetComponent<PlayerInteraction>().avaIsPressed) quantity *= (isFilledWithAntimater ? 5 : 1);
         
         for(float i = 0; i < quantity * darkMatter.rendement; i++)
         {
@@ -219,7 +213,7 @@ public class MineraiClass : MonoBehaviour
             feedback.GetComponentInChildren<Text>().text = "x" + quantity;
         }
     }
-
+/*
     private void OnBecameVisible()
     {
         detected = true;
@@ -229,7 +223,7 @@ public class MineraiClass : MonoBehaviour
     {
         timerVsisible = 0;
         detected = false;
-    }
+    }*/
 
     #endregion
 }

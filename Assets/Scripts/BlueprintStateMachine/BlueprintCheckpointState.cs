@@ -18,7 +18,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
 
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(8).gameObject.SetActive(true);
+        blueprint.controls.transform.GetChild(7).gameObject.SetActive(true);
         
         _cableStock = GameObject.Find("CableStock");
 
@@ -97,7 +97,7 @@ public class BlueprintCheckpointState : BlueprintBaseState
     
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(8).gameObject.SetActive(false);
+        blueprint.controls.transform.GetChild(7).gameObject.SetActive(false);
         _blueprintCable.SetActive(false);
     }
 }

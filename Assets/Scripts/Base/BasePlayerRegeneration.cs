@@ -9,7 +9,9 @@ public class BasePlayerRegeneration : MonoBehaviour
     
     public GameObject player;
     private CharacterController _characterController;
+    public GameObject thisBase;
     private GameObject _teleportGameObject;
+    private GameObject _teleportGameObjectNoBase;
     private Collider _thisCollider;
 
     public CanvasGroup thisCanvasGroup;
@@ -20,6 +22,7 @@ public class BasePlayerRegeneration : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").gameObject;
         _teleportGameObject = this.gameObject.transform.GetChild(0).gameObject;
+        _teleportGameObjectNoBase = this.gameObject.transform.GetChild(1).gameObject;
         _thisCollider = this.gameObject.GetComponent<Collider>();
         _playerManager = player.GetComponent<PlayerManager>();
         _characterController = player.GetComponent<CharacterController>();
@@ -47,9 +50,9 @@ public class BasePlayerRegeneration : MonoBehaviour
 
         if(_playerManager.playerHealth <= 0 && !isDead)
         {
-            isDead = true;
-            Debug.Log("you died");
+            //Debug.Log("you died");
             StartCoroutine(DeathTransition());
+            isDead = true;
         }
     }
 
@@ -61,21 +64,21 @@ public class BasePlayerRegeneration : MonoBehaviour
 
             if(thisCanvasGroup.alpha >= 1)
             {
-                Debug.Log("in a coma");
+                //Debug.Log("in a coma");
                 _characterController.enabled = false;
-                player.transform.position = _teleportGameObject.transform.position;
-                player.transform.rotation = _teleportGameObject.transform.rotation;
+                player.transform.position = thisBase.activeInHierarchy ? _teleportGameObject.transform.position : _teleportGameObjectNoBase.transform.position;
+                player.transform.rotation = thisBase.activeInHierarchy ? _teleportGameObject.transform.rotation : _teleportGameObjectNoBase.transform.rotation;
                 _characterController.enabled = true;
                 isDead = false;
             }
 
             if(!isDead)
             {
-                Debug.Log("waking up");
+                //Debug.Log("waking up");
                 thisCanvasGroup.alpha -= 0.02f;
                 if(thisCanvasGroup.alpha <= 0)
                 {
-                    Debug.Log("woke up");
+                    //Debug.Log("woke up");
                     StopAllCoroutines();
                     yield return null;
                 }

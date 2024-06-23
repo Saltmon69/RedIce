@@ -190,8 +190,8 @@ public class MachineUIDisplay : MonoBehaviour
     {
         if(isMachineActivated)
         {
-            craftProgress += Time.deltaTime;
-            
+            craftProgress += Time.deltaTime + (Time.deltaTime * _machineUpgradeTier / 2);
+
             if(craftProgress > 0 && _isCraftFailed)
             {
                 craftProgress -= Time.deltaTime * 5; 

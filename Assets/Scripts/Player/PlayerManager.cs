@@ -49,7 +49,8 @@ public class PlayerManager : MonoBehaviour
 
     private bool _isAppearing;
     public float flashingSpeed;
-
+    public InventoryUpgrade inventoryUpgrade;
+    
     private void Awake()
     {
         if (instance == null)
@@ -141,19 +142,23 @@ public class PlayerManager : MonoBehaviour
         switch (zone)
         {
             case ZoneType.Hot:
-                playerHealth -= (int)damage;
+                if(!inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Crafts/AM_Temperature")))
+                    playerHealth -= (int)damage;
                 break;
             case ZoneType.Cold:
-                playerHealth -= (int)damage;
+                if(!inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Crafts/AM_Temperature")))
+                    playerHealth -= (int)damage;
                 break;
             case ZoneType.Pressure:
-                pressure -= (int)damage;
+                if(!inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Crafts/AM_Pressure")))
+                    pressure -= (int)damage;
                 break;
             case ZoneType.Toxic:
                 playerHealth -= (int)damage;
                 break;
             case ZoneType.Radiation:
-                radiation -= (int)damage;
+                if(!inventoryUpgrade.upgradeItemInInventory.Contains(Resources.Load<ItemClass>("SO/Crafts/AM_Radioactive")))
+                    radiation -= (int)damage;
                 break;
             case ZoneType.LowOxygen:
                 oxygen -= (int)damage;

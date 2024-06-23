@@ -8,7 +8,7 @@ public class DarkMatterObject : MonoBehaviour
 {
     [SerializeField] Material darkMatterMaterial;
     [SerializeField] Material defaultMaterial;
-    [SerializeField] DarkMatterType darkMatterType;
+    [SerializeField] public DarkMatterType darkMatterType;
     public DarkMatterState darkMatterState;
 
     private MeshRenderer meshRenderer;
@@ -38,16 +38,18 @@ public class DarkMatterObject : MonoBehaviour
             if (darkMatterState == DarkMatterState.DarkMatter)
             {
                 meshRenderer.material = darkMatterMaterial;
-                meshCollider.isTrigger = true;
-                
                 gameObject.layer = 0;
+
+                meshCollider.isTrigger = true;
+                SFX.SetActive(false);
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-                meshCollider.isTrigger = false;
-
                 gameObject.layer = 7;
+                
+                meshCollider.isTrigger = false;
+                SFX.SetActive(playerInteraction.avaIsPressed);
             }
         }
         if (darkMatterType == DarkMatterType.Platform)
@@ -58,22 +60,22 @@ public class DarkMatterObject : MonoBehaviour
                 gameObject.layer = 0;
 
                 meshCollider.isTrigger = true;
+                SFX.SetActive(false);
             }
             if (darkMatterState == DarkMatterState.Normal)
             {
                 meshRenderer.material = defaultMaterial;
-                meshCollider.isTrigger = false;
                 gameObject.layer = 3;
             }
         }
 
-        if (playerInteraction.avaIsPressed)
+        if (darkMatterState == DarkMatterState.Normal)
         {
-            SFX.SetActive(true);
+            SFX.SetActive(playerInteraction.avaIsPressed);
         }
         else
         {
-            SFX.SetActive(false);
+            meshRenderer.enabled = playerInteraction.avaIsPressed;
         }
         
     }

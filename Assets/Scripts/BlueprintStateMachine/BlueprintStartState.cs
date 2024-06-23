@@ -6,7 +6,7 @@ public class BlueprintStartState : BlueprintBaseState
     
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(1).gameObject.SetActive(true);
+        blueprint.controls.transform.GetChild(0).gameObject.SetActive(true);
         GameObject.Find("ModeSelectionManager").GetComponent<PlayerModeSelect>().canPlayerSwitchMode = true;
         
         _playerMenuing = GameObject.FindWithTag("Player").GetComponent<PlayerMenuing>();
@@ -37,7 +37,7 @@ public class BlueprintStartState : BlueprintBaseState
     
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(1).gameObject.SetActive(false);
+        blueprint.controls.transform.GetChild(0).gameObject.SetActive(false);
         GameObject.Find("ModeSelectionManager").GetComponent<PlayerModeSelect>().canPlayerSwitchMode = false;
     }
 }

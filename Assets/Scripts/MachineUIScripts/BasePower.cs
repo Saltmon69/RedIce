@@ -13,8 +13,8 @@ public class BasePower : MonoBehaviour
     public int maxPower;
     public int currentPowerUsage;
     public bool isPlayerOn;
-    private Collider[] _colliders;
-    private List<Collider> _colliderHitList;
+    public float distance;
+    private GameObject _player;
     private Text _powerTextUI;
     private int _numberOfFlashes;
     private ComputerUIDisplay _computerUIDisplay;
@@ -24,7 +24,7 @@ public class BasePower : MonoBehaviour
     {
         powerUI = Resources.Load<GameObject>("ComputerMachine/UIBase");
         _layerMask = LayerMask.GetMask("Default");
-        _colliderHitList = new List<Collider>();
+        _player = GameObject.FindWithTag("Player");
         try
         {
             _computerUIDisplay = GameObject.FindWithTag("Computer").GetComponent<ComputerUIDisplay>();
@@ -49,24 +49,17 @@ public class BasePower : MonoBehaviour
         
         maxPower = _computerUIDisplay.maxPower;
         currentPowerUsage = _computerUIDisplay.currentPowerUsage;
-        
-        _colliders = Physics.OverlapBox(this.transform.position + Vector3.up * 2, this.transform.lossyScale / 2, Quaternion.identity, _layerMask, QueryTriggerInteraction.Ignore);
-        _colliderHitList.Clear();
-        _colliderHitList.AddRange(_colliders);
 
         isPlayerOn = false;
-        for(var i = 0; i < _colliderHitList.Count; i++)
+        if (Vector3.Distance(this.gameObject.transform.position, _player.transform.position) <= distance)
         {
-            if(_colliderHitList[i].transform.CompareTag("Player"))
-            {
-                isPlayerOn = true;
+            isPlayerOn = true;
                 
-                if(_thisPowerUI == null)
-                {
-                    _thisPowerUI = Instantiate(powerUI);
-                    _powerTextUI = _thisPowerUI.transform.GetChild(0).GetChild(0).GetComponent<Text>();
-                    _generatorUIDisplay.powerUI = _powerTextUI.gameObject;
-                }
+            if(_thisPowerUI == null)
+            {
+                _thisPowerUI = Instantiate(powerUI);
+                _powerTextUI = _thisPowerUI.transform.GetChild(0).GetChild(0).GetComponent<Text>();
+                _generatorUIDisplay.powerUI = _powerTextUI.gameObject;
             }
         }
 

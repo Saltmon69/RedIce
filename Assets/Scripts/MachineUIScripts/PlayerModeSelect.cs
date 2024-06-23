@@ -14,14 +14,14 @@ public class PlayerModeSelect : MonoBehaviour
     public CanvasGroup canvasGroupMode; 
         
     public GameObject modeSelectedUI;
-
+    public GameObject athUI;
+    
     public List<GameObject> modeList;
 
     public bool canPlayerSwitchMode;
     public bool couldPlayerSwitchMode;
     
     private PlayerMenuing _playerMenuing;
-    private bool _wasInMenu;
 
     private void Awake()
     {
@@ -38,20 +38,6 @@ public class PlayerModeSelect : MonoBehaviour
 
     private void Update()
     {
-
-        if(_playerMenuing.inMenu)
-        {
-            if(!_wasInMenu) modeList[modeSelected].transform.GetChild(0).gameObject.SetActive(false);
-            _wasInMenu = true;
-            return;
-        }
-
-        if(_wasInMenu)
-        {
-            modeList[modeSelected].transform.GetChild(0).gameObject.SetActive(true);
-            _wasInMenu = false;
-        }
-        
         //permet grâce a notre molette de choisir un des modes
         modeSelected = (modeSelected + modeList.Count + (int)Input.mouseScrollDelta.y) % modeList.Count;
 
@@ -67,9 +53,11 @@ public class PlayerModeSelect : MonoBehaviour
             for (var i = 0; i < modeSelectedUI.transform.childCount; i++)
             {
                 modeSelectedUI.transform.GetChild(i).gameObject.SetActive(false);
+                athUI.transform.GetChild(i).gameObject.SetActive(false);
             }
             
             modeSelectedUI.transform.GetChild(modeSelected).gameObject.SetActive(true);;
+            athUI.transform.GetChild(modeSelected).gameObject.SetActive(true);
         }
         else
         {

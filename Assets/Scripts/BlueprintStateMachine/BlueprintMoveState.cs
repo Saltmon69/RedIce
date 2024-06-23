@@ -5,7 +5,7 @@ public class BlueprintMoveState : BlueprintBaseState
 {
     public override void EnterState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(2).gameObject.SetActive(true);
+        blueprint.controls.transform.GetChild(1).gameObject.SetActive(true);
     }
     
     public override void UpdateState(BlueprintStateMachineManager blueprint)
@@ -77,6 +77,6 @@ public class BlueprintMoveState : BlueprintBaseState
     
     public override void ExitState(BlueprintStateMachineManager blueprint)
     {
-        GameObject.Find("UIStateCanvas").transform.GetChild(2).gameObject.SetActive(false);
+        blueprint.controls.transform.GetChild(1).gameObject.SetActive(false);
     }
 }
